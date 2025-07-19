@@ -1,0 +1,442 @@
+2025-07-02 23:01:32 - groqcloud_llm - INFO - Initializing ResumeParser with Ollama
+2025-07-02 23:01:36 - groqcloud_llm - WARNING - llama3.2:3b not found.
+2025-07-02 23:01:38 - groqcloud_llm - INFO - Available models: ['qwen:4b']
+2025-07-02 23:01:38 - groqcloud_llm - INFO - Using fallback model: qwen:4b
+2025-07-02 23:01:38 - groqcloud_llm - INFO - ResumeParser initialized successfully with 0 API keys
+2025-07-02 23:01:55 - groqcloud_llm - INFO - Initializing ResumeParser with Ollama
+2025-07-02 23:01:59 - groqcloud_llm - WARNING - llama3.2:3b not found.
+2025-07-02 23:02:01 - groqcloud_llm - INFO - Available models: ['qwen:4b']
+2025-07-02 23:02:01 - groqcloud_llm - INFO - Using fallback model: qwen:4b
+2025-07-02 23:02:02 - groqcloud_llm - INFO - ResumeParser initialized successfully with 0 API keys
+2025-07-02 23:02:22 - groqcloud_llm - INFO - Initializing ResumeParser with Ollama
+2025-07-02 23:02:26 - groqcloud_llm - WARNING - llama3.2:3b not found.
+2025-07-02 23:02:28 - groqcloud_llm - INFO - Available models: ['qwen:4b']
+2025-07-02 23:02:28 - groqcloud_llm - INFO - Using fallback model: qwen:4b
+2025-07-02 23:02:29 - groqcloud_llm - INFO - ResumeParser initialized successfully with 0 API keys
+2025-07-02 23:02:46 - groqcloud_llm - INFO - Initializing ResumeParser with Ollama
+2025-07-02 23:02:50 - groqcloud_llm - WARNING - llama3.2:3b not found.
+2025-07-02 23:02:52 - groqcloud_llm - INFO - Available models: ['qwen:4b']
+2025-07-02 23:02:52 - groqcloud_llm - INFO - Using fallback model: qwen:4b
+2025-07-02 23:02:53 - groqcloud_llm - INFO - ResumeParser initialized successfully with 0 API keys
+2025-07-02 23:07:28 - groqcloud_llm - INFO - Initializing ResumeParser with Ollama
+2025-07-02 23:07:32 - groqcloud_llm - WARNING - llama3.2:3b not found.
+2025-07-02 23:07:34 - groqcloud_llm - INFO - Available models: ['qwen:4b']
+2025-07-02 23:07:34 - groqcloud_llm - INFO - Using fallback model: qwen:4b
+2025-07-02 23:07:35 - groqcloud_llm - INFO - ResumeParser initialized successfully with 0 API keys
+2025-07-02 23:07:51 - groqcloud_llm - INFO - Initializing ResumeParser with Ollama
+2025-07-02 23:07:55 - groqcloud_llm - WARNING - llama3.2:3b not found.
+2025-07-02 23:07:57 - groqcloud_llm - INFO - Available models: ['qwen:4b']
+2025-07-02 23:07:57 - groqcloud_llm - INFO - Using fallback model: qwen:4b
+2025-07-02 23:07:58 - groqcloud_llm - INFO - ResumeParser initialized successfully with 0 API keys
+2025-07-02 23:09:17 - groqcloud_llm - INFO - Initializing ResumeParser with Ollama
+2025-07-02 23:09:21 - groqcloud_llm - WARNING - llama3.2:3b not found.
+2025-07-02 23:09:23 - groqcloud_llm - INFO - Available models: ['qwen:4b']
+2025-07-02 23:09:23 - groqcloud_llm - INFO - Using fallback model: qwen:4b
+2025-07-02 23:09:24 - groqcloud_llm - INFO - ResumeParser initialized successfully with 0 API keys
+2025-07-02 23:09:42 - groqcloud_llm - INFO - Initializing ResumeParser with Ollama
+2025-07-02 23:09:46 - groqcloud_llm - WARNING - llama3.2:3b not found.
+2025-07-02 23:09:48 - groqcloud_llm - INFO - Available models: ['qwen:4b']
+2025-07-02 23:09:48 - groqcloud_llm - INFO - Using fallback model: qwen:4b
+2025-07-02 23:09:49 - groqcloud_llm - INFO - ResumeParser initialized successfully with 0 API keys
+2025-07-02 23:10:01 - groqcloud_llm - INFO - Initializing ResumeParser with Ollama
+2025-07-02 23:10:06 - groqcloud_llm - WARNING - llama3.2:3b not found.
+2025-07-02 23:10:08 - groqcloud_llm - INFO - Available models: ['qwen:4b']
+2025-07-02 23:10:08 - groqcloud_llm - INFO - Using fallback model: qwen:4b
+2025-07-02 23:10:08 - groqcloud_llm - INFO - ResumeParser initialized successfully with 0 API keys
+2025-07-02 23:12:44 - groqcloud_llm - INFO - Successfully processed resume using Ollama qwen:4b
+2025-07-02 23:19:20 - groqcloud_llm - INFO - Initializing ResumeParser with Ollama
+2025-07-02 23:19:24 - groqcloud_llm - WARNING - llama3.2:3b not found.
+2025-07-02 23:19:26 - groqcloud_llm - INFO - Available models: ['qwen:4b']
+2025-07-02 23:19:26 - groqcloud_llm - INFO - Using fallback model: qwen:4b
+2025-07-02 23:19:27 - groqcloud_llm - INFO - ResumeParser initialized successfully with 0 API keys
+2025-07-02 23:19:39 - groqcloud_llm - INFO - Initializing ResumeParser with Ollama
+2025-07-02 23:19:43 - groqcloud_llm - WARNING - llama3.2:3b not found.
+2025-07-02 23:19:46 - groqcloud_llm - INFO - Available models: ['qwen:4b']
+2025-07-02 23:19:46 - groqcloud_llm - INFO - Using fallback model: qwen:4b
+2025-07-02 23:19:46 - groqcloud_llm - INFO - ResumeParser initialized successfully with 0 API keys
+2025-07-02 23:20:06 - groqcloud_llm - INFO - Initializing ResumeParser with Ollama
+2025-07-02 23:20:10 - groqcloud_llm - WARNING - llama3.2:3b not found.
+2025-07-02 23:20:12 - groqcloud_llm - INFO - Available models: ['qwen:4b']
+2025-07-02 23:20:12 - groqcloud_llm - INFO - Using fallback model: qwen:4b
+2025-07-02 23:20:14 - groqcloud_llm - INFO - ResumeParser initialized successfully with 0 API keys
+2025-07-02 23:20:16 - groqcloud_llm - INFO - Initializing ResumeParser with Ollama
+2025-07-02 23:20:20 - groqcloud_llm - WARNING - llama3.2:3b not found.
+2025-07-02 23:20:23 - groqcloud_llm - INFO - Available models: ['qwen:4b']
+2025-07-02 23:20:23 - groqcloud_llm - INFO - Using fallback model: qwen:4b
+2025-07-02 23:20:24 - groqcloud_llm - INFO - ResumeParser initialized successfully with 0 API keys
+2025-07-02 23:20:25 - groqcloud_llm - INFO - Initializing ResumeParser with Ollama
+2025-07-02 23:20:29 - groqcloud_llm - WARNING - llama3.2:3b not found.
+2025-07-02 23:20:31 - groqcloud_llm - INFO - Available models: ['qwen:4b']
+2025-07-02 23:20:31 - groqcloud_llm - INFO - Using fallback model: qwen:4b
+2025-07-02 23:20:32 - groqcloud_llm - INFO - Initializing ResumeParser with Ollama
+2025-07-02 23:20:33 - groqcloud_llm - INFO - ResumeParser initialized successfully with 0 API keys
+2025-07-02 23:20:37 - groqcloud_llm - WARNING - llama3.2:3b not found.
+2025-07-02 23:20:39 - groqcloud_llm - INFO - Available models: ['qwen:4b']
+2025-07-02 23:20:39 - groqcloud_llm - INFO - Using fallback model: qwen:4b
+2025-07-02 23:20:40 - groqcloud_llm - INFO - ResumeParser initialized successfully with 0 API keys
+2025-07-02 23:20:49 - groqcloud_llm - INFO - Initializing ResumeParser with Ollama
+2025-07-02 23:20:53 - groqcloud_llm - WARNING - llama3.2:3b not found.
+2025-07-02 23:20:55 - groqcloud_llm - INFO - Available models: ['qwen:4b']
+2025-07-02 23:20:55 - groqcloud_llm - INFO - Using fallback model: qwen:4b
+2025-07-02 23:20:56 - groqcloud_llm - INFO - ResumeParser initialized successfully with 0 API keys
+2025-07-02 23:20:56 - groqcloud_llm - INFO - Initializing ResumeParser with Ollama
+2025-07-02 23:21:00 - groqcloud_llm - WARNING - llama3.2:3b not found.
+2025-07-02 23:21:02 - groqcloud_llm - INFO - Available models: ['qwen:4b']
+2025-07-02 23:21:02 - groqcloud_llm - INFO - Using fallback model: qwen:4b
+2025-07-02 23:21:03 - groqcloud_llm - INFO - ResumeParser initialized successfully with 0 API keys
+2025-07-02 23:21:11 - groqcloud_llm - INFO - Initializing ResumeParser with Ollama
+2025-07-02 23:21:11 - groqcloud_llm - INFO - Initializing ResumeParser with Ollama
+2025-07-02 23:21:15 - groqcloud_llm - WARNING - llama3.2:3b not found.
+2025-07-02 23:21:15 - groqcloud_llm - WARNING - llama3.2:3b not found.
+2025-07-02 23:21:17 - groqcloud_llm - INFO - Available models: ['qwen:4b']
+2025-07-02 23:21:17 - groqcloud_llm - INFO - Using fallback model: qwen:4b
+2025-07-02 23:21:17 - groqcloud_llm - INFO - Available models: ['qwen:4b']
+2025-07-02 23:21:17 - groqcloud_llm - INFO - Using fallback model: qwen:4b
+2025-07-02 23:21:18 - groqcloud_llm - INFO - ResumeParser initialized successfully with 0 API keys
+2025-07-02 23:21:18 - groqcloud_llm - INFO - ResumeParser initialized successfully with 0 API keys
+2025-07-02 23:21:37 - groqcloud_llm - INFO - Initializing ResumeParser with Ollama
+2025-07-02 23:21:41 - groqcloud_llm - WARNING - llama3.2:3b not found.
+2025-07-02 23:21:42 - groqcloud_llm - INFO - Initializing ResumeParser with Ollama
+2025-07-02 23:21:43 - groqcloud_llm - INFO - Available models: ['qwen:4b']
+2025-07-02 23:21:43 - groqcloud_llm - INFO - Using fallback model: qwen:4b
+2025-07-02 23:21:44 - groqcloud_llm - INFO - ResumeParser initialized successfully with 0 API keys
+2025-07-02 23:21:46 - groqcloud_llm - WARNING - llama3.2:3b not found.
+2025-07-02 23:21:48 - groqcloud_llm - INFO - Available models: ['qwen:4b']
+2025-07-02 23:21:48 - groqcloud_llm - INFO - Using fallback model: qwen:4b
+2025-07-02 23:21:48 - groqcloud_llm - INFO - ResumeParser initialized successfully with 0 API keys
+2025-07-02 23:22:03 - groqcloud_llm - INFO - Initializing ResumeParser with Ollama
+2025-07-02 23:22:06 - groqcloud_llm - INFO - Initializing ResumeParser with Ollama
+2025-07-02 23:22:07 - groqcloud_llm - WARNING - llama3.2:3b not found.
+2025-07-02 23:22:09 - groqcloud_llm - INFO - Available models: ['qwen:4b']
+2025-07-02 23:22:09 - groqcloud_llm - INFO - Using fallback model: qwen:4b
+2025-07-02 23:22:09 - groqcloud_llm - INFO - ResumeParser initialized successfully with 0 API keys
+2025-07-02 23:22:10 - groqcloud_llm - WARNING - llama3.2:3b not found.
+2025-07-02 23:22:12 - groqcloud_llm - INFO - Available models: ['qwen:4b']
+2025-07-02 23:22:12 - groqcloud_llm - INFO - Using fallback model: qwen:4b
+2025-07-02 23:22:12 - groqcloud_llm - INFO - ResumeParser initialized successfully with 0 API keys
+2025-07-02 23:22:26 - groqcloud_llm - INFO - Initializing ResumeParser with Ollama
+2025-07-02 23:22:30 - groqcloud_llm - WARNING - llama3.2:3b not found.
+2025-07-02 23:22:32 - groqcloud_llm - INFO - Available models: ['qwen:4b']
+2025-07-02 23:22:32 - groqcloud_llm - INFO - Using fallback model: qwen:4b
+2025-07-02 23:22:32 - groqcloud_llm - INFO - ResumeParser initialized successfully with 0 API keys
+2025-07-02 23:37:55 - groqcloud_llm - INFO - Initializing ResumeParser with Ollama
+2025-07-02 23:38:00 - groqcloud_llm - INFO - ResumeParser initialized successfully with 0 API keys
+2025-07-02 23:38:16 - groqcloud_llm - INFO - Initializing ResumeParser with Ollama
+2025-07-02 23:38:21 - groqcloud_llm - INFO - ResumeParser initialized successfully with 0 API keys
+2025-07-02 23:38:30 - groqcloud_llm - INFO - Initializing ResumeParser with Ollama
+2025-07-02 23:38:35 - groqcloud_llm - INFO - ResumeParser initialized successfully with 0 API keys
+2025-07-02 23:38:46 - groqcloud_llm - INFO - Initializing ResumeParser with Ollama
+2025-07-02 23:38:51 - groqcloud_llm - INFO - ResumeParser initialized successfully with 0 API keys
+2025-07-02 23:39:09 - groqcloud_llm - INFO - Initializing ResumeParser with Ollama
+2025-07-02 23:39:13 - groqcloud_llm - INFO - ResumeParser initialized successfully with 0 API keys
+2025-07-02 23:39:23 - groqcloud_llm - INFO - Initializing ResumeParser with Ollama
+2025-07-02 23:39:28 - groqcloud_llm - INFO - ResumeParser initialized successfully with 0 API keys
+2025-07-02 23:46:05 - groqcloud_llm - INFO - Successfully processed resume using Ollama llama3.2:3b
+2025-07-18 22:29:51 - groqcloud_llm - INFO - Initializing ResumeParser with huggingface
+2025-07-18 22:29:52 - groqcloud_llm - ERROR - Failed to setup Hugging Face processing chain: There was a specific connection error when trying to load microsoft/Phi-3-mini-4k-instruct:
+401 Client Error: Unauthorized for url: https://huggingface.co/microsoft/Phi-3-mini-4k-instruct/resolve/main/config.json (Request ID: Root=1-687a7d88-0914612d119498882ad54219;02bfcf6c-9501-4640-91b0-c45cac5da201)
+
+Invalid credentials in Authorization header
+2025-07-18 22:29:52 - groqcloud_llm - ERROR - Failed to initialize Hugging Face model: Failed to setup Hugging Face processing chain: There was a specific connection error when trying to load microsoft/Phi-3-mini-4k-instruct:
+401 Client Error: Unauthorized for url: https://huggingface.co/microsoft/Phi-3-mini-4k-instruct/resolve/main/config.json (Request ID: Root=1-687a7d88-0914612d119498882ad54219;02bfcf6c-9501-4640-91b0-c45cac5da201)
+
+Invalid credentials in Authorization header
+2025-07-18 22:33:04 - groqcloud_llm - INFO - Initializing ResumeParser with ollama
+2025-07-18 22:33:09 - groqcloud_llm - INFO - ResumeParser initialized successfully with ollama
+2025-07-18 22:33:27 - groqcloud_llm - INFO - Initializing ResumeParser with ollama
+2025-07-18 22:33:32 - groqcloud_llm - INFO - ResumeParser initialized successfully with ollama
+2025-07-18 22:33:39 - groqcloud_llm - INFO - Initializing ResumeParser with ollama
+2025-07-18 22:33:44 - groqcloud_llm - INFO - ResumeParser initialized successfully with ollama
+2025-07-18 22:33:56 - groqcloud_llm - INFO - Initializing ResumeParser with ollama
+2025-07-18 22:42:24 - groqcloud_llm - INFO - Initializing ResumeParser with ollama
+2025-07-18 22:42:29 - groqcloud_llm - INFO - ResumeParser initialized successfully with ollama
+2025-07-18 23:49:19 - groqcloud_llm - INFO - Initializing ResumeParser with ollama
+2025-07-18 23:49:23 - groqcloud_llm - INFO - ResumeParser initialized successfully with ollama
+2025-07-18 23:49:25 - groqcloud_llm - INFO - Initializing ResumeParser with ollama
+2025-07-18 23:49:29 - groqcloud_llm - INFO - ResumeParser initialized successfully with ollama
+2025-07-18 23:49:32 - groqcloud_llm - INFO - Initializing ResumeParser with ollama
+2025-07-18 23:49:37 - groqcloud_llm - INFO - ResumeParser initialized successfully with ollama
+2025-07-18 23:49:45 - groqcloud_llm - INFO - Initializing ResumeParser with ollama
+2025-07-18 23:49:49 - groqcloud_llm - INFO - ResumeParser initialized successfully with ollama
+2025-07-18 23:49:51 - groqcloud_llm - INFO - Initializing ResumeParser with ollama
+2025-07-18 23:49:55 - groqcloud_llm - INFO - ResumeParser initialized successfully with ollama
+2025-07-18 23:49:58 - groqcloud_llm - INFO - Initializing ResumeParser with ollama
+2025-07-18 23:50:03 - groqcloud_llm - INFO - ResumeParser initialized successfully with ollama
+2025-07-18 23:54:51 - groqcloud_llm - INFO - Initializing ResumeParser with ollama
+2025-07-18 23:54:56 - groqcloud_llm - INFO - ResumeParser initialized successfully with ollama
+2025-07-18 23:54:58 - groqcloud_llm - INFO - Initializing ResumeParser with ollama
+2025-07-18 23:55:04 - groqcloud_llm - INFO - ResumeParser initialized successfully with ollama
+2025-07-18 23:55:08 - groqcloud_llm - INFO - Initializing ResumeParser with ollama
+2025-07-18 23:55:13 - groqcloud_llm - INFO - ResumeParser initialized successfully with ollama
+2025-07-18 23:58:18 - groqcloud_llm - INFO - Initializing ResumeParser with ollama
+2025-07-19 19:51:07 - groqcloud_llm - INFO - Initializing ResumeParser with ollama
+2025-07-19 19:51:11 - groqcloud_llm - INFO - ResumeParser initialized successfully with ollama
+2025-07-19 19:51:14 - groqcloud_llm - INFO - Initializing ResumeParser with ollama
+2025-07-19 19:51:18 - groqcloud_llm - INFO - ResumeParser initialized successfully with ollama
+2025-07-19 19:51:21 - groqcloud_llm - INFO - Initializing ResumeParser with ollama
+2025-07-19 19:51:25 - groqcloud_llm - INFO - ResumeParser initialized successfully with ollama
+2025-07-19 21:47:41 - groqcloud_llm - INFO - Initializing ResumeParser with ollama
+2025-07-19 21:47:46 - groqcloud_llm - INFO - ResumeParser initialized successfully with ollama
+2025-07-19 21:47:47 - groqcloud_llm - INFO - Initializing ResumeParser with ollama
+2025-07-19 21:47:52 - groqcloud_llm - INFO - ResumeParser initialized successfully with ollama
+2025-07-19 21:47:55 - groqcloud_llm - INFO - Initializing ResumeParser with ollama
+2025-07-19 21:47:59 - groqcloud_llm - INFO - ResumeParser initialized successfully with ollama
+2025-07-19 21:51:29 - groqcloud_llm - INFO - Initializing ResumeParser with ollama
+2025-07-19 21:51:34 - groqcloud_llm - INFO - ResumeParser initialized successfully with ollama
+2025-07-19 21:54:06 - groqcloud_llm - INFO - Initializing ResumeParser with ollama
+2025-07-19 21:54:10 - groqcloud_llm - INFO - ResumeParser initialized successfully with ollama
+2025-07-19 21:55:58 - groqcloud_llm - INFO - Initializing ResumeParser with ollama
+2025-07-19 21:56:03 - groqcloud_llm - INFO - ResumeParser initialized successfully with ollama
+2025-07-19 21:56:04 - groqcloud_llm - INFO - Initializing ResumeParser with ollama
+2025-07-19 21:56:09 - groqcloud_llm - INFO - ResumeParser initialized successfully with ollama
+2025-07-19 21:56:11 - groqcloud_llm - INFO - Initializing ResumeParser with ollama
+2025-07-19 21:56:16 - groqcloud_llm - INFO - ResumeParser initialized successfully with ollama
+2025-07-19 21:56:26 - groqcloud_llm - INFO - Initializing ResumeParser with ollama
+2025-07-19 21:56:31 - groqcloud_llm - INFO - ResumeParser initialized successfully with ollama
+2025-07-19 21:56:33 - groqcloud_llm - INFO - Initializing ResumeParser with ollama
+2025-07-19 21:56:38 - groqcloud_llm - INFO - ResumeParser initialized successfully with ollama
+2025-07-19 21:56:41 - groqcloud_llm - INFO - Initializing ResumeParser with ollama
+2025-07-19 21:56:45 - groqcloud_llm - INFO - ResumeParser initialized successfully with ollama
+2025-07-19 21:59:23 - groqcloud_llm - INFO - Initializing ResumeParser with ollama
+2025-07-19 21:59:27 - groqcloud_llm - INFO - ResumeParser initialized successfully with ollama
+2025-07-19 21:59:29 - groqcloud_llm - INFO - Initializing ResumeParser with ollama
+2025-07-19 21:59:33 - groqcloud_llm - INFO - ResumeParser initialized successfully with ollama
+2025-07-19 21:59:36 - groqcloud_llm - INFO - Initializing ResumeParser with ollama
+2025-07-19 21:59:40 - groqcloud_llm - INFO - ResumeParser initialized successfully with ollama
+2025-07-19 21:59:52 - groqcloud_llm - INFO - Initializing ResumeParser with ollama
+2025-07-19 21:59:57 - groqcloud_llm - INFO - ResumeParser initialized successfully with ollama
+2025-07-19 21:59:58 - groqcloud_llm - INFO - Initializing ResumeParser with ollama
+2025-07-19 22:00:03 - groqcloud_llm - INFO - ResumeParser initialized successfully with ollama
+2025-07-19 22:00:07 - groqcloud_llm - INFO - Initializing ResumeParser with ollama
+2025-07-19 22:00:12 - groqcloud_llm - INFO - ResumeParser initialized successfully with ollama
+2025-07-19 22:01:59 - groqcloud_llm - INFO - Initializing ResumeParser with ollama
+2025-07-19 22:02:04 - groqcloud_llm - INFO - ResumeParser initialized successfully with ollama
+2025-07-19 22:02:05 - groqcloud_llm - INFO - Initializing ResumeParser with ollama
+2025-07-19 22:02:23 - groqcloud_llm - INFO - Initializing ResumeParser with ollama
+2025-07-19 22:02:28 - groqcloud_llm - INFO - ResumeParser initialized successfully with ollama
+2025-07-19 22:02:29 - groqcloud_llm - INFO - Initializing ResumeParser with ollama
+2025-07-19 22:02:34 - groqcloud_llm - INFO - ResumeParser initialized successfully with ollama
+2025-07-19 22:02:48 - groqcloud_llm - INFO - Initializing ResumeParser with ollama
+2025-07-19 22:03:02 - groqcloud_llm - INFO - Initializing ResumeParser with ollama
+2025-07-19 22:03:06 - groqcloud_llm - INFO - ResumeParser initialized successfully with ollama
+2025-07-19 22:03:08 - groqcloud_llm - INFO - Initializing ResumeParser with ollama
+2025-07-19 22:03:12 - groqcloud_llm - INFO - ResumeParser initialized successfully with ollama
+2025-07-19 22:03:29 - groqcloud_llm - INFO - Initializing ResumeParser with ollama
+2025-07-19 22:03:42 - groqcloud_llm - INFO - Initializing ResumeParser with ollama
+2025-07-19 22:03:47 - groqcloud_llm - INFO - ResumeParser initialized successfully with ollama
+2025-07-19 22:03:48 - groqcloud_llm - INFO - Initializing ResumeParser with ollama
+2025-07-19 22:03:52 - groqcloud_llm - INFO - ResumeParser initialized successfully with ollama
+2025-07-19 22:03:55 - groqcloud_llm - INFO - Initializing ResumeParser with ollama
+2025-07-19 22:04:00 - groqcloud_llm - INFO - ResumeParser initialized successfully with ollama
+2025-07-19 22:04:04 - groqcloud_llm - INFO - Initializing ResumeParser with ollama
+2025-07-19 22:04:09 - groqcloud_llm - INFO - ResumeParser initialized successfully with ollama
+2025-07-19 22:04:10 - groqcloud_llm - INFO - Initializing ResumeParser with ollama
+2025-07-19 22:04:14 - groqcloud_llm - INFO - ResumeParser initialized successfully with ollama
+2025-07-19 22:04:17 - groqcloud_llm - INFO - Initializing ResumeParser with ollama
+2025-07-19 22:04:22 - groqcloud_llm - INFO - ResumeParser initialized successfully with ollama
+2025-07-19 22:04:30 - groqcloud_llm - INFO - Initializing ResumeParser with ollama
+2025-07-19 22:04:34 - groqcloud_llm - INFO - ResumeParser initialized successfully with ollama
+2025-07-19 22:04:36 - groqcloud_llm - INFO - Initializing ResumeParser with ollama
+2025-07-19 22:04:40 - groqcloud_llm - INFO - ResumeParser initialized successfully with ollama
+2025-07-19 22:04:43 - groqcloud_llm - INFO - Initializing ResumeParser with ollama
+2025-07-19 22:04:58 - groqcloud_llm - INFO - Initializing ResumeParser with ollama
+2025-07-19 22:05:03 - groqcloud_llm - INFO - ResumeParser initialized successfully with ollama
+2025-07-19 22:05:04 - groqcloud_llm - INFO - Initializing ResumeParser with ollama
+2025-07-19 22:05:09 - groqcloud_llm - INFO - ResumeParser initialized successfully with ollama
+2025-07-19 22:05:12 - groqcloud_llm - INFO - Initializing ResumeParser with ollama
+2025-07-19 22:05:16 - groqcloud_llm - INFO - ResumeParser initialized successfully with ollama
+2025-07-19 22:07:18 - groqcloud_llm - INFO - Initializing ResumeParser with ollama
+2025-07-19 22:07:22 - groqcloud_llm - INFO - ResumeParser initialized successfully with ollama
+2025-07-19 22:07:23 - groqcloud_llm - INFO - Initializing ResumeParser with ollama
+2025-07-19 22:07:28 - groqcloud_llm - INFO - ResumeParser initialized successfully with ollama
+2025-07-19 22:07:31 - groqcloud_llm - INFO - Initializing ResumeParser with ollama
+2025-07-19 22:07:35 - groqcloud_llm - INFO - ResumeParser initialized successfully with ollama
+2025-07-19 22:07:44 - groqcloud_llm - INFO - Initializing ResumeParser with ollama
+2025-07-19 22:07:48 - groqcloud_llm - INFO - ResumeParser initialized successfully with ollama
+2025-07-19 22:07:50 - groqcloud_llm - INFO - Initializing ResumeParser with ollama
+2025-07-19 22:07:55 - groqcloud_llm - INFO - ResumeParser initialized successfully with ollama
+2025-07-19 22:07:58 - groqcloud_llm - INFO - Initializing ResumeParser with ollama
+2025-07-19 22:08:03 - groqcloud_llm - INFO - ResumeParser initialized successfully with ollama
+2025-07-19 22:09:58 - groqcloud_llm - INFO - Initializing ResumeParser with groq_cloud
+2025-07-19 22:09:58 - groqcloud_llm - INFO - ResumeParser initialized successfully with groq_cloud
+2025-07-19 22:10:08 - groqcloud_llm - INFO - Initializing ResumeParser with groq_cloud
+2025-07-19 22:10:08 - groqcloud_llm - INFO - ResumeParser initialized successfully with groq_cloud
+2025-07-19 22:10:09 - groqcloud_llm - INFO - Initializing ResumeParser with groq_cloud
+2025-07-19 22:10:09 - groqcloud_llm - INFO - ResumeParser initialized successfully with groq_cloud
+2025-07-19 22:10:18 - groqcloud_llm - INFO - Initializing ResumeParser with groq_cloud
+2025-07-19 22:10:18 - groqcloud_llm - INFO - ResumeParser initialized successfully with groq_cloud
+2025-07-19 22:10:20 - groqcloud_llm - INFO - Initializing ResumeParser with groq_cloud
+2025-07-19 22:10:20 - groqcloud_llm - INFO - ResumeParser initialized successfully with groq_cloud
+2025-07-19 22:10:21 - groqcloud_llm - INFO - Initializing ResumeParser with groq_cloud
+2025-07-19 22:10:21 - groqcloud_llm - INFO - ResumeParser initialized successfully with groq_cloud
+2025-07-19 22:12:01 - groqcloud_llm - INFO - Successfully processed resume using groq_cloud
+2025-07-19 22:13:03 - groqcloud_llm - INFO - Initializing ResumeParser with groq_cloud
+2025-07-19 22:13:04 - groqcloud_llm - INFO - ResumeParser initialized successfully with groq_cloud
+2025-07-19 22:13:05 - groqcloud_llm - INFO - Initializing ResumeParser with groq_cloud
+2025-07-19 22:13:06 - groqcloud_llm - INFO - ResumeParser initialized successfully with groq_cloud
+2025-07-19 22:13:07 - groqcloud_llm - INFO - Initializing ResumeParser with groq_cloud
+2025-07-19 22:13:07 - groqcloud_llm - INFO - ResumeParser initialized successfully with groq_cloud
+2025-07-19 22:13:26 - groqcloud_llm - INFO - Initializing ResumeParser with groq_cloud
+2025-07-19 22:13:27 - groqcloud_llm - INFO - ResumeParser initialized successfully with groq_cloud
+2025-07-19 22:13:28 - groqcloud_llm - INFO - Initializing ResumeParser with groq_cloud
+2025-07-19 22:13:29 - groqcloud_llm - INFO - ResumeParser initialized successfully with groq_cloud
+2025-07-19 22:13:29 - groqcloud_llm - INFO - Initializing ResumeParser with groq_cloud
+2025-07-19 22:13:30 - groqcloud_llm - INFO - ResumeParser initialized successfully with groq_cloud
+2025-07-19 22:14:26 - groqcloud_llm - INFO - Initializing ResumeParser with groq_cloud
+2025-07-19 22:14:27 - groqcloud_llm - INFO - ResumeParser initialized successfully with groq_cloud
+2025-07-19 22:14:28 - groqcloud_llm - INFO - Initializing ResumeParser with groq_cloud
+2025-07-19 22:14:28 - groqcloud_llm - INFO - ResumeParser initialized successfully with groq_cloud
+2025-07-19 22:14:29 - groqcloud_llm - INFO - Initializing ResumeParser with groq_cloud
+2025-07-19 22:14:29 - groqcloud_llm - INFO - ResumeParser initialized successfully with groq_cloud
+2025-07-19 22:14:55 - groqcloud_llm - INFO - Successfully processed resume using groq_cloud
+2025-07-19 22:15:49 - groqcloud_llm - INFO - Successfully processed resume using groq_cloud
+2025-07-19 22:17:30 - groqcloud_llm - INFO - Initializing ResumeParser with groq_cloud
+2025-07-19 22:17:30 - groqcloud_llm - INFO - ResumeParser initialized successfully with groq_cloud
+2025-07-19 22:17:32 - groqcloud_llm - INFO - Initializing ResumeParser with groq_cloud
+2025-07-19 22:17:32 - groqcloud_llm - INFO - ResumeParser initialized successfully with groq_cloud
+2025-07-19 22:17:33 - groqcloud_llm - INFO - Initializing ResumeParser with groq_cloud
+2025-07-19 22:17:33 - groqcloud_llm - INFO - ResumeParser initialized successfully with groq_cloud
+2025-07-19 22:17:33 - groqcloud_llm - INFO - Initializing ResumeParser with groq_cloud
+2025-07-19 22:17:34 - groqcloud_llm - INFO - ResumeParser initialized successfully with groq_cloud
+2025-07-19 22:17:36 - groqcloud_llm - INFO - Successfully processed resume using groq_cloud
+2025-07-19 22:41:35 - groqcloud_llm - INFO - Initializing ResumeParser with groq_cloud
+2025-07-19 22:41:35 - groqcloud_llm - INFO - ResumeParser initialized successfully with groq_cloud
+2025-07-19 22:41:36 - groqcloud_llm - INFO - Initializing ResumeParser with groq_cloud
+2025-07-19 22:41:37 - groqcloud_llm - INFO - ResumeParser initialized successfully with groq_cloud
+2025-07-19 22:41:37 - groqcloud_llm - INFO - Initializing ResumeParser with groq_cloud
+2025-07-19 22:41:38 - groqcloud_llm - INFO - ResumeParser initialized successfully with groq_cloud
+2025-07-19 22:41:48 - groqcloud_llm - INFO - Initializing ResumeParser with groq_cloud
+2025-07-19 22:41:49 - groqcloud_llm - INFO - ResumeParser initialized successfully with groq_cloud
+2025-07-19 22:41:50 - groqcloud_llm - INFO - Initializing ResumeParser with groq_cloud
+2025-07-19 22:41:51 - groqcloud_llm - INFO - ResumeParser initialized successfully with groq_cloud
+2025-07-19 22:41:53 - groqcloud_llm - INFO - Initializing ResumeParser with groq_cloud
+2025-07-19 22:41:53 - groqcloud_llm - INFO - ResumeParser initialized successfully with groq_cloud
+2025-07-19 22:42:57 - groqcloud_llm - INFO - Successfully processed resume using groq_cloud
+2025-07-19 22:47:30 - groqcloud_llm - INFO - Initializing ResumeParser with groq_cloud
+2025-07-19 22:47:43 - groqcloud_llm - INFO - Initializing ResumeParser with groq_cloud
+2025-07-19 22:47:44 - groqcloud_llm - INFO - ResumeParser initialized successfully with groq_cloud
+2025-07-19 22:47:46 - groqcloud_llm - INFO - Initializing ResumeParser with groq_cloud
+2025-07-19 22:48:09 - groqcloud_llm - INFO - Initializing ResumeParser with groq_cloud
+2025-07-19 22:48:10 - groqcloud_llm - INFO - ResumeParser initialized successfully with groq_cloud
+2025-07-19 22:48:11 - groqcloud_llm - INFO - Initializing ResumeParser with groq_cloud
+2025-07-19 22:48:12 - groqcloud_llm - INFO - ResumeParser initialized successfully with groq_cloud
+2025-07-19 22:48:12 - groqcloud_llm - INFO - Initializing ResumeParser with groq_cloud
+2025-07-19 22:48:13 - groqcloud_llm - INFO - ResumeParser initialized successfully with groq_cloud
+2025-07-19 22:48:23 - groqcloud_llm - INFO - Initializing ResumeParser with groq_cloud
+2025-07-19 22:48:24 - groqcloud_llm - INFO - ResumeParser initialized successfully with groq_cloud
+2025-07-19 22:48:26 - groqcloud_llm - INFO - Initializing ResumeParser with groq_cloud
+2025-07-19 22:48:27 - groqcloud_llm - INFO - ResumeParser initialized successfully with groq_cloud
+2025-07-19 22:48:28 - groqcloud_llm - INFO - Initializing ResumeParser with groq_cloud
+2025-07-19 22:48:29 - groqcloud_llm - INFO - ResumeParser initialized successfully with groq_cloud
+2025-07-19 22:51:43 - groqcloud_llm - INFO - Initializing ResumeParser with groq_cloud
+2025-07-19 22:51:44 - groqcloud_llm - INFO - ResumeParser initialized successfully with groq_cloud
+2025-07-19 22:51:45 - groqcloud_llm - INFO - Initializing ResumeParser with groq_cloud
+2025-07-19 22:51:46 - groqcloud_llm - INFO - ResumeParser initialized successfully with groq_cloud
+2025-07-19 22:51:46 - groqcloud_llm - INFO - Initializing ResumeParser with groq_cloud
+2025-07-19 22:51:59 - groqcloud_llm - INFO - Initializing ResumeParser with groq_cloud
+2025-07-19 22:51:59 - groqcloud_llm - INFO - ResumeParser initialized successfully with groq_cloud
+2025-07-19 22:52:05 - groqcloud_llm - INFO - Initializing ResumeParser with groq_cloud
+2025-07-19 22:52:06 - groqcloud_llm - INFO - ResumeParser initialized successfully with groq_cloud
+2025-07-19 22:52:06 - groqcloud_llm - INFO - Initializing ResumeParser with groq_cloud
+2025-07-19 22:52:07 - groqcloud_llm - INFO - ResumeParser initialized successfully with groq_cloud
+2025-07-19 22:53:53 - groqcloud_llm - INFO - Initializing ResumeParser with groq_cloud
+2025-07-19 22:53:54 - groqcloud_llm - INFO - ResumeParser initialized successfully with groq_cloud
+2025-07-19 22:53:55 - groqcloud_llm - INFO - Initializing ResumeParser with groq_cloud
+2025-07-19 22:53:55 - groqcloud_llm - INFO - ResumeParser initialized successfully with groq_cloud
+2025-07-19 22:53:56 - groqcloud_llm - INFO - Initializing ResumeParser with groq_cloud
+2025-07-19 22:53:57 - groqcloud_llm - INFO - ResumeParser initialized successfully with groq_cloud
+2025-07-19 22:54:21 - groqcloud_llm - INFO - Initializing ResumeParser with groq_cloud
+2025-07-19 22:54:21 - groqcloud_llm - INFO - ResumeParser initialized successfully with groq_cloud
+2025-07-19 22:54:22 - groqcloud_llm - INFO - Initializing ResumeParser with groq_cloud
+2025-07-19 22:54:23 - groqcloud_llm - INFO - ResumeParser initialized successfully with groq_cloud
+2025-07-19 22:54:24 - groqcloud_llm - INFO - Initializing ResumeParser with groq_cloud
+2025-07-19 22:54:24 - groqcloud_llm - INFO - ResumeParser initialized successfully with groq_cloud
+2025-07-19 22:54:53 - groqcloud_llm - INFO - Initializing ResumeParser with groq_cloud
+2025-07-19 22:54:53 - groqcloud_llm - INFO - ResumeParser initialized successfully with groq_cloud
+2025-07-19 22:55:12 - groqcloud_llm - INFO - Initializing ResumeParser with groq_cloud
+2025-07-19 22:55:13 - groqcloud_llm - INFO - ResumeParser initialized successfully with groq_cloud
+2025-07-19 22:55:14 - groqcloud_llm - INFO - Initializing ResumeParser with groq_cloud
+2025-07-19 22:55:14 - groqcloud_llm - INFO - ResumeParser initialized successfully with groq_cloud
+2025-07-19 22:55:15 - groqcloud_llm - INFO - Initializing ResumeParser with groq_cloud
+2025-07-19 22:55:16 - groqcloud_llm - INFO - ResumeParser initialized successfully with groq_cloud
+2025-07-19 22:55:30 - groqcloud_llm - INFO - Initializing ResumeParser with groq_cloud
+2025-07-19 22:55:31 - groqcloud_llm - INFO - ResumeParser initialized successfully with groq_cloud
+2025-07-19 22:55:32 - groqcloud_llm - INFO - Initializing ResumeParser with groq_cloud
+2025-07-19 22:55:32 - groqcloud_llm - INFO - ResumeParser initialized successfully with groq_cloud
+2025-07-19 22:55:33 - groqcloud_llm - INFO - Initializing ResumeParser with groq_cloud
+2025-07-19 22:55:34 - groqcloud_llm - INFO - ResumeParser initialized successfully with groq_cloud
+2025-07-19 22:59:02 - groqcloud_llm - INFO - Initializing ResumeParser with groq_cloud
+2025-07-19 22:59:03 - groqcloud_llm - INFO - ResumeParser initialized successfully with groq_cloud
+2025-07-19 22:59:05 - groqcloud_llm - INFO - Initializing ResumeParser with groq_cloud
+2025-07-19 22:59:06 - groqcloud_llm - INFO - ResumeParser initialized successfully with groq_cloud
+2025-07-19 22:59:07 - groqcloud_llm - INFO - Initializing ResumeParser with groq_cloud
+2025-07-19 22:59:07 - groqcloud_llm - INFO - ResumeParser initialized successfully with groq_cloud
+2025-07-19 23:02:00 - groqcloud_llm - INFO - Initializing ResumeParser with groq_cloud
+2025-07-19 23:02:01 - groqcloud_llm - INFO - ResumeParser initialized successfully with groq_cloud
+2025-07-19 23:02:02 - groqcloud_llm - INFO - Initializing ResumeParser with groq_cloud
+2025-07-19 23:02:02 - groqcloud_llm - INFO - ResumeParser initialized successfully with groq_cloud
+2025-07-19 23:02:03 - groqcloud_llm - INFO - Initializing ResumeParser with groq_cloud
+2025-07-19 23:02:03 - groqcloud_llm - INFO - ResumeParser initialized successfully with groq_cloud
+2025-07-19 23:04:12 - groqcloud_llm - INFO - Initializing ResumeParser with groq_cloud
+2025-07-19 23:04:13 - groqcloud_llm - INFO - ResumeParser initialized successfully with groq_cloud
+2025-07-19 23:04:18 - groqcloud_llm - INFO - Initializing ResumeParser with groq_cloud
+2025-07-19 23:04:19 - groqcloud_llm - INFO - ResumeParser initialized successfully with groq_cloud
+2025-07-19 23:04:19 - groqcloud_llm - INFO - Initializing ResumeParser with groq_cloud
+2025-07-19 23:04:20 - groqcloud_llm - INFO - ResumeParser initialized successfully with groq_cloud
+2025-07-19 23:06:09 - groqcloud_llm - INFO - Initializing ResumeParser with groq_cloud
+2025-07-19 23:06:10 - groqcloud_llm - INFO - ResumeParser initialized successfully with groq_cloud
+2025-07-19 23:06:12 - groqcloud_llm - INFO - Initializing ResumeParser with groq_cloud
+2025-07-19 23:06:13 - groqcloud_llm - INFO - ResumeParser initialized successfully with groq_cloud
+2025-07-19 23:06:14 - groqcloud_llm - INFO - Initializing ResumeParser with groq_cloud
+2025-07-19 23:06:14 - groqcloud_llm - INFO - ResumeParser initialized successfully with groq_cloud
+2025-07-19 23:08:09 - groqcloud_llm - INFO - Initializing ResumeParser with groq_cloud
+2025-07-19 23:08:09 - groqcloud_llm - INFO - ResumeParser initialized successfully with groq_cloud
+2025-07-19 23:08:11 - groqcloud_llm - INFO - Initializing ResumeParser with groq_cloud
+2025-07-19 23:08:11 - groqcloud_llm - INFO - ResumeParser initialized successfully with groq_cloud
+2025-07-19 23:08:12 - groqcloud_llm - INFO - Initializing ResumeParser with groq_cloud
+2025-07-19 23:08:12 - groqcloud_llm - INFO - ResumeParser initialized successfully with groq_cloud
+2025-07-19 23:09:57 - groqcloud_llm - INFO - Initializing ResumeParser with groq_cloud
+2025-07-19 23:09:57 - groqcloud_llm - INFO - ResumeParser initialized successfully with groq_cloud
+2025-07-19 23:09:59 - groqcloud_llm - INFO - Initializing ResumeParser with groq_cloud
+2025-07-19 23:09:59 - groqcloud_llm - INFO - ResumeParser initialized successfully with groq_cloud
+2025-07-19 23:10:00 - groqcloud_llm - INFO - Initializing ResumeParser with groq_cloud
+2025-07-19 23:10:00 - groqcloud_llm - INFO - ResumeParser initialized successfully with groq_cloud
+2025-07-19 23:10:41 - groqcloud_llm - INFO - Initializing ResumeParser with groq_cloud
+2025-07-19 23:10:42 - groqcloud_llm - INFO - ResumeParser initialized successfully with groq_cloud
+2025-07-19 23:10:44 - groqcloud_llm - INFO - Initializing ResumeParser with groq_cloud
+2025-07-19 23:10:44 - groqcloud_llm - INFO - ResumeParser initialized successfully with groq_cloud
+2025-07-19 23:10:45 - groqcloud_llm - INFO - Initializing ResumeParser with groq_cloud
+2025-07-19 23:10:46 - groqcloud_llm - INFO - ResumeParser initialized successfully with groq_cloud
+2025-07-19 23:16:49 - groqcloud_llm - INFO - Initializing ResumeParser with groq_cloud
+2025-07-19 23:16:50 - groqcloud_llm - INFO - ResumeParser initialized successfully with groq_cloud
+2025-07-19 23:16:51 - groqcloud_llm - INFO - Initializing ResumeParser with groq_cloud
+2025-07-19 23:16:51 - groqcloud_llm - INFO - ResumeParser initialized successfully with groq_cloud
+2025-07-19 23:16:52 - groqcloud_llm - INFO - Initializing ResumeParser with groq_cloud
+2025-07-19 23:16:52 - groqcloud_llm - INFO - ResumeParser initialized successfully with groq_cloud
+2025-07-19 23:17:23 - groqcloud_llm - INFO - Initializing ResumeParser with groq_cloud
+2025-07-19 23:17:24 - groqcloud_llm - INFO - ResumeParser initialized successfully with groq_cloud
+2025-07-19 23:17:25 - groqcloud_llm - INFO - Initializing ResumeParser with groq_cloud
+2025-07-19 23:17:36 - groqcloud_llm - INFO - Initializing ResumeParser with groq_cloud
+2025-07-19 23:17:37 - groqcloud_llm - INFO - ResumeParser initialized successfully with groq_cloud
+2025-07-19 23:17:38 - groqcloud_llm - INFO - Initializing ResumeParser with groq_cloud
+2025-07-19 23:17:39 - groqcloud_llm - INFO - ResumeParser initialized successfully with groq_cloud
+2025-07-19 23:17:39 - groqcloud_llm - INFO - Initializing ResumeParser with groq_cloud
+2025-07-19 23:17:40 - groqcloud_llm - INFO - ResumeParser initialized successfully with groq_cloud
+2025-07-19 23:18:40 - groqcloud_llm - INFO - Initializing ResumeParser with groq_cloud
+2025-07-19 23:18:40 - groqcloud_llm - INFO - ResumeParser initialized successfully with groq_cloud
+2025-07-19 23:18:41 - groqcloud_llm - INFO - Initializing ResumeParser with groq_cloud
+2025-07-19 23:18:42 - groqcloud_llm - INFO - ResumeParser initialized successfully with groq_cloud
+2025-07-19 23:18:43 - groqcloud_llm - INFO - Initializing ResumeParser with groq_cloud
+2025-07-19 23:18:43 - groqcloud_llm - INFO - ResumeParser initialized successfully with groq_cloud
+2025-07-19 23:18:59 - groqcloud_llm - INFO - Initializing ResumeParser with groq_cloud
+2025-07-19 23:19:00 - groqcloud_llm - INFO - ResumeParser initialized successfully with groq_cloud
+2025-07-19 23:19:01 - groqcloud_llm - INFO - Initializing ResumeParser with groq_cloud
+2025-07-19 23:19:02 - groqcloud_llm - INFO - ResumeParser initialized successfully with groq_cloud
+2025-07-19 23:19:02 - groqcloud_llm - INFO - Initializing ResumeParser with groq_cloud
+2025-07-19 23:19:03 - groqcloud_llm - INFO - ResumeParser initialized successfully with groq_cloud
+2025-07-19 23:19:25 - groqcloud_llm - INFO - Initializing ResumeParser with groq_cloud
+2025-07-19 23:19:26 - groqcloud_llm - INFO - ResumeParser initialized successfully with groq_cloud
+2025-07-19 23:19:28 - groqcloud_llm - INFO - Initializing ResumeParser with groq_cloud
+2025-07-19 23:19:29 - groqcloud_llm - INFO - ResumeParser initialized successfully with groq_cloud
+2025-07-19 23:19:30 - groqcloud_llm - INFO - Initializing ResumeParser with groq_cloud
+2025-07-19 23:19:30 - groqcloud_llm - INFO - ResumeParser initialized successfully with groq_cloud
