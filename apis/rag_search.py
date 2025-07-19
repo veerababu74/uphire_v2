@@ -71,6 +71,8 @@ class ContactDetails(BaseModel):
 
 class VectorSearchResult(BaseModel):
     _id: str
+    user_id: str = ""
+    username: str = ""
     contact_details: ContactDetails
     total_experience: str = ""
     notice_period: str = ""
@@ -95,6 +97,8 @@ class VectorSearchResult(BaseModel):
 
 class LLMSearchResult(BaseModel):
     _id: str
+    user_id: str = ""
+    username: str = ""
     contact_details: ContactDetails
     total_experience: str = ""
     notice_period: str = ""
@@ -187,7 +191,9 @@ router = APIRouter(
                         "total_found": 10,
                         "results": [
                             {
-                                "_id": "resume123",
+                                "_id": "687bc9ec05f065045059f618",
+                                "user_id": "user123",
+                                "username": "john_doe",
                                 "contact_details": {
                                     "name": "John Doe",
                                     "current_city": "Mumbai",
@@ -218,10 +224,87 @@ async def vector_similarity_search(request: VectorSimilaritySearchRequest):
 
         if "error" in result:
             raise HTTPException(status_code=500, detail=result["error"])
+
+        # Format results to match the expected VectorSimilaritySearchResponse structure
+        formatted_results = []
+        for candidate in result.get("results", []):
+            formatted_candidate = {
+                "_id": candidate.get("_id", ""),
+                "user_id": candidate.get("user_id", ""),
+                "username": candidate.get("username", ""),
+                "contact_details": {
+                    "name": candidate.get("contact_details", {}).get("name", ""),
+                    "email": candidate.get("contact_details", {}).get("email", ""),
+                    "phone": candidate.get("contact_details", {}).get("phone", ""),
+                    "alternative_phone": candidate.get("contact_details", {}).get(
+                        "alternative_phone", ""
+                    ),
+                    "current_city": candidate.get("contact_details", {}).get(
+                        "current_city", ""
+                    ),
+                    "looking_for_jobs_in": candidate.get("contact_details", {}).get(
+                        "looking_for_jobs_in", []
+                    ),
+                    "gender": candidate.get("contact_details", {}).get("gender", ""),
+                    "age": candidate.get("contact_details", {}).get("age", 0),
+                    "naukri_profile": candidate.get("contact_details", {}).get(
+                        "naukri_profile", ""
+                    ),
+                    "linkedin_profile": candidate.get("contact_details", {}).get(
+                        "linkedin_profile", ""
+                    ),
+                    "portfolio_link": candidate.get("contact_details", {}).get(
+                        "portfolio_link", ""
+                    ),
+                    "pan_card": candidate.get("contact_details", {}).get(
+                        "pan_card", ""
+                    ),
+                    "aadhar_card": candidate.get("contact_details", {}).get(
+                        "aadhar_card", ""
+                    ),
+                },
+                "total_experience": str(candidate.get("total_experience", "0.0")),
+                "notice_period": candidate.get("notice_period", ""),
+                "currency": candidate.get("currency", ""),
+                "pay_duration": candidate.get("pay_duration", ""),
+                "current_salary": float(candidate.get("current_salary", 0)),
+                "hike": float(candidate.get("hike", 0)),
+                "expected_salary": float(candidate.get("expected_salary", 0)),
+                "skills": candidate.get("skills", []),
+                "may_also_known_skills": candidate.get("may_also_known_skills", []),
+                "labels": candidate.get("labels", []),
+                "experience": candidate.get("experience", []),
+                "academic_details": candidate.get("academic_details", []),
+                "source": candidate.get("source", ""),
+                "last_working_day": candidate.get("last_working_day", ""),
+                "is_tier1_mba": bool(candidate.get("is_tier1_mba", False)),
+                "is_tier1_engineering": bool(
+                    candidate.get("is_tier1_engineering", False)
+                ),
+                "comment": candidate.get("comment", ""),
+                "exit_reason": candidate.get("exit_reason", ""),
+                "similarity_score": float(candidate.get("similarity_score", 0.0)),
+            }
+            formatted_results.append(formatted_candidate)
+
+        # Format response according to VectorSimilaritySearchResponse model
+        formatted_response = {
+            "results": formatted_results,
+            "total_found": result.get("total_found", 0),
+            "statistics": {
+                "retrieved": result.get("statistics", {}).get("retrieved", 0),
+                "query": result.get("statistics", {}).get("query", request.query),
+            },
+        }
+
         # Save the search to recent searches if user_id is provided
         if request.user_id:
             await save_ai_search_to_recent(request.user_id, request.query)
-        return result
+
+        logger.info(
+            f"Vector similarity search completed successfully. Found {len(formatted_results)} results"
+        )
+        return formatted_response
 
     except Exception as e:
         logger.error(f"Vector similarity search failed: {str(e)}")
@@ -260,7 +343,9 @@ async def vector_similarity_search(request: VectorSimilaritySearchRequest):
                         },
                         "results": [
                             {
-                                "_id": "resume123",
+                                "_id": "687bc9ec05f065045059f618",
+                                "user_id": "user123",
+                                "username": "john_doe",
                                 "contact_details": {
                                     "name": "John Doe",
                                     "current_city": "Mumbai",
@@ -396,6 +481,9 @@ async def llm_search_by_jd(
             formatted_results = []
             for candidate in result.get("results", []):
                 formatted_candidate = {
+                    "_id": candidate.get("_id", ""),
+                    "user_id": candidate.get("user_id", ""),
+                    "username": candidate.get("username", ""),
                     "contact_details": {
                         "name": candidate.get("contact_details", {}).get("name", ""),
                         "email": candidate.get("contact_details", {}).get("email", ""),
@@ -533,10 +621,86 @@ async def vector_search_by_jd(
             result = rag_app.vector_similarity_search(jd_text, limit)
         except Exception as e:
             raise HTTPException(status_code=500, detail=str(e))
+
         if "error" in result:
             raise HTTPException(status_code=500, detail=result["error"])
 
-        return result
+        # Format results to match the expected VectorSimilaritySearchResponse structure
+        formatted_results = []
+        for candidate in result.get("results", []):
+            formatted_candidate = {
+                "_id": candidate.get("_id", ""),
+                "user_id": candidate.get("user_id", ""),
+                "username": candidate.get("username", ""),
+                "contact_details": {
+                    "name": candidate.get("contact_details", {}).get("name", ""),
+                    "email": candidate.get("contact_details", {}).get("email", ""),
+                    "phone": candidate.get("contact_details", {}).get("phone", ""),
+                    "alternative_phone": candidate.get("contact_details", {}).get(
+                        "alternative_phone", ""
+                    ),
+                    "current_city": candidate.get("contact_details", {}).get(
+                        "current_city", ""
+                    ),
+                    "looking_for_jobs_in": candidate.get("contact_details", {}).get(
+                        "looking_for_jobs_in", []
+                    ),
+                    "gender": candidate.get("contact_details", {}).get("gender", ""),
+                    "age": candidate.get("contact_details", {}).get("age", 0),
+                    "naukri_profile": candidate.get("contact_details", {}).get(
+                        "naukri_profile", ""
+                    ),
+                    "linkedin_profile": candidate.get("contact_details", {}).get(
+                        "linkedin_profile", ""
+                    ),
+                    "portfolio_link": candidate.get("contact_details", {}).get(
+                        "portfolio_link", ""
+                    ),
+                    "pan_card": candidate.get("contact_details", {}).get(
+                        "pan_card", ""
+                    ),
+                    "aadhar_card": candidate.get("contact_details", {}).get(
+                        "aadhar_card", ""
+                    ),
+                },
+                "total_experience": str(candidate.get("total_experience", "0.0")),
+                "notice_period": candidate.get("notice_period", ""),
+                "currency": candidate.get("currency", ""),
+                "pay_duration": candidate.get("pay_duration", ""),
+                "current_salary": float(candidate.get("current_salary", 0)),
+                "hike": float(candidate.get("hike", 0)),
+                "expected_salary": float(candidate.get("expected_salary", 0)),
+                "skills": candidate.get("skills", []),
+                "may_also_known_skills": candidate.get("may_also_known_skills", []),
+                "labels": candidate.get("labels", []),
+                "experience": candidate.get("experience", []),
+                "academic_details": candidate.get("academic_details", []),
+                "source": candidate.get("source", ""),
+                "last_working_day": candidate.get("last_working_day", ""),
+                "is_tier1_mba": bool(candidate.get("is_tier1_mba", False)),
+                "is_tier1_engineering": bool(
+                    candidate.get("is_tier1_engineering", False)
+                ),
+                "comment": candidate.get("comment", ""),
+                "exit_reason": candidate.get("exit_reason", ""),
+                "similarity_score": float(candidate.get("similarity_score", 0.0)),
+            }
+            formatted_results.append(formatted_candidate)
+
+        # Format response according to VectorSimilaritySearchResponse model
+        formatted_response = {
+            "results": formatted_results,
+            "total_found": result.get("total_found", 0),
+            "statistics": {
+                "retrieved": result.get("statistics", {}).get("retrieved", 0),
+                "query": (
+                    jd_text[:200] + "..." if len(jd_text) > 200 else jd_text
+                ),  # Truncate long queries
+            },
+        }
+
+        logger.info("Vector similarity search by JD completed successfully")
+        return formatted_response
 
     except SearchError as se:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(se))

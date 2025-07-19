@@ -1,199 +1,264 @@
+#!/usr/bin/env python3
 """
-Test script for the multiple resume parser endpoints.
-This script demonstrates how to use the new threading and multiprocessing endpoints.
+Test script for the enhanced multiple resume parser API with automatic embedding generation.
+
+This script demonstrates how to use the new multiple resume parser functionality
+that automatically generates embeddings for parsed resume data.
 """
 
-import requests
-import time
 import os
+import sys
+import requests
+import json
 from pathlib import Path
 
-# API base URL - adjust this to your server
-BASE_URL = "http://localhost:8000"  # Change this to your actual server URL
+# API base URL (adjust as needed)
+BASE_URL = "http://localhost:8000"  # Adjust to your FastAPI server URL
 
 
-def test_single_resume_parser(file_path):
-    """Test the single resume parser endpoint"""
-    print(f"\n{'='*50}")
-    print("Testing Single Resume Parser")
-    print(f"{'='*50}")
+def test_single_resume_parsing():
+    """Test single resume parsing with embeddings."""
+    print("Testing single resume parsing with automatic embedding generation...")
 
-    url = f"{BASE_URL}/resume-parser"
+    # Create a sample resume file for testing
+    sample_resume_content = """
+John Doe
+Email: john.doe@example.com
+Phone: +1-555-123-4567
+Location: New York, NY
 
-    with open(file_path, "rb") as file:
-        files = {"file": (os.path.basename(file_path), file)}
-        start_time = time.time()
-        response = requests.post(url, files=files)
-        end_time = time.time()
+EXPERIENCE:
+Software Engineer at TechCorp (2020-2023)
+- Developed web applications using Python and React
+- Led team of 3 developers
+- Implemented machine learning algorithms
 
-    print(f"Status Code: {response.status_code}")
-    print(f"Processing Time: {end_time - start_time:.2f} seconds")
+Senior Developer at StartupXYZ (2018-2020)
+- Built scalable microservices
+- Worked with AWS and Docker
 
-    if response.status_code == 200:
-        result = response.json()
-        print(f"File: {result['filename']}")
-        print(f"Resume extracted successfully!")
-    else:
-        print(f"Error: {response.text}")
+EDUCATION:
+Bachelor of Computer Science, MIT (2014-2018)
+Master of Computer Science, Stanford (2018-2020)
+
+SKILLS:
+Python, JavaScript, React, AWS, Docker, Machine Learning, SQL, MongoDB
+"""
+
+    # Save sample resume to a temporary file
+    temp_file = Path("temp_resume.txt")
+    with open(temp_file, "w") as f:
+        f.write(sample_resume_content)
+
+    try:
+        # Test with different LLM providers
+        providers = ["ollama", "groq"]  # Add more as needed
+
+        for provider in providers:
+            print(f"\n--- Testing with {provider} provider ---")
+
+            # Prepare files for upload
+            files = {"file": ("test_resume.txt", open(temp_file, "rb"), "text/plain")}
+            data = {"llm_provider": provider} if provider != "default" else {}
+
+            # Make API request
+            try:
+                response = requests.post(
+                    f"{BASE_URL}/multiple_resume_parser/parse-single",
+                    files=files,
+                    data=data,
+                    timeout=60,
+                )
+
+                if response.status_code == 200:
+                    result = response.json()
+                    print(f"✅ Success with {provider}!")
+                    print(
+                        f"Embeddings generated: {result.get('embeddings_generated', False)}"
+                    )
+                    print(f"Provider used: {result.get('provider_used', 'unknown')}")
+
+                    # Show parsed data structure
+                    parsed_data = result.get("result", {}).get("parsed_data", {})
+                    if parsed_data:
+                        print(f"Name: {parsed_data.get('name', 'N/A')}")
+                        print(f"Skills count: {len(parsed_data.get('skills', []))}")
+                        print(
+                            f"Experience count: {len(parsed_data.get('experience', []))}"
+                        )
+                        print(
+                            f"Embeddings available: {list(parsed_data.get('embeddings', {}).keys())}"
+                        )
+
+                else:
+                    print(f"❌ Error with {provider}: {response.status_code}")
+                    print(response.text)
+
+            except requests.exceptions.RequestException as e:
+                print(f"❌ Request failed for {provider}: {e}")
+
+            finally:
+                files["file"][1].close()
+
+    finally:
+        # Clean up
+        if temp_file.exists():
+            temp_file.unlink()
 
 
-def test_multiple_resume_parser_threading(file_paths):
-    """Test the multiple resume parser with threading"""
-    print(f"\n{'='*50}")
-    print("Testing Multiple Resume Parser (Threading)")
-    print(f"{'='*50}")
+def test_provider_management():
+    """Test LLM provider management endpoints."""
+    print("\n" + "=" * 50)
+    print("Testing LLM Provider Management")
+    print("=" * 50)
 
-    url = f"{BASE_URL}/resume-parser-multiple"
+    try:
+        # Get supported providers
+        response = requests.get(
+            f"{BASE_URL}/multiple_resume_parser/supported-providers"
+        )
+        if response.status_code == 200:
+            providers_info = response.json()
+            print("✅ Supported providers:")
+            for provider in providers_info.get("supported_providers", []):
+                description = providers_info.get("descriptions", {}).get(
+                    provider, "No description"
+                )
+                print(f"  - {provider}: {description}")
+            print(
+                f"Current default: {providers_info.get('current_default', 'unknown')}"
+            )
+        else:
+            print(f"❌ Failed to get providers: {response.status_code}")
 
-    files = []
-    for file_path in file_paths:
-        with open(file_path, "rb") as file:
-            files.append(("files", (os.path.basename(file_path), file.read())))
+    except requests.exceptions.RequestException as e:
+        print(f"❌ Request failed: {e}")
 
-    start_time = time.time()
-    response = requests.post(url, files=files)
-    end_time = time.time()
 
-    print(f"Status Code: {response.status_code}")
-    print(f"Total Processing Time: {end_time - start_time:.2f} seconds")
+def test_multiple_resume_parsing():
+    """Test multiple resume parsing functionality."""
+    print("\n" + "=" * 50)
+    print("Testing Multiple Resume Parsing")
+    print("=" * 50)
 
-    if response.status_code == 200:
-        result = response.json()
-        print(f"Total Files: {result['total_files']}")
-        print(f"Successful: {result['successful_files']}")
-        print(f"Failed: {result['failed_files']}")
-        print(f"Success Rate: {result['summary']['success_rate']}%")
-        print(
-            f"Average Time per File: {result['summary']['avg_time_per_file']:.2f} seconds"
+    # Create multiple sample resumes
+    resumes = [
+        {
+            "filename": "resume1.txt",
+            "content": """
+Alice Smith
+alice.smith@email.com
++1-555-111-2222
+
+SKILLS: Python, Data Science, Machine Learning
+EXPERIENCE: Data Scientist at DataCorp (2021-2023)
+EDUCATION: PhD in Data Science, Harvard (2019-2021)
+""",
+        },
+        {
+            "filename": "resume2.txt",
+            "content": """
+Bob Johnson
+bob.johnson@email.com
++1-555-333-4444
+
+SKILLS: Java, Spring Boot, Microservices
+EXPERIENCE: Senior Java Developer at Enterprise Inc (2019-2023)
+EDUCATION: MS Computer Science, Berkeley (2017-2019)
+""",
+        },
+    ]
+
+    # Save temporary files
+    temp_files = []
+    for resume in resumes:
+        temp_file = Path(resume["filename"])
+        with open(temp_file, "w") as f:
+            f.write(resume["content"])
+        temp_files.append(temp_file)
+
+    try:
+        # Prepare files for upload
+        files = []
+        for temp_file in temp_files:
+            files.append(
+                ("files", (temp_file.name, open(temp_file, "rb"), "text/plain"))
+            )
+
+        # Make API request
+        response = requests.post(
+            f"{BASE_URL}/multiple_resume_parser/parse-multiple",
+            files=files,
+            data={"llm_provider": "ollama", "max_concurrent": 2},
+            timeout=120,
         )
 
-        # Show results for each file
-        for file_result in result["results"]:
-            status = "✓" if file_result["success"] else "✗"
-            print(f"  {status} {file_result['filename']}")
-            if not file_result["success"]:
-                print(f"    Error: {file_result['error']}")
-    else:
-        print(f"Error: {response.text}")
+        # Close file handles
+        for _, (_, file_handle, _) in files:
+            file_handle.close()
 
+        if response.status_code == 200:
+            result = response.json()
+            print("✅ Multiple resume parsing successful!")
 
-def test_multiple_resume_parser_multiprocessing(file_paths):
-    """Test the multiple resume parser with multiprocessing"""
-    print(f"\n{'='*50}")
-    print("Testing Multiple Resume Parser (Multiprocessing)")
-    print(f"{'='*50}")
+            stats = result.get("statistics", {})
+            print(f"Total files: {stats.get('total_files', 0)}")
+            print(f"Successful parses: {stats.get('successful_parses', 0)}")
+            print(f"Failed parses: {stats.get('failed_parses', 0)}")
+            print(f"Embeddings generated: {stats.get('embeddings_generated', 0)}")
+            print(f"Provider used: {stats.get('provider_used', 'unknown')}")
 
-    url = f"{BASE_URL}/resume-parser-multiple-mp"
+            # Show details for each resume
+            for i, resume_result in enumerate(result.get("results", [])):
+                print(f"\nResume {i+1}: {resume_result.get('filename', 'unknown')}")
+                print(f"  Status: {resume_result.get('status', 'unknown')}")
+                if resume_result.get("status") == "success":
+                    parsed_data = resume_result.get("parsed_data", {})
+                    print(f"  Name: {parsed_data.get('name', 'N/A')}")
+                    print(
+                        f"  Embeddings: {list(parsed_data.get('embeddings', {}).keys())}"
+                    )
+        else:
+            print(f"❌ Multiple resume parsing failed: {response.status_code}")
+            print(response.text)
 
-    files = []
-    for file_path in file_paths:
-        with open(file_path, "rb") as file:
-            files.append(("files", (os.path.basename(file_path), file.read())))
+    except requests.exceptions.RequestException as e:
+        print(f"❌ Request failed: {e}")
 
-    start_time = time.time()
-    response = requests.post(url, files=files)
-    end_time = time.time()
-
-    print(f"Status Code: {response.status_code}")
-    print(f"Total Processing Time: {end_time - start_time:.2f} seconds")
-
-    if response.status_code == 200:
-        result = response.json()
-        print(f"Total Files: {result['total_files']}")
-        print(f"Successful: {result['successful_files']}")
-        print(f"Failed: {result['failed_files']}")
-        print(f"Success Rate: {result['summary']['success_rate']}%")
-        print(
-            f"Average Time per File: {result['summary']['avg_time_per_file']:.2f} seconds"
-        )
-        print(f"Workers Used: {result['workers_used']}")
-        print(f"Performance Info: {result['summary']['performance_boost']}")
-
-        # Show results for each file
-        for file_result in result["results"]:
-            status = "✓" if file_result["success"] else "✗"
-            print(f"  {status} {file_result['filename']}")
-            if not file_result["success"]:
-                print(f"    Error: {file_result['error']}")
-    else:
-        print(f"Error: {response.text}")
-
-
-def get_parser_info():
-    """Get information about available endpoints"""
-    print(f"\n{'='*50}")
-    print("Resume Parser Information")
-    print(f"{'='*50}")
-
-    url = f"{BASE_URL}/resume-parser-info"
-    response = requests.get(url)
-
-    if response.status_code == 200:
-        info = response.json()
-        print(f"CPU Cores Available: {info['system_info']['cpu_cores']}")
-        print(f"Supported Formats: {', '.join(info['supported_formats'])}")
-
-        print("\nAvailable Endpoints:")
-        for name, details in info["available_endpoints"].items():
-            print(f"  • {details['endpoint']} - {details['description']}")
-            print(f"    Use case: {details['use_case']}")
-            print(f"    Max files: {details['max_files']}")
-
-        print("\nRecommendations:")
-        for scenario, recommendation in info["recommendations"].items():
-            print(f"  • {scenario}: {recommendation}")
-    else:
-        print(f"Error: {response.text}")
+    finally:
+        # Clean up
+        for temp_file in temp_files:
+            if temp_file.exists():
+                temp_file.unlink()
 
 
 def main():
-    """Main function to run tests"""
-    print("Resume Parser API Test Script")
-    print("Make sure your FastAPI server is running!")
+    """Main test function."""
+    print("Multiple Resume Parser API Test Suite")
+    print("=" * 50)
 
-    # Get parser information first
+    # Check if server is running
     try:
-        get_parser_info()
-    except requests.exceptions.ConnectionError:
-        print("\nError: Cannot connect to the API server.")
-        print("Please make sure your FastAPI server is running on the specified URL.")
+        response = requests.get(f"{BASE_URL}/docs", timeout=5)
+        if response.status_code != 200:
+            print("❌ FastAPI server doesn't seem to be running at", BASE_URL)
+            print("Please start your FastAPI server first.")
+            return
+    except requests.exceptions.RequestException:
+        print("❌ Cannot connect to FastAPI server at", BASE_URL)
+        print("Please ensure your FastAPI server is running.")
         return
 
-    # Example usage - you'll need to provide actual file paths
-    test_files = [
-        # Add paths to your test resume files here
-        # "path/to/resume1.pdf",
-        # "path/to/resume2.docx",
-        # "path/to/resume3.txt",
-    ]
+    print("✅ FastAPI server is accessible")
 
-    if not test_files:
-        print("\n" + "=" * 50)
-        print("To test the endpoints, please:")
-        print("1. Add resume file paths to the 'test_files' list in this script")
-        print("2. Make sure your FastAPI server is running")
-        print("3. Update the BASE_URL if needed")
-        print("=" * 50)
-        return
+    # Run tests
+    test_provider_management()
+    test_single_resume_parsing()
+    test_multiple_resume_parsing()
 
-    # Verify files exist
-    existing_files = [f for f in test_files if os.path.exists(f)]
-    if not existing_files:
-        print("\nNo test files found. Please check the file paths.")
-        return
-
-    print(f"\nFound {len(existing_files)} test files")
-
-    # Test single file processing
-    if existing_files:
-        test_single_resume_parser(existing_files[0])
-
-    # Test multiple file processing with threading
-    if len(existing_files) > 1:
-        test_multiple_resume_parser_threading(existing_files)
-
-        # Test multiple file processing with multiprocessing
-        test_multiple_resume_parser_multiprocessing(existing_files)
+    print("\n" + "=" * 50)
+    print("Test suite completed!")
+    print("=" * 50)
 
 
 if __name__ == "__main__":

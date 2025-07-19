@@ -726,3 +726,91 @@ __root__
 2025-07-19 23:19:27 - rag_application - INFO - Vectorizer and embedding adapter initialized successfully
 2025-07-19 23:19:28 - rag_application - INFO - Connected to MongoDB database 'resume_db' and collection 'resumes'
 2025-07-19 23:19:28 - rag_application - INFO - LangChain vector store initialized successfully
+2025-07-19 23:24:10 - rag_application - INFO - Vectorizer initialized successfully
+2025-07-19 23:24:11 - rag_application - INFO - Connected to MongoDB database 'resume_db' and collection 'resumes'
+2025-07-19 23:24:11 - rag_application - INFO - Vectorizer and embedding adapter initialized successfully
+2025-07-19 23:24:11 - rag_application - INFO - Connected to MongoDB database 'resume_db' and collection 'resumes'
+2025-07-19 23:24:11 - rag_application - INFO - LangChain vector store initialized successfully
+2025-07-19 23:44:50 - rag_application - INFO - Vectorizer initialized successfully
+2025-07-19 23:44:50 - rag_application - INFO - Connected to MongoDB database 'resume_db' and collection 'resumes'
+2025-07-19 23:44:50 - rag_application - INFO - Vectorizer and embedding adapter initialized successfully
+2025-07-19 23:44:51 - rag_application - INFO - Connected to MongoDB database 'resume_db' and collection 'resumes'
+2025-07-19 23:44:51 - rag_application - INFO - LangChain vector store initialized successfully
+2025-07-19 23:45:02 - rag_application - INFO - Vectorizer initialized successfully
+2025-07-19 23:45:02 - rag_application - INFO - Connected to MongoDB database 'resume_db' and collection 'resumes'
+2025-07-19 23:45:02 - rag_application - INFO - Vectorizer and embedding adapter initialized successfully
+2025-07-19 23:45:02 - rag_application - INFO - Connected to MongoDB database 'resume_db' and collection 'resumes'
+2025-07-19 23:45:02 - rag_application - INFO - LangChain vector store initialized successfully
+2025-07-19 23:45:30 - rag_application - INFO - Vectorizer initialized successfully
+2025-07-19 23:45:30 - rag_application - INFO - Connected to MongoDB database 'resume_db' and collection 'resumes'
+2025-07-19 23:45:30 - rag_application - INFO - Vectorizer and embedding adapter initialized successfully
+2025-07-19 23:45:31 - rag_application - INFO - Connected to MongoDB database 'resume_db' and collection 'resumes'
+2025-07-19 23:45:31 - rag_application - INFO - LangChain vector store initialized successfully
+2025-07-19 23:45:57 - rag_application - INFO - Vectorizer initialized successfully
+2025-07-19 23:45:57 - rag_application - INFO - Connected to MongoDB database 'resume_db' and collection 'resumes'
+2025-07-19 23:45:57 - rag_application - INFO - Vectorizer and embedding adapter initialized successfully
+2025-07-19 23:45:57 - rag_application - INFO - Connected to MongoDB database 'resume_db' and collection 'resumes'
+2025-07-19 23:45:57 - rag_application - INFO - LangChain vector store initialized successfully
+2025-07-19 23:46:36 - rag_application - INFO - Internal vectorizer (SentenceTransformer all-MiniLM-L6-v2) initialized successfully
+2025-07-19 23:46:37 - rag_application - INFO - RAG LLM initialized using groq_cloud provider
+2025-07-19 23:46:37 - rag_application - INFO - Chain manager initialized successfully
+2025-07-19 23:46:37 - rag_application - INFO - RAG Application initialized successfully
+2025-07-19 23:49:50 - rag_application - INFO - Vectorizer initialized successfully
+2025-07-19 23:49:50 - rag_application - INFO - Connected to MongoDB database 'resume_db' and collection 'resumes'
+2025-07-19 23:49:50 - rag_application - INFO - Vectorizer and embedding adapter initialized successfully
+2025-07-19 23:49:51 - rag_application - INFO - Connected to MongoDB database 'resume_db' and collection 'resumes'
+2025-07-19 23:49:51 - rag_application - INFO - LangChain vector store initialized successfully
+2025-07-19 23:51:10 - rag_application - INFO - Vectorizer initialized successfully
+2025-07-19 23:51:10 - rag_application - INFO - Connected to MongoDB database 'resume_db' and collection 'resumes'
+2025-07-19 23:51:10 - rag_application - INFO - Vectorizer and embedding adapter initialized successfully
+2025-07-19 23:51:11 - rag_application - INFO - Connected to MongoDB database 'resume_db' and collection 'resumes'
+2025-07-19 23:51:11 - rag_application - INFO - LangChain vector store initialized successfully
+2025-07-19 23:53:09 - rag_application - INFO - Vectorizer initialized successfully
+2025-07-19 23:53:10 - rag_application - INFO - Connected to MongoDB database 'resume_db' and collection 'resumes'
+2025-07-19 23:53:10 - rag_application - INFO - Vectorizer and embedding adapter initialized successfully
+2025-07-19 23:53:10 - rag_application - INFO - Connected to MongoDB database 'resume_db' and collection 'resumes'
+2025-07-19 23:53:10 - rag_application - INFO - LangChain vector store initialized successfully
+2025-07-19 23:53:23 - rag_application - INFO - Vectorizer initialized successfully
+2025-07-19 23:53:24 - rag_application - INFO - Connected to MongoDB database 'resume_db' and collection 'resumes'
+2025-07-19 23:53:24 - rag_application - INFO - Vectorizer and embedding adapter initialized successfully
+2025-07-19 23:53:24 - rag_application - INFO - Connected to MongoDB database 'resume_db' and collection 'resumes'
+2025-07-19 23:53:24 - rag_application - INFO - LangChain vector store initialized successfully
+2025-07-19 23:53:42 - rag_application - INFO - Internal vectorizer (SentenceTransformer all-MiniLM-L6-v2) initialized successfully
+2025-07-19 23:53:43 - rag_application - INFO - RAG LLM initialized using groq_cloud provider
+2025-07-19 23:53:43 - rag_application - INFO - Chain manager initialized successfully
+2025-07-19 23:53:43 - rag_application - INFO - RAG Application initialized successfully
+2025-07-19 23:55:13 - rag_application - INFO - Vectorizer initialized successfully
+2025-07-19 23:55:14 - rag_application - INFO - Connected to MongoDB database 'resume_db' and collection 'resumes'
+2025-07-19 23:55:14 - rag_application - INFO - Vectorizer and embedding adapter initialized successfully
+2025-07-19 23:55:14 - rag_application - INFO - Connected to MongoDB database 'resume_db' and collection 'resumes'
+2025-07-19 23:55:14 - rag_application - INFO - LangChain vector store initialized successfully
+2025-07-19 23:55:56 - rag_application - INFO - Vectorizer initialized successfully
+2025-07-19 23:55:57 - rag_application - INFO - Connected to MongoDB database 'resume_db' and collection 'resumes'
+2025-07-19 23:55:57 - rag_application - INFO - Vectorizer and embedding adapter initialized successfully
+2025-07-19 23:55:57 - rag_application - INFO - Connected to MongoDB database 'resume_db' and collection 'resumes'
+2025-07-19 23:55:57 - rag_application - INFO - LangChain vector store initialized successfully
+2025-07-19 23:56:14 - rag_application - INFO - Vectorizer initialized successfully
+2025-07-19 23:56:15 - rag_application - INFO - Connected to MongoDB database 'resume_db' and collection 'resumes'
+2025-07-19 23:56:15 - rag_application - INFO - Vectorizer and embedding adapter initialized successfully
+2025-07-19 23:56:15 - rag_application - INFO - Connected to MongoDB database 'resume_db' and collection 'resumes'
+2025-07-19 23:56:15 - rag_application - INFO - LangChain vector store initialized successfully
+2025-07-19 23:56:23 - rag_application - INFO - Retrieved 1 documents from MongoDB
+2025-07-19 23:56:23 - rag_application - INFO - Successfully formatted and sorted 1 results
+2025-07-19 23:56:42 - rag_application - INFO - Retrieved 1 documents using LangChain
+2025-07-19 23:56:42 - rag_application - INFO - Successfully formatted and sorted 1 results
+2025-07-19 23:56:45 - rag_application - INFO - Retrieved 1 documents using LangChain
+2025-07-19 23:56:45 - rag_application - INFO - Successfully formatted and sorted 1 results
+2025-07-19 23:56:54 - rag_application - INFO - Internal vectorizer (SentenceTransformer all-MiniLM-L6-v2) initialized successfully
+2025-07-19 23:56:55 - rag_application - INFO - RAG LLM initialized using groq_cloud provider
+2025-07-19 23:56:55 - rag_application - INFO - Chain manager initialized successfully
+2025-07-19 23:56:55 - rag_application - INFO - RAG Application initialized successfully
+2025-07-19 23:59:56 - rag_application - INFO - Vectorizer initialized successfully
+2025-07-19 23:59:56 - rag_application - INFO - Connected to MongoDB database 'resume_db' and collection 'resumes'
+2025-07-19 23:59:56 - rag_application - INFO - Vectorizer and embedding adapter initialized successfully
+2025-07-19 23:59:57 - rag_application - INFO - Connected to MongoDB database 'resume_db' and collection 'resumes'
+2025-07-19 23:59:57 - rag_application - INFO - LangChain vector store initialized successfully
+2025-07-20 00:00:13 - rag_application - INFO - Vectorizer initialized successfully
+2025-07-20 00:00:14 - rag_application - INFO - Connected to MongoDB database 'resume_db' and collection 'resumes'
+2025-07-20 00:00:14 - rag_application - INFO - Vectorizer and embedding adapter initialized successfully
+2025-07-20 00:00:14 - rag_application - INFO - Connected to MongoDB database 'resume_db' and collection 'resumes'
+2025-07-20 00:00:14 - rag_application - INFO - LangChain vector store initialized successfully

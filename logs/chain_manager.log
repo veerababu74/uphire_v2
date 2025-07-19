@@ -271,3 +271,67 @@ This is the actual JSON format with real values.
       "_id": "683b0b0d1aa118b254288ba2",
       "relevance_score": 0.6,
       "match_reason": "Some relevant skills 
+2025-07-19 23:46:56 - chain_manager - INFO - Raw LLM response type: <class 'str'>
+2025-07-19 23:46:56 - chain_manager - INFO - Raw LLM response (first 500 chars): {
+  "total_candidates": 1,
+  "matches": [
+    {
+      "_id": "687bc9ec05f065045059f618",
+      "relevance_score": 0.0,
+      "match_reason": "No information provided on skills or experience"
+    }
+  ]
+} 
+
+
+
+2025-07-19 23:58:32 - chain_manager - INFO - Raw LLM response type: <class 'str'>
+2025-07-19 23:58:32 - chain_manager - INFO - Raw LLM response (first 500 chars): {
+  "total_candidates": 1,
+  "matches": [
+    {
+      "_id": "687bc9ec05f065045059f618",
+      "relevance_score": 0.0,
+      "match_reason": "No information provided on skills or experience"
+    }
+  ]
+} 
+
+
+
+2025-07-19 23:58:51 - chain_manager - INFO - Raw LLM response type: <class 'str'>
+2025-07-19 23:58:51 - chain_manager - INFO - Raw LLM response (first 500 chars): {
+  "total_candidates": 1,
+  "matches": [
+    {
+      "_id": "687bc9ec05f065045059f618",
+      "relevance_score": 0.0,
+      "match_reason": "No information about sudheer"
+    }
+  ]
+} 
+
+2025-07-19 23:58:59 - chain_manager - INFO - Raw LLM response type: <class 'str'>
+2025-07-19 23:58:59 - chain_manager - INFO - Raw LLM response (first 500 chars): {
+  "total_candidates": 1,
+  "matches": [
+    {
+      "_id": "687bc9ec05f065045059f618",
+      "relevance_score": 0.0,
+      "match_reason": "No match found for sudheer"
+    }
+  ]
+} 
+
+2025-07-19 23:59:26 - chain_manager - INFO - Raw LLM response type: <class 'str'>
+2025-07-19 23:59:26 - chain_manager - INFO - Raw LLM response (first 500 chars): {
+  "total_candidates": 1,
+  "matches": [
+    {
+      "_id": "687bc9ec05f065045059f618",
+      "relevance_score": 0.0,
+      "match_reason": "No PL/SQL skills mentioned"
+    }
+  ]
+} 
+

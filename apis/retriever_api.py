@@ -3,10 +3,10 @@ from typing import Dict, List, Optional, Any
 from pydantic import BaseModel, Field
 import os
 from Retrivers.retriver import MangoRetriever, LangChainRetriever
-import logging
+
 from GroqcloudLLM.text_extraction import extract_and_clean_text
 from core.config import AppConfig
-
+from core.custom_logger import CustomLogger
 from datetime import datetime, timedelta
 from pathlib import Path
 from recent_search_uts.recent_ai_search import save_ai_search_to_recent
@@ -29,12 +29,9 @@ TEMP_FOLDER = "temp_uploads"
 TEMP_DIR = Path(TEMP_FOLDER)
 TEMP_DIR.mkdir(parents=True, exist_ok=True)
 
-# Configure logging
-logging.basicConfig(
-    filename="retriever_cleanup.log",
-    level=logging.INFO,
-    format="%(asctime)s - %(levelname)s - %(message)s",
-)
+
+logger_manager = CustomLogger()
+logging = logger_manager.get_logger("vector_search_api")
 
 
 def cleanup_temp_directory(age_limit_minutes: int = 60):

@@ -101,6 +101,8 @@ class SearchError(Exception):
     ```
     
     **Output Fields:**
+    - user_id: Unique identifier for the user
+    - username: Username of the candidate
     - name: Candidate's full name
     - contact_details: Email, phone, location etc.
     - education: List of educational qualifications
@@ -125,6 +127,8 @@ class SearchError(Exception):
                 "application/json": {
                     "example": [
                         {
+                            "user_id": "64f123abc456def789012345",
+                            "username": "john.doe",
                             "name": "John Doe",
                             "contact_details": {
                                 "email": "john@example.com",
@@ -224,6 +228,8 @@ async def vector_search(search_query: VectorSearchQuery):
             {"$match": {"score": {"$gte": search_query.min_score}}},
             {
                 "$project": {
+                    "user_id": 1,
+                    "username": 1,
                     "name": 1,
                     "contact_details": 1,
                     "education": 1,
@@ -316,9 +322,9 @@ async def search_by_jd(
         vector_field_mapping = {
             "skills": "skills_vector",
             "experience": "experience_text_vector",
-            "education": "education_text_vector",
-            "projects": "projects_text_vector",
-            "full_text": "total_resume_vector",
+            "education": "academic_details_vector",
+            "projects": "experience_text_vector",  # Projects search through experience for better relevance
+            "full_text": "combined_resume_vector",
         }
 
         vector_field = vector_field_mapping.get(field)
@@ -343,6 +349,8 @@ async def search_by_jd(
             {"$match": {"score": {"$gte": min_score}}},
             {
                 "$project": {
+                    "user_id": 1,
+                    "username": 1,
                     "name": 1,
                     "contact_details": 1,
                     "education": 1,

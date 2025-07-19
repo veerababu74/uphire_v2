@@ -353,6 +353,9 @@ async def vector_search(search_query: VectorSearchQuery):
                 {"$addFields": {"relevance_score": {"$multiply": ["$score", 100]}}},
                 {
                     "$project": {
+                        "_id": 1,
+                        "user_id": 1,
+                        "username": 1,
                         "name": 1,
                         "contact_details": 1,
                         "education": 1,
@@ -500,6 +503,9 @@ async def search_by_jd(
                 {"$addFields": {"relevance_score": {"$multiply": ["$score", 100]}}},
                 {
                     "$project": {
+                        "_id": 1,
+                        "user_id": 1,
+                        "username": 1,
                         "name": 1,
                         "contact_details": 1,
                         "education": 1,
