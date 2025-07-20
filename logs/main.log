@@ -178,3 +178,249 @@
 2025-07-19 23:59:59 - main - INFO - Models to ensure: ['BAAI/bge-large-en-v1.5', 'BAAI/bge-large-zh-v1.5', 'thenlper/gte-large']
 2025-07-19 23:59:59 - main - INFO - All critical embedding models are ready!
 2025-07-20 00:00:02 - main - INFO - Application startup completed successfully!
+2025-07-20 09:34:23 - main - INFO - Starting application initialization...
+2025-07-20 09:34:23 - main - INFO - Using 'balanced' deployment configuration
+2025-07-20 09:34:23 - main - INFO - Models to ensure: ['BAAI/bge-large-en-v1.5', 'BAAI/bge-large-zh-v1.5', 'thenlper/gte-large']
+2025-07-20 09:34:23 - main - INFO - All critical embedding models are ready!
+2025-07-20 09:34:26 - main - INFO - Application startup completed successfully!
+2025-07-20 09:46:51 - main - INFO - Starting application initialization...
+2025-07-20 09:46:51 - main - INFO - Using 'balanced' deployment configuration
+2025-07-20 09:46:51 - main - INFO - Models to ensure: ['BAAI/bge-large-en-v1.5', 'BAAI/bge-large-zh-v1.5', 'thenlper/gte-large']
+2025-07-20 09:46:51 - main - INFO - All critical embedding models are ready!
+2025-07-20 09:46:53 - main - INFO - Application startup completed successfully!
+2025-07-20 09:47:10 - main - INFO - Starting application initialization...
+2025-07-20 09:47:10 - main - INFO - Using 'balanced' deployment configuration
+2025-07-20 09:47:10 - main - INFO - Models to ensure: ['BAAI/bge-large-en-v1.5', 'BAAI/bge-large-zh-v1.5', 'thenlper/gte-large']
+2025-07-20 09:47:10 - main - INFO - All critical embedding models are ready!
+2025-07-20 09:47:12 - main - INFO - Application startup completed successfully!
+2025-07-20 09:48:00 - main - INFO - Starting application initialization...
+2025-07-20 09:48:00 - main - INFO - Using 'balanced' deployment configuration
+2025-07-20 09:48:00 - main - INFO - Models to ensure: ['BAAI/bge-large-en-v1.5', 'BAAI/bge-large-zh-v1.5', 'thenlper/gte-large']
+2025-07-20 09:48:00 - main - INFO - All critical embedding models are ready!
+2025-07-20 09:48:03 - main - INFO - Application startup completed successfully!
+2025-07-20 09:48:55 - main - INFO - Starting application initialization...
+2025-07-20 09:48:55 - main - INFO - Using 'balanced' deployment configuration
+2025-07-20 09:48:55 - main - INFO - Models to ensure: ['BAAI/bge-large-en-v1.5', 'BAAI/bge-large-zh-v1.5', 'thenlper/gte-large']
+2025-07-20 09:48:55 - main - INFO - All critical embedding models are ready!
+2025-07-20 09:48:58 - main - INFO - Application startup completed successfully!
+2025-07-20 09:49:24 - main - INFO - Starting application initialization...
+2025-07-20 09:49:24 - main - INFO - Using 'balanced' deployment configuration
+2025-07-20 09:49:24 - main - INFO - Models to ensure: ['BAAI/bge-large-en-v1.5', 'BAAI/bge-large-zh-v1.5', 'thenlper/gte-large']
+2025-07-20 09:49:24 - main - INFO - All critical embedding models are ready!
+2025-07-20 09:49:27 - main - INFO - Application startup completed successfully!
+2025-07-20 09:50:37 - main - INFO - Starting application initialization...
+2025-07-20 09:50:37 - main - INFO - Using 'balanced' deployment configuration
+2025-07-20 09:50:37 - main - INFO - Models to ensure: ['BAAI/bge-large-en-v1.5', 'BAAI/bge-large-zh-v1.5', 'thenlper/gte-large']
+2025-07-20 09:50:37 - main - INFO - All critical embedding models are ready!
+2025-07-20 09:50:40 - main - INFO - Application startup completed successfully!
+2025-07-20 09:51:16 - main - INFO - Starting application initialization...
+2025-07-20 09:51:16 - main - INFO - Using 'balanced' deployment configuration
+2025-07-20 09:51:16 - main - INFO - Models to ensure: ['BAAI/bge-large-en-v1.5', 'BAAI/bge-large-zh-v1.5', 'thenlper/gte-large']
+2025-07-20 09:51:16 - main - INFO - All critical embedding models are ready!
+2025-07-20 09:51:19 - main - INFO - Application startup completed successfully!
+2025-07-20 09:55:12 - main - INFO - Starting application initialization...
+2025-07-20 09:55:12 - main - INFO - Using 'balanced' deployment configuration
+2025-07-20 09:55:12 - main - INFO - Models to ensure: ['BAAI/bge-large-en-v1.5', 'BAAI/bge-large-zh-v1.5', 'thenlper/gte-large']
+2025-07-20 09:55:12 - main - INFO - All critical embedding models are ready!
+2025-07-20 09:55:14 - main - INFO - Application startup completed successfully!
+2025-07-20 09:58:57 - main - INFO - Starting application initialization...
+2025-07-20 09:58:57 - main - INFO - Using 'balanced' deployment configuration
+2025-07-20 09:58:57 - main - INFO - Models to ensure: ['BAAI/bge-large-en-v1.5', 'BAAI/bge-large-zh-v1.5', 'thenlper/gte-large']
+2025-07-20 09:58:57 - main - INFO - All critical embedding models are ready!
+2025-07-20 09:59:00 - main - INFO - Application startup completed successfully!
+2025-07-20 10:05:02 - main - INFO - Starting application initialization...
+2025-07-20 10:05:02 - main - INFO - Using 'balanced' deployment configuration
+2025-07-20 10:05:02 - main - INFO - Models to ensure: ['BAAI/bge-large-en-v1.5', 'BAAI/bge-large-zh-v1.5', 'thenlper/gte-large']
+2025-07-20 10:05:02 - main - INFO - All critical embedding models are ready!
+2025-07-20 10:05:05 - main - INFO - Application startup completed successfully!
+2025-07-20 10:05:34 - main - INFO - Starting application initialization...
+2025-07-20 10:05:34 - main - INFO - Using 'balanced' deployment configuration
+2025-07-20 10:05:34 - main - INFO - Models to ensure: ['BAAI/bge-large-en-v1.5', 'BAAI/bge-large-zh-v1.5', 'thenlper/gte-large']
+2025-07-20 10:05:34 - main - INFO - All critical embedding models are ready!
+2025-07-20 10:05:36 - main - INFO - Application startup completed successfully!
+2025-07-20 10:05:57 - main - INFO - Starting application initialization...
+2025-07-20 10:05:57 - main - INFO - Using 'balanced' deployment configuration
+2025-07-20 10:05:57 - main - INFO - Models to ensure: ['BAAI/bge-large-en-v1.5', 'BAAI/bge-large-zh-v1.5', 'thenlper/gte-large']
+2025-07-20 10:05:57 - main - INFO - All critical embedding models are ready!
+2025-07-20 10:06:00 - main - INFO - Application startup completed successfully!
+2025-07-20 10:07:03 - main - INFO - Starting application initialization...
+2025-07-20 10:07:03 - main - INFO - Using 'balanced' deployment configuration
+2025-07-20 10:07:03 - main - INFO - Models to ensure: ['BAAI/bge-large-en-v1.5', 'BAAI/bge-large-zh-v1.5', 'thenlper/gte-large']
+2025-07-20 10:07:03 - main - INFO - All critical embedding models are ready!
+2025-07-20 10:07:06 - main - INFO - Application startup completed successfully!
+2025-07-20 10:07:58 - main - INFO - Starting application initialization...
+2025-07-20 10:07:58 - main - INFO - Using 'balanced' deployment configuration
+2025-07-20 10:07:58 - main - INFO - Models to ensure: ['BAAI/bge-large-en-v1.5', 'BAAI/bge-large-zh-v1.5', 'thenlper/gte-large']
+2025-07-20 10:07:58 - main - INFO - All critical embedding models are ready!
+2025-07-20 10:08:01 - main - INFO - Application startup completed successfully!
+2025-07-20 10:08:08 - main - ERROR - Unhandled exception: [TypeError("'ObjectId' object is not iterable"), TypeError('vars() argument must have __dict__ attribute')]
+2025-07-20 10:11:15 - main - INFO - Starting application initialization...
+2025-07-20 10:11:15 - main - INFO - Using 'balanced' deployment configuration
+2025-07-20 10:11:15 - main - INFO - Models to ensure: ['BAAI/bge-large-en-v1.5', 'BAAI/bge-large-zh-v1.5', 'thenlper/gte-large']
+2025-07-20 10:11:15 - main - INFO - All critical embedding models are ready!
+2025-07-20 10:11:18 - main - INFO - Application startup completed successfully!
+2025-07-20 10:12:41 - main - INFO - Starting application initialization...
+2025-07-20 10:12:41 - main - INFO - Using 'balanced' deployment configuration
+2025-07-20 10:12:41 - main - INFO - Models to ensure: ['BAAI/bge-large-en-v1.5', 'BAAI/bge-large-zh-v1.5', 'thenlper/gte-large']
+2025-07-20 10:12:41 - main - INFO - All critical embedding models are ready!
+2025-07-20 10:12:44 - main - INFO - Application startup completed successfully!
+2025-07-20 10:16:03 - main - INFO - Starting application initialization...
+2025-07-20 10:16:03 - main - INFO - Using 'balanced' deployment configuration
+2025-07-20 10:16:03 - main - INFO - Models to ensure: ['BAAI/bge-large-en-v1.5', 'BAAI/bge-large-zh-v1.5', 'thenlper/gte-large']
+2025-07-20 10:16:03 - main - INFO - All critical embedding models are ready!
+2025-07-20 10:16:06 - main - INFO - Application startup completed successfully!
+2025-07-20 10:17:32 - main - INFO - Starting application initialization...
+2025-07-20 10:17:32 - main - INFO - Using 'balanced' deployment configuration
+2025-07-20 10:17:32 - main - INFO - Models to ensure: ['BAAI/bge-large-en-v1.5', 'BAAI/bge-large-zh-v1.5', 'thenlper/gte-large']
+2025-07-20 10:17:32 - main - INFO - All critical embedding models are ready!
+2025-07-20 10:17:35 - main - INFO - Application startup completed successfully!
+2025-07-20 10:20:22 - main - INFO - Starting application initialization...
+2025-07-20 10:20:22 - main - INFO - Using 'balanced' deployment configuration
+2025-07-20 10:20:22 - main - INFO - Models to ensure: ['BAAI/bge-large-en-v1.5', 'BAAI/bge-large-zh-v1.5', 'thenlper/gte-large']
+2025-07-20 10:20:22 - main - INFO - All critical embedding models are ready!
+2025-07-20 10:20:26 - main - INFO - Application startup completed successfully!
+2025-07-20 10:27:22 - main - INFO - Starting application initialization...
+2025-07-20 10:27:22 - main - INFO - Using 'balanced' deployment configuration
+2025-07-20 10:27:22 - main - INFO - Models to ensure: ['BAAI/bge-large-en-v1.5', 'BAAI/bge-large-zh-v1.5', 'thenlper/gte-large']
+2025-07-20 10:27:22 - main - INFO - All critical embedding models are ready!
+2025-07-20 10:27:26 - main - INFO - Application startup completed successfully!
+2025-07-20 10:29:37 - main - INFO - Starting application initialization...
+2025-07-20 10:29:37 - main - INFO - Using 'balanced' deployment configuration
+2025-07-20 10:29:37 - main - INFO - Models to ensure: ['BAAI/bge-large-en-v1.5', 'BAAI/bge-large-zh-v1.5', 'thenlper/gte-large']
+2025-07-20 10:29:37 - main - INFO - All critical embedding models are ready!
+2025-07-20 10:29:40 - main - INFO - Application startup completed successfully!
+2025-07-20 10:35:03 - main - INFO - Starting application initialization...
+2025-07-20 10:35:03 - main - INFO - Using 'balanced' deployment configuration
+2025-07-20 10:35:03 - main - INFO - Models to ensure: ['BAAI/bge-large-en-v1.5', 'BAAI/bge-large-zh-v1.5', 'thenlper/gte-large']
+2025-07-20 10:35:03 - main - INFO - All critical embedding models are ready!
+2025-07-20 10:35:06 - main - INFO - Application startup completed successfully!
+2025-07-20 10:38:03 - main - INFO - Starting application initialization...
+2025-07-20 10:38:03 - main - INFO - Using 'balanced' deployment configuration
+2025-07-20 10:38:03 - main - INFO - Models to ensure: ['BAAI/bge-large-en-v1.5', 'BAAI/bge-large-zh-v1.5', 'thenlper/gte-large']
+2025-07-20 10:38:03 - main - INFO - All critical embedding models are ready!
+2025-07-20 10:38:06 - main - INFO - Application startup completed successfully!
+2025-07-20 10:40:50 - main - INFO - Starting application initialization...
+2025-07-20 10:40:50 - main - INFO - Using 'balanced' deployment configuration
+2025-07-20 10:40:50 - main - INFO - Models to ensure: ['BAAI/bge-large-en-v1.5', 'BAAI/bge-large-zh-v1.5', 'thenlper/gte-large']
+2025-07-20 10:40:50 - main - INFO - All critical embedding models are ready!
+2025-07-20 10:40:52 - main - INFO - Application startup completed successfully!
+2025-07-20 10:41:11 - main - INFO - Starting application initialization...
+2025-07-20 10:41:11 - main - INFO - Using 'balanced' deployment configuration
+2025-07-20 10:41:11 - main - INFO - Models to ensure: ['BAAI/bge-large-en-v1.5', 'BAAI/bge-large-zh-v1.5', 'thenlper/gte-large']
+2025-07-20 10:41:11 - main - INFO - All critical embedding models are ready!
+2025-07-20 10:41:14 - main - INFO - Application startup completed successfully!
+2025-07-20 10:41:52 - main - INFO - Starting application initialization...
+2025-07-20 10:41:52 - main - INFO - Using 'balanced' deployment configuration
+2025-07-20 10:41:52 - main - INFO - Models to ensure: ['BAAI/bge-large-en-v1.5', 'BAAI/bge-large-zh-v1.5', 'thenlper/gte-large']
+2025-07-20 10:41:52 - main - INFO - All critical embedding models are ready!
+2025-07-20 10:41:55 - main - INFO - Application startup completed successfully!
+2025-07-20 10:42:15 - main - INFO - Starting application initialization...
+2025-07-20 10:42:15 - main - INFO - Using 'balanced' deployment configuration
+2025-07-20 10:42:15 - main - INFO - Models to ensure: ['BAAI/bge-large-en-v1.5', 'BAAI/bge-large-zh-v1.5', 'thenlper/gte-large']
+2025-07-20 10:42:15 - main - INFO - All critical embedding models are ready!
+2025-07-20 10:42:18 - main - INFO - Application startup completed successfully!
+2025-07-20 10:42:39 - main - INFO - Starting application initialization...
+2025-07-20 10:42:39 - main - INFO - Using 'balanced' deployment configuration
+2025-07-20 10:42:39 - main - INFO - Models to ensure: ['BAAI/bge-large-en-v1.5', 'BAAI/bge-large-zh-v1.5', 'thenlper/gte-large']
+2025-07-20 10:42:39 - main - INFO - All critical embedding models are ready!
+2025-07-20 10:42:41 - main - INFO - Application startup completed successfully!
+2025-07-20 10:44:29 - main - INFO - Starting application initialization...
+2025-07-20 10:44:29 - main - INFO - Using 'balanced' deployment configuration
+2025-07-20 10:44:29 - main - INFO - Models to ensure: ['BAAI/bge-large-en-v1.5', 'BAAI/bge-large-zh-v1.5', 'thenlper/gte-large']
+2025-07-20 10:44:29 - main - INFO - All critical embedding models are ready!
+2025-07-20 10:44:29 - main - INFO - Starting application initialization...
+2025-07-20 10:44:29 - main - INFO - Using 'balanced' deployment configuration
+2025-07-20 10:44:29 - main - INFO - Models to ensure: ['BAAI/bge-large-en-v1.5', 'BAAI/bge-large-zh-v1.5', 'thenlper/gte-large']
+2025-07-20 10:44:29 - main - INFO - All critical embedding models are ready!
+2025-07-20 10:44:31 - main - INFO - Application startup completed successfully!
+2025-07-20 10:44:36 - main - INFO - Application startup completed successfully!
+2025-07-20 10:48:10 - main - INFO - Starting application initialization...
+2025-07-20 10:48:10 - main - INFO - Using 'balanced' deployment configuration
+2025-07-20 10:48:10 - main - INFO - Models to ensure: ['BAAI/bge-large-en-v1.5', 'BAAI/bge-large-zh-v1.5', 'thenlper/gte-large']
+2025-07-20 10:48:10 - main - INFO - All critical embedding models are ready!
+2025-07-20 10:48:10 - main - INFO - Starting application initialization...
+2025-07-20 10:48:10 - main - INFO - Using 'balanced' deployment configuration
+2025-07-20 10:48:10 - main - INFO - Models to ensure: ['BAAI/bge-large-en-v1.5', 'BAAI/bge-large-zh-v1.5', 'thenlper/gte-large']
+2025-07-20 10:48:10 - main - INFO - All critical embedding models are ready!
+2025-07-20 10:48:14 - main - INFO - Application startup completed successfully!
+2025-07-20 10:48:14 - main - INFO - Application startup completed successfully!
+2025-07-20 10:49:24 - main - INFO - Starting application initialization...
+2025-07-20 10:49:24 - main - INFO - Using 'balanced' deployment configuration
+2025-07-20 10:49:24 - main - INFO - Models to ensure: ['BAAI/bge-large-en-v1.5', 'BAAI/bge-large-zh-v1.5', 'thenlper/gte-large']
+2025-07-20 10:49:24 - main - INFO - All critical embedding models are ready!
+2025-07-20 10:49:24 - main - INFO - Starting application initialization...
+2025-07-20 10:49:24 - main - INFO - Using 'balanced' deployment configuration
+2025-07-20 10:49:24 - main - INFO - Models to ensure: ['BAAI/bge-large-en-v1.5', 'BAAI/bge-large-zh-v1.5', 'thenlper/gte-large']
+2025-07-20 10:49:24 - main - INFO - All critical embedding models are ready!
+2025-07-20 10:49:27 - main - INFO - Application startup completed successfully!
+2025-07-20 10:49:27 - main - INFO - Application startup completed successfully!
+2025-07-20 10:50:30 - main - INFO - Starting application initialization...
+2025-07-20 10:50:30 - main - INFO - Using 'balanced' deployment configuration
+2025-07-20 10:50:30 - main - INFO - Models to ensure: ['BAAI/bge-large-en-v1.5', 'BAAI/bge-large-zh-v1.5', 'thenlper/gte-large']
+2025-07-20 10:50:30 - main - INFO - All critical embedding models are ready!
+2025-07-20 10:50:30 - main - INFO - Starting application initialization...
+2025-07-20 10:50:30 - main - INFO - Using 'balanced' deployment configuration
+2025-07-20 10:50:30 - main - INFO - Models to ensure: ['BAAI/bge-large-en-v1.5', 'BAAI/bge-large-zh-v1.5', 'thenlper/gte-large']
+2025-07-20 10:50:30 - main - INFO - All critical embedding models are ready!
+2025-07-20 10:50:34 - main - INFO - Application startup completed successfully!
+2025-07-20 10:50:38 - main - INFO - Application startup completed successfully!
+2025-07-20 10:51:37 - main - INFO - Starting application initialization...
+2025-07-20 10:51:37 - main - INFO - Using 'balanced' deployment configuration
+2025-07-20 10:51:37 - main - INFO - Models to ensure: ['BAAI/bge-large-en-v1.5', 'BAAI/bge-large-zh-v1.5', 'thenlper/gte-large']
+2025-07-20 10:51:37 - main - INFO - All critical embedding models are ready!
+2025-07-20 10:51:37 - main - INFO - Starting application initialization...
+2025-07-20 10:51:37 - main - INFO - Using 'balanced' deployment configuration
+2025-07-20 10:51:37 - main - INFO - Models to ensure: ['BAAI/bge-large-en-v1.5', 'BAAI/bge-large-zh-v1.5', 'thenlper/gte-large']
+2025-07-20 10:51:37 - main - INFO - All critical embedding models are ready!
+2025-07-20 10:51:40 - main - INFO - Application startup completed successfully!
+2025-07-20 10:51:41 - main - INFO - Application startup completed successfully!
+2025-07-20 10:53:10 - main - INFO - Starting application initialization...
+2025-07-20 10:53:10 - main - INFO - Using 'balanced' deployment configuration
+2025-07-20 10:53:10 - main - INFO - Models to ensure: ['BAAI/bge-large-en-v1.5', 'BAAI/bge-large-zh-v1.5', 'thenlper/gte-large']
+2025-07-20 10:53:10 - main - INFO - All critical embedding models are ready!
+2025-07-20 10:53:10 - main - INFO - Starting application initialization...
+2025-07-20 10:53:10 - main - INFO - Using 'balanced' deployment configuration
+2025-07-20 10:53:10 - main - INFO - Models to ensure: ['BAAI/bge-large-en-v1.5', 'BAAI/bge-large-zh-v1.5', 'thenlper/gte-large']
+2025-07-20 10:53:10 - main - INFO - All critical embedding models are ready!
+2025-07-20 10:53:13 - main - INFO - Application startup completed successfully!
+2025-07-20 10:53:13 - main - INFO - Application startup completed successfully!
+2025-07-20 10:53:44 - main - INFO - Starting application initialization...
+2025-07-20 10:53:44 - main - INFO - Using 'balanced' deployment configuration
+2025-07-20 10:53:44 - main - INFO - Models to ensure: ['BAAI/bge-large-en-v1.5', 'BAAI/bge-large-zh-v1.5', 'thenlper/gte-large']
+2025-07-20 10:53:44 - main - INFO - All critical embedding models are ready!
+2025-07-20 10:53:44 - main - INFO - Starting application initialization...
+2025-07-20 10:53:44 - main - INFO - Using 'balanced' deployment configuration
+2025-07-20 10:53:44 - main - INFO - Models to ensure: ['BAAI/bge-large-en-v1.5', 'BAAI/bge-large-zh-v1.5', 'thenlper/gte-large']
+2025-07-20 10:53:44 - main - INFO - All critical embedding models are ready!
+2025-07-20 10:53:47 - main - INFO - Application startup completed successfully!
+2025-07-20 10:53:47 - main - INFO - Application startup completed successfully!
+2025-07-20 10:54:09 - main - INFO - Starting application initialization...
+2025-07-20 10:54:09 - main - INFO - Using 'balanced' deployment configuration
+2025-07-20 10:54:09 - main - INFO - Models to ensure: ['BAAI/bge-large-en-v1.5', 'BAAI/bge-large-zh-v1.5', 'thenlper/gte-large']
+2025-07-20 10:54:09 - main - INFO - All critical embedding models are ready!
+2025-07-20 10:54:09 - main - INFO - Starting application initialization...
+2025-07-20 10:54:09 - main - INFO - Using 'balanced' deployment configuration
+2025-07-20 10:54:09 - main - INFO - Models to ensure: ['BAAI/bge-large-en-v1.5', 'BAAI/bge-large-zh-v1.5', 'thenlper/gte-large']
+2025-07-20 10:54:09 - main - INFO - All critical embedding models are ready!
+2025-07-20 10:54:12 - main - INFO - Application startup completed successfully!
+2025-07-20 10:54:12 - main - INFO - Application startup completed successfully!
+2025-07-20 10:54:46 - main - INFO - Starting application initialization...
+2025-07-20 10:54:46 - main - INFO - Using 'balanced' deployment configuration
+2025-07-20 10:54:46 - main - INFO - Models to ensure: ['BAAI/bge-large-en-v1.5', 'BAAI/bge-large-zh-v1.5', 'thenlper/gte-large']
+2025-07-20 10:54:46 - main - INFO - All critical embedding models are ready!
+2025-07-20 10:54:46 - main - INFO - Starting application initialization...
+2025-07-20 10:54:46 - main - INFO - Using 'balanced' deployment configuration
+2025-07-20 10:54:46 - main - INFO - Models to ensure: ['BAAI/bge-large-en-v1.5', 'BAAI/bge-large-zh-v1.5', 'thenlper/gte-large']
+2025-07-20 10:54:46 - main - INFO - All critical embedding models are ready!
+2025-07-20 10:54:49 - main - INFO - Application startup completed successfully!
+2025-07-20 10:54:49 - main - INFO - Application startup completed successfully!
+2025-07-20 10:55:05 - main - INFO - Starting application initialization...
+2025-07-20 10:55:05 - main - INFO - Using 'balanced' deployment configuration
+2025-07-20 10:55:05 - main - INFO - Models to ensure: ['BAAI/bge-large-en-v1.5', 'BAAI/bge-large-zh-v1.5', 'thenlper/gte-large']
+2025-07-20 10:55:05 - main - INFO - All critical embedding models are ready!
+2025-07-20 10:55:08 - main - INFO - Application startup completed successfully!
+2025-07-20 10:55:10 - main - INFO - Starting application initialization...
+2025-07-20 10:55:10 - main - INFO - Using 'balanced' deployment configuration
+2025-07-20 10:55:10 - main - INFO - Models to ensure: ['BAAI/bge-large-en-v1.5', 'BAAI/bge-large-zh-v1.5', 'thenlper/gte-large']
+2025-07-20 10:55:10 - main - INFO - All critical embedding models are ready!
+2025-07-20 10:55:12 - main - INFO - Application startup completed successfully!

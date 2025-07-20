@@ -7,3 +7,11 @@ __root__
 2025-07-02 23:24:08 - rag_search - ERROR - LLM context search failed: 
 2025-07-02 23:24:32 - rag_search - ERROR - LLM context search failed: 
 2025-07-02 23:24:59 - rag_search - ERROR - LLM context search failed: 
+2025-07-20 09:38:01 - rag_search - INFO - Vector similarity search completed successfully. Found 2 results
+2025-07-20 09:53:45 - rag_search - INFO - Vector similarity search completed successfully. Found 2 results
+2025-07-20 10:33:23 - rag_search - ERROR - Vector similarity search failed: 500: int() argument must be a string, a bytes-like object or a real number, not 'NoneType'
+2025-07-20 10:34:32 - rag_search - ERROR - Vector similarity search failed: 500: int() argument must be a string, a bytes-like object or a real number, not 'NoneType'
+2025-07-20 10:35:08 - rag_search - ERROR - LLM context search failed: 500: int() argument must be a string, a bytes-like object or a real number, not 'NoneType'
+2025-07-20 10:44:33 - rag_search - ERROR - Vector similarity search failed: 500: int() argument must be a string, a bytes-like object or a real number, not 'NoneType'
+2025-07-20 10:44:33 - rag_search - ERROR - LLM context search failed: 500: int() argument must be a string, a bytes-like object or a real number, not 'NoneType'
+2025-07-20 10:54:16 - rag_search - INFO - Vector similarity search completed successfully. Found 1 results

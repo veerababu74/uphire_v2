@@ -1,13 +1,13 @@
 from fastapi import APIRouter, HTTPException, File, UploadFile
 import os
 from pathlib import Path
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from typing import List, Dict, Any, Optional
 import json
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
 # Import the multiple resume parser module
-from multipleresumepraser.main import ResumeParser
+from GroqcloudLLM.main import ResumeParser
 from GroqcloudLLM.text_extraction import extract_and_clean_text, clean_text
 from mangodatabase.operations import ResumeOperations, SkillsTitlesOperations
 from mangodatabase.client import get_collection, get_skills_titles_collection
@@ -59,96 +59,279 @@ def cleanup_temp_directory(age_limit_minutes: int = 60):
                     logger.error(f"Failed to delete file {file_path}: {e}")
 
 
+def normalize_text_data(text: str) -> str:
+    """
+    Normalize text data by converting to lowercase and removing extra spaces.
+    """
+    if not text or not isinstance(text, str):
+        return text
+    return text.strip().lower()
+
+
+def normalize_text_list(text_list: List[str]) -> List[str]:
+    """
+    Normalize a list of text strings by converting to lowercase and removing extra spaces.
+    """
+    if not text_list or not isinstance(text_list, list):
+        return text_list
+    return [normalize_text_data(text) for text in text_list if text]
+
+
+def filter_empty_strings_from_list(text_list: List[str]) -> List[str]:
+    """
+    Filter out empty strings and whitespace-only strings from a list.
+    """
+    if not text_list or not isinstance(text_list, list):
+        return []
+    return [
+        text.strip()
+        for text in text_list
+        if text and isinstance(text, str) and text.strip()
+    ]
+
+
+def clean_string_field(value) -> str:
+    """
+    Clean a string field by returning empty string if None or whitespace-only.
+    """
+    if value is None:
+        return ""
+    if isinstance(value, str):
+        cleaned = value.strip()
+        return cleaned if cleaned else ""
+    return str(value) if value else ""
+
+
+def clean_resume_data(resume_dict: dict) -> dict:
+    """
+    Clean and normalize resume data following the same pattern as add_userdata.py
+    """
+    # Ensure contact_details exists and has required fields
+    if "contact_details" not in resume_dict:
+        resume_dict["contact_details"] = {}
+
+    contact = resume_dict["contact_details"]
+
+    # Clean and ensure required contact fields
+    contact["name"] = clean_string_field(contact.get("name")) or "Unknown"
+    contact["email"] = clean_string_field(contact.get("email")) or "unknown@example.com"
+    contact["phone"] = clean_string_field(contact.get("phone")) or "+1-000-000-0000"
+    contact["current_city"] = (
+        clean_string_field(contact.get("current_city")) or "Unknown"
+    )
+    contact["pan_card"] = clean_string_field(contact.get("pan_card")) or "UNKNOWN"
+
+    # Optional contact fields
+    contact["alternative_phone"] = clean_string_field(contact.get("alternative_phone"))
+    contact["gender"] = clean_string_field(contact.get("gender"))
+    contact["naukri_profile"] = clean_string_field(contact.get("naukri_profile"))
+    contact["linkedin_profile"] = clean_string_field(contact.get("linkedin_profile"))
+    contact["portfolio_link"] = clean_string_field(contact.get("portfolio_link"))
+    contact["aadhar_card"] = clean_string_field(contact.get("aadhar_card"))
+
+    # Clean looking_for_jobs_in list
+    if "looking_for_jobs_in" in contact:
+        contact["looking_for_jobs_in"] = filter_empty_strings_from_list(
+            contact["looking_for_jobs_in"]
+        )
+    else:
+        contact["looking_for_jobs_in"] = []
+
+    # Ensure required main fields
+    resume_dict["user_id"] = (
+        clean_string_field(resume_dict.get("user_id"))
+        or f"auto_user_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
+    )
+    resume_dict["username"] = (
+        clean_string_field(resume_dict.get("username")) or resume_dict["user_id"]
+    )
+
+    # Optional main fields
+    resume_dict["notice_period"] = clean_string_field(resume_dict.get("notice_period"))
+    resume_dict["currency"] = clean_string_field(resume_dict.get("currency"))
+    resume_dict["pay_duration"] = clean_string_field(resume_dict.get("pay_duration"))
+    resume_dict["source"] = clean_string_field(resume_dict.get("source"))
+    resume_dict["last_working_day"] = clean_string_field(
+        resume_dict.get("last_working_day")
+    )
+    resume_dict["comment"] = clean_string_field(resume_dict.get("comment"))
+    resume_dict["exit_reason"] = clean_string_field(resume_dict.get("exit_reason"))
+
+    # Clean skills lists
+    if "skills" in resume_dict:
+        resume_dict["skills"] = filter_empty_strings_from_list(resume_dict["skills"])
+    else:
+        resume_dict["skills"] = []
+
+    if "may_also_known_skills" in resume_dict:
+        resume_dict["may_also_known_skills"] = filter_empty_strings_from_list(
+            resume_dict["may_also_known_skills"]
+        )
+    else:
+        resume_dict["may_also_known_skills"] = []
+
+    if "labels" in resume_dict and resume_dict["labels"]:
+        resume_dict["labels"] = filter_empty_strings_from_list(resume_dict["labels"])
+    else:
+        resume_dict["labels"] = []
+
+    # Clean experience data
+    if "experience" in resume_dict and resume_dict["experience"]:
+        for exp in resume_dict["experience"]:
+            exp["company"] = clean_string_field(exp.get("company")) or "Unknown Company"
+            exp["title"] = clean_string_field(exp.get("title")) or "Unknown Position"
+            exp["from_date"] = clean_string_field(exp.get("from_date")) or "Unknown"
+            exp["to"] = clean_string_field(exp.get("to"))
+            if "until" in exp:
+                exp["until"] = clean_string_field(exp.get("until"))
+            # Normalize job titles
+            if exp["title"]:
+                exp["title"] = normalize_text_data(exp["title"])
+    else:
+        resume_dict["experience"] = []
+
+    # Clean academic details
+    if "academic_details" in resume_dict and resume_dict["academic_details"]:
+        for edu in resume_dict["academic_details"]:
+            edu["education"] = clean_string_field(edu.get("education")) or "Unknown"
+            edu["college"] = clean_string_field(edu.get("college")) or "Unknown"
+    else:
+        resume_dict["academic_details"] = []
+
+    # Convert contact details URLs to strings (only if not empty/None) - like add_userdata.py
+    contact = resume_dict["contact_details"]
+    if contact.get("naukri_profile"):
+        contact["naukri_profile"] = str(contact["naukri_profile"])
+    if contact.get("linkedin_profile"):
+        contact["linkedin_profile"] = str(contact["linkedin_profile"])
+    if contact.get("portfolio_link"):
+        contact["portfolio_link"] = str(contact["portfolio_link"])
+
+    # Normalize skills
+    if resume_dict["skills"]:
+        resume_dict["skills"] = normalize_text_list(resume_dict["skills"])
+    if resume_dict["may_also_known_skills"]:
+        resume_dict["may_also_known_skills"] = normalize_text_list(
+            resume_dict["may_also_known_skills"]
+        )
+
+    return resume_dict
+
+
 def generate_embeddings_for_resume(parsed_data: dict) -> dict:
     """
-    Generate embeddings for all relevant resume fields.
-
-    Args:
-        parsed_data (dict): Parsed resume data
-
-    Returns:
-        dict: Resume data with generated embeddings
+    Generate embeddings for all relevant resume fields using the proper vectorizer.
     """
     try:
         logger.info("Generating embeddings for resume data")
 
-        # Generate embeddings for text fields
-        embeddings = {}
+        # Clean and normalize the data first
+        cleaned_data = clean_resume_data(parsed_data)
 
-        # Skills embeddings
-        skills = parsed_data.get("skills", [])
-        if skills and isinstance(skills, list):
-            skills_text = " ".join([str(skill) for skill in skills if skill])
-            if skills_text.strip():
-                embeddings["skills_embedding"] = add_user_vectorizer.generate_embedding(
-                    skills_text
-                )
+        # Add created_at timestamp (using UTC timezone like add_userdata.py)
+        cleaned_data["created_at"] = datetime.now(timezone.utc)
 
-        # Experience embeddings
-        experience = parsed_data.get("experience", [])
-        if experience and isinstance(experience, list):
-            experience_texts = []
-            for exp in experience:
-                if isinstance(exp, dict):
-                    title = exp.get("title", "")
-                    company = exp.get("company", "")
-                    if title or company:
-                        experience_texts.append(f"{title} at {company}")
+        # Generate combined_resume text like add_userdata.py does
+        contact_details = cleaned_data.get("contact_details", {})
 
-            if experience_texts:
-                experience_text = " ".join(experience_texts)
-                embeddings["experience_embedding"] = (
-                    add_user_vectorizer.generate_embedding(experience_text)
-                )
+        combined_resume = f"""
+RESUME
 
-        # Education embeddings
-        education = parsed_data.get("academic_details", [])
-        if education and isinstance(education, list):
-            education_texts = []
-            for edu in education:
-                if isinstance(edu, dict):
-                    edu_text = (
-                        f"{edu.get('education', '')} from {edu.get('college', '')}"
-                    )
-                    education_texts.append(edu_text)
-            if education_texts:
-                education_text = " ".join(education_texts)
-                embeddings["education_embedding"] = (
-                    add_user_vectorizer.generate_embedding(education_text)
-                )
+PERSONAL INFORMATION
+-------------------
+Name: {contact_details.get('name', 'N/A')}
+Contact Details:
+  Email: {contact_details.get('email', 'N/A')}
+  Phone: {contact_details.get('phone', 'N/A')}
+  Alternative Phone: {contact_details.get('alternative_phone', 'N/A')}
+  Current City: {contact_details.get('current_city', 'N/A')}
+  Looking for jobs in: {', '.join(contact_details.get('looking_for_jobs_in', [])) if contact_details.get('looking_for_jobs_in') else 'N/A'}
+  Gender: {contact_details.get('gender', 'N/A')}
+  Age: {contact_details.get('age', 'N/A')}
+  PAN Card: {contact_details.get('pan_card', 'N/A')}
+  Aadhar Card: {contact_details.get('aadhar_card', 'N/A')}
 
-        # Combined profile embedding
-        profile_parts = []
-        if skills:
-            profile_parts.append(" ".join([str(skill) for skill in skills if skill]))
+PROFESSIONAL SUMMARY
+-------------------
+Total Experience: {cleaned_data.get('total_experience', 'N/A')} years
+Notice Period: {cleaned_data.get('notice_period', 'N/A')} days
+Current Salary: {cleaned_data.get('currency', 'N/A')} {cleaned_data.get('current_salary', 'N/A')} ({cleaned_data.get('pay_duration', 'N/A')})
+Expected Salary: {cleaned_data.get('currency', 'N/A')} {cleaned_data.get('expected_salary', 'N/A')} ({cleaned_data.get('pay_duration', 'N/A')})
+Hike Expected: {cleaned_data.get('hike', 'N/A')}%
+Last Working Day: {cleaned_data.get('last_working_day', 'N/A')}
+Exit Reason: {cleaned_data.get('exit_reason', 'N/A')}
 
-        contact_details = parsed_data.get("contact_details", {})
-        if isinstance(contact_details, dict):
-            total_exp = parsed_data.get("total_experience", "")
-            if total_exp:
-                profile_parts.append(f"Experience: {total_exp}")
-            current_city = contact_details.get("current_city", "")
-            if current_city:
-                profile_parts.append(f"Location: {current_city}")
+SKILLS
+------
+Primary Skills: {', '.join(cleaned_data.get('skills', [])) if cleaned_data.get('skills') else 'N/A'}
+Additional Skills: {', '.join(cleaned_data.get('may_also_known_skills', [])) if cleaned_data.get('may_also_known_skills') else 'N/A'}
+Labels: {', '.join(cleaned_data.get('labels', [])) if cleaned_data.get('labels') else 'N/A'}
 
-        if profile_parts:
-            profile_text = " ".join(profile_parts)
-            embeddings["profile_embedding"] = add_user_vectorizer.generate_embedding(
-                profile_text
-            )
+PROFESSIONAL EXPERIENCE
+----------------------
+{chr(10).join([f'''
+Company: {exp.get('company', 'N/A')}
+Title: {exp.get('title', 'N/A')}
+Duration: {exp.get('from_date', 'N/A')} to {exp.get('until', 'Present') if exp.get('until') else 'Present'}
+''' for exp in cleaned_data.get('experience', [])]) if cleaned_data.get('experience') else 'N/A'}
 
-        # Add embeddings to the parsed data
-        if embeddings:
-            parsed_data["embeddings"] = embeddings
-            parsed_data["embeddings_generated_at"] = datetime.now().isoformat()
-            logger.info(f"Generated {len(embeddings)} embedding types for resume")
+EDUCATION
+---------
+{chr(10).join([f'''
+Degree: {edu.get('education', 'N/A')}
+College: {edu.get('college', 'N/A')}
+Pass Year: {edu.get('pass_year', 'N/A')}
+''' for edu in cleaned_data.get('academic_details', [])]) if cleaned_data.get('academic_details') else 'N/A'}
 
-        return parsed_data
+ADDITIONAL INFORMATION
+---------------------
+Tier 1 MBA: {'Yes' if cleaned_data.get('is_tier1_mba') else 'No'}
+Tier 1 Engineering: {'Yes' if cleaned_data.get('is_tier1_engineering') else 'No'}
+Comments: {cleaned_data.get('comment', 'N/A')}
+
+PROFESSIONAL LINKS
+-----------------
+Naukri Profile: {contact_details.get('naukri_profile', 'N/A')}
+LinkedIn Profile: {contact_details.get('linkedin_profile', 'N/A')}
+Portfolio: {contact_details.get('portfolio_link', 'N/A')}
+"""
+
+        # Add the combined resume to the dictionary
+        cleaned_data["combined_resume"] = combined_resume
+
+        # Add flattened fields for compatibility with search APIs
+        # The AddUserDataVectorizer expects some fields at the root level
+        contact_details = cleaned_data.get("contact_details", {})
+        cleaned_data["name"] = contact_details.get("name", "Unknown")
+        cleaned_data["email"] = contact_details.get("email", "unknown@example.com")
+        cleaned_data["phone"] = contact_details.get("phone", "+1-000-000-0000")
+
+        # Map total_experience to total_exp for search compatibility
+        if "total_experience" in cleaned_data:
+            cleaned_data["total_exp"] = cleaned_data["total_experience"]
+
+        # Use the AddUserDataVectorizer's generate_resume_embeddings method
+        resume_with_embeddings = add_user_vectorizer.generate_resume_embeddings(
+            cleaned_data
+        )
+
+        # Add metadata about embedding generation
+        resume_with_embeddings["embeddings_generated_at"] = datetime.now().isoformat()
+
+        # Count the number of vector fields generated
+        vector_fields = [
+            key for key in resume_with_embeddings.keys() if key.endswith("_vector")
+        ]
+        logger.info(
+            f"Generated {len(vector_fields)} vector fields for resume: {vector_fields}"
+        )
+
+        return resume_with_embeddings
 
     except Exception as e:
         logger.error(f"Error generating embeddings: {e}")
-        # Return original data without embeddings if generation fails
-        return parsed_data
+        # Return cleaned data without embeddings if generation fails
+        return clean_resume_data(parsed_data)
 
 
 def process_multiple_resumes_with_embeddings(
@@ -218,7 +401,14 @@ def process_multiple_resumes_with_embeddings(
             if "error" in parsed_data:
                 logger.warning(f"Resume parsing had issues: {parsed_data.get('error')}")
 
-            # Generate embeddings for the parsed data
+            # Handle experience dates - convert 'to' field to 'until' if present
+            if "experience" in parsed_data and parsed_data["experience"]:
+                for exp in parsed_data["experience"]:
+                    if "to" in exp and exp["to"] is not None:
+                        exp["until"] = exp["to"]
+                        del exp["to"]
+
+            # Generate embeddings for the parsed data (this also cleans the data)
             parsed_data_with_embeddings = generate_embeddings_for_resume(parsed_data)
 
             # Add metadata
@@ -239,17 +429,22 @@ def process_multiple_resumes_with_embeddings(
 
             logger.info(f"Successfully processed {filename}")
 
-            # Create response data without embeddings for user
+            # Create response data without vector embeddings for user
             response_data = parsed_data_with_embeddings.copy()
-            if "embeddings" in response_data:
-                del response_data["embeddings"]
+            # Remove vector fields from response (they're large and not needed for user display)
+            vector_fields = [
+                key for key in response_data.keys() if key.endswith("_vector")
+            ]
+            for field in vector_fields:
+                if field in response_data:
+                    del response_data[field]
 
             return {
                 "filename": filename,
                 "status": "success",
                 "parsed_data": response_data,
+                "full_data_with_vectors": parsed_data_with_embeddings,  # Keep full data for DB (internal use only)
                 "llm_provider": parser.provider.value,
-                "embeddings_generated": "embeddings" in parsed_data_with_embeddings,
             }
 
         except Exception as e:
@@ -298,8 +493,9 @@ async def parse_multiple_resumes(files: List[UploadFile] = File(...)):
     This endpoint:
     - Accepts 1 or more resume files
     - Uses multipleresumepraser module for parsing
-    - Generates embeddings automatically
+    - Cleans and normalizes parsed data
     - Saves parsed data to database automatically
+    - Updates skills and titles collections
     - Returns summary of processed files
 
     Args:
@@ -339,23 +535,12 @@ async def parse_multiple_resumes(files: List[UploadFile] = File(...)):
             if result["status"] == "success" and result["parsed_data"]
         ]
 
-        # For database saving, we need the full data with embeddings
-        # We'll get it from the original processing results
-        full_data_for_db = []
-        for result in processing_results:
-            if result["status"] == "success" and result["parsed_data"]:
-                # Get the original parsed data with embeddings from the processing function
-                filename = result["filename"]
-                # Re-generate the full data with embeddings for database saving
-                parsed_data = result["parsed_data"].copy()
-
-                # Add back embeddings if they were generated
-                if result.get("embeddings_generated"):
-                    # We need to regenerate embeddings for database saving
-                    # since we removed them from the response
-                    parsed_data = generate_embeddings_for_resume(parsed_data)
-
-                full_data_for_db.append(parsed_data)
+        # Get full data with vectors for database saving
+        full_data_for_db = [
+            result["full_data_with_vectors"]
+            for result in processing_results
+            if result["status"] == "success" and result.get("full_data_with_vectors")
+        ]
 
         database_results = []
         if full_data_for_db:
@@ -369,47 +554,70 @@ async def parse_multiple_resumes(files: List[UploadFile] = File(...)):
 
                 for j, parsed_data in enumerate(batch):
                     try:
-                        # Auto-generate required fields
-                        if "user_id" not in parsed_data or not parsed_data["user_id"]:
-                            parsed_data["user_id"] = (
-                                f"auto_user_{datetime.now().strftime('%Y%m%d_%H%M%S')}_{i + j}"
+                        # Direct MongoDB insertion like add_userdata.py
+                        result = collection.insert_one(parsed_data)
+
+                        # Extract skills and experience titles for skills_titles collection
+                        skills = []
+                        if "skills" in parsed_data and parsed_data["skills"]:
+                            skills.extend(parsed_data["skills"])
+                        if (
+                            "may_also_known_skills" in parsed_data
+                            and parsed_data["may_also_known_skills"]
+                        ):
+                            skills.extend(parsed_data["may_also_known_skills"])
+
+                        experience_titles = []
+                        if "experience" in parsed_data and parsed_data["experience"]:
+                            for experience in parsed_data["experience"]:
+                                if "title" in experience and experience["title"]:
+                                    experience_titles.append(experience["title"])
+
+                        # Add skills and titles to skills_titles collection
+                        normalized_skills = (
+                            normalize_text_list(skills) if skills else []
+                        )
+                        normalized_experience_titles = (
+                            normalize_text_list(experience_titles)
+                            if experience_titles
+                            else []
+                        )
+
+                        try:
+                            if normalized_skills:
+                                skills_ops.add_multiple_skills(normalized_skills)
+                            if normalized_experience_titles:
+                                skills_ops.add_multiple_titles(
+                                    normalized_experience_titles
+                                )
+                            logger.info(f"Added skills: {normalized_skills}")
+                            logger.info(
+                                f"Added experience titles: {normalized_experience_titles}"
                             )
-                        if "username" not in parsed_data or not parsed_data["username"]:
-                            parsed_data["username"] = parsed_data["user_id"]
+                        except Exception as skills_error:
+                            logger.warning(
+                                f"Skills/titles insertion error: {str(skills_error)}"
+                            )
+                            # Don't fail the whole operation for skills insertion errors
 
-                        # Ensure contact details structure
-                        if "contact_details" not in parsed_data:
-                            parsed_data["contact_details"] = {}
-
-                        contact = parsed_data["contact_details"]
-                        if "name" not in contact:
-                            contact["name"] = parsed_data.get("name", f"User_{i + j}")
-                        if "email" not in contact:
-                            contact["email"] = f"user{i + j}@example.com"
-                        if "phone" not in contact:
-                            contact["phone"] = "+1-000-000-0000"
-                        if "current_city" not in contact:
-                            contact["current_city"] = "Unknown"
-                        if "looking_for_jobs_in" not in contact:
-                            contact["looking_for_jobs_in"] = []
-                        if "pan_card" not in contact:
-                            contact["pan_card"] = "UNKNOWN"
-
-                        # Save to database
-                        result = resume_ops.create_resume(parsed_data)
+                        # Check if vector embeddings are present
+                        vector_fields = [
+                            key for key in parsed_data.keys() if key.endswith("_vector")
+                        ]
 
                         database_results.append(
                             {
                                 "filename": parsed_data.get("filename"),
-                                "database_id": str(result.get("id")),
+                                "database_id": str(result.inserted_id),
                                 "user_id": parsed_data["user_id"],
                                 "status": "saved",
-                                "embeddings_saved": "embeddings" in parsed_data,
+                                "skills_added": len(normalized_skills),
+                                "titles_added": len(normalized_experience_titles),
                             }
                         )
 
                         logger.info(
-                            f"Saved resume to database with ID: {result.get('id')}"
+                            f"Saved resume to database with ID: {result.inserted_id}"
                         )
 
                     except Exception as e:
@@ -429,13 +637,29 @@ async def parse_multiple_resumes(files: List[UploadFile] = File(...)):
         )
         failed_parses = total_files - successful_parses_count
         saved_to_database = len([r for r in database_results if r["status"] == "saved"])
-        embeddings_generated = len(
+        total_skills_added = sum(
             [
-                r
-                for r in processing_results
-                if r["status"] == "success" and "embeddings" in r.get("parsed_data", {})
+                r.get("skills_added", 0)
+                for r in database_results
+                if r["status"] == "saved"
             ]
         )
+        total_titles_added = sum(
+            [
+                r.get("titles_added", 0)
+                for r in database_results
+                if r["status"] == "saved"
+            ]
+        )
+
+        # Clean processing results for user response (remove internal fields)
+        cleaned_processing_results = []
+        for result in processing_results:
+            cleaned_result = result.copy()
+            # Remove internal fields that shouldn't be exposed to users
+            if "full_data_with_vectors" in cleaned_result:
+                del cleaned_result["full_data_with_vectors"]
+            cleaned_processing_results.append(cleaned_result)
 
         return {
             "message": f"Processed {total_files} resumes and saved {saved_to_database} to database",
@@ -444,11 +668,12 @@ async def parse_multiple_resumes(files: List[UploadFile] = File(...)):
                 "successful_parses": successful_parses_count,
                 "failed_parses": failed_parses,
                 "saved_to_database": saved_to_database,
-                "embeddings_generated": embeddings_generated,
+                "skills_added_to_collection": total_skills_added,
+                "titles_added_to_collection": total_titles_added,
                 "concurrent_threads_used": max_concurrent_threads,
                 "batch_processing": True,
             },
-            "processing_details": processing_results,
+            "processing_details": cleaned_processing_results,
             "database_results": database_results,
         }
 
@@ -529,46 +754,67 @@ async def parse_bulk_resumes(
 
             for j, result in enumerate(batch):
                 try:
-                    parsed_data = result["parsed_data"].copy()
+                    # Use the full data with vectors for database saving
+                    parsed_data = result.get(
+                        "full_data_with_vectors", result["parsed_data"]
+                    ).copy()
 
-                    # Re-generate embeddings for database
-                    if result.get("embeddings_generated"):
-                        parsed_data = generate_embeddings_for_resume(parsed_data)
+                    # Direct MongoDB insertion like add_userdata.py
+                    db_result = collection.insert_one(parsed_data)
 
-                    # Auto-generate required fields
-                    global_index = i + j
-                    if "user_id" not in parsed_data or not parsed_data["user_id"]:
-                        parsed_data["user_id"] = (
-                            f"bulk_user_{datetime.now().strftime('%Y%m%d_%H%M%S')}_{global_index}"
-                        )
-                    if "username" not in parsed_data or not parsed_data["username"]:
-                        parsed_data["username"] = parsed_data["user_id"]
+                    # Extract skills and experience titles for skills_titles collection
+                    skills = []
+                    if "skills" in parsed_data and parsed_data["skills"]:
+                        skills.extend(parsed_data["skills"])
+                    if (
+                        "may_also_known_skills" in parsed_data
+                        and parsed_data["may_also_known_skills"]
+                    ):
+                        skills.extend(parsed_data["may_also_known_skills"])
 
-                    # Ensure contact details
-                    if "contact_details" not in parsed_data:
-                        parsed_data["contact_details"] = {}
+                    experience_titles = []
+                    if "experience" in parsed_data and parsed_data["experience"]:
+                        for experience in parsed_data["experience"]:
+                            if "title" in experience and experience["title"]:
+                                experience_titles.append(experience["title"])
 
-                    contact = parsed_data["contact_details"]
-                    contact.setdefault(
-                        "name", parsed_data.get("name", f"BulkUser_{global_index}")
+                    # Add skills and titles to skills_titles collection
+                    normalized_skills = normalize_text_list(skills) if skills else []
+                    normalized_experience_titles = (
+                        normalize_text_list(experience_titles)
+                        if experience_titles
+                        else []
                     )
-                    contact.setdefault("email", f"bulkuser{global_index}@example.com")
-                    contact.setdefault("phone", "+1-000-000-0000")
-                    contact.setdefault("current_city", "Unknown")
-                    contact.setdefault("looking_for_jobs_in", [])
-                    contact.setdefault("pan_card", "UNKNOWN")
 
-                    # Save to database
-                    db_result = resume_ops.create_resume(parsed_data)
+                    try:
+                        if normalized_skills:
+                            skills_ops.add_multiple_skills(normalized_skills)
+                        if normalized_experience_titles:
+                            skills_ops.add_multiple_titles(normalized_experience_titles)
+                        logger.info(f"Added skills: {normalized_skills}")
+                        logger.info(
+                            f"Added experience titles: {normalized_experience_titles}"
+                        )
+                    except Exception as skills_error:
+                        logger.warning(
+                            f"Skills/titles insertion error: {str(skills_error)}"
+                        )
+                        # Don't fail the whole operation for skills insertion errors
+
+                    # Check if vector embeddings are present
+                    vector_fields = [
+                        key for key in parsed_data.keys() if key.endswith("_vector")
+                    ]
 
                     database_results.append(
                         {
                             "filename": result["filename"],
-                            "database_id": str(db_result.get("id")),
+                            "database_id": str(db_result.inserted_id),
                             "user_id": parsed_data["user_id"],
                             "status": "saved",
-                            "embeddings_saved": "embeddings" in parsed_data,
                             "batch_number": batch_num + 1,
+                            "skills_added": len(normalized_skills),
+                            "titles_added": len(normalized_experience_titles),
                         }
                     )
 
@@ -591,6 +837,29 @@ async def parse_bulk_resumes(
         total_files = len(files)
         successful_parses = len(successful_results)
         failed_parses = total_files - successful_parses
+        total_skills_added = sum(
+            [
+                r.get("skills_added", 0)
+                for r in database_results
+                if r["status"] == "saved"
+            ]
+        )
+        total_titles_added = sum(
+            [
+                r.get("titles_added", 0)
+                for r in database_results
+                if r["status"] == "saved"
+            ]
+        )
+
+        # Clean processing results for user response (remove internal fields)
+        cleaned_processing_results = []
+        for result in processing_results:
+            cleaned_result = result.copy()
+            # Remove internal fields that shouldn't be exposed to users
+            if "full_data_with_vectors" in cleaned_result:
+                del cleaned_result["full_data_with_vectors"]
+            cleaned_processing_results.append(cleaned_result)
 
         return {
             "message": f"Bulk processed {total_files} resumes, saved {total_saved} to database",
@@ -599,6 +868,8 @@ async def parse_bulk_resumes(
                 "successful_parses": successful_parses,
                 "failed_parses": failed_parses,
                 "saved_to_database": total_saved,
+                "skills_added_to_collection": total_skills_added,
+                "titles_added_to_collection": total_titles_added,
                 "processing_settings": {
                     "max_concurrent_threads": max_concurrent,
                     "database_batch_size": batch_size,
@@ -607,7 +878,7 @@ async def parse_bulk_resumes(
                 },
                 "performance_optimized": True,
             },
-            "processing_details": processing_results,
+            "processing_details": cleaned_processing_results,
             "database_results": database_results,
         }
 
@@ -645,12 +916,12 @@ async def get_multiple_resume_parser_info():
         },
         "features": {
             "parser_module": "multipleresumepraser",
-            "embeddings_generation": True,
             "automatic_database_saving": True,
             "concurrent_processing": True,
             "batch_database_operations": True,
             "memory_optimization": True,
             "progress_tracking": True,
+            "skills_management": True,
         },
         "supported_formats": [".txt", ".pdf", ".docx"],
         "performance_specs": {
@@ -664,8 +935,9 @@ async def get_multiple_resume_parser_info():
             "1. Upload resume files (up to 100)",
             "2. Extract and clean text from each file",
             "3. Parse resume data using LLM (concurrent processing)",
-            "4. Generate embeddings for parsed data",
+            "4. Clean and normalize parsed data",
             "5. Save to database in batches",
-            "6. Return comprehensive processing summary",
+            "6. Update skills and titles collections",
+            "7. Return comprehensive processing summary",
         ],
     }

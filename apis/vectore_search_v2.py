@@ -201,8 +201,8 @@ async def vector_search(search_query: VectorSearchQuery):
         vector_field_mapping = {
             "skills": "skills_vector",
             "experience": "experience_text_vector",
-            "education": "academic_details_vector",
-            "projects": "experience_text_vector",  # Projects search through experience for better relevance
+            "education": "education_text_vector",  # Fixed: was academic_details_vector
+            "projects": "projects_text_vector",  # Fixed: should search projects specifically
             "full_text": "combined_resume_vector",
         }
 

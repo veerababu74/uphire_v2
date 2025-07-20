@@ -3,7 +3,7 @@ import json
 import re
 from typing import List, Dict, Optional
 from dotenv import load_dotenv
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, EmailStr
 from langchain_groq import ChatGroq
 from langchain_ollama import ChatOllama, OllamaLLM
 from langchain_openai import ChatOpenAI
@@ -60,51 +60,59 @@ def get_api_keys() -> List[str]:
 #     duration: str = Field(default="", description="Total duration")
 
 
-class ContactDetails(BaseModel):
-    email: str = Field(
-        default="placeholder@example.com", description="Candidate's email address"
-    )
-    phone: str = Field(default="+1 123-456-7890", description="Contact phone number")
-    address: str = Field(
-        default="123 Placeholder St, Placeholder City", description="Physical address"
-    )
-    linkedin: str = Field(
-        default="https://www.linkedin.com/in/placeholder",
-        description="LinkedIn profile URL",
-    )
+# ===== Pydantic Models =====
+class Experience(BaseModel):
+    company: str  # Required
+    title: str  # Required
+    from_date: str  # Required, format: 'YYYY-MM'
+    to: Optional[str] = None  # Optional, format: 'YYYY-MM'
 
 
 class Education(BaseModel):
-    degree: str = Field(default="", description="Degree or qualification")
-    institution: str = Field(default="", description="Educational institution name")
-    dates: str = Field(default="", description="Start and end dates")
+    education: str  # Required
+    college: str  # Required
+    pass_year: int  # Required
 
 
-class Experience(BaseModel):
-    title: str = Field(default="", description="Job position title")
-    company: str = Field(default="", description="Company/organization name")
-    start_date: str = Field(default="", description="Employment start date")
-    end_date: str = Field(default="", description="End date or 'Present'")
-    duration: str = Field(default="", description="Total duration in role")
-
-
-class Skills(BaseModel):
-    skills: List[str] = Field(
-        default_factory=list, description="List of technical skills"
-    )
-    # soft: List[str] = Field(default_factory=list, description="List of soft skills")
+class ContactDetails(BaseModel):
+    name: str  # Required
+    email: EmailStr  # Required
+    phone: str  # Required
+    alternative_phone: Optional[str] = None
+    current_city: str  # Required
+    looking_for_jobs_in: List[str]  # Required
+    gender: Optional[str] = None
+    age: Optional[int] = None
+    naukri_profile: Optional[str] = None
+    linkedin_profile: Optional[str] = None
+    portfolio_link: Optional[str] = None
+    pan_card: str  # Required
+    aadhar_card: Optional[str] = None  # Optional
 
 
 class Resume(BaseModel):
-    name: str = Field(default="John Doe", description="Full name of candidate")
+    user_id: str
+    username: str
     contact_details: ContactDetails
-    education: List[Education] = Field(default_factory=list)
-    experience: List[Experience] = Field(default_factory=list)
-    # projects: List[Project] = Field(default_factory=list)
-    total_experience: str = Field(
-        default="0 years, 0 months", description="Total work experience duration"
-    )
-    skills: List[Skills] = Field(default_factory=list, description="List of skills")
+    total_experience: Optional[str] = None  # ✅ Already changed to string
+
+    notice_period: Optional[str] = None  # e.g., "Immediate", "30 days"
+    currency: Optional[str] = None  # e.g., "INR", "USD"
+    pay_duration: Optional[str] = None  # e.g., "monthly", "yearly"
+    current_salary: Optional[float] = None
+    hike: Optional[float] = None
+    expected_salary: Optional[float] = None  # Changed from required to optional
+    skills: List[str]
+    may_also_known_skills: List[str]
+    labels: Optional[List[str]] = None  # Added = None for consistency
+    experience: Optional[List[Experience]] = None
+    academic_details: Optional[List[Education]] = None
+    source: Optional[str] = None  # Source of the resume (e.g., "LinkedIn", "Naukri")
+    last_working_day: Optional[str] = None  # Should be ISO format date string
+    is_tier1_mba: Optional[bool] = None
+    is_tier1_engineering: Optional[bool] = None
+    comment: Optional[str] = None
+    exit_reason: Optional[str] = None
 
 
 # ===== Resume Parser Class =====

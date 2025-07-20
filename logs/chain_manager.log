@@ -335,3 +335,29 @@ This is the actual JSON format with real values.
   ]
 } 
 
+2025-07-20 10:54:17 - chain_manager - INFO - Raw LLM response type: <class 'str'>
+2025-07-20 10:54:17 - chain_manager - INFO - Raw LLM response (first 500 chars): {
+  "total_candidates": 1,
+  "matches": [
+    {
+      "_id": "687c786dd9f9333375e1824b",
+      "relevance_score": 0.8,
+      "match_reason": "Experienced Python developer with Flask"
+    }
+  ]
+} 
+
+2025-07-20 10:55:29 - chain_manager - INFO - Raw LLM response type: <class 'str'>
+2025-07-20 10:55:29 - chain_manager - INFO - Raw LLM response (first 500 chars): {
+  "total_candidates": 1,
+  "matches": [
+    {
+      "_id": "687c786dd9f9333375e1824b",
+      "relevance_score": 0.8,
+      "match_reason": "Strong skills in HTML, CSS, JS, React, Python, Flask"
+    }
+  ]
+} 
+
+
+

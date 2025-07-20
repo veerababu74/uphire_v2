@@ -29,7 +29,6 @@ def safe_str(value, default=""):
         return default
     return str(value)
 
-
 # Initialize logger
 logger = CustomLogger().get_logger("rag_search")
 
@@ -281,13 +280,13 @@ async def vector_similarity_search(request: VectorSimilaritySearchRequest):
                         "aadhar_card", ""
                     ),
                 },
-                "total_experience": safe_str(candidate.get("total_experience", "0.0")),
+                "total_experience": str(candidate.get("total_experience", "0.0")),
                 "notice_period": candidate.get("notice_period", ""),
                 "currency": candidate.get("currency", ""),
                 "pay_duration": candidate.get("pay_duration", ""),
-                "current_salary": safe_float(candidate.get("current_salary", 0)),
-                "hike": safe_float(candidate.get("hike", 0)),
-                "expected_salary": safe_float(candidate.get("expected_salary", 0)),
+                "current_salary": float(candidate.get("current_salary", 0)),
+                "hike": float(candidate.get("hike", 0)),
+                "expected_salary": float(candidate.get("expected_salary", 0)),
                 "skills": candidate.get("skills", []),
                 "may_also_known_skills": candidate.get("may_also_known_skills", []),
                 "labels": candidate.get("labels", []),
@@ -301,7 +300,7 @@ async def vector_similarity_search(request: VectorSimilaritySearchRequest):
                 ),
                 "comment": candidate.get("comment", ""),
                 "exit_reason": candidate.get("exit_reason", ""),
-                "similarity_score": safe_float(candidate.get("similarity_score", 0.0)),
+                "similarity_score": float(candidate.get("similarity_score", 0.0)),
             }
             formatted_results.append(formatted_candidate)
 
@@ -535,15 +534,13 @@ async def llm_search_by_jd(
                             "aadhar_card", ""
                         ),
                     },
-                    "total_experience": safe_str(
-                        candidate.get("total_experience", "0.0")
-                    ),
+                    "total_experience": str(candidate.get("total_experience", "0.0")),
                     "notice_period": candidate.get("notice_period", ""),
                     "currency": candidate.get("currency", ""),
                     "pay_duration": candidate.get("pay_duration", ""),
-                    "current_salary": safe_float(candidate.get("current_salary", 0)),
-                    "hike": safe_float(candidate.get("hike", 0)),
-                    "expected_salary": safe_float(candidate.get("expected_salary", 0)),
+                    "current_salary": float(candidate.get("current_salary", 0)),
+                    "hike": float(candidate.get("hike", 0)),
+                    "expected_salary": float(candidate.get("expected_salary", 0)),
                     "skills": candidate.get("skills", []),
                     "may_also_known_skills": candidate.get("may_also_known_skills", []),
                     "labels": candidate.get("labels", []),
@@ -557,9 +554,7 @@ async def llm_search_by_jd(
                     ),
                     "comment": candidate.get("comment", ""),
                     "exit_reason": candidate.get("exit_reason", ""),
-                    "relevance_score": safe_float(
-                        candidate.get("relevance_score", 0.0)
-                    ),
+                    "relevance_score": float(candidate.get("relevance_score", 0.0)),
                     "match_reason": candidate.get("match_reason", ""),
                 }
                 formatted_results.append(formatted_candidate)
@@ -685,13 +680,13 @@ async def vector_search_by_jd(
                         "aadhar_card", ""
                     ),
                 },
-                "total_experience": safe_str(candidate.get("total_experience", "0.0")),
+                "total_experience": str(candidate.get("total_experience", "0.0")),
                 "notice_period": candidate.get("notice_period", ""),
                 "currency": candidate.get("currency", ""),
                 "pay_duration": candidate.get("pay_duration", ""),
-                "current_salary": safe_float(candidate.get("current_salary", 0)),
-                "hike": safe_float(candidate.get("hike", 0)),
-                "expected_salary": safe_float(candidate.get("expected_salary", 0)),
+                "current_salary": float(candidate.get("current_salary", 0)),
+                "hike": float(candidate.get("hike", 0)),
+                "expected_salary": float(candidate.get("expected_salary", 0)),
                 "skills": candidate.get("skills", []),
                 "may_also_known_skills": candidate.get("may_also_known_skills", []),
                 "labels": candidate.get("labels", []),
@@ -705,7 +700,7 @@ async def vector_search_by_jd(
                 ),
                 "comment": candidate.get("comment", ""),
                 "exit_reason": candidate.get("exit_reason", ""),
-                "similarity_score": safe_float(candidate.get("similarity_score", 0.0)),
+                "similarity_score": float(candidate.get("similarity_score", 0.0)),
             }
             formatted_results.append(formatted_candidate)
 
