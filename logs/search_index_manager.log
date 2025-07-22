@@ -284,3 +284,7 @@
 2025-07-20 10:55:06 - search_index_manager - INFO - Search index already exists, skipping creation
 2025-07-20 10:55:11 - search_index_manager - INFO - Search index 'vector_search_index' already exists
 2025-07-20 10:55:11 - search_index_manager - INFO - Search index already exists, skipping creation
+2025-07-22 23:20:14 - search_index_manager - INFO - Search index 'vector_search_index' already exists
+2025-07-22 23:20:14 - search_index_manager - INFO - Search index already exists, skipping creation
+2025-07-22 23:32:22 - search_index_manager - INFO - Search index 'vector_search_index' already exists
+2025-07-22 23:32:22 - search_index_manager - INFO - Search index already exists, skipping creation
