@@ -30,6 +30,16 @@ def safe_str(value, default=""):
     return str(value)
 
 
+def safe_object_id(value, default=""):
+    """Safely convert ObjectId or any object to string, handling None values"""
+    if value is None:
+        return default
+    try:
+        return str(value)
+    except Exception:
+        return default
+
+
 # Initialize logger
 logger = CustomLogger().get_logger("rag_search")
 
@@ -88,7 +98,9 @@ class ContactDetails(BaseModel):
 
 
 class VectorSearchResult(BaseModel):
-    _id: str
+    model_config = {"populate_by_name": True}
+
+    id: str = Field(default="", serialization_alias="_id")
     user_id: str = ""
     username: str = ""
     contact_details: ContactDetails
@@ -114,7 +126,9 @@ class VectorSearchResult(BaseModel):
 
 
 class LLMSearchResult(BaseModel):
-    _id: str
+    model_config = {"populate_by_name": True}
+
+    id: str = Field(default="", serialization_alias="_id")
     user_id: str = ""
     username: str = ""
     contact_details: ContactDetails
@@ -246,8 +260,14 @@ async def vector_similarity_search(request: VectorSimilaritySearchRequest):
         # Format results to match the expected VectorSimilaritySearchResponse structure
         formatted_results = []
         for candidate in result.get("results", []):
+            # Handle _id field more explicitly
+            candidate_id = candidate.get("_id")
+            if candidate_id is None:
+                candidate_id = candidate.get("id", "")  # Try alternative key
+            candidate_id = str(candidate_id) if candidate_id is not None else ""
+
             formatted_candidate = {
-                "_id": candidate.get("_id", ""),
+                "id": candidate_id,
                 "user_id": candidate.get("user_id", ""),
                 "username": candidate.get("username", ""),
                 "contact_details": {
@@ -499,7 +519,7 @@ async def llm_search_by_jd(
             formatted_results = []
             for candidate in result.get("results", []):
                 formatted_candidate = {
-                    "_id": candidate.get("_id", ""),
+                    "id": safe_object_id(candidate.get("_id", "")),
                     "user_id": candidate.get("user_id", ""),
                     "username": candidate.get("username", ""),
                     "contact_details": {
@@ -651,7 +671,7 @@ async def vector_search_by_jd(
         formatted_results = []
         for candidate in result.get("results", []):
             formatted_candidate = {
-                "_id": candidate.get("_id", ""),
+                "id": safe_object_id(candidate.get("_id", "")),
                 "user_id": candidate.get("user_id", ""),
                 "username": candidate.get("username", ""),
                 "contact_details": {
