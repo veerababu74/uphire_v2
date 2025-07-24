@@ -15,3 +15,15 @@ __root__
 2025-07-20 10:44:33 - rag_search - ERROR - Vector similarity search failed: 500: int() argument must be a string, a bytes-like object or a real number, not 'NoneType'
 2025-07-20 10:44:33 - rag_search - ERROR - LLM context search failed: 500: int() argument must be a string, a bytes-like object or a real number, not 'NoneType'
 2025-07-20 10:54:16 - rag_search - INFO - Vector similarity search completed successfully. Found 1 results
+2025-07-24 21:47:17 - rag_search - INFO - Vector similarity search completed successfully. Found 2 results
+2025-07-24 21:52:23 - rag_search - INFO - Candidate keys: ['_id', 'user_id', 'username', 'contact_details', 'total_experience', 'notice_period', 'currency', 'pay_duration', 'current_salary', 'hike', 'expected_salary', 'skills', 'may_also_known_skills', 'labels', 'experience', 'academic_details', 'source', 'last_working_day', 'is_tier1_mba', 'is_tier1_engineering', 'comment', 'exit_reason', 'similarity_score']
+2025-07-24 21:52:23 - rag_search - INFO - Candidate _id value: 687c786dd9f9333375e1824b
+2025-07-24 21:52:23 - rag_search - INFO - Candidate keys: ['_id', 'user_id', 'username', 'contact_details', 'total_experience', 'notice_period', 'currency', 'pay_duration', 'current_salary', 'hike', 'expected_salary', 'skills', 'may_also_known_skills', 'labels', 'experience', 'academic_details', 'source', 'last_working_day', 'is_tier1_mba', 'is_tier1_engineering', 'comment', 'exit_reason', 'similarity_score']
+2025-07-24 21:52:23 - rag_search - INFO - Candidate _id value: 688257fb2c3977af00dd3212
+2025-07-24 21:52:23 - rag_search - INFO - Vector similarity search completed successfully. Found 2 results
+2025-07-24 21:53:32 - rag_search - INFO - Candidate keys: ['_id', 'user_id', 'username', 'contact_details', 'total_experience', 'notice_period', 'currency', 'pay_duration', 'current_salary', 'hike', 'expected_salary', 'skills', 'may_also_known_skills', 'labels', 'experience', 'academic_details', 'source', 'last_working_day', 'is_tier1_mba', 'is_tier1_engineering', 'comment', 'exit_reason', 'similarity_score']
+2025-07-24 21:53:32 - rag_search - INFO - Candidate _id value: 687c786dd9f9333375e1824b
+2025-07-24 21:53:32 - rag_search - INFO - Candidate keys: ['_id', 'user_id', 'username', 'contact_details', 'total_experience', 'notice_period', 'currency', 'pay_duration', 'current_salary', 'hike', 'expected_salary', 'skills', 'may_also_known_skills', 'labels', 'experience', 'academic_details', 'source', 'last_working_day', 'is_tier1_mba', 'is_tier1_engineering', 'comment', 'exit_reason', 'similarity_score']
+2025-07-24 21:53:32 - rag_search - INFO - Candidate _id value: 688257fb2c3977af00dd3212
+2025-07-24 21:53:33 - rag_search - INFO - Vector similarity search completed successfully. Found 2 results
+2025-07-24 21:57:17 - rag_search - INFO - Vector similarity search completed successfully. Found 2 results
