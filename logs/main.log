@@ -474,3 +474,24 @@
 2025-07-24 21:56:57 - main - INFO - Models to ensure: ['BAAI/bge-large-en-v1.5', 'BAAI/bge-large-zh-v1.5', 'thenlper/gte-large']
 2025-07-24 21:56:57 - main - INFO - All critical embedding models are ready!
 2025-07-24 21:57:00 - main - INFO - Application startup completed successfully!
+2025-07-24 23:41:16 - main - INFO - Starting application initialization...
+2025-07-24 23:41:16 - main - INFO - Using 'balanced' deployment configuration
+2025-07-24 23:41:16 - main - INFO - Models to ensure: ['BAAI/bge-large-en-v1.5', 'BAAI/bge-large-zh-v1.5', 'thenlper/gte-large']
+2025-07-24 23:41:16 - main - INFO - All critical embedding models are ready!
+2025-07-24 23:41:19 - main - INFO - Application startup completed successfully!
+2025-07-25 21:52:59 - main - INFO - Starting application initialization...
+2025-07-25 21:52:59 - main - INFO - Using 'balanced' deployment configuration
+2025-07-25 21:52:59 - main - INFO - Models to ensure: ['BAAI/bge-large-en-v1.5', 'BAAI/bge-large-zh-v1.5', 'thenlper/gte-large']
+2025-07-25 21:52:59 - main - INFO - All critical embedding models are ready!
+2025-07-25 21:53:03 - main - INFO - Application startup completed successfully!
+2025-07-25 21:53:31 - main - ERROR - Unhandled exception: 1 validation errors:
+  {'type': 'list_type', 'loc': ('response', 'results', 4, 'labels'), 'msg': 'Input should be a valid list', 'input': None}
+
+2025-07-25 21:58:42 - main - ERROR - Unhandled exception: 1 validation errors:
+  {'type': 'list_type', 'loc': ('response', 'results', 4, 'labels'), 'msg': 'Input should be a valid list', 'input': None}
+
+2025-07-25 21:59:23 - main - INFO - Starting application initialization...
+2025-07-25 21:59:23 - main - INFO - Using 'balanced' deployment configuration
+2025-07-25 21:59:23 - main - INFO - Models to ensure: ['BAAI/bge-large-en-v1.5', 'BAAI/bge-large-zh-v1.5', 'thenlper/gte-large']
+2025-07-25 21:59:23 - main - INFO - All critical embedding models are ready!
+2025-07-25 21:59:26 - main - INFO - Application startup completed successfully!
