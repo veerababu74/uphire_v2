@@ -1249,3 +1249,8 @@ __root__
 2025-07-25 22:01:15 - rag_application - INFO - RAG LLM initialized using groq_cloud provider
 2025-07-25 22:01:15 - rag_application - INFO - Chain manager initialized successfully
 2025-07-25 22:01:15 - rag_application - INFO - RAG Application initialized successfully
+2025-07-25 22:16:22 - rag_application - INFO - Vectorizer initialized successfully
+2025-07-25 22:16:22 - rag_application - INFO - Connected to MongoDB database 'resume_db' and collection 'resumes'
+2025-07-25 22:16:22 - rag_application - INFO - Vectorizer and embedding adapter initialized successfully
+2025-07-25 22:16:23 - rag_application - INFO - Connected to MongoDB database 'resume_db' and collection 'resumes'
+2025-07-25 22:16:23 - rag_application - INFO - LangChain vector store initialized successfully

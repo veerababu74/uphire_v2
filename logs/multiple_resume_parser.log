@@ -310,3 +310,5 @@
 2025-07-25 21:52:59 - multiple_resume_parser - INFO - Successfully initialized LLM with groq_cloud
 2025-07-25 21:59:22 - multiple_resume_parser - INFO - Initializing Multiple Resume Parser with groq_cloud
 2025-07-25 21:59:22 - multiple_resume_parser - INFO - Successfully initialized LLM with groq_cloud
+2025-07-25 22:16:23 - multiple_resume_parser - INFO - Initializing Multiple Resume Parser with groq_cloud
+2025-07-25 22:16:24 - multiple_resume_parser - INFO - Successfully initialized LLM with groq_cloud
