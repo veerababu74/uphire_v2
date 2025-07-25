@@ -110,14 +110,26 @@ router = APIRouter(
     4. Bachelor's (BTech/BE/BSc/BA/BCom)
     5. Master's (MTech/ME/MSc/MA/MCom/MBA)    6. PhD/Doctorate
     
-    **Enhanced Scoring System:**
-    - Experience Title Match: 20 points per matching title (searches ALL provided titles)
-    - Skills Match: 15 points per matching skill (includes may_also_known_skills, searches ALL provided skills)
-    - Education Level Match: 3-18 points based on education level (1-6 × 3, searches ALL provided education levels)
-    - Experience Duration Match: 12 points for exact range match, 6 points for close match
-    - Location Match: 10 points (current_city), 8 points (looking_for_jobs_in, searches ALL provided locations)
-    - Salary Range Match: 10 points for within range
-    - Field Match Bonus: 25 points per different field type that has matches
+    **Enhanced Scoring System (0-100 Scale):**
+    - Experience Titles: Up to 25 points (normalized with diminishing returns)
+    - Skills Match: Up to 25 points (normalized with diminishing returns) 
+    - Education Level: Up to 15 points (normalized based on education level hierarchy)
+    - Experience Range: Up to 10 points (10 for perfect match, 5 for close match)
+    - Location Match: Up to 15 points (normalized based on current city vs job preferences)
+    - Salary Range: Up to 10 points (full points for within range)
+    - Field Diversity Bonus: Up to 10 additional points for matching multiple field types
+    
+    **Score Calculation:**
+    - Base Score: Sum of normalized category scores (0-100)
+    - Field Diversity Bonus: 2 points per different field type matched (max 10)
+    - Final Score: Base Score + Field Diversity Bonus (capped at 100)
+    
+    **Category Score Details:**
+    - Experience Titles: 8 points for first match + 2 points for each additional (max 25)
+    - Skills: 6 points for first match + 1.5 points for each additional (max 25)
+    - Education: 2.5 points per education level value (max 15)
+    - Location: 3 points for current city match, 2 points for job preference (max 15)
+    - All scores are normalized to ensure total never exceeds 100
     
     **Priority Ranking:**
     1. Primary: Number of different field types matched (experience, skills, education, location, etc.)
@@ -173,9 +185,17 @@ router = APIRouter(
                             "expected_salary": 1500000.0,
                             "current_salary": 1200000.0,
                             "notice_period": "30 days",
-                            "match_score": 128.5,
-                            "base_score": 103.5,
-                            "field_match_bonus": 25,
+                            "match_score": 85.5,
+                            "base_score": 75.5,
+                            "field_diversity_bonus": 10,
+                            "category_scores": {
+                                "experience_titles": 16.0,
+                                "skills": 21.5,
+                                "education": 10.0,
+                                "experience_range": 10.0,
+                                "location": 12.0,
+                                "salary": 10.0,
+                            },
                             "match_details": {
                                 "experience_title_matches": 1,
                                 "skills_matches": 3,
@@ -363,7 +383,26 @@ async def manual_resume_search(search_params: ManualSearchRequest):
         scored_results = []
 
         for resume in results:
-            match_score = 0
+            # Define maximum possible scores for normalization
+            max_scores = {
+                "experience_titles": 25,  # Max 25 points for experience titles
+                "skills": 25,  # Max 25 points for skills
+                "education": 15,  # Max 15 points for education
+                "experience_range": 10,  # Max 10 points for experience range
+                "location": 15,  # Max 15 points for location
+                "salary": 10,  # Max 10 points for salary
+            }
+
+            # Track raw scores for each category
+            category_scores = {
+                "experience_titles": 0,
+                "skills": 0,
+                "education": 0,
+                "experience_range": 0,
+                "location": 0,
+                "salary": 0,
+            }
+
             match_details = {
                 "experience_title_matches": 0,
                 "skills_matches": 0,
@@ -382,20 +421,27 @@ async def manual_resume_search(search_params: ManualSearchRequest):
             # Calculate experience title match score - Enhanced to find ALL matching titles
             if search_params.experience_titles:
                 field_has_match = False
+                title_score = 0
                 for exp in resume.get("experience", []):
                     exp_title = exp.get("title", "").lower()
                     for title in search_params.experience_titles:
                         if title.lower() in exp_title:
                             match_details["experience_title_matches"] += 1
                             match_details["matched_experience_titles"].append(title)
-                            match_score += 20  # Higher weight for title matches
+                            title_score += 1
                             field_has_match = True
+
                 if field_has_match:
+                    # Normalize to max 25 points, with diminishing returns for multiple matches
+                    category_scores["experience_titles"] = min(
+                        25, title_score * 8 + (title_score - 1) * 2
+                    )
                     match_details["fields_matched"] += 1
 
             # Calculate skills match score - Enhanced to find ALL matching skills
             if search_params.skills:
                 field_has_match = False
+                skills_score = 0
                 resume_skills = [skill.lower() for skill in resume.get("skills", [])]
                 may_also_known_skills = [
                     skill.lower() for skill in resume.get("may_also_known_skills", [])
@@ -406,14 +452,20 @@ async def manual_resume_search(search_params: ManualSearchRequest):
                     if skill.lower() in all_resume_skills:
                         match_details["skills_matches"] += 1
                         match_details["matched_skills"].append(skill)
-                        match_score += 15  # High weight for skills
+                        skills_score += 1
                         field_has_match = True
+
                 if field_has_match:
+                    # Normalize to max 25 points, with diminishing returns for multiple matches
+                    category_scores["skills"] = min(
+                        25, skills_score * 6 + (skills_score - 1) * 1.5
+                    )
                     match_details["fields_matched"] += 1
 
             # Education level scoring - Enhanced to find ALL matching education levels
             if search_params.min_education:
                 field_has_match = False
+                education_score = 0
                 education_levels = {
                     "10th": 1,
                     "ssc": 1,
@@ -453,10 +505,13 @@ async def manual_resume_search(search_params: ManualSearchRequest):
                             # Get education level for scoring
                             for level_name, level_value in education_levels.items():
                                 if level_name in education:
-                                    match_score += level_value * 3  # Increased weight
+                                    education_score += level_value
                                     field_has_match = True
                                     break
+
                 if field_has_match:
+                    # Normalize to max 15 points
+                    category_scores["education"] = min(15, education_score * 2.5)
                     match_details["fields_matched"] += 1
 
             # Experience duration filtering and scoring
@@ -478,16 +533,21 @@ async def manual_resume_search(search_params: ManualSearchRequest):
                     and resume_exp_months <= max_experience_months
                 ):
                     match_details["experience_range_match"] = True
-                    match_score += 12  # Increased score for experience match
+                    category_scores["experience_range"] = (
+                        10  # Full points for perfect match
+                    )
                     match_details["fields_matched"] += 1
                 elif (
                     resume_exp_months >= min_experience_months * 0.8
                 ):  # 80% of min experience
-                    match_score += 6  # Partial score for close match
+                    category_scores["experience_range"] = (
+                        5  # Partial points for close match
+                    )
 
             # Location filtering and scoring - Enhanced to track all matching locations
             if search_params.locations:
                 field_has_match = False
+                location_score = 0
                 current_city = resume.get("contact_details", {}).get("current_city", "")
                 looking_for_jobs_in = resume.get("contact_details", {}).get(
                     "looking_for_jobs_in", []
@@ -501,7 +561,7 @@ async def manual_resume_search(search_params: ManualSearchRequest):
                             match_details["matched_locations"].append(
                                 f"{location} (current)"
                             )
-                            match_score += 10  # Higher score for current city match
+                            location_score += 3  # Higher weight for current city
                             field_has_match = True
 
                     # Check looking for jobs in
@@ -513,11 +573,12 @@ async def manual_resume_search(search_params: ManualSearchRequest):
                                     match_details["matched_locations"].append(
                                         f"{location} (preference)"
                                     )
-                                    match_score += (
-                                        8  # Good score for location preference
-                                    )
+                                    location_score += 2  # Good weight for preference
                                     field_has_match = True
+
                 if field_has_match:
+                    # Normalize to max 15 points
+                    category_scores["location"] = min(15, location_score * 2)
                     match_details["fields_matched"] += 1
 
             # Salary filtering and scoring - Enhanced with better tracking
@@ -550,23 +611,29 @@ async def manual_resume_search(search_params: ManualSearchRequest):
 
                     if salary_in_range:
                         match_details["salary_range_match"] = True
-                        match_score += 10  # Good score for salary range match
-                        match_details[
-                            "fields_matched"
-                        ] += 1  # Include resume with enhanced match details
+                        category_scores["salary"] = 10  # Full points for salary match
+                        match_details["fields_matched"] += 1
+
+            # Include resume with enhanced match details
             formatted_resume = format_resume(resume)
             if "total_resume_text" in formatted_resume:
                 del formatted_resume["total_resume_text"]
 
-            # Add comprehensive match scoring with field priority
-            field_match_bonus = (
-                match_details["fields_matched"] * 25
-            )  # Bonus for matching more fields
-            final_score = match_score + field_match_bonus
+            # Calculate final normalized score (0-100)
+            total_possible_score = sum(max_scores.values())  # 100 points total
+            actual_score = sum(category_scores.values())
+
+            # Normalize to 0-100 scale
+            normalized_score = (actual_score / total_possible_score) * 100
+
+            # Apply field diversity bonus (up to 10 additional points for matching multiple fields)
+            field_diversity_bonus = min(10, match_details["fields_matched"] * 2)
+            final_score = min(100, normalized_score + field_diversity_bonus)
 
             formatted_resume["match_score"] = round(final_score, 2)
-            formatted_resume["base_score"] = round(match_score, 2)
-            formatted_resume["field_match_bonus"] = field_match_bonus
+            formatted_resume["base_score"] = round(normalized_score, 2)
+            formatted_resume["field_diversity_bonus"] = field_diversity_bonus
+            formatted_resume["category_scores"] = category_scores
             formatted_resume["match_details"] = match_details
             formatted_resume["total_individual_matches"] = sum(
                 [
