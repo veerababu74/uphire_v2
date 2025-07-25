@@ -27,3 +27,7 @@ __root__
 2025-07-24 21:53:32 - rag_search - INFO - Candidate _id value: 688257fb2c3977af00dd3212
 2025-07-24 21:53:33 - rag_search - INFO - Vector similarity search completed successfully. Found 2 results
 2025-07-24 21:57:17 - rag_search - INFO - Vector similarity search completed successfully. Found 2 results
+2025-07-24 23:43:26 - rag_search - INFO - Vector similarity search completed successfully. Found 1 results
+2025-07-25 21:53:31 - rag_search - INFO - Vector similarity search completed successfully. Found 7 results
+2025-07-25 21:58:42 - rag_search - INFO - Vector similarity search completed successfully. Found 7 results
+2025-07-25 22:01:17 - rag_search - INFO - Vector similarity search completed successfully. Found 7 results

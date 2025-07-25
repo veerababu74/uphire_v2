@@ -30,6 +30,17 @@ def safe_str(value, default=""):
     return str(value)
 
 
+def safe_list(value, default=None):
+    """Safely convert value to list, handling None values"""
+    if default is None:
+        default = []
+    if value is None:
+        return default
+    if isinstance(value, list):
+        return value
+    return default
+
+
 def safe_object_id(value, default=""):
     """Safely convert ObjectId or any object to string, handling None values"""
     if value is None:
@@ -280,8 +291,10 @@ async def vector_similarity_search(request: VectorSimilaritySearchRequest):
                     "current_city": candidate.get("contact_details", {}).get(
                         "current_city", ""
                     ),
-                    "looking_for_jobs_in": candidate.get("contact_details", {}).get(
-                        "looking_for_jobs_in", []
+                    "looking_for_jobs_in": safe_list(
+                        candidate.get("contact_details", {}).get(
+                            "looking_for_jobs_in", []
+                        )
                     ),
                     "gender": candidate.get("contact_details", {}).get("gender", ""),
                     "age": candidate.get("contact_details", {}).get("age", 0),
@@ -308,11 +321,13 @@ async def vector_similarity_search(request: VectorSimilaritySearchRequest):
                 "current_salary": safe_float(candidate.get("current_salary", 0)),
                 "hike": safe_float(candidate.get("hike", 0)),
                 "expected_salary": safe_float(candidate.get("expected_salary", 0)),
-                "skills": candidate.get("skills", []),
-                "may_also_known_skills": candidate.get("may_also_known_skills", []),
-                "labels": candidate.get("labels", []),
-                "experience": candidate.get("experience", []),
-                "academic_details": candidate.get("academic_details", []),
+                "skills": safe_list(candidate.get("skills", [])),
+                "may_also_known_skills": safe_list(
+                    candidate.get("may_also_known_skills", [])
+                ),
+                "labels": safe_list(candidate.get("labels", [])),
+                "experience": safe_list(candidate.get("experience", [])),
+                "academic_details": safe_list(candidate.get("academic_details", [])),
                 "source": candidate.get("source", ""),
                 "last_working_day": candidate.get("last_working_day", ""),
                 "is_tier1_mba": bool(candidate.get("is_tier1_mba", False)),
@@ -532,8 +547,10 @@ async def llm_search_by_jd(
                         "current_city": candidate.get("contact_details", {}).get(
                             "current_city", ""
                         ),
-                        "looking_for_jobs_in": candidate.get("contact_details", {}).get(
-                            "looking_for_jobs_in", []
+                        "looking_for_jobs_in": safe_list(
+                            candidate.get("contact_details", {}).get(
+                                "looking_for_jobs_in", []
+                            )
                         ),
                         "gender": candidate.get("contact_details", {}).get(
                             "gender", ""
@@ -564,11 +581,15 @@ async def llm_search_by_jd(
                     "current_salary": safe_float(candidate.get("current_salary", 0)),
                     "hike": safe_float(candidate.get("hike", 0)),
                     "expected_salary": safe_float(candidate.get("expected_salary", 0)),
-                    "skills": candidate.get("skills", []),
-                    "may_also_known_skills": candidate.get("may_also_known_skills", []),
-                    "labels": candidate.get("labels", []),
-                    "experience": candidate.get("experience", []),
-                    "academic_details": candidate.get("academic_details", []),
+                    "skills": safe_list(candidate.get("skills", [])),
+                    "may_also_known_skills": safe_list(
+                        candidate.get("may_also_known_skills", [])
+                    ),
+                    "labels": safe_list(candidate.get("labels", [])),
+                    "experience": safe_list(candidate.get("experience", [])),
+                    "academic_details": safe_list(
+                        candidate.get("academic_details", [])
+                    ),
                     "source": candidate.get("source", ""),
                     "last_working_day": candidate.get("last_working_day", ""),
                     "is_tier1_mba": bool(candidate.get("is_tier1_mba", False)),
@@ -684,8 +705,10 @@ async def vector_search_by_jd(
                     "current_city": candidate.get("contact_details", {}).get(
                         "current_city", ""
                     ),
-                    "looking_for_jobs_in": candidate.get("contact_details", {}).get(
-                        "looking_for_jobs_in", []
+                    "looking_for_jobs_in": safe_list(
+                        candidate.get("contact_details", {}).get(
+                            "looking_for_jobs_in", []
+                        )
                     ),
                     "gender": candidate.get("contact_details", {}).get("gender", ""),
                     "age": candidate.get("contact_details", {}).get("age", 0),
@@ -712,11 +735,13 @@ async def vector_search_by_jd(
                 "current_salary": safe_float(candidate.get("current_salary", 0)),
                 "hike": safe_float(candidate.get("hike", 0)),
                 "expected_salary": safe_float(candidate.get("expected_salary", 0)),
-                "skills": candidate.get("skills", []),
-                "may_also_known_skills": candidate.get("may_also_known_skills", []),
-                "labels": candidate.get("labels", []),
-                "experience": candidate.get("experience", []),
-                "academic_details": candidate.get("academic_details", []),
+                "skills": safe_list(candidate.get("skills", [])),
+                "may_also_known_skills": safe_list(
+                    candidate.get("may_also_known_skills", [])
+                ),
+                "labels": safe_list(candidate.get("labels", [])),
+                "experience": safe_list(candidate.get("experience", [])),
+                "academic_details": safe_list(candidate.get("academic_details", [])),
                 "source": candidate.get("source", ""),
                 "last_working_day": candidate.get("last_working_day", ""),
                 "is_tier1_mba": bool(candidate.get("is_tier1_mba", False)),

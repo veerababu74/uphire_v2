@@ -1222,3 +1222,30 @@ __root__
 2025-07-24 21:57:14 - rag_application - INFO - RAG LLM initialized using groq_cloud provider
 2025-07-24 21:57:14 - rag_application - INFO - Chain manager initialized successfully
 2025-07-24 21:57:14 - rag_application - INFO - RAG Application initialized successfully
+2025-07-24 23:41:12 - rag_application - INFO - Vectorizer initialized successfully
+2025-07-24 23:41:13 - rag_application - INFO - Connected to MongoDB database 'resume_db' and collection 'resumes'
+2025-07-24 23:41:13 - rag_application - INFO - Vectorizer and embedding adapter initialized successfully
+2025-07-24 23:41:13 - rag_application - INFO - Connected to MongoDB database 'resume_db' and collection 'resumes'
+2025-07-24 23:41:13 - rag_application - INFO - LangChain vector store initialized successfully
+2025-07-24 23:43:21 - rag_application - INFO - Internal vectorizer (SentenceTransformer all-MiniLM-L6-v2) initialized successfully
+2025-07-24 23:43:22 - rag_application - INFO - RAG LLM initialized using groq_cloud provider
+2025-07-24 23:43:22 - rag_application - INFO - Chain manager initialized successfully
+2025-07-24 23:43:22 - rag_application - INFO - RAG Application initialized successfully
+2025-07-25 21:52:56 - rag_application - INFO - Vectorizer initialized successfully
+2025-07-25 21:52:57 - rag_application - INFO - Connected to MongoDB database 'resume_db' and collection 'resumes'
+2025-07-25 21:52:57 - rag_application - INFO - Vectorizer and embedding adapter initialized successfully
+2025-07-25 21:52:57 - rag_application - INFO - Connected to MongoDB database 'resume_db' and collection 'resumes'
+2025-07-25 21:52:57 - rag_application - INFO - LangChain vector store initialized successfully
+2025-07-25 21:53:26 - rag_application - INFO - Internal vectorizer (SentenceTransformer all-MiniLM-L6-v2) initialized successfully
+2025-07-25 21:53:27 - rag_application - INFO - RAG LLM initialized using groq_cloud provider
+2025-07-25 21:53:27 - rag_application - INFO - Chain manager initialized successfully
+2025-07-25 21:53:27 - rag_application - INFO - RAG Application initialized successfully
+2025-07-25 21:59:20 - rag_application - INFO - Vectorizer initialized successfully
+2025-07-25 21:59:21 - rag_application - INFO - Connected to MongoDB database 'resume_db' and collection 'resumes'
+2025-07-25 21:59:21 - rag_application - INFO - Vectorizer and embedding adapter initialized successfully
+2025-07-25 21:59:21 - rag_application - INFO - Connected to MongoDB database 'resume_db' and collection 'resumes'
+2025-07-25 21:59:21 - rag_application - INFO - LangChain vector store initialized successfully
+2025-07-25 22:01:10 - rag_application - INFO - Internal vectorizer (SentenceTransformer all-MiniLM-L6-v2) initialized successfully
+2025-07-25 22:01:15 - rag_application - INFO - RAG LLM initialized using groq_cloud provider
+2025-07-25 22:01:15 - rag_application - INFO - Chain manager initialized successfully
+2025-07-25 22:01:15 - rag_application - INFO - RAG Application initialized successfully
