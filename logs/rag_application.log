@@ -1254,3 +1254,143 @@ __root__
 2025-07-25 22:16:22 - rag_application - INFO - Vectorizer and embedding adapter initialized successfully
 2025-07-25 22:16:23 - rag_application - INFO - Connected to MongoDB database 'resume_db' and collection 'resumes'
 2025-07-25 22:16:23 - rag_application - INFO - LangChain vector store initialized successfully
+2025-08-02 11:29:53 - rag_application - INFO - Vectorizer initialized successfully
+2025-08-02 11:29:53 - rag_application - INFO - Connected to MongoDB database 'resume_db' and collection 'resumes'
+2025-08-02 11:29:53 - rag_application - INFO - Vectorizer and embedding adapter initialized successfully
+2025-08-02 11:29:54 - rag_application - INFO - Connected to MongoDB database 'resume_db' and collection 'resumes'
+2025-08-02 11:29:54 - rag_application - INFO - LangChain vector store initialized successfully
+2025-08-02 11:43:05 - rag_application - INFO - Vectorizer initialized successfully
+2025-08-02 11:43:05 - rag_application - INFO - Connected to MongoDB database 'resume_db' and collection 'resumes'
+2025-08-02 11:43:05 - rag_application - INFO - Vectorizer and embedding adapter initialized successfully
+2025-08-02 11:43:06 - rag_application - INFO - Connected to MongoDB database 'resume_db' and collection 'resumes'
+2025-08-02 11:43:06 - rag_application - INFO - LangChain vector store initialized successfully
+2025-08-02 11:45:02 - rag_application - INFO - Vectorizer initialized successfully
+2025-08-02 11:45:02 - rag_application - INFO - Connected to MongoDB database 'resume_db' and collection 'resumes'
+2025-08-02 11:45:02 - rag_application - INFO - Vectorizer and embedding adapter initialized successfully
+2025-08-02 11:45:02 - rag_application - INFO - Connected to MongoDB database 'resume_db' and collection 'resumes'
+2025-08-02 11:45:02 - rag_application - INFO - LangChain vector store initialized successfully
+2025-08-02 11:45:13 - rag_application - INFO - Vectorizer initialized successfully
+2025-08-02 11:45:13 - rag_application - INFO - Connected to MongoDB database 'resume_db' and collection 'resumes'
+2025-08-02 11:45:13 - rag_application - INFO - Vectorizer and embedding adapter initialized successfully
+2025-08-02 11:45:14 - rag_application - INFO - Connected to MongoDB database 'resume_db' and collection 'resumes'
+2025-08-02 11:45:14 - rag_application - INFO - LangChain vector store initialized successfully
+2025-08-02 12:07:50 - rag_application - INFO - Vectorizer initialized successfully
+2025-08-02 12:07:51 - rag_application - INFO - Connected to MongoDB database 'resume_db' and collection 'resumes'
+2025-08-02 12:07:51 - rag_application - INFO - Vectorizer and embedding adapter initialized successfully
+2025-08-02 12:07:51 - rag_application - INFO - Connected to MongoDB database 'resume_db' and collection 'resumes'
+2025-08-02 12:07:51 - rag_application - INFO - LangChain vector store initialized successfully
+2025-08-02 12:09:21 - rag_application - INFO - Vectorizer initialized successfully
+2025-08-02 12:09:21 - rag_application - INFO - Connected to MongoDB database 'resume_db' and collection 'resumes'
+2025-08-02 12:09:21 - rag_application - INFO - Vectorizer and embedding adapter initialized successfully
+2025-08-02 12:09:22 - rag_application - INFO - Connected to MongoDB database 'resume_db' and collection 'resumes'
+2025-08-02 12:09:22 - rag_application - INFO - LangChain vector store initialized successfully
+2025-08-02 16:50:34 - rag_application - INFO - Vectorizer initialized successfully
+2025-08-02 16:50:34 - rag_application - INFO - Connected to MongoDB database 'resume_db' and collection 'resumes'
+2025-08-02 16:50:34 - rag_application - INFO - Vectorizer and embedding adapter initialized successfully
+2025-08-02 16:50:35 - rag_application - INFO - Connected to MongoDB database 'resume_db' and collection 'resumes'
+2025-08-02 16:50:35 - rag_application - INFO - LangChain vector store initialized successfully
+2025-08-02 17:33:01 - rag_application - INFO - Vectorizer initialized successfully
+2025-08-02 17:33:01 - rag_application - INFO - Connected to MongoDB database 'resume_db' and collection 'resumes'
+2025-08-02 17:33:01 - rag_application - INFO - Vectorizer and embedding adapter initialized successfully
+2025-08-02 17:33:02 - rag_application - INFO - Connected to MongoDB database 'resume_db' and collection 'resumes'
+2025-08-02 17:33:02 - rag_application - INFO - LangChain vector store initialized successfully
+2025-08-02 17:33:18 - rag_application - INFO - Vectorizer initialized successfully
+2025-08-02 17:33:19 - rag_application - INFO - Connected to MongoDB database 'resume_db' and collection 'resumes'
+2025-08-02 17:33:19 - rag_application - INFO - Vectorizer and embedding adapter initialized successfully
+2025-08-02 17:33:19 - rag_application - INFO - Connected to MongoDB database 'resume_db' and collection 'resumes'
+2025-08-02 17:33:19 - rag_application - INFO - LangChain vector store initialized successfully
+2025-08-02 17:34:50 - rag_application - INFO - Internal vectorizer (SentenceTransformer all-MiniLM-L6-v2) initialized successfully
+2025-08-02 17:34:52 - rag_application - INFO - RAG LLM initialized using groq_cloud provider
+2025-08-02 17:34:52 - rag_application - INFO - Chain manager initialized successfully
+2025-08-02 17:34:52 - rag_application - INFO - RAG Application initialized successfully
+2025-08-02 17:41:13 - rag_application - INFO - Vectorizer initialized successfully
+2025-08-02 17:41:13 - rag_application - INFO - Connected to MongoDB database 'resume_db' and collection 'resumes'
+2025-08-02 17:41:13 - rag_application - INFO - Vectorizer and embedding adapter initialized successfully
+2025-08-02 17:41:14 - rag_application - INFO - Connected to MongoDB database 'resume_db' and collection 'resumes'
+2025-08-02 17:41:14 - rag_application - INFO - LangChain vector store initialized successfully
+2025-08-02 17:41:28 - rag_application - INFO - Vectorizer initialized successfully
+2025-08-02 17:41:29 - rag_application - INFO - Connected to MongoDB database 'resume_db' and collection 'resumes'
+2025-08-02 17:41:29 - rag_application - INFO - Vectorizer and embedding adapter initialized successfully
+2025-08-02 17:41:29 - rag_application - INFO - Connected to MongoDB database 'resume_db' and collection 'resumes'
+2025-08-02 17:41:29 - rag_application - INFO - LangChain vector store initialized successfully
+2025-08-02 17:43:33 - rag_application - INFO - Internal vectorizer (SentenceTransformer all-MiniLM-L6-v2) initialized successfully
+2025-08-02 17:43:34 - rag_application - INFO - RAG LLM initialized using groq_cloud provider
+2025-08-02 17:43:34 - rag_application - INFO - Chain manager initialized successfully
+2025-08-02 17:43:34 - rag_application - INFO - RAG Application initialized successfully
+2025-08-02 17:50:45 - rag_application - INFO - Vectorizer initialized successfully
+2025-08-02 17:50:45 - rag_application - INFO - Connected to MongoDB database 'resume_db' and collection 'resumes'
+2025-08-02 17:50:45 - rag_application - INFO - Vectorizer and embedding adapter initialized successfully
+2025-08-02 17:50:46 - rag_application - INFO - Connected to MongoDB database 'resume_db' and collection 'resumes'
+2025-08-02 17:50:46 - rag_application - INFO - LangChain vector store initialized successfully
+2025-08-02 17:56:27 - rag_application - INFO - Internal vectorizer (SentenceTransformer all-MiniLM-L6-v2) initialized successfully
+2025-08-02 17:56:29 - rag_application - INFO - RAG LLM initialized using groq_cloud provider
+2025-08-02 17:56:29 - rag_application - INFO - Chain manager initialized successfully
+2025-08-02 17:56:29 - rag_application - INFO - RAG Application initialized successfully
+2025-08-02 17:57:42 - rag_application - INFO - Internal vectorizer (SentenceTransformer all-MiniLM-L6-v2) initialized successfully
+2025-08-02 17:57:44 - rag_application - INFO - RAG LLM initialized using groq_cloud provider
+2025-08-02 17:57:44 - rag_application - INFO - Chain manager initialized successfully
+2025-08-02 17:57:44 - rag_application - INFO - RAG Application initialized successfully
+2025-08-02 17:58:36 - rag_application - INFO - Internal vectorizer (SentenceTransformer all-MiniLM-L6-v2) initialized successfully
+2025-08-02 17:58:37 - rag_application - INFO - RAG LLM initialized using groq_cloud provider
+2025-08-02 17:58:37 - rag_application - INFO - Chain manager initialized successfully
+2025-08-02 17:58:37 - rag_application - INFO - RAG Application initialized successfully
+2025-08-02 17:58:57 - rag_application - INFO - Vectorizer initialized successfully
+2025-08-02 17:58:58 - rag_application - INFO - Connected to MongoDB database 'resume_db' and collection 'resumes'
+2025-08-02 17:58:58 - rag_application - INFO - Vectorizer and embedding adapter initialized successfully
+2025-08-02 17:58:58 - rag_application - INFO - Connected to MongoDB database 'resume_db' and collection 'resumes'
+2025-08-02 17:58:58 - rag_application - INFO - LangChain vector store initialized successfully
+2025-08-02 17:59:14 - rag_application - INFO - Internal vectorizer (SentenceTransformer all-MiniLM-L6-v2) initialized successfully
+2025-08-02 17:59:15 - rag_application - INFO - RAG LLM initialized using groq_cloud provider
+2025-08-02 17:59:15 - rag_application - INFO - Chain manager initialized successfully
+2025-08-02 17:59:15 - rag_application - INFO - RAG Application initialized successfully
+2025-08-02 18:02:53 - rag_application - ERROR - Error during search and rank: PlanExecutor error during aggregation :: caused by :: Path 'user_id' needs to be indexed as token, full error: {'ok': 0.0, 'errmsg': "PlanExecutor error during aggregation :: caused by :: Path 'user_id' needs to be indexed as token", 'code': 8, 'codeName': 'UnknownError', '$clusterTime': {'clusterTime': Timestamp(1754137972, 13), 'signature': {'hash': b"'\xd1\x08\xb7\xdfO\xfd3\xf9\xc5\xb2\xf7\xbc`\xaa&\xc3.\xf8V", 'keyId': 7501339950751678466}}, 'operationTime': Timestamp(1754137972, 13)}
+2025-08-02 18:10:28 - rag_application - INFO - Vectorizer initialized successfully
+2025-08-02 18:10:29 - rag_application - INFO - Connected to MongoDB database 'resume_db' and collection 'resumes'
+2025-08-02 18:10:47 - rag_application - INFO - Vectorizer initialized successfully
+2025-08-02 18:10:47 - rag_application - INFO - Connected to MongoDB database 'resume_db' and collection 'resumes'
+2025-08-02 18:10:48 - rag_application - ERROR - Error during search and rank: PlanExecutor error during aggregation :: caused by :: Path 'user_id' needs to be indexed as token, full error: {'ok': 0.0, 'errmsg': "PlanExecutor error during aggregation :: caused by :: Path 'user_id' needs to be indexed as token", 'code': 8, 'codeName': 'UnknownError', '$clusterTime': {'clusterTime': Timestamp(1754138447, 5), 'signature': {'hash': b'\x01\xee=\xd2!\xd3\x97\x86L\xb5\xb2\xa8\x13\xf42z*\xb9\xa6\x8f', 'keyId': 7501339950751678466}}, 'operationTime': Timestamp(1754138447, 5)}
+2025-08-02 18:11:59 - rag_application - INFO - Vectorizer and embedding adapter initialized successfully
+2025-08-02 18:12:00 - rag_application - INFO - Connected to MongoDB database 'resume_db' and collection 'resumes'
+2025-08-02 18:12:00 - rag_application - INFO - LangChain vector store initialized successfully
+2025-08-02 18:12:00 - rag_application - INFO - Retrieved 5 documents using LangChain
+2025-08-02 18:12:00 - rag_application - INFO - Successfully formatted and sorted 1 results
+2025-08-02 18:12:24 - rag_application - INFO - Vectorizer initialized successfully
+2025-08-02 18:12:24 - rag_application - INFO - Connected to MongoDB database 'resume_db' and collection 'resumes'
+2025-08-02 18:12:25 - rag_application - INFO - Retrieved 21 documents from MongoDB
+2025-08-02 18:12:25 - rag_application - INFO - Filtered to 2 documents for user_id: 66c8771a20bd68c725758679
+2025-08-02 18:12:25 - rag_application - INFO - Successfully formatted and sorted 2 results
+2025-08-02 18:12:42 - rag_application - INFO - Vectorizer initialized successfully
+2025-08-02 18:12:43 - rag_application - INFO - Connected to MongoDB database 'resume_db' and collection 'resumes'
+2025-08-02 18:12:43 - rag_application - INFO - Vectorizer and embedding adapter initialized successfully
+2025-08-02 18:12:43 - rag_application - INFO - Connected to MongoDB database 'resume_db' and collection 'resumes'
+2025-08-02 18:12:43 - rag_application - INFO - LangChain vector store initialized successfully
+2025-08-02 18:13:16 - rag_application - INFO - Vectorizer initialized successfully
+2025-08-02 18:13:16 - rag_application - INFO - Connected to MongoDB database 'resume_db' and collection 'resumes'
+2025-08-02 18:13:16 - rag_application - INFO - Vectorizer and embedding adapter initialized successfully
+2025-08-02 18:13:17 - rag_application - INFO - Connected to MongoDB database 'resume_db' and collection 'resumes'
+2025-08-02 18:13:17 - rag_application - INFO - LangChain vector store initialized successfully
+2025-08-02 18:13:18 - rag_application - INFO - Retrieved 21 documents from MongoDB
+2025-08-02 18:13:18 - rag_application - INFO - Filtered to 2 documents for user_id: 66c8771a20bd68c725758679
+2025-08-02 18:13:18 - rag_application - INFO - Successfully formatted and sorted 2 results
+2025-08-02 18:14:26 - rag_application - INFO - Vectorizer initialized successfully
+2025-08-02 18:14:27 - rag_application - INFO - Connected to MongoDB database 'resume_db' and collection 'resumes'
+2025-08-02 18:14:27 - rag_application - INFO - Vectorizer and embedding adapter initialized successfully
+2025-08-02 18:14:27 - rag_application - INFO - Connected to MongoDB database 'resume_db' and collection 'resumes'
+2025-08-02 18:14:27 - rag_application - INFO - LangChain vector store initialized successfully
+2025-08-02 18:14:40 - rag_application - INFO - Vectorizer initialized successfully
+2025-08-02 18:14:40 - rag_application - INFO - Connected to MongoDB database 'resume_db' and collection 'resumes'
+2025-08-02 18:14:40 - rag_application - INFO - Vectorizer and embedding adapter initialized successfully
+2025-08-02 18:15:01 - rag_application - ERROR - Failed to initialize LangChain Retriever: ac-mvw4vxc-shard-00-01.aw2gzuy.mongodb.net:27017: timed out
+2025-08-02 18:16:03 - rag_application - INFO - Vectorizer and embedding adapter initialized successfully
+2025-08-02 18:16:03 - rag_application - INFO - Connected to MongoDB database 'resume_db' and collection 'resumes'
+2025-08-02 18:16:03 - rag_application - INFO - LangChain vector store initialized successfully
+2025-08-02 18:16:17 - rag_application - ERROR - Error during search and rank: 'NoneType' object has no attribute 'generate_embedding'
+2025-08-02 18:16:24 - rag_application - ERROR - Error during search and rank: 'NoneType' object has no attribute 'generate_embedding'
+2025-08-02 18:17:12 - rag_application - INFO - Vectorizer and embedding adapter initialized successfully
+2025-08-02 18:17:12 - rag_application - INFO - Connected to MongoDB database 'resume_db' and collection 'resumes'
+2025-08-02 18:17:12 - rag_application - INFO - LangChain vector store initialized successfully
+2025-08-02 18:27:22 - rag_application - INFO - Vectorizer initialized successfully
+2025-08-02 18:27:22 - rag_application - INFO - Connected to MongoDB database 'resume_db' and collection 'resumes'
+2025-08-02 18:27:23 - rag_application - INFO - Retrieved 21 documents from MongoDB
+2025-08-02 18:27:23 - rag_application - INFO - Filtered to 2 documents for user_id: 66c8771a20bd68c725758679
+2025-08-02 18:27:23 - rag_application - INFO - Successfully formatted and sorted 2 results

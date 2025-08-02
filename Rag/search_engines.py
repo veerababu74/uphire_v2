@@ -30,7 +30,7 @@ class VectorSearchEngine:
         self.vector_store = vector_store
         self.collection = collection
 
-    def search(self, query: str, limit: int = 50) -> Dict:
+    def search(self, query: str, limit: int = 50, user_id: str = None) -> Dict:
         """Perform pure vector similarity search and return results sorted by score"""
         if not self.vector_store:
             logger.error("Vector store not initialized. Cannot perform search.")
@@ -39,6 +39,8 @@ class VectorSearchEngine:
         try:
             logger.info(f"Performing vector similarity search for: {safe_log(query)}")
             logger.info(f"Retrieval limit: {limit}")
+            if user_id:
+                logger.info(f"Filtering by user_id: {user_id}")
 
             # Perform similarity search with scores
             results_with_scores = self.vector_store.similarity_search_with_score(
@@ -57,6 +59,10 @@ class VectorSearchEngine:
                     complete_doc = self.collection.find_one({"_id": ObjectId(doc_id)})
 
                     if complete_doc:
+                        # Apply user_id filter if specified
+                        if user_id and str(complete_doc.get("user_id", "")) != user_id:
+                            continue
+
                         formatted_doc = DocumentProcessor.format_complete_document(
                             complete_doc
                         )
@@ -102,14 +108,18 @@ class LLMSearchEngine:
         self.chain_manager = chain_manager
         self.vector_engine = VectorSearchEngine(vector_store, collection)
 
-    def search(self, query: str, context_size: int = 5) -> Dict:
+    def search(self, query: str, context_size: int = 5, user_id: str = None) -> Dict:
         """Perform LLM-based search with user-controlled context size"""
         try:
             logger.info(f"Performing LLM search for: {safe_log(query)}")
             logger.info(f"Context size: {context_size}")
+            if user_id:
+                logger.info(f"Filtering by user_id: {user_id}")
 
             # First get documents using vector search
-            vector_results = self.vector_engine.search(query, limit=context_size)
+            vector_results = self.vector_engine.search(
+                query, limit=context_size, user_id=user_id
+            )
 
             if "error" in vector_results:
                 return vector_results

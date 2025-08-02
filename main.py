@@ -47,6 +47,7 @@ from fastapi.staticfiles import StaticFiles
 # Import API routers
 from apis.add_userdata import router as add_user_data_router
 from apis.citys import router as citys_router
+from apis.skills import router as skills_router
 from apis.manual_search import router as manual_search_router
 from apis.manual_recent_search_save import router as manual_search_save_recent_router
 from apis.autocomplete_skills_titiles import router as autocomplete_router
@@ -56,6 +57,7 @@ from apis.vectore_search_v2 import enhanced_search_router as vector_search_v2_ro
 from apisofmango.search_index_api import router as search_index_router
 from apis.rag_search import router as rag_search_router
 from apis.retriever_api import router as retriever_api_router
+from apis.retriever_health import router as retriever_health_router
 from masking.routes import router as masking_router
 from GroqcloudLLM.routes import router as groqcloud_router
 from multipleresumepraser.routes import router as multiple_resume_parser_router
@@ -69,6 +71,9 @@ from apis.llm_provider_management import router as llm_provider_router
 from apis.resumerpaser import router as resume_parser_router
 from apis.multiple_resume_parser_api import (
     router as enhanced_multiple_resume_parser_router,
+)
+from recomandations.skills_recommendation_db import (
+    router as skills_recommendation_router,
 )
 
 # from apis.resumerpaser import router as resume_parser_router  # TODO: Fix router definition
@@ -192,12 +197,15 @@ app.include_router(
     enhanced_multiple_resume_parser_router, tags=["Enhanced Multiple Resume Parser"]
 )
 app.include_router(citys_router)
+app.include_router(skills_router)
 app.include_router(autocomplete_router)
 app.include_router(skills_experience_titles_router)
+app.include_router(skills_recommendation_router)  # New skills recommendation API
 app.include_router(manual_search_router)
 app.include_router(vector_search_v2_router)
 app.include_router(rag_search_router)
 app.include_router(retriever_api_router)
+app.include_router(retriever_health_router)
 app.include_router(ai_search_save_recent_router)
 app.include_router(manual_search_save_recent_router)
 

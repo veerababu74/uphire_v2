@@ -134,35 +134,23 @@ class SentenceTransformerProvider(BaseEmbeddingProvider):
                 # Check if model is cached locally
                 if self._is_model_cached():
                     logger.info(f"Loading cached model from: {self.cache_dir}")
-                    # Load from local cache directory
-                    self._model = SentenceTransformer(
-                        self.cache_dir,
-                        device=self.device,
-                        trust_remote_code=self.trust_remote_code,
-                    )
+                    # Load from local cache directory with device mapping fix
+                    self._model = self._load_with_device_fix(self.cache_dir)
                 else:
                     # Download model and save to cache directory
                     logger.info(
                         f"Downloading model {self.model_name} to cache: {self.cache_dir}"
                     )
 
-                    # First download to default location
-                    temp_model = SentenceTransformer(
-                        self.model_name,
-                        device=self.device,
-                        trust_remote_code=self.trust_remote_code,
-                    )
+                    # First download to default location with device mapping fix
+                    temp_model = self._load_with_device_fix(self.model_name)
 
                     # Save the model to our cache directory
                     temp_model.save(self.cache_dir)
                     logger.info(f"Model saved to cache: {self.cache_dir}")
 
                     # Now load from our cache
-                    self._model = SentenceTransformer(
-                        self.cache_dir,
-                        device=self.device,
-                        trust_remote_code=self.trust_remote_code,
-                    )
+                    self._model = self._load_with_device_fix(self.cache_dir)
 
                     # Verify caching was successful
                     if self._is_model_cached():
@@ -182,15 +170,75 @@ class SentenceTransformerProvider(BaseEmbeddingProvider):
                 # Fall back to default loading without cache
                 logger.info("Falling back to default model loading...")
                 try:
-                    self._model = SentenceTransformer(
-                        self.model_name,
-                        device=self.device,
-                        trust_remote_code=self.trust_remote_code,
-                    )
+                    self._model = self._load_with_device_fix(self.model_name)
                 except Exception as fallback_error:
                     logger.error(f"Fallback loading also failed: {fallback_error}")
                     raise
         return self._model
+
+    def _load_with_device_fix(self, model_path: str):
+        """Load SentenceTransformer model with device compatibility fixes"""
+        try:
+            import torch
+
+            # For newer PyTorch versions, handle meta tensor issues
+            if hasattr(torch, "jit") and hasattr(torch.jit, "_state"):
+                # Try loading with explicit device mapping to avoid meta tensor issues
+                if self.device == "cpu" or not torch.cuda.is_available():
+                    device_map = "cpu"
+                else:
+                    device_map = self.device
+
+                # Load with device_map parameter if available
+                try:
+                    model = SentenceTransformer(
+                        model_path,
+                        device=device_map,
+                        trust_remote_code=self.trust_remote_code,
+                    )
+                    return model
+                except Exception as device_error:
+                    logger.warning(
+                        f"Device mapping failed: {device_error}, trying alternative loading"
+                    )
+
+            # Alternative loading method for compatibility
+            try:
+                # Load to CPU first, then move to target device
+                model = SentenceTransformer(
+                    model_path,
+                    device="cpu",
+                    trust_remote_code=self.trust_remote_code,
+                )
+
+                # Move to target device if different from CPU
+                if self.device != "cpu" and torch.cuda.is_available():
+                    try:
+                        model = model.to(self.device)
+                    except Exception as move_error:
+                        logger.warning(
+                            f"Could not move model to {self.device}: {move_error}"
+                        )
+                        logger.info("Keeping model on CPU")
+                        self.device = "cpu"
+
+                return model
+
+            except Exception as alt_error:
+                logger.warning(f"Alternative loading failed: {alt_error}")
+                # Final fallback - basic loading
+                return SentenceTransformer(
+                    model_path,
+                    trust_remote_code=self.trust_remote_code,
+                )
+
+        except ImportError:
+            # If torch is not available, use basic loading
+            return SentenceTransformer(
+                model_path,
+                device=self.device,
+                trust_remote_code=self.trust_remote_code,
+            )
 
     def generate_embedding(self, text: str) -> List[float]:
         """Generate vector embedding for the given text"""
@@ -198,10 +246,33 @@ class SentenceTransformerProvider(BaseEmbeddingProvider):
             return np.zeros(self.embedding_dim).tolist()
 
         try:
-            embedding = self.model.encode(text)
-            return embedding.tolist()
+            # Ensure model is loaded
+            model = self.model
+
+            # Clean and prepare text
+            cleaned_text = str(text).strip()
+            if not cleaned_text:
+                return np.zeros(self.embedding_dim).tolist()
+
+            # Generate embedding with error handling
+            embedding = model.encode(cleaned_text, convert_to_numpy=True)
+
+            # Ensure embedding is in the correct format
+            if hasattr(embedding, "tolist"):
+                return embedding.tolist()
+            elif isinstance(embedding, (list, tuple)):
+                return list(embedding)
+            else:
+                # Convert to numpy array first, then to list
+                return np.array(embedding).tolist()
+
         except Exception as e:
             logger.error(f"Error generating embedding: {e}")
+            logger.error(f"Text length: {len(text) if text else 0}")
+            logger.error(f"Model name: {self.model_name}")
+            logger.error(f"Device: {self.device}")
+
+            # Return zero vector as fallback
             return np.zeros(self.embedding_dim).tolist()
 
     def get_embedding_dimension(self) -> int:

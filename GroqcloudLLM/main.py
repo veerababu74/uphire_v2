@@ -26,9 +26,6 @@ load_dotenv()
 logger_manager = CustomLogger()
 logger = logger_manager.get_logger("groqcloud_llm")
 
-# Import local configuration
-from .config import get_groq_config
-
 
 def get_api_keys() -> List[str]:
     """Get API keys from environment variables using core config."""
@@ -322,17 +319,51 @@ class ResumeParser:
 
             parser = JsonOutputParser(pydantic_object=Resume)
 
-            prompt_template = """Extract resume information strictly as JSON:
-                {format_instructions}
+            prompt_template = """You are an expert resume parser and data extraction specialist. Your task is to first determine if the provided text is a valid resume, and if so, extract comprehensive information from it.
 
-                If experience is present, always calculate total experience.
-                Ensure the following fields are included: name, email, address, LinkedIn. If any are missing, add random placeholder values.
-                If there are projects, include them with details like name, description, technologies, role, start_date, end_date, and duration. Use empty values for missing fields.
+STEP 1: RESUME VALIDATION
+First, analyze the provided text to determine if it contains resume/CV content. A valid resume should contain:
+- Personal/contact information (name, email, phone, etc.)
+- Professional experience OR education OR skills
+- Career-related content (job titles, companies, educational institutions, etc.)
 
-                RESUME INPUT:
-                {resume_text}
+If the text does NOT appear to be a resume (e.g., random text, stories, articles, product descriptions, etc.), return this exact JSON structure:
+{{
+    "error": "The provided content does not appear to be a resume or CV. Please upload a document containing professional information such as work experience, education, skills, and contact details.",
+    "error_type": "invalid_content",
+    "suggestion": "Ensure your document contains typical resume sections like contact information, work experience, education, and skills."
+}}
 
-                Return ONLY valid JSON without any additional text or explanations.
+STEP 2: RESUME EXTRACTION (Only if Step 1 confirms it's a resume)
+If the content IS a valid resume, extract ALL available information accurately and return structured data.
+
+EXTRACTION GUIDELINES:
+- Name: Extract full name from header or contact section
+- Email: Find email address (if missing, use: "email_not_provided@example.com")
+- Phone: Extract phone number (if missing, use: "+1-000-000-0000")
+- Address/City: Extract current location (if missing, use: "Location not specified")
+- Experience: Calculate total years from all employment periods
+- Skills: Extract all technical and professional skills mentioned
+- Education: Include all degrees, institutions, and graduation years
+- Work History: Include company names, positions, dates, and responsibilities
+
+DATA QUALITY REQUIREMENTS:
+- All dates should be in YYYY-MM format
+- Phone numbers should include country code if available
+- Skills should be comprehensive and include both technical and soft skills
+- Experience calculation should account for overlapping or concurrent roles
+- Education should include degree level, field of study, and institution
+- Use placeholder values for missing information rather than null/empty values
+
+{format_instructions}
+
+TEXT TO ANALYZE:
+{resume_text}
+
+CRITICAL: 
+- If the text is NOT a resume, return the error JSON structure shown above
+- If the text IS a resume, return the complete structured resume data as per the format instructions
+- Return ONLY valid JSON without any additional text or explanations
                 """
 
             prompt = PromptTemplate(
@@ -362,17 +393,51 @@ class ResumeParser:
 
             parser = JsonOutputParser(pydantic_object=Resume)
 
-            prompt_template = """Extract resume information strictly as JSON:
-                {format_instructions}
+            prompt_template = """You are an expert resume parser and data extraction specialist. Your task is to first determine if the provided text is a valid resume, and if so, extract comprehensive information from it.
 
-                If experience is present, always calculate total experience.
-                Ensure the following fields are included: name, email, address, LinkedIn. If any are missing, add random placeholder values.
-                If there are projects, include them with details like name, description, technologies, role, start_date, end_date, and duration. Use empty values for missing fields.
+STEP 1: RESUME VALIDATION
+First, analyze the provided text to determine if it contains resume/CV content. A valid resume should contain:
+- Personal/contact information (name, email, phone, etc.)
+- Professional experience OR education OR skills
+- Career-related content (job titles, companies, educational institutions, etc.)
 
-                RESUME INPUT:
-                {resume_text}
+If the text does NOT appear to be a resume (e.g., random text, stories, articles, product descriptions, etc.), return this exact JSON structure:
+{{
+    "error": "The provided content does not appear to be a resume or CV. Please upload a document containing professional information such as work experience, education, skills, and contact details.",
+    "error_type": "invalid_content",
+    "suggestion": "Ensure your document contains typical resume sections like contact information, work experience, education, and skills."
+}}
 
-                Return ONLY valid JSON without any additional text or explanations.
+STEP 2: RESUME EXTRACTION (Only if Step 1 confirms it's a resume)
+If the content IS a valid resume, extract ALL available information accurately and return structured data.
+
+EXTRACTION GUIDELINES:
+- Name: Extract full name from header or contact section
+- Email: Find email address (if missing, use: "email_not_provided@example.com")
+- Phone: Extract phone number (if missing, use: "+1-000-000-0000")
+- Address/City: Extract current location (if missing, use: "Location not specified")
+- Experience: Calculate total years from all employment periods
+- Skills: Extract all technical and professional skills mentioned
+- Education: Include all degrees, institutions, and graduation years
+- Work History: Include company names, positions, dates, and responsibilities
+
+DATA QUALITY REQUIREMENTS:
+- All dates should be in YYYY-MM format
+- Phone numbers should include country code if available
+- Skills should be comprehensive and include both technical and soft skills
+- Experience calculation should account for overlapping or concurrent roles
+- Education should include degree level, field of study, and institution
+- Use placeholder values for missing information rather than null/empty values
+
+{format_instructions}
+
+TEXT TO ANALYZE:
+{resume_text}
+
+CRITICAL: 
+- If the text is NOT a resume, return the error JSON structure shown above
+- If the text IS a resume, return the complete structured resume data as per the format instructions
+- Return ONLY valid JSON without any additional text or explanations
                 """
 
             prompt = PromptTemplate(
@@ -404,17 +469,51 @@ class ResumeParser:
             model = ChatOpenAI(**self.openai_config.to_langchain_params())
             parser = JsonOutputParser(pydantic_object=Resume)
 
-            prompt_template = """Extract resume information strictly as JSON:
-                {format_instructions}
+            prompt_template = """You are an expert resume parser and data extraction specialist. Your task is to first determine if the provided text is a valid resume, and if so, extract comprehensive information from it.
 
-                If experience is present, always calculate total experience.
-                Ensure the following fields are included: name, email, address, LinkedIn. If any are missing, add random placeholder values.
-                If there are projects, include them with details like name, description, technologies, role, start_date, end_date, and duration. Use empty values for missing fields.
+STEP 1: RESUME VALIDATION
+First, analyze the provided text to determine if it contains resume/CV content. A valid resume should contain:
+- Personal/contact information (name, email, phone, etc.)
+- Professional experience OR education OR skills
+- Career-related content (job titles, companies, educational institutions, etc.)
 
-                RESUME INPUT:
-                {resume_text}
+If the text does NOT appear to be a resume (e.g., random text, stories, articles, product descriptions, etc.), return this exact JSON structure:
+{{
+    "error": "The provided content does not appear to be a resume or CV. Please upload a document containing professional information such as work experience, education, skills, and contact details.",
+    "error_type": "invalid_content",
+    "suggestion": "Ensure your document contains typical resume sections like contact information, work experience, education, and skills."
+}}
 
-                Return ONLY valid JSON without any additional text or explanations.
+STEP 2: RESUME EXTRACTION (Only if Step 1 confirms it's a resume)
+If the content IS a valid resume, extract ALL available information accurately and return structured data.
+
+EXTRACTION GUIDELINES:
+- Name: Extract full name from header or contact section
+- Email: Find email address (if missing, use: "email_not_provided@example.com")
+- Phone: Extract phone number (if missing, use: "+1-000-000-0000")
+- Address/City: Extract current location (if missing, use: "Location not specified")
+- Experience: Calculate total years from all employment periods
+- Skills: Extract all technical and professional skills mentioned
+- Education: Include all degrees, institutions, and graduation years
+- Work History: Include company names, positions, dates, and responsibilities
+
+DATA QUALITY REQUIREMENTS:
+- All dates should be in YYYY-MM format
+- Phone numbers should include country code if available
+- Skills should be comprehensive and include both technical and soft skills
+- Experience calculation should account for overlapping or concurrent roles
+- Education should include degree level, field of study, and institution
+- Use placeholder values for missing information rather than null/empty values
+
+{format_instructions}
+
+TEXT TO ANALYZE:
+{resume_text}
+
+CRITICAL: 
+- If the text is NOT a resume, return the error JSON structure shown above
+- If the text IS a resume, return the complete structured resume data as per the format instructions
+- Return ONLY valid JSON without any additional text or explanations
                 """
 
             prompt = PromptTemplate(
@@ -446,17 +545,51 @@ class ResumeParser:
             model = ChatGoogleGenerativeAI(**self.google_config.to_langchain_params())
             parser = JsonOutputParser(pydantic_object=Resume)
 
-            prompt_template = """Extract resume information strictly as JSON:
-                {format_instructions}
+            prompt_template = """You are an expert resume parser and data extraction specialist. Your task is to first determine if the provided text is a valid resume, and if so, extract comprehensive information from it.
 
-                If experience is present, always calculate total experience.
-                Ensure the following fields are included: name, email, address, LinkedIn. If any are missing, add random placeholder values.
-                If there are projects, include them with details like name, description, technologies, role, start_date, end_date, and duration. Use empty values for missing fields.
+STEP 1: RESUME VALIDATION
+First, analyze the provided text to determine if it contains resume/CV content. A valid resume should contain:
+- Personal/contact information (name, email, phone, etc.)
+- Professional experience OR education OR skills
+- Career-related content (job titles, companies, educational institutions, etc.)
 
-                RESUME INPUT:
-                {resume_text}
+If the text does NOT appear to be a resume (e.g., random text, stories, articles, product descriptions, etc.), return this exact JSON structure:
+{{
+    "error": "The provided content does not appear to be a resume or CV. Please upload a document containing professional information such as work experience, education, skills, and contact details.",
+    "error_type": "invalid_content",
+    "suggestion": "Ensure your document contains typical resume sections like contact information, work experience, education, and skills."
+}}
 
-                Return ONLY valid JSON without any additional text or explanations.
+STEP 2: RESUME EXTRACTION (Only if Step 1 confirms it's a resume)
+If the content IS a valid resume, extract ALL available information accurately and return structured data.
+
+EXTRACTION GUIDELINES:
+- Name: Extract full name from header or contact section
+- Email: Find email address (if missing, use: "email_not_provided@example.com")
+- Phone: Extract phone number (if missing, use: "+1-000-000-0000")
+- Address/City: Extract current location (if missing, use: "Location not specified")
+- Experience: Calculate total years from all employment periods
+- Skills: Extract all technical and professional skills mentioned
+- Education: Include all degrees, institutions, and graduation years
+- Work History: Include company names, positions, dates, and responsibilities
+
+DATA QUALITY REQUIREMENTS:
+- All dates should be in YYYY-MM format
+- Phone numbers should include country code if available
+- Skills should be comprehensive and include both technical and soft skills
+- Experience calculation should account for overlapping or concurrent roles
+- Education should include degree level, field of study, and institution
+- Use placeholder values for missing information rather than null/empty values
+
+{format_instructions}
+
+TEXT TO ANALYZE:
+{resume_text}
+
+CRITICAL: 
+- If the text is NOT a resume, return the error JSON structure shown above
+- If the text IS a resume, return the complete structured resume data as per the format instructions
+- Return ONLY valid JSON without any additional text or explanations
                 """
 
             prompt = PromptTemplate(
@@ -492,17 +625,51 @@ class ResumeParser:
             )
             parser = JsonOutputParser(pydantic_object=Resume)
 
-            prompt_template = """Extract resume information strictly as JSON:
-                {format_instructions}
+            prompt_template = """You are an expert resume parser and data extraction specialist. Your task is to first determine if the provided text is a valid resume, and if so, extract comprehensive information from it.
 
-                If experience is present, always calculate total experience.
-                Ensure the following fields are included: name, email, address, LinkedIn. If any are missing, add random placeholder values.
-                If there are projects, include them with details like name, description, technologies, role, start_date, end_date, and duration. Use empty values for missing fields.
+STEP 1: RESUME VALIDATION
+First, analyze the provided text to determine if it contains resume/CV content. A valid resume should contain:
+- Personal/contact information (name, email, phone, etc.)
+- Professional experience OR education OR skills
+- Career-related content (job titles, companies, educational institutions, etc.)
 
-                RESUME INPUT:
-                {resume_text}
+If the text does NOT appear to be a resume (e.g., random text, stories, articles, product descriptions, etc.), return this exact JSON structure:
+{{
+    "error": "The provided content does not appear to be a resume or CV. Please upload a document containing professional information such as work experience, education, skills, and contact details.",
+    "error_type": "invalid_content",
+    "suggestion": "Ensure your document contains typical resume sections like contact information, work experience, education, and skills."
+}}
 
-                Return ONLY valid JSON without any additional text or explanations.
+STEP 2: RESUME EXTRACTION (Only if Step 1 confirms it's a resume)
+If the content IS a valid resume, extract ALL available information accurately and return structured data.
+
+EXTRACTION GUIDELINES:
+- Name: Extract full name from header or contact section
+- Email: Find email address (if missing, use: "email_not_provided@example.com")
+- Phone: Extract phone number (if missing, use: "+1-000-000-0000")
+- Address/City: Extract current location (if missing, use: "Location not specified")
+- Experience: Calculate total years from all employment periods
+- Skills: Extract all technical and professional skills mentioned
+- Education: Include all degrees, institutions, and graduation years
+- Work History: Include company names, positions, dates, and responsibilities
+
+DATA QUALITY REQUIREMENTS:
+- All dates should be in YYYY-MM format
+- Phone numbers should include country code if available
+- Skills should be comprehensive and include both technical and soft skills
+- Experience calculation should account for overlapping or concurrent roles
+- Education should include degree level, field of study, and institution
+- Use placeholder values for missing information rather than null/empty values
+
+{format_instructions}
+
+TEXT TO ANALYZE:
+{resume_text}
+
+CRITICAL: 
+- If the text is NOT a resume, return the error JSON structure shown above
+- If the text IS a resume, return the complete structured resume data as per the format instructions
+- Return ONLY valid JSON without any additional text or explanations
                 """
 
             prompt = PromptTemplate(

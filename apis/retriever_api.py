@@ -11,6 +11,10 @@ from datetime import datetime, timedelta
 from pathlib import Path
 from recent_search_uts.recent_ai_search import save_ai_search_to_recent
 
+# Initialize logger
+logger_instance = CustomLogger()
+logger = logger_instance.get_logger("retriever_api")
+
 # Initialize router
 router = APIRouter(
     prefix="/search",
@@ -20,9 +24,9 @@ router = APIRouter(
     responses={404: {"description": "Not found"}},
 )
 
-# Initialize retrievers
-mango_retriever = MangoRetriever()
-langchain_retriever = LangChainRetriever()
+# Initialize retrievers with lazy initialization to avoid startup blocking
+mango_retriever = MangoRetriever(lazy_init=True)
+langchain_retriever = LangChainRetriever(lazy_init=True)
 
 # Setup temp directory
 TEMP_FOLDER = "temp_uploads"
@@ -49,7 +53,10 @@ def cleanup_temp_directory(age_limit_minutes: int = 60):
 
 
 class SearchRequest(BaseModel):
-    user_id: Optional[str] = Field(..., description="User ID who performed the search")
+    user_id: str = Field(
+        ...,
+        description="User ID (MANDATORY) - only resumes for this user will be searched",
+    )
     query: str
     limit: Optional[int] = 5
 
@@ -69,10 +76,12 @@ class SearchError(Exception):
 @router.post("/mango", response_model=SearchResponse)
 async def search_mango(request: SearchRequest):
     """
-    Search using the Mango retriever
+    Search using the Mango retriever for a specific user
     """
     try:
-        results = mango_retriever.search_and_rank(request.query, request.limit)
+        results = mango_retriever.search_and_rank(
+            request.query, request.limit, request.user_id
+        )
         if "error" in results:
             raise HTTPException(status_code=500, detail=results["error"])
         # Save the search to recent searches
@@ -86,10 +95,12 @@ async def search_mango(request: SearchRequest):
 @router.post("/langchain", response_model=SearchResponse)
 async def search_langchain(request: SearchRequest):
     """
-    Search using the LangChain retriever
+    Search using the LangChain retriever for a specific user
     """
     try:
-        results = langchain_retriever.search_and_rank(request.query, request.limit)
+        results = langchain_retriever.search_and_rank(
+            request.query, request.limit, request.user_id
+        )
         if "error" in results:
             raise HTTPException(status_code=500, detail=results["error"])
         # Save the search to recent searches
@@ -103,14 +114,15 @@ async def search_langchain(request: SearchRequest):
 @router.post(
     "/mango/search-by-jd",
     response_model=SearchResponse,
-    summary="AI-Powered Resume Search Based on Job Description File",
+    summary="AI-Powered Resume Search Based on Job Description File for Specific User",
     description="""
-    Upload a job description file (.txt, .pdf, or .docx) and find matching resumes.
+    Upload a job description file (.txt, .pdf, or .docx) and find matching resumes for a specific user.
     
-    The system will extract and clean the text from the file and use AI to find semantically relevant candidates.
+    The system will extract and clean the text from the file and use AI to find semantically relevant candidates belonging to the specified user only.
     """,
 )
-async def search_by_jd(
+async def search_by_jd_mango(
+    user_id: str,
     file: UploadFile = File(...),
     limit: int = 10,
 ):
@@ -143,7 +155,7 @@ async def search_by_jd(
 
         # Step 3: Generate embedding from cleaned JD text
         try:
-            results = mango_retriever.search_and_rank(jd_text, limit)
+            results = mango_retriever.search_and_rank(jd_text, limit, user_id)
 
             return results
         except Exception as e:
@@ -161,14 +173,15 @@ async def search_by_jd(
 @router.post(
     "/langchain/search-by-jd",
     response_model=SearchResponse,
-    summary="AI-Powered Resume Search Based on Job Description File",
+    summary="AI-Powered Resume Search Based on Job Description File for Specific User",
     description="""
-    Upload a job description file (.txt, .pdf, or .docx) and find matching resumes.
+    Upload a job description file (.txt, .pdf, or .docx) and find matching resumes for a specific user.
     
-    The system will extract and clean the text from the file and use AI to find semantically relevant candidates.
+    The system will extract and clean the text from the file and use AI to find semantically relevant candidates belonging to the specified user only.
     """,
 )
-async def search_by_jd(
+async def search_by_jd_langchain(
+    user_id: str,
     file: UploadFile = File(...),
     limit: int = 10,
 ):
@@ -201,7 +214,7 @@ async def search_by_jd(
 
         # Step 3: Generate embedding from cleaned JD text
         try:
-            results = langchain_retriever.search_and_rank(jd_text, limit)
+            results = langchain_retriever.search_and_rank(jd_text, limit, user_id)
 
             return results
         except Exception as e:

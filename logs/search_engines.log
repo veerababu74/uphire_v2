@@ -438,3 +438,20 @@
 2025-07-25 22:01:16 - search_engines - INFO - Rank 6: ID: 688257fb2c3977af00dd3212, Score: 0.7283
 2025-07-25 22:01:16 - search_engines - INFO - Rank 7: ID: 6883abfbf5785c34e07a5e79, Score: 0.7181
 2025-07-25 22:01:16 - search_engines - INFO - === END OF RESULTS ===
+2025-08-02 17:58:37 - search_engines - INFO - Performing vector similarity search for: python
+2025-08-02 17:58:37 - search_engines - INFO - Retrieval limit: 50
+2025-08-02 17:58:37 - search_engines - INFO - Filtering by user_id: 66c8771a20bd68c725758679
+2025-08-02 17:58:43 - search_engines - INFO - === VECTOR SEARCH RESULTS ===
+2025-08-02 17:58:43 - search_engines - INFO - Rank 1: ID: 688279cbf5785c34e07a5e1a, Score: 0.7544
+2025-08-02 17:58:43 - search_engines - INFO - Rank 2: ID: 688257fb2c3977af00dd3212, Score: 0.7447
+2025-08-02 17:58:43 - search_engines - INFO - === END OF RESULTS ===
+2025-08-02 17:59:15 - search_engines - INFO - Performing LLM search for: python
+2025-08-02 17:59:15 - search_engines - INFO - Context size: 5
+2025-08-02 17:59:15 - search_engines - INFO - Filtering by user_id: 66c8771a20bd68c725758679
+2025-08-02 17:59:15 - search_engines - INFO - Performing vector similarity search for: python
+2025-08-02 17:59:15 - search_engines - INFO - Retrieval limit: 5
+2025-08-02 17:59:15 - search_engines - INFO - Filtering by user_id: 66c8771a20bd68c725758679
+2025-08-02 17:59:17 - search_engines - INFO - === VECTOR SEARCH RESULTS ===
+2025-08-02 17:59:17 - search_engines - INFO - Rank 1: ID: 688279cbf5785c34e07a5e1a, Score: 0.7544
+2025-08-02 17:59:17 - search_engines - INFO - === END OF RESULTS ===
+2025-08-02 17:59:17 - search_engines - INFO - Invoking LLM for document analysis...
