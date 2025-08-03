@@ -76,7 +76,9 @@ class SearchError(Exception):
 
 # Pydantic models for request bodies
 class VectorSimilaritySearchRequest(BaseModel):
-    user_id: Optional[str] = Field(None, description="User ID who performed the search")
+    user_id: str = Field(
+        ..., description="User ID who performed the search (mandatory)"
+    )
     query: str = Field(..., description="Search query text")
     limit: int = Field(
         default=50, description="Maximum number of results to return", ge=1, le=100
@@ -84,7 +86,9 @@ class VectorSimilaritySearchRequest(BaseModel):
 
 
 class LLMContextSearchRequest(BaseModel):
-    user_id: Optional[str] = Field(None, description="User ID who performed the search")
+    user_id: str = Field(
+        ..., description="User ID who performed the search (mandatory)"
+    )
     query: str = Field(..., description="Search query text")
     context_size: int = Field(
         default=5, description="Number of documents to analyze", ge=1, le=20
@@ -217,13 +221,14 @@ router = APIRouter(
     Perform vector similarity search on resumes using the RAG system.
     
     **Parameters:**
+    - user_id: The user ID who performed the search (mandatory)
     - query: The search query text
     - limit: Maximum number of results to return (default: 50)
     
     **Returns:**
     Dictionary containing:
     - total_found: Total number of matches found
-    - results: List of matching resumes with similarity scores
+    - results: List of matching resumes with similarity scores (filtered by user_id)
     """,
     responses={
         200: {
@@ -262,8 +267,10 @@ async def vector_similarity_search(request: VectorSimilaritySearchRequest):
         # Initialize RAG application
         rag_app = initialize_rag_app()
 
-        # Perform vector similarity search
-        result = rag_app.vector_similarity_search(request.query, request.limit)
+        # Perform vector similarity search with user_id filter
+        result = rag_app.vector_similarity_search(
+            request.query, request.limit, user_id=request.user_id
+        )
 
         if "error" in result:
             raise HTTPException(status_code=500, detail=result["error"])
@@ -350,9 +357,8 @@ async def vector_similarity_search(request: VectorSimilaritySearchRequest):
             },
         }
 
-        # Save the search to recent searches if user_id is provided
-        if request.user_id:
-            await save_ai_search_to_recent(request.user_id, request.query)
+        # Save the search to recent searches
+        await save_ai_search_to_recent(request.user_id, request.query)
 
         logger.info(
             f"Vector similarity search completed successfully. Found {len(formatted_results)} results"
@@ -372,6 +378,7 @@ async def vector_similarity_search(request: VectorSimilaritySearchRequest):
     Perform LLM-powered context search on resumes using the RAG system.
     
     **Parameters:**
+    - user_id: The user ID who performed the search (mandatory)
     - query: The search query text
     - context_size: Number of documents to analyze (default: 5)
     
@@ -380,7 +387,7 @@ async def vector_similarity_search(request: VectorSimilaritySearchRequest):
     - total_found: Total number of matches found
     - total_analyzed: Number of documents analyzed
     - statistics: Search statistics
-    - results: List of matching resumes with relevance scores and match reasons
+    - results: List of matching resumes with relevance scores and match reasons (filtered by user_id)
     """,
     responses={
         200: {
@@ -425,15 +432,16 @@ async def llm_context_search(request: LLMContextSearchRequest):
         # Initialize RAG application
         rag_app = initialize_rag_app()
 
-        # Perform LLM context search
-        result = rag_app.llm_context_search(request.query, request.context_size)
+        # Perform LLM context search with user_id filter
+        result = rag_app.llm_context_search(
+            request.query, request.context_size, user_id=request.user_id
+        )
 
         if "error" in result:
             raise HTTPException(status_code=500, detail=result["error"])
 
         # save the search to recent searches
-        if request.user_id:
-            await save_ai_search_to_recent(request.user_id, request.query)
+        await save_ai_search_to_recent(request.user_id, request.query)
 
         return result
 
@@ -447,12 +455,20 @@ async def llm_context_search(request: LLMContextSearchRequest):
     response_model=LLMContextSearchResponse,
     summary="AI-Powered Resume Search Based on Job Description File",
     description="""
-    Upload a job description file (.txt, .pdf, or .docx) and find matching resumes.
+    Upload a job description file (.txt, .pdf, or .docx) and find matching resumes for a specific user.
     
-    The system will extract and clean the text from the file and use AI to find semantically relevant candidates.
+    **Parameters:**
+    - user_id: The user ID who performed the search (mandatory)
+    - file: Job description file to upload
+    - limit: Maximum number of results to return (default: 10)
+    
+    The system will extract and clean the text from the file and use AI to find semantically relevant candidates for the specified user only.
     """,
 )
 async def llm_search_by_jd(
+    user_id: str = Query(
+        ..., description="User ID who performed the search (mandatory)"
+    ),
     file: UploadFile = File(...),
     limit: int = 10,
 ):
@@ -505,11 +521,13 @@ async def llm_search_by_jd(
             )
             rag_app = initialize_rag_app()
 
-            # Perform LLM context search
+            # Perform LLM context search with user_id filter
             logger.info(
-                f"Performing LLM context search with text length: {len(jd_text)}"
+                f"Performing LLM context search with text length: {len(jd_text)} for user: {user_id}"
             )
-            result = rag_app.llm_context_search(jd_text, context_size=limit)
+            result = rag_app.llm_context_search(
+                jd_text, context_size=limit, user_id=user_id
+            )
 
             # Log the result for debugging
             logger.info(f"LLM context search completed. Result type: {type(result)}")
@@ -639,12 +657,20 @@ async def llm_search_by_jd(
     response_model=VectorSimilaritySearchResponse,
     summary="AI-Powered Resume Search Based on Job Description File",
     description="""
-    Upload a job description file (.txt, .pdf, or .docx) and find matching resumes.
+    Upload a job description file (.txt, .pdf, or .docx) and find matching resumes for a specific user.
     
-    The system will extract and clean the text from the file and use AI to find semantically relevant candidates.
+    **Parameters:**
+    - user_id: The user ID who performed the search (mandatory)
+    - file: Job description file to upload
+    - limit: Maximum number of results to return (default: 10)
+    
+    The system will extract and clean the text from the file and use AI to find semantically relevant candidates for the specified user only.
     """,
 )
 async def vector_search_by_jd(
+    user_id: str = Query(
+        ..., description="User ID who performed the search (mandatory)"
+    ),
     file: UploadFile = File(...),
     limit: int = 10,
 ):
@@ -680,8 +706,8 @@ async def vector_search_by_jd(
             # Initialize RAG application
             rag_app = initialize_rag_app()
 
-            # Perform vector similarity search
-            result = rag_app.vector_similarity_search(jd_text, limit)
+            # Perform vector similarity search with user_id filter
+            result = rag_app.vector_similarity_search(jd_text, limit, user_id=user_id)
         except Exception as e:
             raise HTTPException(status_code=500, detail=str(e))
 

@@ -101,19 +101,23 @@ class RAGApplication:
             )
 
     # Public API methods
-    def vector_similarity_search(self, query: str, limit: int = 50) -> Dict:
+    def vector_similarity_search(
+        self, query: str, limit: int = 50, user_id: str = None
+    ) -> Dict:
         """Perform pure vector similarity search"""
         if not self.vector_search_engine:
             return {"error": "Vector search engine not initialized"}
 
-        return self.vector_search_engine.search(query, limit)
+        return self.vector_search_engine.search(query, limit, user_id)
 
-    def llm_context_search(self, query: str, context_size: int = 5) -> Dict:
+    def llm_context_search(
+        self, query: str, context_size: int = 5, user_id: str = None
+    ) -> Dict:
         """Perform LLM-based search with user-controlled context size"""
         if not self.llm_search_engine:
             return {"error": "LLM search engine not initialized"}
 
-        return self.llm_search_engine.search(query, context_size)
+        return self.llm_search_engine.search(query, context_size, user_id)
 
     def ask_resume_question_with_limits(
         self,

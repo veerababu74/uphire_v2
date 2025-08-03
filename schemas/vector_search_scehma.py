@@ -4,7 +4,9 @@ from typing import List, Optional, Literal, Union
 
 
 class VectorSearchQuery(BaseModel):
-    user_id: Optional[str] = Field(..., description="User ID who performed the search")
+    user_id: str = Field(
+        ..., description="User ID who performed the search - mandatory field"
+    )
     query: str = Field(..., description="Search query for semantic search")
     field: Literal["full_text"] = Field(
         default="full_text",

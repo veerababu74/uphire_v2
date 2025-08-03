@@ -80,19 +80,21 @@ class SearchError(Exception):
 @enhanced_search_router.post(
     "/search",
     response_model=List[Dict[str, Any]],
-    summary="AI-Powered Resume Search",
+    summary="AI-Powered Resume Search for Specific User",
     description="""
-    Perform semantic search across resume database using AI embeddings.
+    Perform semantic search across resume database using AI embeddings for a specific user.
     
     **Input Fields:**
+    - user_id: User ID (MANDATORY) - only resumes for this user will be searched
     - query: Search text (e.g., "Python developer with 5 years experience in machine learning")
     - field: Search scope (default: "full_text")
     - num_results: Number of results to return (default: 10)
-    - min_score: Minimum similarity threshold (default: 0.0)
+    - min_score: Minimum similarity threshold (default: 0.2)
     
     **Example Input:**
     ```json
     {
+        "user_id": "64f123abc456def789012345",
         "query": "experienced machine learning engineer with python",
         "field": "full_text",
         "num_results": 10,
@@ -101,7 +103,7 @@ class SearchError(Exception):
     ```
     
     **Output Fields:**
-    - user_id: Unique identifier for the user
+    - user_id: Unique identifier for the user (matches the input user_id)
     - username: Username of the candidate
     - name: Candidate's full name
     - contact_details: Email, phone, location etc.
@@ -119,6 +121,8 @@ class SearchError(Exception):
     - experience: Search work experience
     - education: Search educational background
     - projects: Search project descriptions
+    
+    **Note:** This endpoint will only return resumes belonging to the specified user_id.
     """,
     responses={
         200: {
@@ -169,7 +173,7 @@ class SearchError(Exception):
             "description": "Bad Request",
             "content": {
                 "application/json": {
-                    "example": {"detail": "Search query cannot be empty"}
+                    "example": {"detail": "User ID is mandatory and cannot be empty"}
                 }
             },
         },
@@ -188,6 +192,9 @@ async def vector_search(search_query: VectorSearchQuery):
         # Input validation
         if not search_query.query.strip():
             raise SearchError("Search query cannot be empty")
+
+        if not search_query.user_id.strip():
+            raise SearchError("User ID is mandatory and cannot be empty")
 
         if search_query.num_results < 1:
             raise SearchError("Number of results must be greater than 0")
@@ -212,7 +219,7 @@ async def vector_search(search_query: VectorSearchQuery):
                 f"Invalid field name. Choose from: {', '.join(vector_field_mapping.keys())}"
             )
 
-        # Enhanced search pipeline with scoring and filtering
+        # Enhanced search pipeline with scoring (removed user_id filter from aggregation)
         pipeline = [
             {
                 "$search": {
@@ -220,12 +227,18 @@ async def vector_search(search_query: VectorSearchQuery):
                     "knnBeta": {
                         "vector": query_embedding,
                         "path": vector_field,
-                        "k": search_query.num_results,
+                        "k": search_query.num_results
+                        * 5,  # Get more results to filter later
                     },
                 }
             },
             {"$set": {"score": {"$meta": "searchScore"}}},
-            {"$match": {"score": {"$gte": search_query.min_score}}},
+            {
+                "$match": {
+                    "score": {"$gte": search_query.min_score},
+                    # Removed user_id filter from aggregation pipeline
+                }
+            },
             {
                 "$project": {
                     "user_id": 1,
@@ -252,7 +265,18 @@ async def vector_search(search_query: VectorSearchQuery):
         if not results:
             return []
 
-        formatted_results = [format_resume(result) for result in results]
+        # Filter results by user_id after aggregation
+        filtered_results = []
+        for result in results:
+            if str(result.get("user_id", "")) == search_query.user_id:
+                filtered_results.append(result)
+                if len(filtered_results) >= search_query.num_results:
+                    break
+
+        if not filtered_results:
+            return []
+
+        formatted_results = [format_resume(result) for result in filtered_results]
 
         # Add relevance score to results
         for result in formatted_results:
@@ -272,20 +296,33 @@ async def vector_search(search_query: VectorSearchQuery):
 @enhanced_search_router.post(
     "/search-by-jd",
     response_model=List[Dict[str, Any]],
-    summary="AI-Powered Resume Search Based on Job Description File",
+    summary="AI-Powered Resume Search Based on Job Description File for Specific User",
     description="""
-    Upload a job description file (.txt, .pdf, or .docx) and find matching resumes.
+    Upload a job description file (.txt, .pdf, or .docx) and find matching resumes for a specific user.
     
-    The system will extract and clean the text from the file and use AI to find semantically relevant candidates.
+    The system will extract and clean the text from the file and use AI to find semantically relevant candidates 
+    belonging to the specified user_id.
+    
+    **Parameters:**
+    - user_id: User ID (MANDATORY) - only resumes for this user will be searched
+    - file: Job description file (.txt, .pdf, or .docx)
+    - field: Search scope (default: "full_text")
+    - num_results: Number of results to return (default: 10)
+    - min_score: Minimum similarity threshold (default: 0.0)
     """,
 )
 async def search_by_jd(
+    user_id: str,  # Made mandatory
     file: UploadFile = File(...),
     field: str = "full_text",
     num_results: int = 10,
     min_score: float = 0.0,
 ):
     try:
+        # Input validation
+        if not user_id.strip():
+            raise SearchError("User ID is mandatory and cannot be empty")
+
         # Step 1: Save uploaded file to temp directory
         file_location = os.path.join(TEMP_FOLDER, file.filename)
 
@@ -333,7 +370,7 @@ async def search_by_jd(
                 f"Invalid field name. Choose from: {', '.join(vector_field_mapping.keys())}"
             )
 
-        # Step 5: Run vector search pipeline
+        # Step 5: Run vector search pipeline (removed user_id filter from aggregation)
         pipeline = [
             {
                 "$search": {
@@ -341,12 +378,17 @@ async def search_by_jd(
                     "knnBeta": {
                         "vector": query_embedding,
                         "path": vector_field,
-                        "k": num_results,
+                        "k": num_results * 5,  # Get more results to filter later
                     },
                 }
             },
             {"$set": {"score": {"$meta": "searchScore"}}},
-            {"$match": {"score": {"$gte": min_score}}},
+            {
+                "$match": {
+                    "score": {"$gte": min_score},
+                    # Removed user_id filter from aggregation pipeline
+                }
+            },
             {
                 "$project": {
                     "user_id": 1,
@@ -373,7 +415,18 @@ async def search_by_jd(
         if not results:
             return []
 
-        formatted_results = [format_resume(result) for result in results]
+        # Filter results by user_id after aggregation
+        filtered_results = []
+        for result in results:
+            if str(result.get("user_id", "")) == user_id:
+                filtered_results.append(result)
+                if len(filtered_results) >= num_results:
+                    break
+
+        if not filtered_results:
+            return []
+
+        formatted_results = [format_resume(result) for result in filtered_results]
 
         # Add relevance score to results
         for result in formatted_results:

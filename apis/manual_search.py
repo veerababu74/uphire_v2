@@ -12,9 +12,8 @@ resumes_collection = get_collection()
 
 # Define request and response models for better documentation
 class ManualSearchRequest(BaseModel):
-    userid: Optional[str] = Field(
-        default=None,
-        description="User ID who performed the search (for saving to recent searches)",
+    userid: str = Field(
+        description="User ID who performed the search (mandatory field)",
         example="user123",
     )
     experience_titles: Optional[List[str]] = Field(
@@ -79,9 +78,12 @@ router = APIRouter(
     response_model=List[Dict[str, Any]],
     summary="Advanced Resume Search",
     description="""
-    Search for resumes using multiple criteria with intelligent ranking.
+    Search for resumes using multiple criteria with intelligent ranking for a specific user.
 
-    **All Search Criteria are Optional:**
+    **User ID is Mandatory:**
+    - userid: Required field to search resumes belonging to a specific user only
+    
+    **All Other Search Criteria are Optional:**
     - Experience Titles (Optional): Job titles to match (e.g., ["Software Engineer", "Developer"])
     - Skills (Optional): Technical skills to match (includes both 'skills' and 'may_also_known_skills')
     - Minimum Education (Optional): Education level (e.g., "BTech", "MCA", "MBA")
@@ -143,78 +145,124 @@ router = APIRouter(
     - Enhanced match details: includes matched_experience_titles, matched_skills, matched_education, matched_locations
     
     **Returns:**
-    Sorted list of matching resumes with comprehensive match details and scores (best matches first)
+    Sorted list of matching resumes with comprehensive match details and scores (best matches first).
+    If no results are found, returns an informative object with search summary and suggestions.
     """,
     responses={
         200: {
-            "description": "Successful search results",
+            "description": "Successful search results or informative no-results message",
             "content": {
                 "application/json": {
-                    "example": [
-                        {
-                            "user_id": "user123",
-                            "username": "johndoe",
-                            "contact_details": {
-                                "name": "John Doe",
-                                "email": "john@example.com",
-                                "phone": "+91-1234567890",
-                                "current_city": "Mumbai",
-                                "looking_for_jobs_in": ["Mumbai", "Pune"],
-                                "pan_card": "ABCDE1234F",
-                                "gender": "Male",
-                                "age": 28,
-                            },
-                            "academic_details": [
+                    "examples": {
+                        "successful_search": {
+                            "summary": "Successful search with results",
+                            "value": [
                                 {
-                                    "education": "BTech in Computer Science",
-                                    "college": "Mumbai University",
-                                    "pass_year": 2020,
+                                    "user_id": "user123",
+                                    "username": "johndoe",
+                                    "contact_details": {
+                                        "name": "John Doe",
+                                        "email": "john@example.com",
+                                        "phone": "+91-1234567890",
+                                        "current_city": "Mumbai",
+                                        "looking_for_jobs_in": ["Mumbai", "Pune"],
+                                        "pan_card": "ABCDE1234F",
+                                        "gender": "Male",
+                                        "age": 28,
+                                    },
+                                    "academic_details": [
+                                        {
+                                            "education": "BTech in Computer Science",
+                                            "college": "Mumbai University",
+                                            "pass_year": 2020,
+                                        }
+                                    ],
+                                    "experience": [
+                                        {
+                                            "company": "Tech Corp",
+                                            "title": "Senior Software Engineer",
+                                            "from_date": "2021-01",
+                                            "to": "2023-12",
+                                        }
+                                    ],
+                                    "skills": ["Python", "React", "AWS"],
+                                    "may_also_known_skills": ["Docker", "Kubernetes"],
+                                    "total_experience": "2 years 6 months",
+                                    "expected_salary": 1500000.0,
+                                    "current_salary": 1200000.0,
+                                    "notice_period": "30 days",
+                                    "match_score": 85.5,
+                                    "base_score": 75.5,
+                                    "field_diversity_bonus": 10,
+                                    "category_scores": {
+                                        "experience_titles": 16.0,
+                                        "skills": 21.5,
+                                        "education": 10.0,
+                                        "experience_range": 10.0,
+                                        "location": 12.0,
+                                        "salary": 10.0,
+                                    },
+                                    "match_details": {
+                                        "experience_title_matches": 1,
+                                        "skills_matches": 3,
+                                        "education_matches": 1,
+                                        "location_matches": 2,
+                                        "experience_range_match": True,
+                                        "salary_range_match": True,
+                                        "matched_experience_titles": [
+                                            "Software Engineer"
+                                        ],
+                                        "matched_skills": ["Python", "React", "AWS"],
+                                        "matched_education": ["BTech"],
+                                        "matched_locations": [
+                                            "Mumbai (current)",
+                                            "Mumbai (preference)",
+                                        ],
+                                        "fields_matched": 5,
+                                    },
+                                    "total_individual_matches": 9,
                                 }
                             ],
-                            "experience": [
+                        },
+                        "no_results_found": {
+                            "summary": "No results found with helpful suggestions",
+                            "value": [
                                 {
-                                    "company": "Tech Corp",
-                                    "title": "Senior Software Engineer",
-                                    "from_date": "2021-01",
-                                    "to": "2023-12",
+                                    "message": "No matching resumes found",
+                                    "search_summary": {
+                                        "user_id": "user123",
+                                        "total_candidates_searched": 0,
+                                        "search_criteria_used": {
+                                            "experience_titles": [
+                                                "Software Engineer",
+                                                "Python Developer",
+                                            ],
+                                            "skills": ["Python", "React", "AWS"],
+                                            "min_education": ["BTech", "BSc"],
+                                            "min_experience": "2 years 6 months",
+                                            "max_experience": "5 years",
+                                            "locations": [
+                                                "Mumbai",
+                                                "Pune",
+                                                "Bangalore",
+                                            ],
+                                            "min_salary": 500000,
+                                            "max_salary": 1500000,
+                                        },
+                                        "suggestions": [
+                                            "Try using broader or alternative job titles",
+                                            "Consider removing some specific skills or using more general skill terms",
+                                            "Adjust the experience range requirements",
+                                            "Expand the location search to include nearby cities",
+                                            "Adjust the salary range to be more flexible",
+                                            "Consider accepting lower education qualifications",
+                                        ],
+                                    },
+                                    "results": [],
                                 }
                             ],
-                            "skills": ["Python", "React", "AWS"],
-                            "may_also_known_skills": ["Docker", "Kubernetes"],
-                            "total_experience": "2 years 6 months",
-                            "expected_salary": 1500000.0,
-                            "current_salary": 1200000.0,
-                            "notice_period": "30 days",
-                            "match_score": 85.5,
-                            "base_score": 75.5,
-                            "field_diversity_bonus": 10,
-                            "category_scores": {
-                                "experience_titles": 16.0,
-                                "skills": 21.5,
-                                "education": 10.0,
-                                "experience_range": 10.0,
-                                "location": 12.0,
-                                "salary": 10.0,
-                            },
-                            "match_details": {
-                                "experience_title_matches": 1,
-                                "skills_matches": 3,
-                                "education_matches": 1,
-                                "location_matches": 2,
-                                "experience_range_match": True,
-                                "salary_range_match": True,
-                                "matched_experience_titles": ["Software Engineer"],
-                                "matched_skills": ["Python", "React", "AWS"],
-                                "matched_education": ["BTech"],
-                                "matched_locations": [
-                                    "Mumbai (current)",
-                                    "Mumbai (preference)",
-                                ],
-                                "fields_matched": 5,
-                            },
-                            "total_individual_matches": 9,
-                        }
-                    ]
+                        },
+                    }
                 }
             },
         },
@@ -252,8 +300,8 @@ async def manual_resume_search(search_params: ManualSearchRequest):
             ]
         )
 
-        # Save search query to recent searches if userid is provided and has criteria
-        if search_params.userid and has_criteria:
+        # Save search query to recent searches (userid is now mandatory)
+        if has_criteria:
             try:
                 recent_collection = get_manual_recent_search_collection()
 
@@ -298,11 +346,14 @@ async def manual_resume_search(search_params: ManualSearchRequest):
                 # Log the error but don't fail the search
                 print(f"Warning: Failed to save recent search: {str(save_error)}")
 
+        # Base query to filter by user_id (mandatory)
+        base_query = {"user_id": search_params.userid}
+
         if not has_criteria:
-            # If no criteria provided, return all resumes sorted by most recent
-            results = list(resumes_collection.find({}))
+            # If no criteria provided, return all resumes for this user sorted by most recent
+            results = list(resumes_collection.find(base_query))
         else:
-            # Enhanced query building to capture ALL matching candidates
+            # Enhanced query building to capture ALL matching candidates for this user
             # Use comprehensive OR logic to find any resume matching any criteria
             or_conditions = []
 
@@ -356,12 +407,12 @@ async def manual_resume_search(search_params: ManualSearchRequest):
                         ]
                     )
 
-            # Build final query to get ALL potentially matching candidates
+            # Build final query combining user_id filter with search criteria
             if or_conditions:
-                final_query = {"$or": or_conditions}
+                final_query = {"$and": [base_query, {"$or": or_conditions}]}
             else:
-                # If only experience/salary filters, get all resumes for post-processing
-                final_query = {}
+                # If only experience/salary filters, filter by user_id only
+                final_query = base_query
 
             results = list(
                 resumes_collection.find(final_query)
@@ -665,9 +716,88 @@ async def manual_resume_search(search_params: ManualSearchRequest):
 
         # Return results based on limit (if provided)
         if search_params.limit and search_params.limit > 0:
-            return sorted_results[: search_params.limit]
+            final_results = sorted_results[: search_params.limit]
         else:
-            return sorted_results
+            final_results = sorted_results
+
+        # If no results found, return informative message instead of empty array
+        if not final_results:
+            no_results_info = {
+                "message": "No matching resumes found",
+                "search_summary": {
+                    "user_id": search_params.userid,
+                    "total_candidates_searched": (
+                        len(results) if "results" in locals() else 0
+                    ),
+                    "search_criteria_used": {},
+                    "suggestions": [],
+                },
+                "results": [],
+            }
+
+            # Add search criteria that were used
+            if search_params.experience_titles:
+                no_results_info["search_summary"]["search_criteria_used"][
+                    "experience_titles"
+                ] = search_params.experience_titles
+            if search_params.skills:
+                no_results_info["search_summary"]["search_criteria_used"][
+                    "skills"
+                ] = search_params.skills
+            if search_params.min_education:
+                no_results_info["search_summary"]["search_criteria_used"][
+                    "min_education"
+                ] = search_params.min_education
+            if search_params.min_experience:
+                no_results_info["search_summary"]["search_criteria_used"][
+                    "min_experience"
+                ] = search_params.min_experience
+            if search_params.max_experience:
+                no_results_info["search_summary"]["search_criteria_used"][
+                    "max_experience"
+                ] = search_params.max_experience
+            if search_params.locations:
+                no_results_info["search_summary"]["search_criteria_used"][
+                    "locations"
+                ] = search_params.locations
+            if search_params.min_salary is not None:
+                no_results_info["search_summary"]["search_criteria_used"][
+                    "min_salary"
+                ] = search_params.min_salary
+            if search_params.max_salary is not None:
+                no_results_info["search_summary"]["search_criteria_used"][
+                    "max_salary"
+                ] = search_params.max_salary
+
+            # Add helpful suggestions
+            suggestions = []
+            if search_params.experience_titles:
+                suggestions.append("Try using broader or alternative job titles")
+            if search_params.skills:
+                suggestions.append(
+                    "Consider removing some specific skills or using more general skill terms"
+                )
+            if search_params.min_experience or search_params.max_experience:
+                suggestions.append("Adjust the experience range requirements")
+            if search_params.locations:
+                suggestions.append(
+                    "Expand the location search to include nearby cities"
+                )
+            if search_params.min_salary or search_params.max_salary:
+                suggestions.append("Adjust the salary range to be more flexible")
+            if search_params.min_education:
+                suggestions.append("Consider accepting lower education qualifications")
+
+            if not suggestions:
+                suggestions.append(
+                    "Try adding some search criteria to find matching candidates"
+                )
+
+            no_results_info["search_summary"]["suggestions"] = suggestions
+
+            return [no_results_info]
+
+        return final_results
 
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Manual search failed: {str(e)}")

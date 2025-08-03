@@ -1,7 +1,13 @@
 import os
 import json
+import time
 from typing import List, Dict, Optional
 from pymongo import MongoClient
+from pymongo.errors import (
+    NetworkTimeout,
+    ServerSelectionTimeoutError,
+    ConnectionFailure,
+)
 from bson import ObjectId
 from dotenv import load_dotenv
 
@@ -49,6 +55,37 @@ FIELDS_TO_EXTRACT = [
 ]
 
 
+def retry_connection(max_retries: int = 3, delay: float = 1.0):
+    """Decorator to retry connection operations with exponential backoff."""
+
+    def decorator(func):
+        def wrapper(*args, **kwargs):
+            last_exception = None
+            for attempt in range(max_retries):
+                try:
+                    return func(*args, **kwargs)
+                except (
+                    NetworkTimeout,
+                    ServerSelectionTimeoutError,
+                    ConnectionFailure,
+                ) as e:
+                    last_exception = e
+                    if attempt < max_retries - 1:
+                        wait_time = delay * (2**attempt)  # exponential backoff
+                        logger.warning(
+                            f"Connection attempt {attempt + 1} failed, retrying in {wait_time}s: {e}"
+                        )
+                        time.sleep(wait_time)
+                    else:
+                        logger.error(f"All {max_retries} connection attempts failed")
+                        raise last_exception
+            return func(*args, **kwargs)
+
+        return wrapper
+
+    return decorator
+
+
 class VectorizerEmbeddingAdapter:
     """Adapter to make our internal Vectorizer compatible with LangChain embeddings interface"""
 
@@ -67,15 +104,20 @@ class VectorizerEmbeddingAdapter:
 class MangoRetriever:
     """RAG Application for retrieving and ranking documents from MongoDB."""
 
-    def __init__(self):
+    def __init__(self, lazy_init: bool = True):
         """Initialize the RAG Retriever with MongoDB connection and vectorizer."""
         self.client = None
         self.collection = None
         self.vectorizer = None
-        self._initialize_components()
+        self._initialized = False
+        if not lazy_init:
+            self._initialize_components()
 
     def _initialize_components(self):
         """Initialize MongoDB connection and vectorizer."""
+        if self._initialized:
+            return
+
         try:
             # Get MongoDB connection details from AppConfig
             from core.config import AppConfig
@@ -88,26 +130,43 @@ class MangoRetriever:
             self.vectorizer = Vectorizer()
             logger.info("Vectorizer initialized successfully")
 
-            # Initialize MongoDB connection
-            self.client = MongoClient(mongo_uri)
+            # Initialize MongoDB connection with timeout settings
+            self.client = MongoClient(
+                mongo_uri,
+                serverSelectionTimeoutMS=5000,  # 5 second timeout
+                connectTimeoutMS=5000,
+                socketTimeoutMS=5000,
+            )
             db = self.client[db_name]
             self.collection = db[collection_name]
+
+            # Test connection with timeout
             self.client.admin.command("ping")
+            self._initialized = True
             logger.info(
                 f"Connected to MongoDB database '{db_name}' and collection '{collection_name}'"
             )
 
         except Exception as e:
             logger.error(f"Failed to initialize RAG Retriever: {e}")
+            self._initialized = False
             raise
 
-    def search_and_rank(self, question: str, limit: int = 10) -> Dict:
+    def _ensure_initialized(self):
+        """Ensure components are initialized before use."""
+        if not self._initialized:
+            self._initialize_components()
+
+    def search_and_rank(
+        self, question: str, limit: int = 10, user_id: str = None
+    ) -> Dict:
         """
         Search MongoDB using vector similarity and return ranked results.
 
         Args:
             question (str): The search query/question
             limit (int): Maximum number of results to return
+            user_id (str): User ID to filter results (optional)
 
         Returns:
             Dict containing:
@@ -116,6 +175,8 @@ class MangoRetriever:
             - query: Original query
         """
         try:
+            # Ensure components are initialized
+            self._ensure_initialized()
             # Generate embedding for the question
             question_embedding = self.vectorizer.generate_embedding(question)
 
@@ -124,23 +185,40 @@ class MangoRetriever:
             projection["score"] = {"$meta": "vectorSearchScore"}
 
             # Perform vector similarity search using MongoDB's $vectorSearch
+            vector_search_stage = {
+                "$vectorSearch": {
+                    "index": "vector_search_index",
+                    "path": "combined_resume_vector",
+                    "queryVector": question_embedding,
+                    "numCandidates": limit
+                    * 5,  # Get more candidates for filtering and better ranking
+                    "limit": limit * 5,  # Increased limit to account for user filtering
+                }
+            }
+
+            # Removed user_id filter from vector search stage to avoid indexing requirements
+
             pipeline = [
-                {
-                    "$vectorSearch": {
-                        "index": "vector_search_index",
-                        "path": "combined_resume_vector",
-                        "queryVector": question_embedding,
-                        "numCandidates": limit
-                        * 2,  # Get more candidates for better ranking
-                        "limit": limit,
-                    }
-                },
+                vector_search_stage,
                 {"$project": projection},
             ]
 
             # Execute the search
             results = list(self.collection.aggregate(pipeline))
             logger.info(f"Retrieved {len(results)} documents from MongoDB")
+
+            # Filter by user_id after aggregation if provided
+            if user_id:
+                filtered_results = []
+                for doc in results:
+                    if str(doc.get("user_id", "")) == user_id:
+                        filtered_results.append(doc)
+                        if len(filtered_results) >= limit:
+                            break
+                results = filtered_results
+                logger.info(
+                    f"Filtered to {len(results)} documents for user_id: {user_id}"
+                )
 
             # Format and normalize results
             formatted_results = []
@@ -196,6 +274,15 @@ class MangoRetriever:
                 "query": question,
             }
 
+        except (NetworkTimeout, ServerSelectionTimeoutError, ConnectionFailure) as e:
+            logger.error(f"MongoDB connection error during search: {e}")
+            return {
+                "error": "Database connection unavailable. Please try again later.",
+                "results": [],
+                "total_count": 0,
+                "query": question,
+                "error_type": "connection_error",
+            }
         except Exception as e:
             logger.error(f"Error during search and rank: {e}")
             return {"error": str(e), "results": [], "total_count": 0, "query": question}
@@ -204,16 +291,21 @@ class MangoRetriever:
 class LangChainRetriever:
     """RAG Application using LangChain for retrieving and ranking documents from MongoDB."""
 
-    def __init__(self):
+    def __init__(self, lazy_init: bool = True):
         """Initialize the LangChain Retriever with MongoDB connection and vectorizer."""
         self.client = None
         self.collection = None
         self.vectorizer = None
         self.vector_store = None
-        self._initialize_components()
+        self._initialized = False
+        if not lazy_init:
+            self._initialize_components()
 
     def _initialize_components(self):
         """Initialize MongoDB connection, vectorizer, and LangChain components."""
+        if self._initialized:
+            return
+
         try:
             # Get MongoDB connection details from AppConfig
             mongo_uri = AppConfig.MONGODB_URI
@@ -225,10 +317,17 @@ class LangChainRetriever:
             embedding_adapter = VectorizerEmbeddingAdapter(self.vectorizer)
             logger.info("Vectorizer and embedding adapter initialized successfully")
 
-            # Initialize MongoDB connection
-            self.client = MongoClient(mongo_uri)
+            # Initialize MongoDB connection with timeout settings
+            self.client = MongoClient(
+                mongo_uri,
+                serverSelectionTimeoutMS=5000,  # 5 second timeout
+                connectTimeoutMS=5000,
+                socketTimeoutMS=5000,
+            )
             db = self.client[db_name]
             self.collection = db[collection_name]
+
+            # Test connection with timeout
             self.client.admin.command("ping")
             logger.info(
                 f"Connected to MongoDB database '{db_name}' and collection '{collection_name}'"
@@ -242,19 +341,29 @@ class LangChainRetriever:
                 text_key="combined_resume",
                 embedding_key="combined_resume_vector",
             )
+            self._initialized = True
             logger.info("LangChain vector store initialized successfully")
 
         except Exception as e:
             logger.error(f"Failed to initialize LangChain Retriever: {e}")
+            self._initialized = False
             raise
 
-    def search_and_rank(self, question: str, limit: int = 10) -> Dict:
+    def _ensure_initialized(self):
+        """Ensure components are initialized before use."""
+        if not self._initialized:
+            self._initialize_components()
+
+    def search_and_rank(
+        self, question: str, limit: int = 10, user_id: str = None
+    ) -> Dict:
         """
         Search MongoDB using LangChain's vector similarity and return ranked results.
 
         Args:
             question (str): The search query/question
             limit (int): Maximum number of results to return
+            user_id (str): User ID to filter results (optional)
 
         Returns:
             Dict containing:
@@ -263,6 +372,8 @@ class LangChainRetriever:
             - query: Original query
         """
         try:
+            # Ensure components are initialized
+            self._ensure_initialized()
             # Use LangChain's similarity search with scores
             docs_with_scores = self.vector_store.similarity_search_with_score(
                 query=question, k=limit
@@ -275,6 +386,10 @@ class LangChainRetriever:
                 try:
                     # Get the document metadata
                     metadata = doc.metadata
+
+                    # Filter by user_id if provided
+                    if user_id and metadata.get("user_id") != user_id:
+                        continue
 
                     # Ensure _id is properly handled
                     doc_id = metadata.get("_id")
@@ -324,6 +439,15 @@ class LangChainRetriever:
                 "query": question,
             }
 
+        except (NetworkTimeout, ServerSelectionTimeoutError, ConnectionFailure) as e:
+            logger.error(f"MongoDB connection error during LangChain search: {e}")
+            return {
+                "error": "Database connection unavailable. Please try again later.",
+                "results": [],
+                "total_count": 0,
+                "query": question,
+                "error_type": "connection_error",
+            }
         except Exception as e:
             logger.error(f"Error during LangChain search and rank: {e}")
             return {"error": str(e), "results": [], "total_count": 0, "query": question}
@@ -339,6 +463,8 @@ class LangChainRetriever:
             Optional[Dict]: Document details or None if not found
         """
         try:
+            # Ensure components are initialized
+            self._ensure_initialized()
             # Convert string ID to ObjectId
             object_id = ObjectId(doc_id)
 
@@ -351,6 +477,9 @@ class LangChainRetriever:
                 return doc
             return None
 
+        except (NetworkTimeout, ServerSelectionTimeoutError, ConnectionFailure) as e:
+            logger.error(f"MongoDB connection error retrieving document details: {e}")
+            return None
         except Exception as e:
             logger.error(f"Error retrieving document details: {e}")
             return None
@@ -359,11 +488,19 @@ class LangChainRetriever:
 class RAGRetriever:
     """Retriever that combines vector search with RAG capabilities."""
 
-    def __init__(self):
-        self._initialize_components()
+    def __init__(self, lazy_init: bool = True):
+        self.client = None
+        self.collection = None
+        self.vectorizer = None
+        self._initialized = False
+        if not lazy_init:
+            self._initialize_components()
 
     def _initialize_components(self):
         """Initialize MongoDB connection and vectorizer."""
+        if self._initialized:
+            return
+
         try:
             # Get MongoDB connection details from AppConfig
             from core.config import AppConfig
@@ -376,22 +513,38 @@ class RAGRetriever:
             self.vectorizer = Vectorizer()
             logger.info("Vectorizer initialized successfully")
 
-            # Initialize MongoDB connection
-            self.client = MongoClient(mongo_uri)
+            # Initialize MongoDB connection with timeout settings
+            self.client = MongoClient(
+                mongo_uri,
+                serverSelectionTimeoutMS=5000,  # 5 second timeout
+                connectTimeoutMS=5000,
+                socketTimeoutMS=5000,
+            )
             db = self.client[db_name]
             self.collection = db[collection_name]
+
+            # Test connection with timeout
             self.client.admin.command("ping")
+            self._initialized = True
             logger.info(
                 f"Connected to MongoDB database '{db_name}' and collection '{collection_name}'"
             )
 
         except Exception as e:
             logger.error(f"Failed to initialize RAG Retriever: {e}")
+            self._initialized = False
             raise
+
+    def _ensure_initialized(self):
+        """Ensure components are initialized before use."""
+        if not self._initialized:
+            self._initialize_components()
 
     def search(self, query: str, limit: int = 5):
         """Search for relevant documents using RAG."""
         try:
+            # Ensure components are initialized
+            self._ensure_initialized()
             # Get query vector
             query_vector = self.vectorizer.get_embedding(query)
 

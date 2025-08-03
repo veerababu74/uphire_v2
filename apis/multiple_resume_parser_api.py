@@ -1,9 +1,10 @@
-from fastapi import APIRouter, HTTPException, File, UploadFile
+from fastapi import APIRouter, HTTPException, File, UploadFile, Form
 import os
 from pathlib import Path
 from datetime import datetime, timedelta, timezone
 from typing import List, Dict, Any, Optional
 import json
+import time
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
 # Import the multiple resume parser module
@@ -13,6 +14,7 @@ from mangodatabase.operations import ResumeOperations, SkillsTitlesOperations
 from mangodatabase.client import get_collection, get_skills_titles_collection
 from embeddings.vectorizer import AddUserDataVectorizer
 from schemas.add_user_schemas import ResumeData
+from schemas.multiple_resume_schemas import MultipleResumeUploadRequest
 from core.custom_logger import CustomLogger
 from core.llm_config import LLMConfigManager, LLMProvider
 
@@ -32,6 +34,13 @@ llm_manager = LLMConfigManager()
 
 # Create router
 router = APIRouter()
+
+# Global queue tracking for concurrent processing
+PROCESSING_QUEUE = {
+    "current_queue_size": 0,
+    "total_processed_today": 0,
+    "active_sessions": {},
+}
 
 # Directory configuration
 BASE_FOLDER = "dummy_data_save"
@@ -57,6 +66,63 @@ def cleanup_temp_directory(age_limit_minutes: int = 60):
                     logger.info(f"Deleted old file: {file_path}")
                 except Exception as e:
                     logger.error(f"Failed to delete file {file_path}: {e}")
+
+
+def update_processing_queue(action: str, session_id: str = None, count: int = 0):
+    """Update the global processing queue statistics."""
+    global PROCESSING_QUEUE
+
+    if action == "add_to_queue":
+        PROCESSING_QUEUE["current_queue_size"] += count
+        if session_id:
+            PROCESSING_QUEUE["active_sessions"][session_id] = {
+                "start_time": time.time(),
+                "count": count,
+                "status": "processing",
+            }
+    elif action == "remove_from_queue":
+        PROCESSING_QUEUE["current_queue_size"] = max(
+            0, PROCESSING_QUEUE["current_queue_size"] - count
+        )
+        PROCESSING_QUEUE["total_processed_today"] += count
+        if session_id and session_id in PROCESSING_QUEUE["active_sessions"]:
+            del PROCESSING_QUEUE["active_sessions"][session_id]
+    elif action == "complete_session":
+        if session_id and session_id in PROCESSING_QUEUE["active_sessions"]:
+            PROCESSING_QUEUE["active_sessions"][session_id]["status"] = "completed"
+
+
+def get_queue_status():
+    """Get current queue status information."""
+    active_sessions = len(
+        [
+            s
+            for s in PROCESSING_QUEUE["active_sessions"].values()
+            if s["status"] == "processing"
+        ]
+    )
+    return {
+        "current_queue_size": PROCESSING_QUEUE["current_queue_size"],
+        "active_processing_sessions": active_sessions,
+        "total_processed_today": PROCESSING_QUEUE["total_processed_today"],
+        "queue_status": (
+            "busy" if PROCESSING_QUEUE["current_queue_size"] > 0 else "available"
+        ),
+    }
+
+
+def calculate_processing_time(start_time: float, end_time: float) -> dict:
+    """Calculate processing time statistics."""
+    total_seconds = end_time - start_time
+    minutes = int(total_seconds // 60)
+    seconds = int(total_seconds % 60)
+
+    return {
+        "total_seconds": round(total_seconds, 2),
+        "formatted_time": f"{minutes}m {seconds}s" if minutes > 0 else f"{seconds}s",
+        "start_time": datetime.fromtimestamp(start_time).strftime("%Y-%m-%d %H:%M:%S"),
+        "end_time": datetime.fromtimestamp(end_time).strftime("%Y-%m-%d %H:%M:%S"),
+    }
 
 
 def normalize_text_data(text: str) -> str:
@@ -102,7 +168,9 @@ def clean_string_field(value) -> str:
     return str(value) if value else ""
 
 
-def clean_resume_data(resume_dict: dict) -> dict:
+def clean_resume_data(
+    resume_dict: dict, user_id: str = None, username: str = None
+) -> dict:
     """
     Clean and normalize resume data following the same pattern as add_userdata.py
     """
@@ -137,14 +205,21 @@ def clean_resume_data(resume_dict: dict) -> dict:
     else:
         contact["looking_for_jobs_in"] = []
 
-    # Ensure required main fields
-    resume_dict["user_id"] = (
-        clean_string_field(resume_dict.get("user_id"))
-        or f"auto_user_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
-    )
-    resume_dict["username"] = (
-        clean_string_field(resume_dict.get("username")) or resume_dict["user_id"]
-    )
+    # Ensure required main fields - use provided user_id and username if available
+    if user_id:
+        resume_dict["user_id"] = user_id
+    else:
+        resume_dict["user_id"] = (
+            clean_string_field(resume_dict.get("user_id"))
+            or f"auto_user_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
+        )
+
+    if username:
+        resume_dict["username"] = username
+    else:
+        resume_dict["username"] = (
+            clean_string_field(resume_dict.get("username")) or resume_dict["user_id"]
+        )
 
     # Optional main fields
     resume_dict["notice_period"] = clean_string_field(resume_dict.get("notice_period"))
@@ -218,7 +293,9 @@ def clean_resume_data(resume_dict: dict) -> dict:
     return resume_dict
 
 
-def generate_embeddings_for_resume(parsed_data: dict) -> dict:
+def generate_embeddings_for_resume(
+    parsed_data: dict, user_id: str = None, username: str = None
+) -> dict:
     """
     Generate embeddings for all relevant resume fields using the proper vectorizer.
     """
@@ -226,7 +303,7 @@ def generate_embeddings_for_resume(parsed_data: dict) -> dict:
         logger.info("Generating embeddings for resume data")
 
         # Clean and normalize the data first
-        cleaned_data = clean_resume_data(parsed_data)
+        cleaned_data = clean_resume_data(parsed_data, user_id, username)
 
         # Add created_at timestamp (using UTC timezone like add_userdata.py)
         cleaned_data["created_at"] = datetime.now(timezone.utc)
@@ -331,17 +408,23 @@ Portfolio: {contact_details.get('portfolio_link', 'N/A')}
     except Exception as e:
         logger.error(f"Error generating embeddings: {e}")
         # Return cleaned data without embeddings if generation fails
-        return clean_resume_data(parsed_data)
+        return clean_resume_data(parsed_data, user_id, username)
 
 
 def process_multiple_resumes_with_embeddings(
-    files_data: List[Dict[str, Any]], llm_provider: str = None, max_concurrent: int = 10
+    files_data: List[Dict[str, Any]],
+    user_id: str,
+    username: str,
+    llm_provider: str = None,
+    max_concurrent: int = 10,
 ) -> List[Dict[str, Any]]:
     """
     Process multiple resume files using the multiple resume parser and generate embeddings.
 
     Args:
         files_data: List of file data dictionaries
+        user_id: The user ID to assign to all resumes
+        username: The username to assign to all resumes
         llm_provider: Optional LLM provider to use
         max_concurrent: Maximum concurrent processing tasks
 
@@ -394,12 +477,40 @@ def process_multiple_resumes_with_embeddings(
                 logger.error(f"Failed to initialize parser: {e}")
                 parser = ResumeParser()  # Use default
 
-            # Process the resume
+            # Process the resume using enhanced LLM (which now includes intelligent content validation)
             parsed_data = parser.process_resume(total_resume_text)
 
-            # Check if parsing was successful
+            # Check if parsing was successful or if there's an error
             if "error" in parsed_data:
-                logger.warning(f"Resume parsing had issues: {parsed_data.get('error')}")
+                error_type = parsed_data.get("error_type", "parsing_error")
+
+                if error_type == "invalid_content":
+                    # Handle non-resume content detected by LLM's intelligent validation
+                    logger.warning(
+                        f"LLM detected invalid content in {filename}: {parsed_data.get('error')}"
+                    )
+                    return {
+                        "filename": filename,
+                        "status": "error",
+                        "error_type": "invalid_content",
+                        "error": parsed_data.get("error"),
+                        "suggestion": parsed_data.get(
+                            "suggestion", "Please upload a valid resume document."
+                        ),
+                        "parsed_data": None,
+                    }
+                else:
+                    # Handle other parsing errors
+                    logger.warning(
+                        f"Resume parsing had issues for {filename}: {parsed_data.get('error')}"
+                    )
+                    return {
+                        "filename": filename,
+                        "status": "error",
+                        "error_type": "parsing_error",
+                        "error": parsed_data.get("error"),
+                        "parsed_data": None,
+                    }
 
             # Handle experience dates - convert 'to' field to 'until' if present
             if "experience" in parsed_data and parsed_data["experience"]:
@@ -409,7 +520,9 @@ def process_multiple_resumes_with_embeddings(
                         del exp["to"]
 
             # Generate embeddings for the parsed data (this also cleans the data)
-            parsed_data_with_embeddings = generate_embeddings_for_resume(parsed_data)
+            parsed_data_with_embeddings = generate_embeddings_for_resume(
+                parsed_data, user_id, username
+            )
 
             # Add metadata
             parsed_data_with_embeddings.update(
@@ -486,21 +599,34 @@ def process_multiple_resumes_with_embeddings(
 
 
 @router.post("/resume-parser-multiple")
-async def parse_multiple_resumes(files: List[UploadFile] = File(...)):
+async def parse_multiple_resumes(
+    files: List[UploadFile] = File(...),
+    user_id: str = Form(...),
+    username: str = Form(...),
+    max_concurrent: Optional[int] = Form(10),
+):
     """
     Parse multiple resumes and automatically save them to the database.
 
     This endpoint:
-    - Accepts 1 or more resume files
+    - Accepts 1 or more resume files along with user_id and username
     - Uses multipleresumepraser module for parsing
     - Cleans and normalizes parsed data
+    - Assigns the provided user_id and username to all resumes
     - Saves parsed data to database automatically
     - Updates skills and titles collections
-    - Returns summary of processed files
+    - Returns detailed processing summary with statistics
 
     Args:
         files: List of resume files to process (1 or more required)
+        user_id: The user ID to assign to all uploaded resumes
+        username: The username to assign to all uploaded resumes
+        max_concurrent: Maximum concurrent processing threads (default: 10)
     """
+    # Generate unique session ID for tracking
+    session_id = f"{user_id}_{int(time.time())}"
+    start_time = time.time()
+
     try:
         if not files:
             raise HTTPException(status_code=400, detail="No files uploaded")
@@ -510,7 +636,15 @@ async def parse_multiple_resumes(files: List[UploadFile] = File(...)):
                 status_code=400, detail="Too many files. Maximum 100 files allowed."
             )
 
-        logger.info(f"Processing {len(files)} resumes")
+        # Add to processing queue
+        update_processing_queue("add_to_queue", session_id, len(files))
+
+        logger.info(
+            f"Processing {len(files)} resumes for user: {username} (ID: {user_id}) - Session: {session_id}"
+        )
+
+        # Get initial queue status
+        initial_queue_status = get_queue_status()
 
         # Prepare file data
         files_data = []
@@ -520,10 +654,13 @@ async def parse_multiple_resumes(files: List[UploadFile] = File(...)):
 
         # Process files with optimized settings for bulk processing
         max_concurrent_threads = min(
-            10, max(3, len(files_data) // 10)
-        )  # Dynamic thread count
+            max_concurrent or 10, max(3, len(files_data) // 10)
+        )  # Use provided max_concurrent or dynamic thread count
+
         processing_results = process_multiple_resumes_with_embeddings(
             files_data=files_data,
+            user_id=user_id,
+            username=username,
             llm_provider=None,  # Use default
             max_concurrent=max_concurrent_threads,  # Dynamic based on file count
         )
@@ -635,6 +772,12 @@ async def parse_multiple_resumes(files: List[UploadFile] = File(...)):
         successful_parses_count = len(
             [r for r in processing_results if r["status"] == "success"]
         )
+        invalid_content_count = len(
+            [r for r in processing_results if r.get("error_type") == "invalid_content"]
+        )
+        parsing_error_count = len(
+            [r for r in processing_results if r.get("error_type") == "parsing_error"]
+        )
         failed_parses = total_files - successful_parses_count
         saved_to_database = len([r for r in database_results if r["status"] == "saved"])
         total_skills_added = sum(
@@ -652,6 +795,13 @@ async def parse_multiple_resumes(files: List[UploadFile] = File(...)):
             ]
         )
 
+        # Calculate processing time and update queue
+        end_time = time.time()
+        processing_time_stats = calculate_processing_time(start_time, end_time)
+        update_processing_queue("remove_from_queue", session_id, total_files)
+        update_processing_queue("complete_session", session_id)
+        final_queue_status = get_queue_status()
+
         # Clean processing results for user response (remove internal fields)
         cleaned_processing_results = []
         for result in processing_results:
@@ -661,34 +811,126 @@ async def parse_multiple_resumes(files: List[UploadFile] = File(...)):
                 del cleaned_result["full_data_with_vectors"]
             cleaned_processing_results.append(cleaned_result)
 
+        # Create lists of resume names by status
+        successfully_parsed_resumes = [
+            result["filename"]
+            for result in processing_results
+            if result["status"] == "success"
+        ]
+
+        failed_to_parse_resumes = [
+            {
+                "filename": result["filename"],
+                "error": result.get("error", "Unknown error"),
+            }
+            for result in processing_results
+            if result["status"] == "error"
+        ]
+
+        successfully_saved_resumes = [
+            result["filename"]
+            for result in database_results
+            if result["status"] == "saved"
+        ]
+
+        failed_to_save_resumes = [
+            {
+                "filename": result["filename"],
+                "error": result.get("error", "Unknown database error"),
+            }
+            for result in database_results
+            if result["status"] == "save_failed"
+        ]
+
+        # Enhanced response with detailed statistics
         return {
-            "message": f"Processed {total_files} resumes and saved {saved_to_database} to database",
-            "summary": {
+            "message": f"✅ Successfully processed {successful_parses_count}/{total_files} resumes for {username} in {processing_time_stats['formatted_time']}",
+            "resume_processing_summary": {
+                "successfully_parsed_resumes": successfully_parsed_resumes,
+                "failed_to_parse_resumes": failed_to_parse_resumes,
+                "successfully_saved_to_database": successfully_saved_resumes,
+                "failed_to_save_to_database": failed_to_save_resumes,
+            },
+            "processing_statistics": {
+                "session_id": session_id,
+                "user_id": user_id,
+                "username": username,
                 "total_files_uploaded": total_files,
-                "successful_parses": successful_parses_count,
-                "failed_parses": failed_parses,
-                "saved_to_database": saved_to_database,
+                "successfully_parsed": successful_parses_count,
+                "failed_to_parse": failed_parses,
+                "invalid_content_detected": invalid_content_count,
+                "parsing_errors": parsing_error_count,
+                "successfully_saved_to_database": saved_to_database,
+                "parsing_success_rate": (
+                    f"{(successful_parses_count/total_files)*100:.1f}%"
+                    if total_files > 0
+                    else "0%"
+                ),
+                "content_validation_rate": (
+                    f"{((total_files - invalid_content_count)/total_files)*100:.1f}%"
+                    if total_files > 0
+                    else "0%"
+                ),
+                "database_save_success_rate": (
+                    f"{(saved_to_database/successful_parses_count)*100:.1f}%"
+                    if successful_parses_count > 0
+                    else "0%"
+                ),
                 "skills_added_to_collection": total_skills_added,
                 "titles_added_to_collection": total_titles_added,
-                "concurrent_threads_used": max_concurrent_threads,
-                "batch_processing": True,
             },
-            "processing_details": cleaned_processing_results,
-            "database_results": database_results,
+            "processing_time": processing_time_stats,
+            "queue_information": {
+                "initial_queue_status": initial_queue_status,
+                "final_queue_status": final_queue_status,
+                "processing_settings": {
+                    "concurrent_threads_used": max_concurrent_threads,
+                    "batch_processing": True,
+                    "database_batch_size": 20,
+                },
+            },
+            # "detailed_results": {
+            #     "processing_details": cleaned_processing_results,
+            #     "database_results": database_results,
+            # },
         }
 
     except HTTPException:
+        # Update queue on HTTP exceptions
+        end_time = time.time()
+        update_processing_queue(
+            "remove_from_queue", session_id, len(files) if "files" in locals() else 0
+        )
         raise
     except Exception as e:
-        logger.error(f"Error in parse_multiple_resumes: {str(e)}")
-        raise HTTPException(status_code=500, detail=f"Internal server error: {str(e)}")
+        # Update queue and calculate time even on errors
+        end_time = time.time()
+        processing_time_stats = calculate_processing_time(start_time, end_time)
+        update_processing_queue(
+            "remove_from_queue", session_id, len(files) if "files" in locals() else 0
+        )
+
+        logger.error(
+            f"Error in parse_multiple_resumes (Session: {session_id}): {str(e)}"
+        )
+        raise HTTPException(
+            status_code=500,
+            detail={
+                "error": f"Internal server error: {str(e)}",
+                "session_id": session_id,
+                "processing_time": processing_time_stats,
+                "queue_status": get_queue_status(),
+            },
+        )
 
 
 @router.post("/resume-parser-bulk")
 async def parse_bulk_resumes(
     files: List[UploadFile] = File(...),
-    max_concurrent: Optional[int] = 15,
-    batch_size: Optional[int] = 25,
+    user_id: str = Form(...),
+    username: str = Form(...),
+    max_concurrent: Optional[int] = Form(15),
+    batch_size: Optional[int] = Form(25),
 ):
     """
     Parse a large batch of resumes (up to 100) with optimized performance settings.
@@ -698,12 +940,19 @@ async def parse_bulk_resumes(
     - Batch database operations
     - Progress tracking
     - Memory optimization
+    - Detailed processing statistics
 
     Args:
         files: List of resume files (up to 100)
+        user_id: The user ID to assign to all uploaded resumes
+        username: The username to assign to all uploaded resumes
         max_concurrent: Maximum concurrent processing threads (default: 15)
         batch_size: Database save batch size (default: 25)
     """
+    # Generate unique session ID for tracking
+    session_id = f"bulk_{user_id}_{int(time.time())}"
+    start_time = time.time()
+
     try:
         if not files:
             raise HTTPException(status_code=400, detail="No files uploaded")
@@ -718,8 +967,12 @@ async def parse_bulk_resumes(
         max_concurrent = min(max_concurrent or 15, 20)  # Cap at 20 for stability
         batch_size = min(batch_size or 25, 50)  # Cap at 50 for memory
 
+        # Add to processing queue
+        update_processing_queue("add_to_queue", session_id, len(files))
+        initial_queue_status = get_queue_status()
+
         logger.info(
-            f"Bulk processing {len(files)} resumes with {max_concurrent} threads, batch size {batch_size}"
+            f"Bulk processing {len(files)} resumes for user: {username} (ID: {user_id}) with {max_concurrent} threads, batch size {batch_size} - Session: {session_id}"
         )
 
         # Prepare file data
@@ -731,6 +984,8 @@ async def parse_bulk_resumes(
         # Process with bulk-optimized settings
         processing_results = process_multiple_resumes_with_embeddings(
             files_data=files_data,
+            user_id=user_id,
+            username=username,
             llm_provider=None,
             max_concurrent=max_concurrent,
         )
@@ -852,6 +1107,13 @@ async def parse_bulk_resumes(
             ]
         )
 
+        # Calculate processing time and update queue
+        end_time = time.time()
+        processing_time_stats = calculate_processing_time(start_time, end_time)
+        update_processing_queue("remove_from_queue", session_id, total_files)
+        update_processing_queue("complete_session", session_id)
+        final_queue_status = get_queue_status()
+
         # Clean processing results for user response (remove internal fields)
         cleaned_processing_results = []
         for result in processing_results:
@@ -861,32 +1123,169 @@ async def parse_bulk_resumes(
                 del cleaned_result["full_data_with_vectors"]
             cleaned_processing_results.append(cleaned_result)
 
+        # Create lists of resume names by status
+        successfully_parsed_resumes = [
+            result["filename"]
+            for result in processing_results
+            if result["status"] == "success"
+        ]
+
+        failed_to_parse_resumes = [
+            {
+                "filename": result["filename"],
+                "error": result.get("error", "Unknown error"),
+            }
+            for result in processing_results
+            if result["status"] == "error"
+        ]
+
+        successfully_saved_resumes = [
+            result["filename"]
+            for result in database_results
+            if result["status"] == "saved"
+        ]
+
+        failed_to_save_resumes = [
+            {
+                "filename": result["filename"],
+                "error": result.get("error", "Unknown database error"),
+            }
+            for result in database_results
+            if result["status"] == "save_failed"
+        ]
+
+        # Enhanced bulk response with detailed statistics
         return {
-            "message": f"Bulk processed {total_files} resumes, saved {total_saved} to database",
-            "bulk_summary": {
+            "message": f"🚀 Bulk processed {successful_parses}/{total_files} resumes for {username} in {processing_time_stats['formatted_time']} - {total_saved} saved to database",
+            "resume_processing_summary": {
+                "successfully_parsed_resumes": successfully_parsed_resumes,
+                "failed_to_parse_resumes": failed_to_parse_resumes,
+                "successfully_saved_to_database": successfully_saved_resumes,
+                "failed_to_save_to_database": failed_to_save_resumes,
+            },
+            "bulk_processing_statistics": {
+                "session_id": session_id,
+                "user_id": user_id,
+                "username": username,
                 "total_files_uploaded": total_files,
-                "successful_parses": successful_parses,
-                "failed_parses": failed_parses,
-                "saved_to_database": total_saved,
+                "successfully_parsed": successful_parses,
+                "failed_to_parse": failed_parses,
+                "successfully_saved_to_database": total_saved,
+                "parsing_success_rate": (
+                    f"{(successful_parses/total_files)*100:.1f}%"
+                    if total_files > 0
+                    else "0%"
+                ),
+                "database_save_success_rate": (
+                    f"{(total_saved/successful_parses)*100:.1f}%"
+                    if successful_parses > 0
+                    else "0%"
+                ),
                 "skills_added_to_collection": total_skills_added,
                 "titles_added_to_collection": total_titles_added,
+            },
+            "processing_time": processing_time_stats,
+            "queue_information": {
+                "initial_queue_status": initial_queue_status,
+                "final_queue_status": final_queue_status,
                 "processing_settings": {
                     "max_concurrent_threads": max_concurrent,
                     "database_batch_size": batch_size,
                     "total_batches": (len(successful_results) + batch_size - 1)
                     // batch_size,
+                    "performance_optimized": True,
                 },
-                "performance_optimized": True,
             },
-            "processing_details": cleaned_processing_results,
-            "database_results": database_results,
+            # "detailed_results": {
+            #     "processing_details": cleaned_processing_results,
+            #     "database_results": database_results,
+            # },
         }
 
     except HTTPException:
+        # Update queue on HTTP exceptions
+        end_time = time.time()
+        update_processing_queue(
+            "remove_from_queue", session_id, len(files) if "files" in locals() else 0
+        )
         raise
     except Exception as e:
-        logger.error(f"Error in parse_bulk_resumes: {str(e)}")
-        raise HTTPException(status_code=500, detail=f"Bulk processing error: {str(e)}")
+        # Update queue and calculate time even on errors
+        end_time = time.time()
+        processing_time_stats = calculate_processing_time(start_time, end_time)
+        update_processing_queue(
+            "remove_from_queue", session_id, len(files) if "files" in locals() else 0
+        )
+
+        logger.error(f"Error in parse_bulk_resumes (Session: {session_id}): {str(e)}")
+        raise HTTPException(
+            status_code=500,
+            detail={
+                "error": f"Bulk processing error: {str(e)}",
+                "session_id": session_id,
+                "processing_time": processing_time_stats,
+                "queue_status": get_queue_status(),
+            },
+        )
+
+
+@router.get("/queue-status")
+async def get_processing_queue_status():
+    """
+    Get current processing queue status and statistics.
+
+    Returns information about:
+    - Current queue size
+    - Active processing sessions
+    - Total processed today
+    - Queue availability status
+    """
+    queue_status = get_queue_status()
+    active_sessions_details = []
+
+    # Get details of active sessions
+    for session_id, session_info in PROCESSING_QUEUE["active_sessions"].items():
+        if session_info["status"] == "processing":
+            current_time = time.time()
+            elapsed_time = current_time - session_info["start_time"]
+            active_sessions_details.append(
+                {
+                    "session_id": session_id,
+                    "resume_count": session_info["count"],
+                    "elapsed_time_seconds": round(elapsed_time, 2),
+                    "elapsed_time_formatted": (
+                        f"{int(elapsed_time//60)}m {int(elapsed_time%60)}s"
+                        if elapsed_time > 60
+                        else f"{int(elapsed_time)}s"
+                    ),
+                    "status": session_info["status"],
+                }
+            )
+
+    return {
+        "queue_status": queue_status,
+        "active_sessions": active_sessions_details,
+        "queue_health": {
+            "is_available": queue_status["current_queue_size"]
+            < 50,  # Threshold for availability
+            "load_level": (
+                "low"
+                if queue_status["current_queue_size"] < 10
+                else "medium" if queue_status["current_queue_size"] < 30 else "high"
+            ),
+            "estimated_wait_time": (
+                "immediate"
+                if queue_status["current_queue_size"] == 0
+                else f"~{queue_status['current_queue_size'] * 2} minutes"
+            ),
+        },
+        "statistics": {
+            "total_active_sessions": len(active_sessions_details),
+            "total_resumes_in_queue": queue_status["current_queue_size"],
+            "total_processed_today": queue_status["total_processed_today"],
+            "server_status": "healthy",
+        },
+    }
 
 
 @router.get("/info")
@@ -900,28 +1299,52 @@ async def get_multiple_resume_parser_info():
                 "url": "/resume-parser-multiple",
                 "method": "POST",
                 "description": "Upload 1-100 resume files for automatic parsing and database storage",
+                "required_form_fields": ["files", "user_id", "username"],
+                "optional_form_fields": ["max_concurrent"],
                 "max_files": 100,
-                "concurrent_threads": "Dynamic (3-10 based on file count)",
+                "concurrent_threads": "Dynamic (3-10 based on file count) or configurable",
                 "use_case": "General purpose, moderate volume processing",
             },
             "bulk_processing": {
                 "url": "/resume-parser-bulk",
                 "method": "POST",
                 "description": "Optimized bulk processing for large volumes (up to 100 resumes)",
+                "required_form_fields": ["files", "user_id", "username"],
+                "optional_form_fields": ["max_concurrent", "batch_size"],
                 "max_files": 100,
                 "concurrent_threads": "Configurable (up to 20, default 15)",
                 "batch_size": "Configurable (up to 50, default 25)",
                 "use_case": "High volume processing with performance optimization",
             },
         },
+        "request_format": {
+            "content_type": "multipart/form-data",
+            "required_fields": {
+                "files": "List of resume files (PDF, DOCX, TXT)",
+                "user_id": "String - User ID to assign to all resumes",
+                "username": "String - Username to assign to all resumes",
+            },
+            "optional_fields": {
+                "max_concurrent": "Integer - Maximum concurrent threads",
+                "batch_size": "Integer - Database batch size (bulk endpoint only)",
+            },
+        },
         "features": {
             "parser_module": "multipleresumepraser",
+            "user_assignment": "All resumes assigned to provided user_id and username",
             "automatic_database_saving": True,
             "concurrent_processing": True,
             "batch_database_operations": True,
             "memory_optimization": True,
             "progress_tracking": True,
             "skills_management": True,
+            "queue_management": True,
+            "processing_statistics": True,
+            "detailed_timing": True,
+            "success_rate_tracking": True,
+            "content_validation": True,
+            "enhanced_error_handling": True,
+            "resume_content_detection": True,
         },
         "supported_formats": [".txt", ".pdf", ".docx"],
         "performance_specs": {
@@ -932,12 +1355,67 @@ async def get_multiple_resume_parser_info():
             "estimated_processing_time": "2-5 minutes for 100 resumes (depends on file size and LLM provider)",
         },
         "workflow": [
-            "1. Upload resume files (up to 100)",
-            "2. Extract and clean text from each file",
-            "3. Parse resume data using LLM (concurrent processing)",
-            "4. Clean and normalize parsed data",
-            "5. Save to database in batches",
-            "6. Update skills and titles collections",
-            "7. Return comprehensive processing summary",
+            "1. Upload resume files (up to 100) along with user_id and username",
+            "2. Add files to processing queue and generate session ID",
+            "3. Extract and clean text from each file",
+            "4. Validate if content appears to be resume-related",
+            "5. Parse resume data using enhanced LLM prompts (concurrent processing)",
+            "6. Clean and normalize parsed data",
+            "7. Assign provided user_id and username to all resumes",
+            "8. Save to database in batches",
+            "9. Update skills and titles collections",
+            "10. Calculate processing statistics and success rates",
+            "11. Update queue status and return comprehensive summary with detailed error analysis",
         ],
+        "new_features": {
+            "enhanced_system_prompts": {
+                "description": "Improved LLM prompts with detailed extraction guidelines",
+                "benefits": "Better data quality, more comprehensive extraction, consistent formatting",
+                "components": [
+                    "Expert role definition",
+                    "Detailed instructions",
+                    "Data quality requirements",
+                    "Output specifications",
+                ],
+            },
+            "content_validation": {
+                "description": "AI-powered resume content detection before processing",
+                "validation_criteria": [
+                    "Resume-specific keywords",
+                    "Contact information patterns",
+                    "Professional sections",
+                    "Employment terms",
+                ],
+                "scoring_system": "Multi-factor scoring with threshold-based validation",
+                "error_handling": "Specific error messages and suggestions for invalid content",
+            },
+            "enhanced_error_handling": {
+                "invalid_content_detection": "Identifies non-resume content with helpful suggestions",
+                "detailed_error_types": [
+                    "invalid_content",
+                    "parsing_error",
+                    "unknown_error",
+                ],
+                "user_feedback": "Specific suggestions for each error type",
+                "error_statistics": "Tracking of content validation rates and error distributions",
+            },
+            "processing_statistics": {
+                "success_rates": "Parsing and database save success percentages",
+                "content_validation_rates": "Percentage of files containing valid resume content",
+                "timing_details": "Start time, end time, and formatted duration",
+                "queue_tracking": "Initial and final queue status",
+            },
+            "queue_management": {
+                "queue_status_endpoint": "/queue-status",
+                "session_tracking": "Unique session IDs for each processing request",
+                "concurrent_monitoring": "Track active processing sessions",
+                "load_balancing": "Queue health and estimated wait times",
+            },
+            "enhanced_responses": {
+                "detailed_statistics": "Comprehensive processing metrics including validation rates",
+                "failure_analysis": "Individual file processing status with error types",
+                "performance_metrics": "Thread usage and batch processing stats",
+                "content_quality_metrics": "Resume validation success rates",
+            },
+        },
     }

@@ -361,3 +361,15 @@ This is the actual JSON format with real values.
 
 
 
+2025-08-02 17:59:17 - chain_manager - INFO - Raw LLM response type: <class 'str'>
+2025-08-02 17:59:17 - chain_manager - INFO - Raw LLM response (first 500 chars): {
+  "total_candidates": 1,
+  "matches": [
+    {
+      "_id": "688279cbf5785c34e07a5e1a",
+      "relevance_score": 0.2,
+      "match_reason": "May also know python"
+    }
+  ]
+} 
+

@@ -15,6 +15,11 @@ class ManualSearchRequest(BaseModel):
         description="List of job titles to search for",
         example=["Software Engineer", "Python Developer"],
     )
+    user_id: str = Field(
+        ...,
+        description="Mandatory user ID to filter results",
+        example="user123",
+    )
     skills: Optional[List[str]] = Field(
         default=None,
         description="Technical skills to match",
@@ -72,6 +77,7 @@ router = APIRouter(
 
     **Search Criteria:**
     - Experience Titles (Required): Job titles to match (e.g., ["Software Engineer", "Developer"])
+    - User ID (Required): Mandatory user ID to filter results for specific user
     - Skills (Optional): Technical skills to match (includes both 'skills' and 'may_also_known_skills')
     - Minimum Education (Optional): Education level (e.g., "BTech", "MCA", "MBA")
     - Minimum Experience (Optional): Required experience (e.g., "2 years 6 months")
@@ -182,6 +188,9 @@ async def manual_resume_search(search_params: ManualSearchRequest):
                 status_code=400, detail="At least one experience title is required"
             )
 
+        if not search_params.user_id:
+            raise HTTPException(status_code=400, detail="User ID is required")
+
         # Parse min and max experience strings to months
         min_experience_months = 0
         max_experience_months = float("inf")  # Default to infinity if not specified
@@ -204,6 +213,9 @@ async def manual_resume_search(search_params: ManualSearchRequest):
                 {"experience.title": {"$regex": pattern}} for pattern in title_patterns
             ]
         }
+
+        # Add mandatory user_id filter
+        base_query = {"$and": [base_query, {"user_id": search_params.user_id}]}
 
         # Step 2: Get results matching experience titles
         results = list(resumes_collection.find(base_query))

@@ -31,3 +31,6 @@ __root__
 2025-07-25 21:53:31 - rag_search - INFO - Vector similarity search completed successfully. Found 7 results
 2025-07-25 21:58:42 - rag_search - INFO - Vector similarity search completed successfully. Found 7 results
 2025-07-25 22:01:17 - rag_search - INFO - Vector similarity search completed successfully. Found 7 results
+2025-08-02 17:34:52 - rag_search - ERROR - Vector similarity search failed: RAGApplication.vector_similarity_search() got an unexpected keyword argument 'user_id'
+2025-08-02 17:43:34 - rag_search - ERROR - Vector similarity search failed: RAGApplication.vector_similarity_search() got an unexpected keyword argument 'user_id'
+2025-08-02 17:58:43 - rag_search - INFO - Vector similarity search completed successfully. Found 2 results
