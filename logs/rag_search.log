@@ -34,3 +34,6 @@ __root__
 2025-08-02 17:34:52 - rag_search - ERROR - Vector similarity search failed: RAGApplication.vector_similarity_search() got an unexpected keyword argument 'user_id'
 2025-08-02 17:43:34 - rag_search - ERROR - Vector similarity search failed: RAGApplication.vector_similarity_search() got an unexpected keyword argument 'user_id'
 2025-08-02 17:58:43 - rag_search - INFO - Vector similarity search completed successfully. Found 2 results
+2025-08-07 22:56:50 - rag_search - INFO - Vector similarity search completed successfully. Found 0 results
+2025-08-07 23:57:24 - rag_search - INFO - User veera123 exists in collection - searching all documents
+2025-08-07 23:57:26 - rag_search - INFO - Vector similarity search completed successfully. Found 25 results

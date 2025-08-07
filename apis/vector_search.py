@@ -4,7 +4,8 @@ import numpy as np
 from fastapi import APIRouter, Body, HTTPException, status, UploadFile, File
 from typing import List, Dict, Any, Optional
 from pydantic import BaseModel
-from mangodatabase.client import get_collection
+from mangodatabase.client import get_collection, get_users_collection
+from mangodatabase.user_operations import UserOperations
 from core.helpers import format_resume
 from embeddings.vectorizer import Vectorizer
 from schemas.vector_search_scehma import VectorSearchQuery
@@ -78,6 +79,41 @@ Expected Input Format:
 resumes_collection = get_collection()
 enhanced_search_router = APIRouter(prefix="/ai", tags=["enhanced ai vector search"])
 vectorizer = Vectorizer()
+
+# Initialize user operations for admin checking
+users_collection = get_users_collection()
+user_ops = UserOperations(users_collection)
+
+
+def get_effective_user_id_for_search(requesting_user_id: str) -> Optional[str]:
+    """
+    Determine the effective user_id for search based on user existence in collection.
+
+    Args:
+        requesting_user_id: The user_id making the request
+
+    Returns:
+        - None if user exists in users collection (search all documents)
+        - requesting_user_id if user does not exist in users collection (search only their documents)
+    """
+    try:
+        user_exists = user_ops.user_exists(requesting_user_id)
+        if user_exists:
+            logging.info(
+                f"User {requesting_user_id} exists in collection - searching all documents"
+            )
+            return None  # User exists in collection - can search all documents
+        else:
+            logging.info(
+                f"User {requesting_user_id} not in collection - searching only their documents"
+            )
+            return requesting_user_id  # User not in collection - can only search their own documents
+    except Exception as e:
+        logging.warning(
+            f"Error checking user existence for user {requesting_user_id}: {e}"
+        )
+        # On error, default to restricting to user's own documents for security
+        return requesting_user_id
 
 
 class SearchError(Exception):
@@ -205,7 +241,8 @@ async def multi_field_search(query_embedding, num_results, min_score):
     - query: Search text (e.g., "Python developer with 5 years experience in machine learning")
     - field: Search scope - "full_text" uses enhanced compound search for best results
     - num_results: Number of results to return (default: 10)
-    - min_score: Minimum similarity threshold (default: 0.0)
+    - min_score: Minimum similarity threshold (default: 0.2)
+    - relevant_score: Minimum relevance score threshold (0-100). Only results with match_score >= this value will be returned (default: 40.0)
     
     **Example Input:**
     ```json
@@ -213,7 +250,8 @@ async def multi_field_search(query_embedding, num_results, min_score):
         "query": "experienced machine learning engineer with python",
         "field": "full_text",
         "num_results": 10,
-        "min_score": 0.2
+        "min_score": 0.2,
+        "relevant_score": 40.0
     }
     ```
     
@@ -395,6 +433,15 @@ async def vector_search(search_query: VectorSearchQuery):
             else:
                 # Single field search result with pre-calculated relevance
                 result["relevance_score"] = round(result.get("relevance_score", 0), 2)
+
+        # Filter results based on relevant_score threshold
+        if search_query.relevant_score > 0:
+            formatted_results = [
+                result
+                for result in formatted_results
+                if result.get("relevance_score", 0) >= search_query.relevant_score
+            ]
+
         # Log the search query for auditingi
         # Save AI search to recent searches collection
         if search_query.user_id:
@@ -429,6 +476,7 @@ async def search_by_jd(
     field: str = "full_text",
     num_results: int = 10,
     min_score: float = 0.0,
+    relevant_score: float = 40.0,
 ):
     try:
         # Step 1: Save uploaded file to temp directory
@@ -538,6 +586,14 @@ async def search_by_jd(
                 result["relevance_score"] = round(result.get("score", 0) * 100, 2)
             else:
                 result["relevance_score"] = round(result.get("relevance_score", 0), 2)
+
+        # Filter results based on relevant_score threshold
+        if relevant_score > 0:
+            formatted_results = [
+                result
+                for result in formatted_results
+                if result.get("relevance_score", 0) >= relevant_score
+            ]
 
         return formatted_results
 

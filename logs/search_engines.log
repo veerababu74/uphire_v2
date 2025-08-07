@@ -455,3 +455,37 @@
 2025-08-02 17:59:17 - search_engines - INFO - Rank 1: ID: 688279cbf5785c34e07a5e1a, Score: 0.7544
 2025-08-02 17:59:17 - search_engines - INFO - === END OF RESULTS ===
 2025-08-02 17:59:17 - search_engines - INFO - Invoking LLM for document analysis...
+2025-08-07 22:56:48 - search_engines - INFO - Performing vector similarity search for: string
+2025-08-07 22:56:48 - search_engines - INFO - Retrieval limit: 50
+2025-08-07 22:56:48 - search_engines - INFO - Filtering by user_id: string
+2025-08-07 22:56:50 - search_engines - INFO - === VECTOR SEARCH RESULTS ===
+2025-08-07 22:56:50 - search_engines - INFO - === END OF RESULTS ===
+2025-08-07 23:57:24 - search_engines - INFO - Performing vector similarity search for: string
+2025-08-07 23:57:24 - search_engines - INFO - Retrieval limit: 50
+2025-08-07 23:57:26 - search_engines - INFO - === VECTOR SEARCH RESULTS ===
+2025-08-07 23:57:26 - search_engines - INFO - Rank 1: ID: 688e149ef1c2761e3fe07d02, Score: 0.7592
+2025-08-07 23:57:26 - search_engines - INFO - Rank 2: ID: 6884c73ca5b2fbca4c76cc47, Score: 0.7500
+2025-08-07 23:57:26 - search_engines - INFO - Rank 3: ID: 6883c2c0f5785c34e07a5ebb, Score: 0.7495
+2025-08-07 23:57:26 - search_engines - INFO - Rank 4: ID: 6883abfaf5785c34e07a5e6b, Score: 0.7476
+2025-08-07 23:57:26 - search_engines - INFO - Rank 5: ID: 688279cbf5785c34e07a5e1a, Score: 0.7476
+2025-08-07 23:57:26 - search_engines - INFO - Rank 6: ID: 688618b7a5b2fbca4c76cd28, Score: 0.7448
+2025-08-07 23:57:26 - search_engines - INFO - Rank 7: ID: 688e149df1c2761e3fe07cf0, Score: 0.7438
+2025-08-07 23:57:26 - search_engines - INFO - Rank 8: ID: 68870196a5b2fbca4c76cd36, Score: 0.7422
+2025-08-07 23:57:26 - search_engines - INFO - Rank 9: ID: 6883bd9ef5785c34e07a5ea2, Score: 0.7410
+2025-08-07 23:57:26 - search_engines - INFO - Rank 10: ID: 68847b18a5b2fbca4c76cb6d, Score: 0.7401
+2025-08-07 23:57:26 - search_engines - INFO - Rank 11: ID: 68847b18a5b2fbca4c76cb67, Score: 0.7363
+2025-08-07 23:57:26 - search_engines - INFO - Rank 12: ID: 688e149ef1c2761e3fe07cfc, Score: 0.7331
+2025-08-07 23:57:26 - search_engines - INFO - Rank 13: ID: 688339fdf5785c34e07a5e52, Score: 0.7327
+2025-08-07 23:57:26 - search_engines - INFO - Rank 14: ID: 68847b18a5b2fbca4c76cb56, Score: 0.7308
+2025-08-07 23:57:26 - search_engines - INFO - Rank 15: ID: 68847acba5b2fbca4c76cb34, Score: 0.7303
+2025-08-07 23:57:26 - search_engines - INFO - Rank 16: ID: 68827daaf5785c34e07a5e3b, Score: 0.7300
+2025-08-07 23:57:26 - search_engines - INFO - Rank 17: ID: 68831a56f5785c34e07a5e48, Score: 0.7288
+2025-08-07 23:57:26 - search_engines - INFO - Rank 18: ID: 68847b18a5b2fbca4c76cb61, Score: 0.7284
+2025-08-07 23:57:26 - search_engines - INFO - Rank 19: ID: 688257fb2c3977af00dd3212, Score: 0.7283
+2025-08-07 23:57:26 - search_engines - INFO - Rank 20: ID: 688e149cf1c2761e3fe07ce8, Score: 0.7260
+2025-08-07 23:57:26 - search_engines - INFO - Rank 21: ID: 68847b18a5b2fbca4c76cb72, Score: 0.7248
+2025-08-07 23:57:26 - search_engines - INFO - Rank 22: ID: 6883c2c0f5785c34e07a5ebd, Score: 0.7229
+2025-08-07 23:57:26 - search_engines - INFO - Rank 23: ID: 6883abfbf5785c34e07a5e79, Score: 0.7181
+2025-08-07 23:57:26 - search_engines - INFO - Rank 24: ID: 68847b18a5b2fbca4c76cb54, Score: 0.7095
+2025-08-07 23:57:26 - search_engines - INFO - Rank 25: ID: 68847b19a5b2fbca4c76cb83, Score: 0.7045
+2025-08-07 23:57:26 - search_engines - INFO - === END OF RESULTS ===

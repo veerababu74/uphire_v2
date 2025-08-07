@@ -53,3 +53,10 @@ def get_manual_saved_searches_collection():
     client = get_client()
     db = client["resume_db"]
     return db["manual_saved_searches"]
+
+
+def get_users_collection():
+    """Get users collection for user management"""
+    client = get_client()
+    db = client["resume_db"]
+    return db["users"]
