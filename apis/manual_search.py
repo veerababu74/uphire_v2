@@ -2,18 +2,56 @@ import re
 from fastapi import APIRouter, Body, HTTPException
 from typing import List, Dict, Any, Optional
 from pydantic import BaseModel, Field
-from mangodatabase.client import get_collection, get_manual_recent_search_collection
+from mangodatabase.client import (
+    get_collection,
+    get_manual_recent_search_collection,
+    get_users_collection,
+)
+from mangodatabase.user_operations import UserOperations
 from core.helpers import format_resume
 from datetime import datetime, timezone
 import uuid
 
 resumes_collection = get_collection()
 
+# Initialize user operations for admin checking
+users_collection = get_users_collection()
+user_ops = UserOperations(users_collection)
+
+
+def get_effective_user_id_for_search(requesting_user_id: str) -> Optional[str]:
+    """
+    Determine the effective user_id for search based on user existence in collection.
+
+    Args:
+        requesting_user_id: The user_id making the request
+
+    Returns:
+        - None if user exists in users collection (search all documents)
+        - requesting_user_id if user does not exist in users collection (search only their documents)
+    """
+    try:
+        user_exists = user_ops.user_exists(requesting_user_id)
+        if user_exists:
+            print(
+                f"User {requesting_user_id} exists in collection - searching all documents"
+            )
+            return None  # User exists in collection - can search all documents
+        else:
+            print(
+                f"User {requesting_user_id} not in collection - searching only their documents"
+            )
+            return requesting_user_id  # User not in collection - can only search their own documents
+    except Exception as e:
+        print(f"Error checking user existence for user {requesting_user_id}: {e}")
+        # On error, default to restricting to user's own documents for security
+        return requesting_user_id
+
 
 # Define request and response models for better documentation
 class ManualSearchRequest(BaseModel):
     userid: str = Field(
-        description="User ID who performed the search (mandatory field)",
+        description="User ID - if exists in users collection can search all documents, otherwise only their own",
         example="user123",
     )
     experience_titles: Optional[List[str]] = Field(
@@ -63,6 +101,13 @@ class ManualSearchRequest(BaseModel):
         description="Maximum number of results (optional)",
         example=10,
     )
+    relevant_score: Optional[float] = Field(
+        default=40.0,
+        ge=0.0,
+        le=100.0,
+        description="Minimum relevance score threshold (0-100). Only results with match_score >= this value will be returned",
+        example=40.0,
+    )
 
 
 router = APIRouter(
@@ -78,10 +123,14 @@ router = APIRouter(
     response_model=List[Dict[str, Any]],
     summary="Advanced Resume Search",
     description="""
-    Search for resumes using multiple criteria with intelligent ranking for a specific user.
+    Search for resumes using multiple criteria with intelligent ranking.
 
+    **Access Control:**
+    - Users in users collection can search all documents across all users
+    - Users not in users collection can only search their own documents
+    
     **User ID is Mandatory:**
-    - userid: Required field to search resumes belonging to a specific user only
+    - userid: Required field - determines search scope based on user existence in collection
     
     **All Other Search Criteria are Optional:**
     - Experience Titles (Optional): Job titles to match (e.g., ["Software Engineer", "Developer"])
@@ -92,6 +141,13 @@ router = APIRouter(
     - Locations (Optional): Preferred cities (matches both current_city and looking_for_jobs_in)
     - Min Salary (Optional): Minimum expected salary filter
     - Max Salary (Optional): Maximum expected salary filter (budget limit)
+    - Relevant Score (Optional): Minimum relevance score threshold (default: 40.0, range: 0-100)
+    
+    **Relevance Score Filtering:**
+    - Only candidates with match_score >= relevant_score will be returned
+    - Default threshold is 40% to ensure reasonable quality matches
+    - Set to 0 to return all matches regardless of score
+    - Higher values (60-80+) return only highly relevant candidates
     
     **Salary Filtering:**
     - Uses expected_salary if available, falls back to current_salary
@@ -248,6 +304,7 @@ router = APIRouter(
                                             ],
                                             "min_salary": 500000,
                                             "max_salary": 1500000,
+                                            "relevant_score": 40.0,
                                         },
                                         "suggestions": [
                                             "Try using broader or alternative job titles",
@@ -321,6 +378,7 @@ async def manual_resume_search(search_params: ManualSearchRequest):
                         "locations": search_params.locations,
                         "min_salary": search_params.min_salary,
                         "max_salary": search_params.max_salary,
+                        "relevant_score": search_params.relevant_score,
                     },
                     "timestamp": datetime.now(timezone.utc),
                     "search_type": "manual",
@@ -346,11 +404,16 @@ async def manual_resume_search(search_params: ManualSearchRequest):
                 # Log the error but don't fail the search
                 print(f"Warning: Failed to save recent search: {str(save_error)}")
 
-        # Base query to filter by user_id (mandatory)
-        base_query = {"user_id": search_params.userid}
+        # Determine effective user_id for search based on user existence in collection
+        effective_user_id = get_effective_user_id_for_search(search_params.userid)
+
+        # Base query to filter by user_id (admin users search all, regular users search only their own)
+        base_query = {}
+        if effective_user_id is not None:
+            base_query["user_id"] = effective_user_id
 
         if not has_criteria:
-            # If no criteria provided, return all resumes for this user sorted by most recent
+            # If no criteria provided, return all resumes for this user (or all if admin) sorted by most recent
             results = list(resumes_collection.find(base_query))
         else:
             # Enhanced query building to capture ALL matching candidates for this user
@@ -699,6 +762,17 @@ async def manual_resume_search(search_params: ManualSearchRequest):
 
             scored_results.append(formatted_resume)
 
+        # Filter results based on relevant_score threshold
+        if (
+            search_params.relevant_score is not None
+            and search_params.relevant_score > 0
+        ):
+            scored_results = [
+                result
+                for result in scored_results
+                if result.get("match_score", 0) >= search_params.relevant_score
+            ]
+
         # Enhanced sorting: prioritize by fields matched, then by total score, then by individual matches
         sorted_results = sorted(
             scored_results,
@@ -768,6 +842,10 @@ async def manual_resume_search(search_params: ManualSearchRequest):
                 no_results_info["search_summary"]["search_criteria_used"][
                     "max_salary"
                 ] = search_params.max_salary
+            if search_params.relevant_score is not None:
+                no_results_info["search_summary"]["search_criteria_used"][
+                    "relevant_score"
+                ] = search_params.relevant_score
 
             # Add helpful suggestions
             suggestions = []
@@ -787,6 +865,10 @@ async def manual_resume_search(search_params: ManualSearchRequest):
                 suggestions.append("Adjust the salary range to be more flexible")
             if search_params.min_education:
                 suggestions.append("Consider accepting lower education qualifications")
+            if search_params.relevant_score and search_params.relevant_score > 0:
+                suggestions.append(
+                    "Try lowering the relevance score threshold to see more candidates"
+                )
 
             if not suggestions:
                 suggestions.append(

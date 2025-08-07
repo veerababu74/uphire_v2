@@ -448,6 +448,66 @@ async def create_ai_saved_search_indexes(ai_saved_search_collection):
         return False
 
 
+async def create_users_collection_indexes(users_collection):
+    """Create indexes for users collection"""
+    try:
+        # Get existing indexes to avoid conflicts
+        existing_indexes = list(users_collection.list_indexes())
+        existing_index_names = [idx["name"] for idx in existing_indexes]
+
+        logger.info("Creating users collection indexes...")
+
+        # Create essential single-field indexes for frequent queries
+        indexes_to_create = [
+            "user_id",  # Essential for user lookup - needs to be unique
+            "email",  # Essential for email lookup - needs to be unique
+            "is_admin",  # Essential for admin status queries
+            "created_at",  # Essential for sorting and time-based queries
+        ]
+
+        for index_field in indexes_to_create:
+            index_name = f"{index_field}_1"
+            if index_name not in existing_index_names:
+                try:
+                    # Create unique indexes for user_id and email
+                    if index_field in ["user_id", "email"]:
+                        users_collection.create_index(index_field, unique=True)
+                        logger.info(f"Created unique users index: {index_field}")
+                    else:
+                        users_collection.create_index(index_field)
+                        logger.info(f"Created users index: {index_field}")
+                except Exception as e:
+                    logger.warning(
+                        f"Failed to create users index {index_field}: {str(e)}"
+                    )
+
+        # Create compound indexes for common query combinations
+        compound_indexes = [
+            # Admin status with creation time for admin listing
+            (
+                [("is_admin", 1), ("created_at", -1)],
+                "is_admin_1_created_at_-1",
+            ),
+        ]
+
+        for index_spec, expected_name in compound_indexes:
+            if expected_name not in existing_index_names:
+                try:
+                    users_collection.create_index(index_spec)
+                    logger.info(f"Created users compound index: {expected_name}")
+                except Exception as e:
+                    logger.warning(
+                        f"Failed to create users compound index {expected_name}: {str(e)}"
+                    )
+
+        logger.info("Users collection indexes creation completed")
+        return True
+
+    except Exception as e:
+        logger.error(f"Error creating users collection indexes: {str(e)}")
+        return False
+
+
 async def initialize_application_startup():
     """
     Initialize the application during startup.
@@ -465,6 +525,7 @@ async def initialize_application_startup():
     from mangodatabase.client import (
         get_manual_recent_search_collection,
         get_manual_saved_searches_collection,
+        get_users_collection,
     )
 
     logger.info("Starting up FastAPI application...")
@@ -488,6 +549,7 @@ async def initialize_application_startup():
         ai_saved_searches_collection = get_ai_saved_searches_collection()
         manual_recent_search_collection = get_manual_recent_search_collection()
         manual_saved_searches_collection = get_manual_saved_searches_collection()
+        users_collection = get_users_collection()
 
         # Test database connection first
         collection.database.client.admin.command("ping")
@@ -513,6 +575,9 @@ async def initialize_application_startup():
 
         # Create AI saved search collection indexes
         await create_ai_saved_search_indexes(ai_saved_searches_collection)
+
+        # Create users collection indexes
+        await create_users_collection_indexes(users_collection)
 
         logger.info("Application startup completed successfully!")
 

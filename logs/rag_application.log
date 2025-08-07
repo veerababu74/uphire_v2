@@ -1394,3 +1394,41 @@ __root__
 2025-08-02 18:27:23 - rag_application - INFO - Retrieved 21 documents from MongoDB
 2025-08-02 18:27:23 - rag_application - INFO - Filtered to 2 documents for user_id: 66c8771a20bd68c725758679
 2025-08-02 18:27:23 - rag_application - INFO - Successfully formatted and sorted 2 results
+2025-08-07 22:56:46 - rag_application - INFO - Internal vectorizer (SentenceTransformer all-MiniLM-L6-v2) initialized successfully
+2025-08-07 22:56:48 - rag_application - INFO - RAG LLM initialized using groq_cloud provider
+2025-08-07 22:56:48 - rag_application - INFO - Chain manager initialized successfully
+2025-08-07 22:56:48 - rag_application - INFO - RAG Application initialized successfully
+2025-08-07 23:54:34 - rag_application - INFO - Vectorizer initialized successfully
+2025-08-07 23:54:35 - rag_application - INFO - Connected to MongoDB database 'resume_db' and collection 'resumes'
+2025-08-07 23:54:36 - rag_application - INFO - Retrieved 25 documents from MongoDB
+2025-08-07 23:54:36 - rag_application - INFO - Filtered to 0 documents for user_id: string
+2025-08-07 23:54:36 - rag_application - INFO - Successfully formatted and sorted 0 results
+2025-08-07 23:54:42 - rag_application - INFO - Retrieved 25 documents from MongoDB
+2025-08-07 23:54:42 - rag_application - INFO - Successfully formatted and sorted 25 results
+2025-08-07 23:54:44 - rag_application - INFO - Retrieved 25 documents from MongoDB
+2025-08-07 23:54:44 - rag_application - INFO - Successfully formatted and sorted 25 results
+2025-08-07 23:54:53 - rag_application - INFO - Retrieved 25 documents from MongoDB
+2025-08-07 23:54:53 - rag_application - INFO - Successfully formatted and sorted 25 results
+2025-08-07 23:55:31 - rag_application - INFO - Retrieved 25 documents from MongoDB
+2025-08-07 23:55:31 - rag_application - INFO - Successfully formatted and sorted 25 results
+2025-08-07 23:55:37 - rag_application - INFO - Retrieved 25 documents from MongoDB
+2025-08-07 23:55:37 - rag_application - INFO - Successfully formatted and sorted 25 results
+2025-08-07 23:55:43 - rag_application - INFO - Retrieved 25 documents from MongoDB
+2025-08-07 23:55:43 - rag_application - INFO - Successfully formatted and sorted 25 results
+2025-08-07 23:56:35 - rag_application - INFO - Vectorizer and embedding adapter initialized successfully
+2025-08-07 23:56:36 - rag_application - INFO - Connected to MongoDB database 'resume_db' and collection 'resumes'
+2025-08-07 23:56:36 - rag_application - INFO - LangChain vector store initialized successfully
+2025-08-07 23:56:37 - rag_application - INFO - Retrieved 5 documents using LangChain
+2025-08-07 23:56:37 - rag_application - INFO - Successfully formatted and sorted 0 results
+2025-08-07 23:56:42 - rag_application - INFO - Retrieved 5 documents using LangChain
+2025-08-07 23:56:42 - rag_application - INFO - Successfully formatted and sorted 5 results
+2025-08-07 23:56:47 - rag_application - INFO - Retrieved 5 documents using LangChain
+2025-08-07 23:56:47 - rag_application - INFO - Successfully formatted and sorted 5 results
+2025-08-07 23:56:52 - rag_application - INFO - Retrieved 5 documents using LangChain
+2025-08-07 23:56:52 - rag_application - INFO - Successfully formatted and sorted 5 results
+2025-08-07 23:56:57 - rag_application - INFO - Retrieved 5 documents using LangChain
+2025-08-07 23:56:57 - rag_application - INFO - Successfully formatted and sorted 5 results
+2025-08-07 23:57:23 - rag_application - INFO - Internal vectorizer (SentenceTransformer all-MiniLM-L6-v2) initialized successfully
+2025-08-07 23:57:24 - rag_application - INFO - RAG LLM initialized using groq_cloud provider
+2025-08-07 23:57:24 - rag_application - INFO - Chain manager initialized successfully
+2025-08-07 23:57:24 - rag_application - INFO - RAG Application initialized successfully

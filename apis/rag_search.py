@@ -11,6 +11,10 @@ from datetime import datetime, timedelta
 from GroqcloudLLM.text_extraction import extract_and_clean_text
 from core.custom_logger import CustomLogger
 from recent_search_uts.recent_ai_search import save_ai_search_to_recent
+from mangodatabase.client import get_users_collection
+from mangodatabase.user_operations import UserOperations
+from mangodatabase.client import get_users_collection
+from mangodatabase.user_operations import UserOperations
 
 
 def safe_float(value, default=0.0):
@@ -77,21 +81,35 @@ class SearchError(Exception):
 # Pydantic models for request bodies
 class VectorSimilaritySearchRequest(BaseModel):
     user_id: str = Field(
-        ..., description="User ID who performed the search (mandatory)"
+        ...,
+        description="User ID - if exists in users collection can search all documents, otherwise only their own",
     )
     query: str = Field(..., description="Search query text")
     limit: int = Field(
         default=50, description="Maximum number of results to return", ge=1, le=100
     )
+    relevant_score: Optional[float] = Field(
+        default=40.0,
+        ge=0.0,
+        le=100.0,
+        description="Minimum relevance score threshold (0-100). Only results with match_score >= this value will be returned",
+    )
 
 
 class LLMContextSearchRequest(BaseModel):
     user_id: str = Field(
-        ..., description="User ID who performed the search (mandatory)"
+        ...,
+        description="User ID - if exists in users collection can search all documents, otherwise only their own",
     )
     query: str = Field(..., description="Search query text")
     context_size: int = Field(
         default=5, description="Number of documents to analyze", ge=1, le=20
+    )
+    relevant_score: Optional[float] = Field(
+        default=40.0,
+        ge=0.0,
+        le=100.0,
+        description="Minimum relevance score threshold (0-100). Only results with match_score >= this value will be returned",
     )
 
 
@@ -212,6 +230,41 @@ router = APIRouter(
     responses={404: {"description": "Not found"}},
 )
 
+# Initialize user operations for admin checking
+users_collection = get_users_collection()
+user_ops = UserOperations(users_collection)
+
+
+def get_effective_user_id_for_search(requesting_user_id: str) -> Optional[str]:
+    """
+    Determine the effective user_id for search based on user existence in collection.
+
+    Args:
+        requesting_user_id: The user_id making the request
+
+    Returns:
+        - None if user exists in users collection (search all documents)
+        - requesting_user_id if user does not exist in users collection (search only their documents)
+    """
+    try:
+        user_exists = user_ops.user_exists(requesting_user_id)
+        if user_exists:
+            logger.info(
+                f"User {requesting_user_id} exists in collection - searching all documents"
+            )
+            return None  # User exists in collection - can search all documents
+        else:
+            logger.info(
+                f"User {requesting_user_id} not in collection - searching only their documents"
+            )
+            return requesting_user_id  # User not in collection - can only search their own documents
+    except Exception as e:
+        logger.warning(
+            f"Error checking user existence for user {requesting_user_id}: {e}"
+        )
+        # On error, default to restricting to user's own documents for security
+        return requesting_user_id
+
 
 @router.post(
     "/vector-similarity-search",
@@ -224,6 +277,7 @@ router = APIRouter(
     - user_id: The user ID who performed the search (mandatory)
     - query: The search query text
     - limit: Maximum number of results to return (default: 50)
+    - relevant_score: Minimum relevance score threshold (0-100). Only results with match_score >= this value will be returned (default: 40.0)
     
     **Returns:**
     Dictionary containing:
@@ -267,9 +321,12 @@ async def vector_similarity_search(request: VectorSimilaritySearchRequest):
         # Initialize RAG application
         rag_app = initialize_rag_app()
 
+        # Determine effective user_id for search based on user existence in collection
+        effective_user_id = get_effective_user_id_for_search(request.user_id)
+
         # Perform vector similarity search with user_id filter
         result = rag_app.vector_similarity_search(
-            request.query, request.limit, user_id=request.user_id
+            request.query, request.limit, user_id=effective_user_id
         )
 
         if "error" in result:
@@ -345,12 +402,28 @@ async def vector_similarity_search(request: VectorSimilaritySearchRequest):
                 "exit_reason": candidate.get("exit_reason", ""),
                 "similarity_score": safe_float(candidate.get("similarity_score", 0.0)),
             }
+
+            # Normalize similarity_score to 0-100 range if it's in 0-1 range
+            similarity_score = formatted_candidate["similarity_score"]
+            if similarity_score <= 1.0:
+                formatted_candidate["similarity_score"] = round(
+                    similarity_score * 100, 2
+                )
+
             formatted_results.append(formatted_candidate)
+
+        # Filter results based on relevant_score threshold
+        if request.relevant_score is not None and request.relevant_score > 0:
+            formatted_results = [
+                result
+                for result in formatted_results
+                if result.get("similarity_score", 0) >= request.relevant_score
+            ]
 
         # Format response according to VectorSimilaritySearchResponse model
         formatted_response = {
             "results": formatted_results,
-            "total_found": result.get("total_found", 0),
+            "total_found": len(formatted_results),  # Update total_found after filtering
             "statistics": {
                 "retrieved": result.get("statistics", {}).get("retrieved", 0),
                 "query": result.get("statistics", {}).get("query", request.query),
@@ -381,6 +454,7 @@ async def vector_similarity_search(request: VectorSimilaritySearchRequest):
     - user_id: The user ID who performed the search (mandatory)
     - query: The search query text
     - context_size: Number of documents to analyze (default: 5)
+    - relevant_score: Minimum relevance score threshold (0-100). Only results with match_score >= this value will be returned (default: 40.0)
     
     **Returns:**
     Dictionary containing:
@@ -432,13 +506,46 @@ async def llm_context_search(request: LLMContextSearchRequest):
         # Initialize RAG application
         rag_app = initialize_rag_app()
 
+        # Determine effective user_id for search based on user existence in collection
+        effective_user_id = get_effective_user_id_for_search(request.user_id)
+
         # Perform LLM context search with user_id filter
         result = rag_app.llm_context_search(
-            request.query, request.context_size, user_id=request.user_id
+            request.query, request.context_size, user_id=effective_user_id
         )
 
         if "error" in result:
             raise HTTPException(status_code=500, detail=result["error"])
+
+        # Normalize scores to 0-100 range if they're in 0-1 range
+        if "results" in result:
+            for res in result["results"]:
+                # Normalize relevance_score
+                if "relevance_score" in res:
+                    relevance_score = res["relevance_score"]
+                    if relevance_score <= 1.0:
+                        res["relevance_score"] = round(relevance_score * 100, 2)
+
+                # Normalize match_score
+                if "match_score" in res:
+                    match_score = res["match_score"]
+                    if match_score <= 1.0:
+                        res["match_score"] = round(match_score * 100, 2)
+
+        # Filter results based on relevant_score threshold
+        if (
+            request.relevant_score is not None
+            and request.relevant_score > 0
+            and "results" in result
+        ):
+            result["results"] = [
+                res
+                for res in result["results"]
+                if res.get("relevance_score", 0) >= request.relevant_score
+                or res.get("match_score", 0) >= request.relevant_score
+            ]
+            # Update total_found after filtering
+            result["total_found"] = len(result["results"])
 
         # save the search to recent searches
         await save_ai_search_to_recent(request.user_id, request.query)
@@ -521,12 +628,15 @@ async def llm_search_by_jd(
             )
             rag_app = initialize_rag_app()
 
+            # Determine effective user_id for search based on user existence in collection
+            effective_user_id = get_effective_user_id_for_search(user_id)
+
             # Perform LLM context search with user_id filter
             logger.info(
-                f"Performing LLM context search with text length: {len(jd_text)} for user: {user_id}"
+                f"Performing LLM context search with text length: {len(jd_text)} for user: {user_id} (effective_user_id: {effective_user_id})"
             )
             result = rag_app.llm_context_search(
-                jd_text, context_size=limit, user_id=user_id
+                jd_text, context_size=limit, user_id=effective_user_id
             )
 
             # Log the result for debugging
@@ -621,6 +731,14 @@ async def llm_search_by_jd(
                     ),
                     "match_reason": candidate.get("match_reason", ""),
                 }
+
+                # Normalize relevance_score to 0-100 range if it's in 0-1 range
+                relevance_score = formatted_candidate["relevance_score"]
+                if relevance_score <= 1.0:
+                    formatted_candidate["relevance_score"] = round(
+                        relevance_score * 100, 2
+                    )
+
                 formatted_results.append(formatted_candidate)
 
             # Format response according to LLMContextSearchResponse model
@@ -778,6 +896,14 @@ async def vector_search_by_jd(
                 "exit_reason": candidate.get("exit_reason", ""),
                 "similarity_score": safe_float(candidate.get("similarity_score", 0.0)),
             }
+
+            # Normalize similarity_score to 0-100 range if it's in 0-1 range
+            similarity_score = formatted_candidate["similarity_score"]
+            if similarity_score <= 1.0:
+                formatted_candidate["similarity_score"] = round(
+                    similarity_score * 100, 2
+                )
+
             formatted_results.append(formatted_candidate)
 
         # Format response according to VectorSimilaritySearchResponse model

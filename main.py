@@ -54,6 +54,7 @@ from apis.autocomplete_skills_titiles import router as autocomplete_router
 from apis.skills_experince_titles import router as skills_experience_titles_router
 from apis.vector_search import enhanced_search_router as vector_search_router
 from apis.vectore_search_v2 import enhanced_search_router as vector_search_v2_router
+from apis.enhanced_search import router as enhanced_search_router
 from apisofmango.search_index_api import router as search_index_router
 from apis.rag_search import router as rag_search_router
 from apis.retriever_api import router as retriever_api_router
@@ -69,6 +70,7 @@ from apis.llm_config_api import router as llm_config_router
 from apis.healthcheck import router as health_router
 from apis.llm_provider_management import router as llm_provider_router
 from apis.resumerpaser import router as resume_parser_router
+from apis.user_management import router as user_management_router
 from apis.multiple_resume_parser_api import (
     router as enhanced_multiple_resume_parser_router,
 )
@@ -203,11 +205,13 @@ app.include_router(skills_experience_titles_router)
 app.include_router(skills_recommendation_router)  # New skills recommendation API
 app.include_router(manual_search_router)
 app.include_router(vector_search_v2_router)
+app.include_router(enhanced_search_router)
 app.include_router(rag_search_router)
 app.include_router(retriever_api_router)
 app.include_router(retriever_health_router)
 app.include_router(ai_search_save_recent_router)
 app.include_router(manual_search_save_recent_router)
+app.include_router(user_management_router)  # User management API
 
 
 @app.get("/")

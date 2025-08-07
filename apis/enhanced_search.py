@@ -2,11 +2,20 @@ from fastapi import APIRouter, HTTPException, Query, File, UploadFile
 from typing import List, Dict, Any, Optional
 from Rag.runner import initialize_rag_app, ask_resume_question_enhanced
 from core.custom_logger import CustomLogger
+from mangodatabase.client import get_users_collection
+from mangodatabase.user_operations import (
+    UserOperations,
+    get_effective_user_id_for_search,
+)
 import os
 from pathlib import Path
 
 # Initialize logger
 logger = CustomLogger().get_logger("enhanced_search")
+
+# Initialize user operations
+users_collection = get_users_collection()
+user_ops = UserOperations(users_collection)
 
 # Create router instance
 router = APIRouter(
@@ -31,10 +40,16 @@ PERFORMANCE_PRESETS = {
     description="""
     Perform a smart search that combines RAG and vector similarity capabilities.
     
+    **Access Control:**
+    - If user_id exists in users collection → User can search ALL documents
+    - If user_id does NOT exist in users collection → User can only search their own documents
+    
     **Parameters:**
+    - user_id: User ID (required) - determines search scope based on user existence in collection
     - query: The search query text
     - preset: Performance preset ("fast", "balanced", "comprehensive", "exhaustive")
     - min_score: Minimum similarity score (0.0 to 1.0)
+    - relevant_score: Minimum relevance score threshold (0-100). Only results with match_score >= this value will be returned (default: 40.0)
     
     **Returns:**
     Dictionary containing:
@@ -44,6 +59,9 @@ PERFORMANCE_PRESETS = {
     """,
 )
 async def smart_search(
+    user_id: str = Query(
+        ..., description="User ID (required for user-specific search)"
+    ),
     query: str = Query(..., description="Search query text"),
     preset: str = Query(
         default="balanced",
@@ -56,11 +74,26 @@ async def smart_search(
         ge=0.0,
         le=1.0,
     ),
+    relevant_score: float = Query(
+        default=40.0,
+        description="Minimum relevance score threshold (0-100). Only results with match_score >= this value will be returned",
+        ge=0.0,
+        le=100.0,
+    ),
 ):
     """
     Perform smart search combining RAG and vector similarity.
     """
     try:
+        # Input validation
+        if not user_id.strip():
+            raise HTTPException(
+                status_code=400, detail="User ID is mandatory and cannot be empty"
+            )
+
+        # Get effective user ID for search (handles admin access)
+        effective_user_id = await get_effective_user_id_for_search(user_ops, user_id)
+
         # Initialize RAG application
         rag_app = initialize_rag_app()
 
@@ -85,6 +118,27 @@ async def smart_search(
                 if doc.get("score", 0) >= min_score
             ]
 
+        # Filter results by relevant_score threshold
+        if relevant_score > 0 and "scored_documents" in rag_result:
+            filtered_docs = []
+            for doc in rag_result["scored_documents"]:
+                # Check various possible score fields
+                score = doc.get(
+                    "relevance_score", doc.get("match_score", doc.get("score", 0))
+                )
+                # Normalize score to 0-100 range if it's between 0-1
+                if score <= 1.0:
+                    normalized_score = score * 100
+                else:
+                    normalized_score = score
+
+                # Update the document with normalized score
+                doc["relevance_score"] = normalized_score
+
+                if normalized_score >= relevant_score:
+                    filtered_docs.append(doc)
+            rag_result["scored_documents"] = filtered_docs
+
         return rag_result
 
     except Exception as e:
@@ -99,10 +153,16 @@ async def smart_search(
     description="""
     Perform a context-aware search that uses LLM to understand and match resume content.
     
+    **Access Control:**
+    - If user_id exists in users collection → User can search ALL documents
+    - If user_id does NOT exist in users collection → User can only search their own documents
+    
     **Parameters:**
+    - user_id: User ID (required) - determines search scope based on user existence in collection
     - query: The search query text
     - context_size: Number of documents to analyze (1-20)
     - min_relevance: Minimum relevance score (0.0 to 1.0)
+    - relevant_score: Minimum relevance score threshold (0-100). Only results with match_score >= this value will be returned (default: 40.0)
     
     **Returns:**
     Dictionary containing:
@@ -113,6 +173,9 @@ async def smart_search(
     """,
 )
 async def context_search(
+    user_id: str = Query(
+        ..., description="User ID (required for user-specific search)"
+    ),
     query: str = Query(..., description="Search query text"),
     context_size: int = Query(
         default=5,
@@ -126,11 +189,26 @@ async def context_search(
         ge=0.0,
         le=1.0,
     ),
+    relevant_score: float = Query(
+        default=40.0,
+        description="Minimum relevance score threshold (0-100). Only results with match_score >= this value will be returned",
+        ge=0.0,
+        le=100.0,
+    ),
 ):
     """
     Perform context-aware search using LLM.
     """
     try:
+        # Input validation
+        if not user_id.strip():
+            raise HTTPException(
+                status_code=400, detail="User ID is mandatory and cannot be empty"
+            )
+
+        # Get effective user ID for search (handles admin access)
+        effective_user_id = await get_effective_user_id_for_search(user_ops, user_id)
+
         # Initialize RAG application
         rag_app = initialize_rag_app()
 
@@ -148,6 +226,27 @@ async def context_search(
                 if res.get("relevance_score", 0) >= min_relevance
             ]
 
+        # Filter results by relevant_score threshold
+        if relevant_score > 0 and "results" in result:
+            filtered_results = []
+            for res in result["results"]:
+                # Check various possible score fields
+                score = res.get(
+                    "relevance_score", res.get("match_score", res.get("score", 0))
+                )
+                # Normalize score to 0-100 range if it's between 0-1
+                if score <= 1.0:
+                    normalized_score = score * 100
+                else:
+                    normalized_score = score
+
+                # Update the result with normalized score
+                res["relevance_score"] = normalized_score
+
+                if normalized_score >= relevant_score:
+                    filtered_results.append(res)
+            result["results"] = filtered_results
+
         return result
 
     except Exception as e:
@@ -162,10 +261,16 @@ async def context_search(
     description="""
     Upload a job description file and find matching resumes using advanced search capabilities.
     
+    **Access Control:**
+    - If user_id exists in users collection → User can search ALL documents
+    - If user_id does NOT exist in users collection → User can only search their own documents
+    
     **Parameters:**
+    - user_id: User ID (required) - determines search scope based on user existence in collection
     - file: Job description file (.txt, .pdf, or .docx)
     - preset: Performance preset ("fast", "balanced", "comprehensive", "exhaustive")
     - min_score: Minimum similarity score (0.0 to 1.0)
+    - relevant_score: Minimum relevance score threshold (0-100). Only results with match_score >= this value will be returned (default: 40.0)
     
     **Returns:**
     Dictionary containing:
@@ -175,6 +280,9 @@ async def context_search(
     """,
 )
 async def jd_based_search(
+    user_id: str = Query(
+        ..., description="User ID (required for user-specific search)"
+    ),
     file: UploadFile = File(...),
     preset: str = Query(
         default="balanced",
@@ -187,11 +295,26 @@ async def jd_based_search(
         ge=0.0,
         le=1.0,
     ),
+    relevant_score: float = Query(
+        default=40.0,
+        description="Minimum relevance score threshold (0-100). Only results with match_score >= this value will be returned",
+        ge=0.0,
+        le=100.0,
+    ),
 ):
     """
     Perform search based on job description file.
     """
     try:
+        # Input validation
+        if not user_id.strip():
+            raise HTTPException(
+                status_code=400, detail="User ID is mandatory and cannot be empty"
+            )
+
+        # Get effective user ID for search (handles admin access)
+        effective_user_id = await get_effective_user_id_for_search(user_ops, user_id)
+
         # Create temp directory if it doesn't exist
         temp_dir = Path("temp")
         temp_dir.mkdir(exist_ok=True)
@@ -250,6 +373,15 @@ async def jd_based_search(
                     doc
                     for doc in result["scored_documents"]
                     if doc.get("score", 0) >= min_score
+                ]
+
+            # Filter results by relevant_score threshold
+            if relevant_score > 0 and "scored_documents" in result:
+                result["scored_documents"] = [
+                    doc
+                    for doc in result["scored_documents"]
+                    if doc.get("relevance_score", 0) >= relevant_score
+                    or doc.get("match_score", 0) >= relevant_score
                 ]
 
             return result

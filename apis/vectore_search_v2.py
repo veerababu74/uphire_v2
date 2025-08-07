@@ -4,7 +4,11 @@ import numpy as np
 from fastapi import APIRouter, Body, HTTPException, status, UploadFile, File
 from typing import List, Dict, Any, Optional
 from pydantic import BaseModel
-from mangodatabase.client import get_collection
+from mangodatabase.client import get_collection, get_users_collection
+from mangodatabase.user_operations import (
+    UserOperations,
+    get_effective_user_id_for_search,
+)
 from core.helpers import format_resume
 from embeddings.vectorizer import Vectorizer
 from schemas.vector_search_scehma import VectorSearchQuery
@@ -67,6 +71,8 @@ Expected Input Format:
 
 # Get MongoDB collection
 resumes_collection = get_collection()
+users_collection = get_users_collection()
+user_ops = UserOperations(users_collection)
 enhanced_search_router = APIRouter(prefix="/aiv1", tags=["enhanced ai vector search"])
 vectorizer = Vectorizer()
 
@@ -90,6 +96,7 @@ class SearchError(Exception):
     - field: Search scope (default: "full_text")
     - num_results: Number of results to return (default: 10)
     - min_score: Minimum similarity threshold (default: 0.2)
+    - relevant_score: Minimum relevance score threshold (0-100). Only results with match_score >= this value will be returned (default: 40.0)
     
     **Example Input:**
     ```json
@@ -98,7 +105,8 @@ class SearchError(Exception):
         "query": "experienced machine learning engineer with python",
         "field": "full_text",
         "num_results": 10,
-        "min_score": 0.2
+        "min_score": 0.2,
+        "relevant_score": 40.0
     }
     ```
     
@@ -199,6 +207,11 @@ async def vector_search(search_query: VectorSearchQuery):
         if search_query.num_results < 1:
             raise SearchError("Number of results must be greater than 0")
 
+        # Get effective user ID for search (handles admin access)
+        effective_user_id = await get_effective_user_id_for_search(
+            user_ops, search_query.user_id
+        )
+
         # Generate embedding for search query
         try:
             query_embedding = vectorizer.generate_embedding(search_query.query)
@@ -219,7 +232,11 @@ async def vector_search(search_query: VectorSearchQuery):
                 f"Invalid field name. Choose from: {', '.join(vector_field_mapping.keys())}"
             )
 
-        # Enhanced search pipeline with scoring (removed user_id filter from aggregation)
+        # Enhanced search pipeline with scoring
+        match_filter = {}
+        if effective_user_id:  # If None, admin searches all documents
+            match_filter["user_id"] = effective_user_id
+
         pipeline = [
             {
                 "$search": {
@@ -235,8 +252,8 @@ async def vector_search(search_query: VectorSearchQuery):
             {"$set": {"score": {"$meta": "searchScore"}}},
             {
                 "$match": {
-                    "score": {"$gte": search_query.min_score},
-                    # Removed user_id filter from aggregation pipeline
+                    **{"score": {"$gte": search_query.min_score}},
+                    **match_filter,  # Add user_id filter only if not admin
                 }
             },
             {
@@ -265,22 +282,22 @@ async def vector_search(search_query: VectorSearchQuery):
         if not results:
             return []
 
-        # Filter results by user_id after aggregation
-        filtered_results = []
-        for result in results:
-            if str(result.get("user_id", "")) == search_query.user_id:
-                filtered_results.append(result)
-                if len(filtered_results) >= search_query.num_results:
-                    break
+        # Limit results to requested number
+        limited_results = results[: search_query.num_results]
 
-        if not filtered_results:
-            return []
-
-        formatted_results = [format_resume(result) for result in filtered_results]
+        formatted_results = [format_resume(result) for result in limited_results]
 
         # Add relevance score to results
         for result in formatted_results:
             result["relevance_score"] = round(result.get("score", 0) * 100, 2)
+
+        # Filter results based on relevant_score threshold (using the schema's relevant_score parameter)
+        if search_query.relevant_score > 0:
+            formatted_results = [
+                result
+                for result in formatted_results
+                if result.get("relevance_score", 0) >= search_query.relevant_score
+            ]
 
         return formatted_results
 
@@ -309,6 +326,7 @@ async def vector_search(search_query: VectorSearchQuery):
     - field: Search scope (default: "full_text")
     - num_results: Number of results to return (default: 10)
     - min_score: Minimum similarity threshold (default: 0.0)
+    - relevant_score: Minimum relevance score threshold (0-100). Only results with match_score >= this value will be returned (default: 40.0)
     """,
 )
 async def search_by_jd(
@@ -317,11 +335,15 @@ async def search_by_jd(
     field: str = "full_text",
     num_results: int = 10,
     min_score: float = 0.0,
+    relevant_score: float = 40.0,
 ):
     try:
         # Input validation
         if not user_id.strip():
             raise SearchError("User ID is mandatory and cannot be empty")
+
+        # Get effective user ID for search (handles admin access)
+        effective_user_id = await get_effective_user_id_for_search(user_ops, user_id)
 
         # Step 1: Save uploaded file to temp directory
         file_location = os.path.join(TEMP_FOLDER, file.filename)
@@ -370,7 +392,11 @@ async def search_by_jd(
                 f"Invalid field name. Choose from: {', '.join(vector_field_mapping.keys())}"
             )
 
-        # Step 5: Run vector search pipeline (removed user_id filter from aggregation)
+        # Step 5: Run vector search pipeline with admin access control
+        match_filter = {}
+        if effective_user_id:  # If None, admin searches all documents
+            match_filter["user_id"] = effective_user_id
+
         pipeline = [
             {
                 "$search": {
@@ -385,8 +411,8 @@ async def search_by_jd(
             {"$set": {"score": {"$meta": "searchScore"}}},
             {
                 "$match": {
-                    "score": {"$gte": min_score},
-                    # Removed user_id filter from aggregation pipeline
+                    **{"score": {"$gte": min_score}},
+                    **match_filter,  # Add user_id filter only if not admin
                 }
             },
             {
@@ -415,22 +441,22 @@ async def search_by_jd(
         if not results:
             return []
 
-        # Filter results by user_id after aggregation
-        filtered_results = []
-        for result in results:
-            if str(result.get("user_id", "")) == user_id:
-                filtered_results.append(result)
-                if len(filtered_results) >= num_results:
-                    break
+        # Limit results to requested number
+        limited_results = results[:num_results]
 
-        if not filtered_results:
-            return []
-
-        formatted_results = [format_resume(result) for result in filtered_results]
+        formatted_results = [format_resume(result) for result in limited_results]
 
         # Add relevance score to results
         for result in formatted_results:
             result["relevance_score"] = round(result.get("score", 0) * 100, 2)
+
+        # Filter results based on relevant_score threshold
+        if relevant_score > 0:
+            formatted_results = [
+                result
+                for result in formatted_results
+                if result.get("relevance_score", 0) >= relevant_score
+            ]
 
         return formatted_results
 
