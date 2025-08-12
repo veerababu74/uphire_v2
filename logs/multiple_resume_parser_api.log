@@ -1,0 +1,129 @@
+2025-07-19 22:49:31 - multiple_resume_parser_api - INFO - Processing 1 resumes
+2025-07-19 22:49:31 - multiple_resume_parser_api - INFO - Processing resume: sudheera1.pdf
+2025-07-19 22:49:32 - multiple_resume_parser_api - INFO - Initialized parser with provider: groq_cloud
+2025-07-19 22:49:33 - multiple_resume_parser_api - INFO - Generating embeddings for resume data
+2025-07-19 22:49:33 - multiple_resume_parser_api - ERROR - Error generating embeddings: 'AddUserDataVectorizer' object has no attribute 'generate_embeddings'
+2025-07-19 22:49:33 - multiple_resume_parser_api - INFO - Successfully processed sudheera1.pdf
+2025-07-19 22:49:33 - multiple_resume_parser_api - INFO - Completed processing: sudheera1.pdf
+2025-07-19 22:49:33 - multiple_resume_parser_api - ERROR - Error saving resume to database: 'ResumeOperations' object has no attribute 'add_resume'
+2025-07-19 22:52:50 - multiple_resume_parser_api - INFO - Processing 1 resumes
+2025-07-19 22:52:50 - multiple_resume_parser_api - INFO - Processing resume: sudheera1.pdf
+2025-07-19 22:52:51 - multiple_resume_parser_api - INFO - Initialized parser with provider: groq_cloud
+2025-07-19 22:52:53 - multiple_resume_parser_api - INFO - Generating embeddings for resume data
+2025-07-19 22:52:56 - multiple_resume_parser_api - INFO - Generated 4 embedding types for resume
+2025-07-19 22:52:56 - multiple_resume_parser_api - INFO - Successfully processed sudheera1.pdf
+2025-07-19 22:52:56 - multiple_resume_parser_api - INFO - Completed processing: sudheera1.pdf
+2025-07-19 22:52:57 - multiple_resume_parser_api - ERROR - Error saving resume to database: object dict can't be used in 'await' expression
+2025-07-19 22:55:36 - multiple_resume_parser_api - INFO - Processing 1 resumes
+2025-07-19 22:55:36 - multiple_resume_parser_api - INFO - Processing resume: sudheera1.pdf
+2025-07-19 22:55:37 - multiple_resume_parser_api - INFO - Initialized parser with provider: groq_cloud
+2025-07-19 22:55:38 - multiple_resume_parser_api - INFO - Generating embeddings for resume data
+2025-07-19 22:55:40 - multiple_resume_parser_api - INFO - Generated 4 embedding types for resume
+2025-07-19 22:55:40 - multiple_resume_parser_api - INFO - Successfully processed sudheera1.pdf
+2025-07-19 22:55:40 - multiple_resume_parser_api - INFO - Completed processing: sudheera1.pdf
+2025-07-19 22:55:40 - multiple_resume_parser_api - INFO - Generating embeddings for resume data
+2025-07-19 22:55:41 - multiple_resume_parser_api - INFO - Generated 4 embedding types for resume
+2025-07-19 22:55:43 - multiple_resume_parser_api - INFO - Saved resume to database with ID: 687bd517a2b9f8b2421d68cf
+2025-07-20 09:50:50 - multiple_resume_parser_api - INFO - Generating embeddings for resume data
+2025-07-20 09:50:51 - multiple_resume_parser_api - INFO - Generated 5 vector fields for resume: ['experience_text_vector', 'education_text_vector', 'skills_vector', 'combined_resume_vector', 'total_resume_vector']
+2025-07-20 09:52:32 - multiple_resume_parser_api - INFO - Processing 1 resumes
+2025-07-20 09:52:32 - multiple_resume_parser_api - INFO - Processing resume: veerababu_v11.docx
+2025-07-20 09:52:33 - multiple_resume_parser_api - INFO - Initialized parser with provider: groq_cloud
+2025-07-20 09:52:35 - multiple_resume_parser_api - INFO - Generating embeddings for resume data
+2025-07-20 09:52:37 - multiple_resume_parser_api - INFO - Generated 5 vector fields for resume: ['experience_text_vector', 'education_text_vector', 'skills_vector', 'combined_resume_vector', 'total_resume_vector']
+2025-07-20 09:52:37 - multiple_resume_parser_api - INFO - Successfully processed veerababu_v11.docx
+2025-07-20 09:52:37 - multiple_resume_parser_api - INFO - Completed processing: veerababu_v11.docx
+2025-07-20 09:52:37 - multiple_resume_parser_api - INFO - Saving batch 1 of 1 resumes to database
+2025-07-20 09:52:39 - multiple_resume_parser_api - INFO - Saved resume to database with ID: 687c6f0e434c3c7abc58ae64
+2025-07-20 10:01:01 - multiple_resume_parser_api - INFO - Processing 1 resumes
+2025-07-20 10:01:01 - multiple_resume_parser_api - INFO - Processing resume: veerababu_v11.docx
+2025-07-20 10:01:01 - multiple_resume_parser_api - INFO - Initialized parser with provider: groq_cloud
+2025-07-20 10:01:03 - multiple_resume_parser_api - INFO - Generating embeddings for resume data
+2025-07-20 10:01:04 - multiple_resume_parser_api - INFO - Generated 5 vector fields for resume: ['experience_text_vector', 'education_text_vector', 'skills_vector', 'combined_resume_vector', 'total_resume_vector']
+2025-07-20 10:01:04 - multiple_resume_parser_api - INFO - Successfully processed veerababu_v11.docx
+2025-07-20 10:01:04 - multiple_resume_parser_api - INFO - Completed processing: veerababu_v11.docx
+2025-07-20 10:01:04 - multiple_resume_parser_api - INFO - Saving batch 1 of 1 resumes to database
+2025-07-20 10:01:05 - multiple_resume_parser_api - INFO - Saved resume to database with ID: 687c71092f7ae9a57f0a4f62
+2025-07-20 10:08:02 - multiple_resume_parser_api - INFO - Processing 1 resumes
+2025-07-20 10:08:02 - multiple_resume_parser_api - INFO - Processing resume: veerababu_v11.docx
+2025-07-20 10:08:03 - multiple_resume_parser_api - INFO - Initialized parser with provider: groq_cloud
+2025-07-20 10:08:05 - multiple_resume_parser_api - INFO - Generating embeddings for resume data
+2025-07-20 10:08:07 - multiple_resume_parser_api - INFO - Generated 5 vector fields for resume: ['experience_text_vector', 'education_text_vector', 'skills_vector', 'combined_resume_vector', 'total_resume_vector']
+2025-07-20 10:08:07 - multiple_resume_parser_api - INFO - Successfully processed veerababu_v11.docx
+2025-07-20 10:08:07 - multiple_resume_parser_api - INFO - Completed processing: veerababu_v11.docx
+2025-07-20 10:08:07 - multiple_resume_parser_api - INFO - Saving batch 1 of 1 resumes to database
+2025-07-20 10:08:08 - multiple_resume_parser_api - INFO - Added skills: ['cobol', 'sql', 'plsql', 'db2', 'oracle', 'vsam', 'file-aid', 'endeavor', 'xpeditor', 'sbi smart', 'z/os', 'win 98/2000', 'unix']
+2025-07-20 10:08:08 - multiple_resume_parser_api - INFO - Added experience titles: ['system engineer']
+2025-07-20 10:08:08 - multiple_resume_parser_api - INFO - Saved resume to database with ID: 687c72afe6523fae5faefd34
+2025-07-20 10:13:51 - multiple_resume_parser_api - INFO - Processing 1 resumes
+2025-07-20 10:13:51 - multiple_resume_parser_api - INFO - Processing resume: Durga Prasad mb.pdf
+2025-07-20 10:13:52 - multiple_resume_parser_api - INFO - Initialized parser with provider: groq_cloud
+2025-07-20 10:13:54 - multiple_resume_parser_api - INFO - Generating embeddings for resume data
+2025-07-20 10:13:57 - multiple_resume_parser_api - INFO - Generated 5 vector fields for resume: ['experience_text_vector', 'education_text_vector', 'skills_vector', 'combined_resume_vector', 'total_resume_vector']
+2025-07-20 10:13:57 - multiple_resume_parser_api - INFO - Successfully processed Durga Prasad mb.pdf
+2025-07-20 10:13:57 - multiple_resume_parser_api - INFO - Completed processing: Durga Prasad mb.pdf
+2025-07-20 10:13:57 - multiple_resume_parser_api - INFO - Saving batch 1 of 1 resumes to database
+2025-07-20 10:13:58 - multiple_resume_parser_api - INFO - Added skills: ['html', 'css', 'bootstrap', 'javascript', 'react.js', 'python', 'flask', 'sqlite', 'rest apis', 'jwt tokens', 'git']
+2025-07-20 10:13:58 - multiple_resume_parser_api - INFO - Added experience titles: ['python developer', 'frontend developer']
+2025-07-20 10:13:58 - multiple_resume_parser_api - INFO - Saved resume to database with ID: 687c740d94a71575dda55300
+2025-07-20 10:18:02 - multiple_resume_parser_api - INFO - Generating embeddings for resume data
+2025-07-20 10:18:05 - multiple_resume_parser_api - INFO - Generated 5 vector fields for resume: ['experience_text_vector', 'education_text_vector', 'skills_vector', 'combined_resume_vector', 'total_resume_vector']
+2025-07-20 10:28:55 - multiple_resume_parser_api - INFO - Generating embeddings for resume data
+2025-07-20 10:28:58 - multiple_resume_parser_api - INFO - Generated 5 vector fields for resume: ['experience_text_vector', 'education_text_vector', 'skills_vector', 'combined_resume_vector', 'total_resume_vector']
+2025-07-20 10:29:51 - multiple_resume_parser_api - INFO - Generating embeddings for resume data
+2025-07-20 10:29:54 - multiple_resume_parser_api - INFO - Generated 5 vector fields for resume: ['experience_text_vector', 'education_text_vector', 'skills_vector', 'combined_resume_vector', 'total_resume_vector']
+2025-07-20 10:32:27 - multiple_resume_parser_api - INFO - Processing 1 resumes
+2025-07-20 10:32:27 - multiple_resume_parser_api - INFO - Processing resume: Durga Prasad mb.pdf
+2025-07-20 10:32:28 - multiple_resume_parser_api - INFO - Initialized parser with provider: groq_cloud
+2025-07-20 10:32:30 - multiple_resume_parser_api - INFO - Generating embeddings for resume data
+2025-07-20 10:32:37 - multiple_resume_parser_api - INFO - Generated 5 vector fields for resume: ['experience_text_vector', 'education_text_vector', 'skills_vector', 'combined_resume_vector', 'total_resume_vector']
+2025-07-20 10:32:37 - multiple_resume_parser_api - INFO - Successfully processed Durga Prasad mb.pdf
+2025-07-20 10:32:37 - multiple_resume_parser_api - INFO - Completed processing: Durga Prasad mb.pdf
+2025-07-20 10:32:37 - multiple_resume_parser_api - INFO - Saving batch 1 of 1 resumes to database
+2025-07-20 10:32:38 - multiple_resume_parser_api - INFO - Added skills: ['html', 'css', 'bootstrap', 'javascript', 'react.js', 'python', 'flask', 'sqlite', 'rest apis', 'jwt tokens', 'git']
+2025-07-20 10:32:38 - multiple_resume_parser_api - INFO - Added experience titles: ['python developer', 'frontend developer']
+2025-07-20 10:32:38 - multiple_resume_parser_api - INFO - Saved resume to database with ID: 687c786dd9f9333375e1824b
+2025-08-02 19:07:15 - multiple_resume_parser_api - INFO - Processing 4 resumes for user: veera (ID: veera123) - Session: veera123_1754141835
+2025-08-02 19:07:15 - multiple_resume_parser_api - INFO - Processing resume: DURGA PRASAD PILLI acc.pdf
+2025-08-02 19:07:15 - multiple_resume_parser_api - INFO - Processing resume: DURGA PRASAD PILLI del.pdf
+2025-08-02 19:07:15 - multiple_resume_parser_api - INFO - Processing resume: pdurgaprasad_pwc.pdf
+2025-08-02 19:07:17 - multiple_resume_parser_api - INFO - Initialized parser with provider: groq_cloud
+2025-08-02 19:07:17 - multiple_resume_parser_api - INFO - Initialized parser with provider: groq_cloud
+2025-08-02 19:07:17 - multiple_resume_parser_api - INFO - Initialized parser with provider: groq_cloud
+2025-08-02 19:07:19 - multiple_resume_parser_api - INFO - Generating embeddings for resume data
+2025-08-02 19:07:19 - multiple_resume_parser_api - INFO - Generating embeddings for resume data
+2025-08-02 19:07:19 - multiple_resume_parser_api - INFO - Generating embeddings for resume data
+2025-08-02 19:07:25 - multiple_resume_parser_api - INFO - Generated 5 vector fields for resume: ['experience_text_vector', 'education_text_vector', 'skills_vector', 'combined_resume_vector', 'total_resume_vector']
+2025-08-02 19:07:25 - multiple_resume_parser_api - INFO - Successfully processed DURGA PRASAD PILLI acc.pdf
+2025-08-02 19:07:25 - multiple_resume_parser_api - INFO - Processing resume: VEERABABUV1.pdf
+2025-08-02 19:07:25 - multiple_resume_parser_api - INFO - Completed processing: DURGA PRASAD PILLI acc.pdf
+2025-08-02 19:07:25 - multiple_resume_parser_api - INFO - Generated 5 vector fields for resume: ['experience_text_vector', 'education_text_vector', 'skills_vector', 'combined_resume_vector', 'total_resume_vector']
+2025-08-02 19:07:25 - multiple_resume_parser_api - INFO - Successfully processed DURGA PRASAD PILLI del.pdf
+2025-08-02 19:07:25 - multiple_resume_parser_api - INFO - Completed processing: DURGA PRASAD PILLI del.pdf
+2025-08-02 19:07:25 - multiple_resume_parser_api - INFO - Initialized parser with provider: groq_cloud
+2025-08-02 19:07:27 - multiple_resume_parser_api - INFO - Generating embeddings for resume data
+2025-08-02 19:07:30 - multiple_resume_parser_api - INFO - Generated 5 vector fields for resume: ['experience_text_vector', 'education_text_vector', 'skills_vector', 'combined_resume_vector', 'total_resume_vector']
+2025-08-02 19:07:30 - multiple_resume_parser_api - INFO - Successfully processed pdurgaprasad_pwc.pdf
+2025-08-02 19:07:30 - multiple_resume_parser_api - INFO - Completed processing: pdurgaprasad_pwc.pdf
+2025-08-02 19:07:32 - multiple_resume_parser_api - INFO - Generated 5 vector fields for resume: ['experience_text_vector', 'education_text_vector', 'skills_vector', 'combined_resume_vector', 'total_resume_vector']
+2025-08-02 19:07:32 - multiple_resume_parser_api - INFO - Successfully processed VEERABABUV1.pdf
+2025-08-02 19:07:32 - multiple_resume_parser_api - INFO - Completed processing: VEERABABUV1.pdf
+2025-08-02 19:07:32 - multiple_resume_parser_api - INFO - Saving batch 1 of 4 resumes to database
+2025-08-02 19:07:33 - multiple_resume_parser_api - INFO - Added skills: ['financial analysis', 'banking operations', 'credit analysis', 'customer service', 'business analysis', 'relationship management', 'business process analysis', 'ms office']
+2025-08-02 19:07:33 - multiple_resume_parser_api - INFO - Added experience titles: []
+2025-08-02 19:07:33 - multiple_resume_parser_api - INFO - Saved resume to database with ID: 688e149cf1c2761e3fe07ce8
+2025-08-02 19:07:34 - multiple_resume_parser_api - INFO - Added skills: ['financial analysis', 'attention to detail', 'research skills', 'internal audit', 'project management', 'business process management', 'ms excel', 'word', 'power point', 'documentation', 'good communication skills', 'ability to work in team', 'organizational and interpersonal skills', 'time management', 'analytical and problem solving']
+2025-08-02 19:07:34 - multiple_resume_parser_api - INFO - Added experience titles: ['project lead']
+2025-08-02 19:07:34 - multiple_resume_parser_api - INFO - Saved resume to database with ID: 688e149df1c2761e3fe07cf0
+2025-08-02 19:07:34 - multiple_resume_parser_api - INFO - Added skills: ['problem solving', 'technical proficiency', 'research skills', 'analytical skills and problem -solving', 'curiosity and open -mindedness', 'continuous learning', 'data handling and analysis']
+2025-08-02 19:07:34 - multiple_resume_parser_api - INFO - Added experience titles: []
+2025-08-02 19:07:34 - multiple_resume_parser_api - INFO - Saved resume to database with ID: 688e149ef1c2761e3fe07cfc
+2025-08-02 19:07:36 - multiple_resume_parser_api - INFO - Added skills: ['python', 'flask', 'django', 'azure cloud', 'machine learning', 'gpt', 'google palm', 'llama', 'langchain', 'retrieval-augmented generation (rag)', 'graph rag', 'chatbots', 'svm', 'xgboost', 'random forest', 'azure ai services', 'google vertex ai', 'pandas', 'numpy', 'langgraph', 'mysql', 'vector databases', 'chroma db', 'pine cone', 'azure ai search', 'natural language processing (nlp)', 'rest apis', 'data manipulation', 'front-end development', 'html', 'css', 'javascript', 'deep learning', 'ann', 'rnn', 'lstm rnn']
+2025-08-02 19:07:36 - multiple_resume_parser_api - INFO - Added experience titles: ['generative ai developer', 'python developer']
+2025-08-02 19:07:36 - multiple_resume_parser_api - INFO - Saved resume to database with ID: 688e149ef1c2761e3fe07d02
+2025-08-02 19:21:17 - multiple_resume_parser_api - INFO - Generating embeddings for resume data
+2025-08-02 19:21:20 - multiple_resume_parser_api - INFO - Generated 5 vector fields for resume: ['experience_text_vector', 'education_text_vector', 'skills_vector', 'combined_resume_vector', 'total_resume_vector']
+2025-08-02 19:24:15 - multiple_resume_parser_api - INFO - Generating embeddings for resume data
+2025-08-02 19:24:19 - multiple_resume_parser_api - INFO - Generated 5 vector fields for resume: ['experience_text_vector', 'education_text_vector', 'skills_vector', 'combined_resume_vector', 'total_resume_vector']
+2025-08-02 19:24:20 - multiple_resume_parser_api - INFO - Generating embeddings for resume data
+2025-08-02 19:24:22 - multiple_resume_parser_api - INFO - Generated 5 vector fields for resume: ['experience_text_vector', 'education_text_vector', 'skills_vector', 'combined_resume_vector', 'total_resume_vector']

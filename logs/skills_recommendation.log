@@ -1,0 +1,6 @@
+2025-08-02 11:46:03 - skills_recommendation - INFO - Generating skills recommendations for position: python developer
+2025-08-02 11:46:03 - skills_recommendation - INFO - Searching for skills related to position: python developer
+2025-08-02 11:46:03 - skills_recommendation - INFO - Using keywords: ['python', 'django', 'flask', 'fastapi', 'pandas', 'numpy']
+2025-08-02 11:46:04 - skills_recommendation - ERROR - Error querying resumes: cannot nest $ under $in, full error: {'ok': 0.0, 'errmsg': 'cannot nest $ under $in', 'code': 2, 'codeName': 'BadValue', '$clusterTime': {'clusterTime': Timestamp(1754115363, 11), 'signature': {'hash': b'C\xa6\x11%\xb9\xed\x05\xf7w\xf8\xd853VAI\x8dv?\xb8', 'keyId': 7501339950751678466}}, 'operationTime': Timestamp(1754115363, 11)}
+2025-08-02 11:46:04 - skills_recommendation - ERROR - Error querying skills collection: cannot nest $ under $in, full error: {'ok': 0.0, 'errmsg': 'cannot nest $ under $in', 'code': 2, 'codeName': 'BadValue', '$clusterTime': {'clusterTime': Timestamp(1754115363, 13), 'signature': {'hash': b'C\xa6\x11%\xb9\xed\x05\xf7w\xf8\xd853VAI\x8dv?\xb8', 'keyId': 7501339950751678466}}, 'operationTime': Timestamp(1754115363, 13)}
+2025-08-02 11:46:04 - skills_recommendation - INFO - Generated 0 recommendations for python developer

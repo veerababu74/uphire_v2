@@ -1,0 +1,55 @@
+2025-08-02 12:09:41 - skills_recommendation_db - INFO - Generating database skills recommendations for position: python
+2025-08-02 12:09:41 - skills_recommendation_db - INFO - Searching for skills related to position: python
+2025-08-02 12:09:41 - skills_recommendation_db - INFO - Using keywords: ['python', 'django', 'flask', 'fastapi', 'pandas', 'numpy', 'pytest', 'sqlalchemy']
+2025-08-02 12:09:41 - skills_recommendation_db - INFO - Retrieved 151 skills from database
+2025-08-02 12:09:41 - skills_recommendation_db - INFO - Generated 5 recommendations for python from database
+2025-08-02 12:10:12 - skills_recommendation_db - INFO - Generating database skills recommendations for position: accountant
+2025-08-02 12:10:12 - skills_recommendation_db - INFO - Searching for skills related to position: accountant
+2025-08-02 12:10:12 - skills_recommendation_db - INFO - Using keywords: ['accountant']
+2025-08-02 12:10:12 - skills_recommendation_db - INFO - Retrieved 151 skills from database
+2025-08-02 12:10:12 - skills_recommendation_db - INFO - Generated 0 recommendations for accountant from database
+2025-08-02 12:12:07 - skills_recommendation_db - INFO - Generating database skills recommendations for position: sales executive
+2025-08-02 12:12:07 - skills_recommendation_db - INFO - Searching for skills related to position: sales executive
+2025-08-02 12:12:07 - skills_recommendation_db - INFO - Using keywords: ['sales executive']
+2025-08-02 12:12:07 - skills_recommendation_db - INFO - Retrieved 151 skills from database
+2025-08-02 12:12:07 - skills_recommendation_db - INFO - Generated 5 recommendations for sales executive from database
+2025-08-02 12:14:59 - skills_recommendation_db - INFO - Generating database skills recommendations for position: assistant manager
+2025-08-02 12:14:59 - skills_recommendation_db - INFO - Searching for skills related to position: assistant manager
+2025-08-02 12:14:59 - skills_recommendation_db - INFO - Using keywords: ['assistant manager']
+2025-08-02 12:14:59 - skills_recommendation_db - INFO - Retrieved 151 skills from database
+2025-08-02 12:14:59 - skills_recommendation_db - INFO - Generated 0 recommendations for assistant manager from database
+2025-08-02 12:15:11 - skills_recommendation_db - INFO - Generating database skills recommendations for position: customer executive
+2025-08-02 12:15:11 - skills_recommendation_db - INFO - Searching for skills related to position: customer executive
+2025-08-02 12:15:11 - skills_recommendation_db - INFO - Using keywords: ['customer executive']
+2025-08-02 12:15:11 - skills_recommendation_db - INFO - Retrieved 151 skills from database
+2025-08-02 12:15:11 - skills_recommendation_db - INFO - Generated 2 recommendations for customer executive from database
+2025-08-02 12:16:31 - skills_recommendation_db - INFO - Generating database skills recommendations for position: data entry operator
+2025-08-02 12:16:31 - skills_recommendation_db - INFO - Searching for skills related to position: data entry operator
+2025-08-02 12:16:31 - skills_recommendation_db - INFO - Using keywords: ['python', 'sql', 'pandas', 'numpy', 'machine learning', 'tensorflow', 'pytorch', 'tableau', 'powerbi', 'spark', 'hadoop']
+2025-08-02 12:16:31 - skills_recommendation_db - INFO - Retrieved 151 skills from database
+2025-08-02 12:16:31 - skills_recommendation_db - INFO - Generated 7 recommendations for data entry operator from database
+2025-08-02 12:16:52 - skills_recommendation_db - INFO - Generating database skills recommendations for position: full stack developer
+2025-08-02 12:16:52 - skills_recommendation_db - INFO - Searching for skills related to position: full stack developer
+2025-08-02 12:16:52 - skills_recommendation_db - INFO - Using keywords: ['full stack developer']
+2025-08-02 12:16:52 - skills_recommendation_db - INFO - Retrieved 151 skills from database
+2025-08-02 12:16:52 - skills_recommendation_db - INFO - Generated 0 recommendations for full stack developer from database
+2025-08-02 12:46:21 - skills_recommendation_db - INFO - Generating database skills recommendations for position: full stack developer
+2025-08-02 12:46:21 - skills_recommendation_db - INFO - Searching for skills related to position: full stack developer
+2025-08-02 12:46:21 - skills_recommendation_db - INFO - Using keywords: ['full stack developer']
+2025-08-02 12:46:21 - skills_recommendation_db - INFO - Retrieved 151 skills from database
+2025-08-02 12:46:21 - skills_recommendation_db - INFO - Generated 0 recommendations for full stack developer from database
+2025-08-02 12:58:51 - skills_recommendation_db - INFO - Generating database skills recommendations for position: financial assistance
+2025-08-02 12:58:51 - skills_recommendation_db - INFO - Searching for skills related to position: financial assistance
+2025-08-02 12:58:51 - skills_recommendation_db - INFO - Using keywords: ['financial assistance']
+2025-08-02 12:58:51 - skills_recommendation_db - INFO - Retrieved 151 skills from database
+2025-08-02 12:58:51 - skills_recommendation_db - INFO - Generated 2 recommendations for financial assistance from database
+2025-08-02 16:39:27 - skills_recommendation_db - INFO - Generating database skills recommendations for position: all
+2025-08-02 16:39:27 - skills_recommendation_db - INFO - Searching for skills related to position: all
+2025-08-02 16:39:27 - skills_recommendation_db - INFO - Using keywords: ['all']
+2025-08-02 16:39:27 - skills_recommendation_db - INFO - Retrieved 151 skills from database
+2025-08-02 16:39:27 - skills_recommendation_db - INFO - Generated 3 recommendations for all from database
+2025-08-02 16:40:05 - skills_recommendation_db - INFO - Generating database skills recommendations for position: trending
+2025-08-02 16:40:05 - skills_recommendation_db - INFO - Searching for skills related to position: trending
+2025-08-02 16:40:05 - skills_recommendation_db - INFO - Using keywords: ['trending']
+2025-08-02 16:40:05 - skills_recommendation_db - INFO - Retrieved 151 skills from database
+2025-08-02 16:40:05 - skills_recommendation_db - INFO - Generated 0 recommendations for trending from database

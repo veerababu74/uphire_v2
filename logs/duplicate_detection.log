@@ -1,0 +1,5 @@
+2025-08-08 18:27:59 - duplicate_detection - INFO - Saved extracted text for user test_user_123, filename: resume_1.pdf
+2025-08-08 18:27:59 - duplicate_detection - INFO - Duplicate content detected for user test_user_123. Found 1 similar documents.
+2025-08-08 18:27:59 - duplicate_detection - INFO - Saved extracted text for user test_user_123, filename: resume_3.pdf
+2025-08-08 18:27:59 - duplicate_detection - INFO - Deleted extracted text document: 6895f457d76418a78e534956
+2025-08-08 18:27:59 - duplicate_detection - INFO - Deleted extracted text document: 6895f457d76418a78e534955
