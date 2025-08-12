@@ -1596,3 +1596,25 @@ Now analyze and rank EVERY SINGLE candidate above:"""
         except Exception as e:
             logger.error(f"Error during LLM search: {e}")
             return {"error": str(e)}
+
+
+# --- Global RAG Application Instance ---
+
+_rag_instance = None
+
+
+def initialize_rag_app():
+    """
+    Initialize and return a RAG application instance.
+    This function ensures a singleton pattern for the RAG application.
+    """
+    global _rag_instance
+    if _rag_instance is None:
+        try:
+            logger.info("Initializing RAG application...")
+            _rag_instance = RAGApplication()
+            logger.info("RAG application initialized successfully")
+        except Exception as e:
+            logger.error(f"Failed to initialize RAG application: {e}")
+            raise
+    return _rag_instance

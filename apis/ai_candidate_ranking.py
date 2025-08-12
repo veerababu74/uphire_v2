@@ -126,7 +126,7 @@ class ExperienceRelevance(BaseModel):
 class CandidateRanking(BaseModel):
     """Individual candidate ranking result"""
 
-    _id: str = Field(description="MongoDB document ID")
+    document_id: str = Field(description="MongoDB document ID", alias="_id")
     candidate_id: str = Field(description="Candidate's database ID")
     user_id: str = Field(description="Candidate's user ID")
     username: str = Field(description="Candidate's username")
@@ -138,6 +138,9 @@ class CandidateRanking(BaseModel):
     experience_relevance: ExperienceRelevance = Field(
         description="Experience relevance details"
     )
+
+    class Config:
+        populate_by_name = True
 
     # Additional metrics
     education_relevance_score: float = Field(

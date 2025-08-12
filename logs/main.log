@@ -691,3 +691,8 @@
 2025-08-08 18:32:40 - main - WARNING - Some critical models failed to download: ['BAAI/bge-large-en-v1.5', 'BAAI/bge-large-zh-v1.5']
 2025-08-08 18:32:40 - main - WARNING - Application will continue but some features may be limited
 2025-08-08 18:32:44 - main - INFO - Application startup completed successfully!
+2025-08-12 23:31:52 - main - INFO - Starting application initialization...
+2025-08-12 23:31:52 - main - INFO - Using 'balanced' deployment configuration
+2025-08-12 23:31:52 - main - INFO - Models to ensure: ['BAAI/bge-large-en-v1.5', 'BAAI/bge-large-zh-v1.5', 'thenlper/gte-large']
+2025-08-12 23:32:13 - main - INFO - All critical embedding models are ready!
+2025-08-12 23:32:17 - main - INFO - Application startup completed successfully!
