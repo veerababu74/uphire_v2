@@ -1,0 +1,30 @@
+# Excel Resume Parser Requirements
+# Additional dependencies for Excel file processing
+
+# Excel file processing
+pandas>=2.0.0
+openpyxl>=3.1.0  # For .xlsx files
+xlrd>=2.0.0      # For .xls files  
+xlsxwriter>=3.0.0  # For Excel writing (optional)
+
+# Data processing
+numpy>=1.24.0
+
+# File handling
+pathlib2>=2.3.0  # Enhanced path operations
+
+# The following dependencies should already be available from the main project:
+# fastapi
+# pydantic
+# typing
+# datetime
+# time
+# os
+# io
+# logging
+
+# Note: Core project dependencies are assumed to be already installed:
+# - langchain and related packages
+# - MongoDB client
+# - Custom logger and config modules
+# - Existing resume parser modules

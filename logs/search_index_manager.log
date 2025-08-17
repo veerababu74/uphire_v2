@@ -390,3 +390,5 @@
 2025-08-08 18:32:42 - search_index_manager - INFO - Search index already exists, skipping creation
 2025-08-12 23:32:15 - search_index_manager - INFO - Search index 'vector_search_index' already exists
 2025-08-12 23:32:15 - search_index_manager - INFO - Search index already exists, skipping creation
+2025-08-17 13:02:16 - search_index_manager - INFO - Search index 'vector_search_index' already exists
+2025-08-17 13:02:16 - search_index_manager - INFO - Search index already exists, skipping creation

@@ -79,6 +79,7 @@ from recomandations.skills_recommendation_db import (
     router as skills_recommendation_router,
 )
 from apis.ai_candidate_ranking import router as ai_candidate_ranking_router
+from apis.excel_resume_parser_api import router as excel_resume_parser_router
 
 # from apis.resumerpaser import router as resume_parser_router  # TODO: Fix router definition
 
@@ -200,6 +201,7 @@ app.include_router(resume_parser_router)
 app.include_router(
     enhanced_multiple_resume_parser_router, tags=["Enhanced Multiple Resume Parser"]
 )
+app.include_router(excel_resume_parser_router, tags=["Excel Resume Parser"])
 app.include_router(duplicate_detection_router, tags=["Duplicate Detection"])
 app.include_router(citys_router)
 app.include_router(skills_router)

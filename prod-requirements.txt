@@ -62,3 +62,15 @@ gunicorn==21.2.0
 # Production logging and monitoring
 structlog==23.2.0
 prometheus-client==0.19.0
+
+
+pandas>=2.0.0
+openpyxl>=3.1.0  # For .xlsx files
+xlrd>=2.0.0      # For .xls files  
+xlsxwriter>=3.0.0  # For Excel writing (optional)
+
+# Data processing
+numpy>=1.24.0
+
+# File handling
+pathlib2>=2.3.0  # Enhanced path operations

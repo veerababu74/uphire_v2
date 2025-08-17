@@ -1,0 +1,69 @@
+2025-08-17 11:38:41 - excel_processor - INFO - Original columns: ['Name', 'name', 'Email', 'Phone', 'Experience', 'Skills']
+2025-08-17 11:38:41 - excel_processor - WARNING - Duplicate column found: 'name' at index 1
+2025-08-17 11:38:41 - excel_processor - INFO - Removed 1 duplicate columns: ['name']
+2025-08-17 11:38:41 - excel_processor - INFO - Column names cleaned: {'Name': 'name', 'Email': 'email', 'Phone': 'phone', 'Experience': 'experience', 'Skills': 'skills'}
+2025-08-17 11:38:41 - excel_processor - INFO - Converted 3 valid rows to dictionaries
+2025-08-17 11:38:42 - excel_processor - INFO - Processing Excel bytes for file: test_candidates.xlsx
+2025-08-17 11:38:42 - excel_processor - INFO - Reading first sheet
+2025-08-17 11:38:42 - excel_processor - INFO - Original DataFrame shape: (2, 6)
+2025-08-17 11:38:42 - excel_processor - INFO - Original columns: ['candidate_name', 'email_address', 'phone_number', 'total_experience', 'skills', 'current_city']
+2025-08-17 11:38:42 - excel_processor - INFO - No duplicate columns found
+2025-08-17 11:38:42 - excel_processor - INFO - Column names cleaned: {'candidate_name': 'candidate_name', 'email_address': 'email_address', 'phone_number': 'phone_number', 'total_experience': 'total_experience', 'skills': 'skills', 'current_city': 'current_city'}
+2025-08-17 11:38:42 - excel_processor - INFO - Converted 2 valid rows to dictionaries
+2025-08-17 11:38:42 - excel_processor - INFO - Successfully processed 2 records from Excel bytes
+2025-08-17 11:38:42 - excel_processor - INFO - Column names cleaned: {'Full Name': 'full_name', 'Email ID': 'email_id', 'Contact Number': 'contact_number', 'Years of Experience': 'years_of_experience', 'Technical Skills': 'technical_skills', 'Current Location': 'current_location', 'Current Salary (LPA)': 'current_salary_lpa', 'Expected CTC': 'expected_ctc', 'Notice Period': 'notice_period', 'Qualification': 'qualification', 'College/University': 'college_university'}
+2025-08-17 11:38:42 - excel_processor - INFO - Converted 1 valid rows to dictionaries
+2025-08-17 11:38:42 - excel_processor - INFO - Found 1 sheets: ['Sheet1']
+2025-08-17 11:38:42 - excel_processor - INFO - Processing Excel file: sample_resumes.xlsx
+2025-08-17 11:38:42 - excel_processor - INFO - Reading first sheet
+2025-08-17 11:38:42 - excel_processor - INFO - Original DataFrame shape: (3, 11)
+2025-08-17 11:38:42 - excel_processor - INFO - Original columns: ['Name', 'Email', 'Phone', 'Experience', 'Skills', 'Location', 'Current Salary', 'Expected Salary', 'Notice Period', 'Education', 'College']
+2025-08-17 11:38:42 - excel_processor - INFO - No duplicate columns found
+2025-08-17 11:38:42 - excel_processor - INFO - Column names cleaned: {'Name': 'name', 'Email': 'email', 'Phone': 'phone', 'Experience': 'experience', 'Skills': 'skills', 'Location': 'location', 'Current Salary': 'current_salary', 'Expected Salary': 'expected_salary', 'Notice Period': 'notice_period', 'Education': 'education', 'College': 'college'}
+2025-08-17 11:38:42 - excel_processor - INFO - Converted 3 valid rows to dictionaries
+2025-08-17 11:38:42 - excel_processor - INFO - Successfully processed 3 records from Excel file
+2025-08-17 11:40:57 - excel_processor - INFO - Found 1 sheets: ['Sheet1']
+2025-08-17 11:40:57 - excel_processor - INFO - Processing Excel file: example_resumes.xlsx
+2025-08-17 11:40:57 - excel_processor - INFO - Reading first sheet
+2025-08-17 11:40:57 - excel_processor - INFO - Original DataFrame shape: (3, 11)
+2025-08-17 11:40:57 - excel_processor - INFO - Original columns: ['Name', 'Email', 'Phone', 'Experience', 'Skills', 'Location', 'Current Salary', 'Expected Salary', 'Notice Period', 'Education', 'College']
+2025-08-17 11:40:57 - excel_processor - INFO - No duplicate columns found
+2025-08-17 11:40:57 - excel_processor - INFO - Column names cleaned: {'Name': 'name', 'Email': 'email', 'Phone': 'phone', 'Experience': 'experience', 'Skills': 'skills', 'Location': 'location', 'Current Salary': 'current_salary', 'Expected Salary': 'expected_salary', 'Notice Period': 'notice_period', 'Education': 'education', 'College': 'college'}
+2025-08-17 11:40:57 - excel_processor - INFO - Converted 3 valid rows to dictionaries
+2025-08-17 11:40:57 - excel_processor - INFO - Successfully processed 3 records from Excel file
+2025-08-17 11:40:57 - excel_processor - INFO - Original columns: ['Name', 'name', 'Email', 'email', 'Phone', 'Experience']
+2025-08-17 11:40:57 - excel_processor - WARNING - Duplicate column found: 'name' at index 1
+2025-08-17 11:40:57 - excel_processor - WARNING - Duplicate column found: 'email' at index 3
+2025-08-17 11:40:57 - excel_processor - INFO - Removed 2 duplicate columns: ['name', 'email']
+2025-08-17 11:40:57 - excel_processor - INFO - Converted 2 valid rows to dictionaries
+2025-08-17 11:40:57 - excel_processor - INFO - Processing Excel bytes for file: uploaded_resumes.xlsx
+2025-08-17 11:40:57 - excel_processor - INFO - Reading first sheet
+2025-08-17 11:40:57 - excel_processor - INFO - Original DataFrame shape: (2, 7)
+2025-08-17 11:40:57 - excel_processor - INFO - Original columns: ['candidate_name', 'email_address', 'phone_number', 'total_experience', 'technical_skills', 'current_location', 'notice_period']
+2025-08-17 11:40:57 - excel_processor - INFO - No duplicate columns found
+2025-08-17 11:40:57 - excel_processor - INFO - Column names cleaned: {'candidate_name': 'candidate_name', 'email_address': 'email_address', 'phone_number': 'phone_number', 'total_experience': 'total_experience', 'technical_skills': 'technical_skills', 'current_location': 'current_location', 'notice_period': 'notice_period'}
+2025-08-17 11:40:57 - excel_processor - INFO - Converted 2 valid rows to dictionaries
+2025-08-17 11:40:57 - excel_processor - INFO - Successfully processed 2 records from Excel bytes
+2025-08-17 11:40:57 - excel_processor - INFO - Column names cleaned: {'Full Name': 'full_name', 'Email ID': 'email_id', 'Contact Number': 'contact_number', 'Years of Experience': 'years_of_experience', 'Technical Skills': 'technical_skills'}
+2025-08-17 11:40:57 - excel_processor - INFO - Converted 1 valid rows to dictionaries
+2025-08-17 11:40:57 - excel_processor - INFO - Column names cleaned: {'Candidate Name': 'candidate_name', 'Email Address': 'email_address', 'Mobile': 'mobile', 'Work Experience': 'work_experience', 'Key Skills': 'key_skills'}
+2025-08-17 11:40:57 - excel_processor - INFO - Converted 1 valid rows to dictionaries
+2025-08-17 11:40:57 - excel_processor - INFO - Column names cleaned: {'Employee Name': 'employee_name', 'email': 'email', 'phone': 'phone', 'experience': 'experience', 'skills': 'skills'}
+2025-08-17 11:40:57 - excel_processor - INFO - Converted 1 valid rows to dictionaries
+2025-08-17 11:40:57 - excel_processor - INFO - Processing Excel file: comprehensive_resumes.xlsx
+2025-08-17 11:40:57 - excel_processor - INFO - Reading first sheet
+2025-08-17 11:40:57 - excel_processor - INFO - Original DataFrame shape: (3, 14)
+2025-08-17 11:40:57 - excel_processor - INFO - Original columns: ['Full Name', 'Email', 'Phone', 'Current City', 'Total Experience', 'Current Role', 'Current Company', 'Skills', 'Education', 'College', 'Current Salary', 'Expected Salary', 'Notice Period', 'LinkedIn']
+2025-08-17 11:40:57 - excel_processor - INFO - No duplicate columns found
+2025-08-17 11:40:57 - excel_processor - INFO - Column names cleaned: {'Full Name': 'full_name', 'Email': 'email', 'Phone': 'phone', 'Current City': 'current_city', 'Total Experience': 'total_experience', 'Current Role': 'current_role', 'Current Company': 'current_company', 'Skills': 'skills', 'Education': 'education', 'College': 'college', 'Current Salary': 'current_salary', 'Expected Salary': 'expected_salary', 'Notice Period': 'notice_period', 'LinkedIn': 'linkedin'}
+2025-08-17 11:40:57 - excel_processor - INFO - Converted 3 valid rows to dictionaries
+2025-08-17 11:40:57 - excel_processor - INFO - Successfully processed 3 records from Excel file
+2025-08-17 11:51:21 - excel_processor - INFO - Processing Excel file: cleanup_test.xlsx
+2025-08-17 11:51:21 - excel_processor - INFO - Reading first sheet
+2025-08-17 11:51:21 - excel_processor - INFO - Original DataFrame shape: (1, 3)
+2025-08-17 11:51:21 - excel_processor - INFO - Original columns: ['Name', 'Email', 'Experience']
+2025-08-17 11:51:21 - excel_processor - INFO - No duplicate columns found
+2025-08-17 11:51:21 - excel_processor - INFO - Column names cleaned: {'Name': 'name', 'Email': 'email', 'Experience': 'experience'}
+2025-08-17 11:51:21 - excel_processor - INFO - Converted 1 valid rows to dictionaries
+2025-08-17 11:51:21 - excel_processor - INFO - Successfully processed 1 records from Excel file
+2025-08-17 11:51:21 - excel_processor - ERROR - Unsupported file extension: .txt
