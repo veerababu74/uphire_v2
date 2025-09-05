@@ -219,6 +219,9 @@ app.include_router(ai_search_save_recent_router)
 app.include_router(manual_search_save_recent_router)
 app.include_router(user_management_router)  # User management API
 app.include_router(resume_router)
+app.include_router(
+    excel_resume_parser_router, tags=["Excel Resume Parser"]
+)  # Excel Resume Parser API
 
 
 @app.get("/")

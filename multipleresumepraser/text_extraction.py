@@ -51,8 +51,14 @@ def extract_and_clean_text(file_path):
         raw_text = extract_text_from_pdf(file_path)
     elif extension == ".docx":
         raw_text = extract_text_from_docx(file_path)
+    elif extension in [".xlsx", ".xls", ".xlsm"]:
+        raise ValueError(
+            f"Excel files ({extension}) should be processed using the Excel Resume Parser API endpoint: POST /excel-resume-parser/upload"
+        )
     else:
-        raise ValueError(f"Unsupported file format: {extension}")
+        raise ValueError(
+            f"Unsupported file format: {extension}. Supported formats are: .txt, .pdf, .docx. For Excel files (.xlsx, .xls, .xlsm), use the Excel Resume Parser API."
+        )
 
     # Clean the extracted text
     cleaned_text = clean_text(raw_text)
