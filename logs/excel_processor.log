@@ -67,3 +67,76 @@
 2025-08-17 11:51:21 - excel_processor - INFO - Converted 1 valid rows to dictionaries
 2025-08-17 11:51:21 - excel_processor - INFO - Successfully processed 1 records from Excel file
 2025-08-17 11:51:21 - excel_processor - ERROR - Unsupported file extension: .txt
+2025-09-06 16:38:32 - excel_processor - INFO - Processing Excel bytes for file: vvvv.xlsx
+2025-09-06 16:38:33 - excel_processor - INFO - Reading first sheet
+2025-09-06 16:38:33 - excel_processor - INFO - Original DataFrame shape: (1, 35)
+2025-09-06 16:38:33 - excel_processor - INFO - Original columns: ['Candidate Name', 'Mobile No', 'Email', 'Current City', 'Prefered Locations', 'Total Experience', 'Notice Period (In Days)', 'Currency', 'Pay Duration', 'Current Salary', 'Expected Salary', 'Key Skills', 'May Also Know', 'Labels', 'Panno', 'Adharno', 'Company Name', 'Position Title', 'Company Start Date', 'Company End Date', 'Education Name', 'College Name', 'College Passing Year', 'Naukari Profile Link', 'Linkedin Profile', 'Portfolio Link', 'Source', 'Alternate Phone Number', 'Last Working Date', 'Gender', 'Unnamed: 30', 'Age', 'Is Tier 1 MBA College', 'Comment', 'Exit Reason']
+2025-09-06 16:38:33 - excel_processor - INFO - No duplicate columns found
+2025-09-06 16:38:33 - excel_processor - INFO - Column names cleaned: {'Candidate Name': 'candidate_name', 'Mobile No': 'mobile_no', 'Email': 'email', 'Current City': 'current_city', 'Prefered Locations': 'prefered_locations', 'Total Experience': 'total_experience', 'Notice Period (In Days)': 'notice_period_in_days', 'Currency': 'currency', 'Pay Duration': 'pay_duration', 'Current Salary': 'current_salary', 'Expected Salary': 'expected_salary', 'Key Skills': 'key_skills', 'May Also Know': 'may_also_know', 'Labels': 'labels', 'Panno': 'panno', 'Adharno': 'adharno', 'Company Name': 'company_name', 'Position Title': 'position_title', 'Company Start Date': 'company_start_date', 'Company End Date': 'company_end_date', 'Education Name': 'education_name', 'College Name': 'college_name', 'College Passing Year': 'college_passing_year', 'Naukari Profile Link': 'naukari_profile_link', 'Linkedin Profile': 'linkedin_profile', 'Portfolio Link': 'portfolio_link', 'Source': 'source', 'Alternate Phone Number': 'alternate_phone_number', 'Last Working Date': 'last_working_date', 'Gender': 'gender', 'Unnamed: 30': 'unnamed_30', 'Age': 'age', 'Is Tier 1 MBA College': 'is_tier_1_mba_college', 'Comment': 'comment', 'Exit Reason': 'exit_reason'}
+2025-09-06 16:38:33 - excel_processor - INFO - Converted 1 valid rows to dictionaries
+2025-09-06 16:38:33 - excel_processor - INFO - Successfully processed 1 records from Excel bytes
+2025-09-06 16:51:40 - excel_processor - INFO - Converted 3 valid rows to dictionaries
+2025-09-06 16:53:20 - excel_processor - INFO - Processing Excel file: C:\Users\pveer\AppData\Local\Temp\tmp7pfd57ff.xlsx
+2025-09-06 16:53:20 - excel_processor - INFO - Reading first sheet
+2025-09-06 16:53:20 - excel_processor - INFO - Original DataFrame shape: (3, 6)
+2025-09-06 16:53:20 - excel_processor - INFO - Original columns: ['name', 'age', 'salary', 'skills', 'experience', 'empty_col']
+2025-09-06 16:53:20 - excel_processor - INFO - No duplicate columns found
+2025-09-06 16:53:20 - excel_processor - INFO - Column names cleaned: {'name': 'name', 'age': 'age', 'salary': 'salary', 'skills': 'skills', 'experience': 'experience', 'empty_col': 'empty_col'}
+2025-09-06 16:53:20 - excel_processor - INFO - Converted 3 valid rows to dictionaries
+2025-09-06 16:53:20 - excel_processor - INFO - Successfully processed 3 records from Excel file
+2025-09-06 16:53:23 - excel_processor - INFO - Processing Excel bytes for file: test_resumes.xlsx
+2025-09-06 16:53:23 - excel_processor - INFO - Reading first sheet
+2025-09-06 16:53:23 - excel_processor - INFO - Original DataFrame shape: (2, 7)
+2025-09-06 16:53:23 - excel_processor - INFO - Original columns: ['Candidate Name', 'Mobile No', 'Email', 'Key Skills', 'Total Experience', 'Current Salary', 'May Also Know']
+2025-09-06 16:53:23 - excel_processor - INFO - No duplicate columns found
+2025-09-06 16:53:23 - excel_processor - INFO - Column names cleaned: {'Candidate Name': 'candidate_name', 'Mobile No': 'mobile_no', 'Email': 'email', 'Key Skills': 'key_skills', 'Total Experience': 'total_experience', 'Current Salary': 'current_salary', 'May Also Know': 'may_also_know'}
+2025-09-06 16:53:23 - excel_processor - INFO - Converted 2 valid rows to dictionaries
+2025-09-06 16:53:23 - excel_processor - INFO - Successfully processed 2 records from Excel bytes
+2025-09-06 16:54:16 - excel_processor - INFO - Processing Excel file: C:\Users\pveer\AppData\Local\Temp\tmpv59wr7y1.xlsx
+2025-09-06 16:54:16 - excel_processor - INFO - Reading first sheet
+2025-09-06 16:54:16 - excel_processor - INFO - Original DataFrame shape: (3, 6)
+2025-09-06 16:54:16 - excel_processor - INFO - Original columns: ['name', 'age', 'salary', 'skills', 'experience', 'empty_col']
+2025-09-06 16:54:16 - excel_processor - INFO - No duplicate columns found
+2025-09-06 16:54:16 - excel_processor - INFO - Column names cleaned: {'name': 'name', 'age': 'age', 'salary': 'salary', 'skills': 'skills', 'experience': 'experience', 'empty_col': 'empty_col'}
+2025-09-06 16:54:16 - excel_processor - INFO - Converted 3 valid rows to dictionaries
+2025-09-06 16:54:16 - excel_processor - INFO - Successfully processed 3 records from Excel file
+2025-09-06 16:54:19 - excel_processor - INFO - Processing Excel bytes for file: test_resumes.xlsx
+2025-09-06 16:54:19 - excel_processor - INFO - Reading first sheet
+2025-09-06 16:54:19 - excel_processor - INFO - Original DataFrame shape: (2, 7)
+2025-09-06 16:54:19 - excel_processor - INFO - Original columns: ['Candidate Name', 'Mobile No', 'Email', 'Key Skills', 'Total Experience', 'Current Salary', 'May Also Know']
+2025-09-06 16:54:19 - excel_processor - INFO - No duplicate columns found
+2025-09-06 16:54:19 - excel_processor - INFO - Column names cleaned: {'Candidate Name': 'candidate_name', 'Mobile No': 'mobile_no', 'Email': 'email', 'Key Skills': 'key_skills', 'Total Experience': 'total_experience', 'Current Salary': 'current_salary', 'May Also Know': 'may_also_know'}
+2025-09-06 16:54:19 - excel_processor - INFO - Converted 2 valid rows to dictionaries
+2025-09-06 16:54:19 - excel_processor - INFO - Successfully processed 2 records from Excel bytes
+2025-09-06 17:36:42 - excel_processor - INFO - Processing Excel bytes for file: vvvv.xlsx
+2025-09-06 17:36:43 - excel_processor - INFO - Reading first sheet
+2025-09-06 17:36:43 - excel_processor - INFO - Original DataFrame shape: (1, 35)
+2025-09-06 17:36:43 - excel_processor - INFO - Original columns: ['Candidate Name', 'Mobile No', 'Email', 'Current City', 'Prefered Locations', 'Total Experience', 'Notice Period (In Days)', 'Currency', 'Pay Duration', 'Current Salary', 'Expected Salary', 'Key Skills', 'May Also Know', 'Labels', 'Panno', 'Adharno', 'Company Name', 'Position Title', 'Company Start Date', 'Company End Date', 'Education Name', 'College Name', 'College Passing Year', 'Naukari Profile Link', 'Linkedin Profile', 'Portfolio Link', 'Source', 'Alternate Phone Number', 'Last Working Date', 'Gender', 'Unnamed: 30', 'Age', 'Is Tier 1 MBA College', 'Comment', 'Exit Reason']
+2025-09-06 17:36:43 - excel_processor - INFO - No duplicate columns found
+2025-09-06 17:36:43 - excel_processor - INFO - Column names cleaned: {'Candidate Name': 'candidate_name', 'Mobile No': 'mobile_no', 'Email': 'email', 'Current City': 'current_city', 'Prefered Locations': 'prefered_locations', 'Total Experience': 'total_experience', 'Notice Period (In Days)': 'notice_period_in_days', 'Currency': 'currency', 'Pay Duration': 'pay_duration', 'Current Salary': 'current_salary', 'Expected Salary': 'expected_salary', 'Key Skills': 'key_skills', 'May Also Know': 'may_also_know', 'Labels': 'labels', 'Panno': 'panno', 'Adharno': 'adharno', 'Company Name': 'company_name', 'Position Title': 'position_title', 'Company Start Date': 'company_start_date', 'Company End Date': 'company_end_date', 'Education Name': 'education_name', 'College Name': 'college_name', 'College Passing Year': 'college_passing_year', 'Naukari Profile Link': 'naukari_profile_link', 'Linkedin Profile': 'linkedin_profile', 'Portfolio Link': 'portfolio_link', 'Source': 'source', 'Alternate Phone Number': 'alternate_phone_number', 'Last Working Date': 'last_working_date', 'Gender': 'gender', 'Unnamed: 30': 'unnamed_30', 'Age': 'age', 'Is Tier 1 MBA College': 'is_tier_1_mba_college', 'Comment': 'comment', 'Exit Reason': 'exit_reason'}
+2025-09-06 17:36:43 - excel_processor - INFO - Converted 1 valid rows to dictionaries
+2025-09-06 17:36:43 - excel_processor - INFO - Successfully processed 1 records from Excel bytes
+2025-09-06 17:38:18 - excel_processor - INFO - Processing Excel bytes for file: vvvv.xlsx
+2025-09-06 17:38:18 - excel_processor - INFO - Reading first sheet
+2025-09-06 17:38:18 - excel_processor - INFO - Original DataFrame shape: (1, 35)
+2025-09-06 17:38:18 - excel_processor - INFO - Original columns: ['Candidate Name', 'Mobile No', 'Email', 'Current City', 'Prefered Locations', 'Total Experience', 'Notice Period (In Days)', 'Currency', 'Pay Duration', 'Current Salary', 'Expected Salary', 'Key Skills', 'May Also Know', 'Labels', 'Panno', 'Adharno', 'Company Name', 'Position Title', 'Company Start Date', 'Company End Date', 'Education Name', 'College Name', 'College Passing Year', 'Naukari Profile Link', 'Linkedin Profile', 'Portfolio Link', 'Source', 'Alternate Phone Number', 'Last Working Date', 'Gender', 'Unnamed: 30', 'Age', 'Is Tier 1 MBA College', 'Comment', 'Exit Reason']
+2025-09-06 17:38:18 - excel_processor - INFO - No duplicate columns found
+2025-09-06 17:38:18 - excel_processor - INFO - Column names cleaned: {'Candidate Name': 'candidate_name', 'Mobile No': 'mobile_no', 'Email': 'email', 'Current City': 'current_city', 'Prefered Locations': 'prefered_locations', 'Total Experience': 'total_experience', 'Notice Period (In Days)': 'notice_period_in_days', 'Currency': 'currency', 'Pay Duration': 'pay_duration', 'Current Salary': 'current_salary', 'Expected Salary': 'expected_salary', 'Key Skills': 'key_skills', 'May Also Know': 'may_also_know', 'Labels': 'labels', 'Panno': 'panno', 'Adharno': 'adharno', 'Company Name': 'company_name', 'Position Title': 'position_title', 'Company Start Date': 'company_start_date', 'Company End Date': 'company_end_date', 'Education Name': 'education_name', 'College Name': 'college_name', 'College Passing Year': 'college_passing_year', 'Naukari Profile Link': 'naukari_profile_link', 'Linkedin Profile': 'linkedin_profile', 'Portfolio Link': 'portfolio_link', 'Source': 'source', 'Alternate Phone Number': 'alternate_phone_number', 'Last Working Date': 'last_working_date', 'Gender': 'gender', 'Unnamed: 30': 'unnamed_30', 'Age': 'age', 'Is Tier 1 MBA College': 'is_tier_1_mba_college', 'Comment': 'comment', 'Exit Reason': 'exit_reason'}
+2025-09-06 17:38:18 - excel_processor - INFO - Converted 1 valid rows to dictionaries
+2025-09-06 17:38:18 - excel_processor - INFO - Successfully processed 1 records from Excel bytes
+2025-09-06 17:42:47 - excel_processor - INFO - Processing Excel bytes for file: test_resumes.xlsx
+2025-09-06 17:42:47 - excel_processor - INFO - Reading first sheet
+2025-09-06 17:42:47 - excel_processor - INFO - Original DataFrame shape: (1, 6)
+2025-09-06 17:42:47 - excel_processor - INFO - Original columns: ['Candidate Name', 'Mobile No', 'Email', 'Key Skills', 'Total Experience', 'Current Salary']
+2025-09-06 17:42:47 - excel_processor - INFO - No duplicate columns found
+2025-09-06 17:42:47 - excel_processor - INFO - Column names cleaned: {'Candidate Name': 'candidate_name', 'Mobile No': 'mobile_no', 'Email': 'email', 'Key Skills': 'key_skills', 'Total Experience': 'total_experience', 'Current Salary': 'current_salary'}
+2025-09-06 17:42:47 - excel_processor - INFO - Converted 1 valid rows to dictionaries
+2025-09-06 17:42:47 - excel_processor - INFO - Successfully processed 1 records from Excel bytes
+2025-09-06 17:44:16 - excel_processor - INFO - Processing Excel bytes for file: vvvv.xlsx
+2025-09-06 17:44:17 - excel_processor - INFO - Reading first sheet
+2025-09-06 17:44:17 - excel_processor - INFO - Original DataFrame shape: (1, 35)
+2025-09-06 17:44:17 - excel_processor - INFO - Original columns: ['Candidate Name', 'Mobile No', 'Email', 'Current City', 'Prefered Locations', 'Total Experience', 'Notice Period (In Days)', 'Currency', 'Pay Duration', 'Current Salary', 'Expected Salary', 'Key Skills', 'May Also Know', 'Labels', 'Panno', 'Adharno', 'Company Name', 'Position Title', 'Company Start Date', 'Company End Date', 'Education Name', 'College Name', 'College Passing Year', 'Naukari Profile Link', 'Linkedin Profile', 'Portfolio Link', 'Source', 'Alternate Phone Number', 'Last Working Date', 'Gender', 'Unnamed: 30', 'Age', 'Is Tier 1 MBA College', 'Comment', 'Exit Reason']
+2025-09-06 17:44:17 - excel_processor - INFO - No duplicate columns found
+2025-09-06 17:44:17 - excel_processor - INFO - Column names cleaned: {'Candidate Name': 'candidate_name', 'Mobile No': 'mobile_no', 'Email': 'email', 'Current City': 'current_city', 'Prefered Locations': 'prefered_locations', 'Total Experience': 'total_experience', 'Notice Period (In Days)': 'notice_period_in_days', 'Currency': 'currency', 'Pay Duration': 'pay_duration', 'Current Salary': 'current_salary', 'Expected Salary': 'expected_salary', 'Key Skills': 'key_skills', 'May Also Know': 'may_also_know', 'Labels': 'labels', 'Panno': 'panno', 'Adharno': 'adharno', 'Company Name': 'company_name', 'Position Title': 'position_title', 'Company Start Date': 'company_start_date', 'Company End Date': 'company_end_date', 'Education Name': 'education_name', 'College Name': 'college_name', 'College Passing Year': 'college_passing_year', 'Naukari Profile Link': 'naukari_profile_link', 'Linkedin Profile': 'linkedin_profile', 'Portfolio Link': 'portfolio_link', 'Source': 'source', 'Alternate Phone Number': 'alternate_phone_number', 'Last Working Date': 'last_working_date', 'Gender': 'gender', 'Unnamed: 30': 'unnamed_30', 'Age': 'age', 'Is Tier 1 MBA College': 'is_tier_1_mba_college', 'Comment': 'comment', 'Exit Reason': 'exit_reason'}
+2025-09-06 17:44:17 - excel_processor - INFO - Converted 1 valid rows to dictionaries
+2025-09-06 17:44:17 - excel_processor - INFO - Successfully processed 1 records from Excel bytes

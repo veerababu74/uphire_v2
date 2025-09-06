@@ -1,0 +1,20 @@
+2025-09-06 16:38:31 - excel_resume_parser_api - INFO - Starting Excel resume processing for session excel_veera_1757156911
+2025-09-06 16:38:31 - excel_resume_parser_api - INFO - Auto-detected LLM provider: groq_cloud
+2025-09-06 16:38:31 - excel_resume_parser_api - INFO - save_temp_file automatically set to False for security
+2025-09-06 16:38:32 - excel_resume_parser_api - INFO - Processing Excel file: vvvv.xlsx
+2025-09-06 16:38:33 - excel_resume_parser_api - INFO - Excel processing completed for session excel_veera_1757156911
+2025-09-06 17:36:30 - excel_resume_parser_api - INFO - Starting Excel resume processing for session excel_veera_1757160390
+2025-09-06 17:36:30 - excel_resume_parser_api - INFO - Auto-detected LLM provider: groq_cloud
+2025-09-06 17:36:30 - excel_resume_parser_api - INFO - save_temp_file automatically set to False for security
+2025-09-06 17:36:42 - excel_resume_parser_api - INFO - Processing Excel file: vvvv.xlsx
+2025-09-06 17:36:43 - excel_resume_parser_api - INFO - Excel processing completed for session excel_veera_1757160390
+2025-09-06 17:38:17 - excel_resume_parser_api - INFO - Starting Excel resume processing for session excel_veera_1757160497
+2025-09-06 17:38:17 - excel_resume_parser_api - INFO - Auto-detected LLM provider: groq_cloud
+2025-09-06 17:38:17 - excel_resume_parser_api - INFO - save_temp_file automatically set to False for security
+2025-09-06 17:38:18 - excel_resume_parser_api - INFO - Processing Excel file: vvvv.xlsx
+2025-09-06 17:38:19 - excel_resume_parser_api - INFO - Excel processing completed for session excel_veera_1757160497
+2025-09-06 17:44:16 - excel_resume_parser_api - INFO - Starting Excel resume processing for session excel_veera_1757160856
+2025-09-06 17:44:16 - excel_resume_parser_api - INFO - Auto-detected LLM provider: groq_cloud
+2025-09-06 17:44:16 - excel_resume_parser_api - INFO - save_temp_file automatically set to False for security
+2025-09-06 17:44:16 - excel_resume_parser_api - INFO - Processing Excel file: vvvv.xlsx
+2025-09-06 17:44:18 - excel_resume_parser_api - INFO - Excel processing completed for session excel_veera_1757160856

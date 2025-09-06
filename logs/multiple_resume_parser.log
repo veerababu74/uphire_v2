@@ -424,3 +424,61 @@
 2025-08-17 13:11:02 - multiple_resume_parser - INFO - Successfully initialized LLM with groq_cloud
 2025-08-17 13:11:02 - multiple_resume_parser - INFO - Initializing Multiple Resume Parser with groq_cloud
 2025-08-17 13:11:03 - multiple_resume_parser - INFO - Successfully initialized LLM with groq_cloud
+2025-09-06 16:36:49 - multiple_resume_parser - INFO - Initializing Multiple Resume Parser with groq_cloud
+2025-09-06 16:36:50 - multiple_resume_parser - INFO - Successfully initialized LLM with groq_cloud
+2025-09-06 16:38:31 - multiple_resume_parser - INFO - Initializing Multiple Resume Parser with groq_cloud
+2025-09-06 16:38:32 - multiple_resume_parser - INFO - Successfully initialized LLM with groq_cloud
+2025-09-06 16:51:37 - multiple_resume_parser - INFO - Initializing Multiple Resume Parser with groq_cloud
+2025-09-06 16:51:38 - multiple_resume_parser - INFO - Successfully initialized LLM with groq_cloud
+2025-09-06 16:51:38 - multiple_resume_parser - INFO - Invoking Ollama model...
+2025-09-06 16:51:39 - multiple_resume_parser - INFO - Ollama response time: 1.08 seconds
+2025-09-06 16:51:39 - multiple_resume_parser - INFO - Successfully processed resume using groq_cloud
+2025-09-06 16:51:39 - multiple_resume_parser - INFO - Initializing Multiple Resume Parser with groq_cloud
+2025-09-06 16:51:40 - multiple_resume_parser - INFO - Successfully initialized LLM with groq_cloud
+2025-09-06 16:53:20 - multiple_resume_parser - INFO - Initializing Multiple Resume Parser with groq_cloud
+2025-09-06 16:53:21 - multiple_resume_parser - INFO - Successfully initialized LLM with groq_cloud
+2025-09-06 16:53:21 - multiple_resume_parser - INFO - Invoking Ollama model...
+2025-09-06 16:53:22 - multiple_resume_parser - INFO - Ollama response time: 1.48 seconds
+2025-09-06 16:53:22 - multiple_resume_parser - INFO - Successfully processed resume using groq_cloud
+2025-09-06 16:53:22 - multiple_resume_parser - INFO - Initializing Multiple Resume Parser with groq_cloud
+2025-09-06 16:53:23 - multiple_resume_parser - INFO - Successfully initialized LLM with groq_cloud
+2025-09-06 16:53:23 - multiple_resume_parser - INFO - Invoking Ollama model...
+2025-09-06 16:53:24 - multiple_resume_parser - INFO - Ollama response time: 1.11 seconds
+2025-09-06 16:53:24 - multiple_resume_parser - INFO - Successfully processed resume using groq_cloud
+2025-09-06 16:53:24 - multiple_resume_parser - INFO - Invoking Ollama model...
+2025-09-06 16:53:25 - multiple_resume_parser - INFO - Ollama response time: 0.83 seconds
+2025-09-06 16:53:25 - multiple_resume_parser - INFO - Successfully processed resume using groq_cloud
+2025-09-06 16:54:16 - multiple_resume_parser - INFO - Initializing Multiple Resume Parser with groq_cloud
+2025-09-06 16:54:17 - multiple_resume_parser - INFO - Successfully initialized LLM with groq_cloud
+2025-09-06 16:54:17 - multiple_resume_parser - INFO - Invoking Ollama model...
+2025-09-06 16:54:18 - multiple_resume_parser - INFO - Ollama response time: 1.16 seconds
+2025-09-06 16:54:18 - multiple_resume_parser - INFO - Successfully processed resume using groq_cloud
+2025-09-06 16:54:18 - multiple_resume_parser - INFO - Initializing Multiple Resume Parser with groq_cloud
+2025-09-06 16:54:19 - multiple_resume_parser - INFO - Successfully initialized LLM with groq_cloud
+2025-09-06 16:54:19 - multiple_resume_parser - INFO - Invoking Ollama model...
+2025-09-06 16:54:20 - multiple_resume_parser - INFO - Ollama response time: 1.21 seconds
+2025-09-06 16:54:20 - multiple_resume_parser - INFO - Successfully processed resume using groq_cloud
+2025-09-06 16:54:20 - multiple_resume_parser - INFO - Invoking Ollama model...
+2025-09-06 16:54:21 - multiple_resume_parser - INFO - Ollama response time: 0.86 seconds
+2025-09-06 16:54:21 - multiple_resume_parser - INFO - Successfully processed resume using groq_cloud
+2025-09-06 17:36:30 - multiple_resume_parser - INFO - Initializing Multiple Resume Parser with groq_cloud
+2025-09-06 17:36:41 - multiple_resume_parser - INFO - Successfully initialized LLM with groq_cloud
+2025-09-06 17:37:53 - multiple_resume_parser - INFO - Initializing Multiple Resume Parser with groq_cloud
+2025-09-06 17:37:54 - multiple_resume_parser - INFO - Successfully initialized LLM with groq_cloud
+2025-09-06 17:38:17 - multiple_resume_parser - INFO - Initializing Multiple Resume Parser with groq_cloud
+2025-09-06 17:38:18 - multiple_resume_parser - INFO - Successfully initialized LLM with groq_cloud
+2025-09-06 17:38:18 - multiple_resume_parser - INFO - Invoking Ollama model...
+2025-09-06 17:38:19 - multiple_resume_parser - INFO - Ollama response time: 1.32 seconds
+2025-09-06 17:38:19 - multiple_resume_parser - INFO - Successfully processed resume using groq_cloud
+2025-09-06 17:42:45 - multiple_resume_parser - INFO - Initializing Multiple Resume Parser with groq_cloud
+2025-09-06 17:42:47 - multiple_resume_parser - INFO - Successfully initialized LLM with groq_cloud
+2025-09-06 17:42:47 - multiple_resume_parser - INFO - Invoking Ollama model...
+2025-09-06 17:42:48 - multiple_resume_parser - INFO - Ollama response time: 1.13 seconds
+2025-09-06 17:42:48 - multiple_resume_parser - INFO - Successfully processed resume using groq_cloud
+2025-09-06 17:44:03 - multiple_resume_parser - INFO - Initializing Multiple Resume Parser with groq_cloud
+2025-09-06 17:44:04 - multiple_resume_parser - INFO - Successfully initialized LLM with groq_cloud
+2025-09-06 17:44:16 - multiple_resume_parser - INFO - Initializing Multiple Resume Parser with groq_cloud
+2025-09-06 17:44:16 - multiple_resume_parser - INFO - Successfully initialized LLM with groq_cloud
+2025-09-06 17:44:17 - multiple_resume_parser - INFO - Invoking Ollama model...
+2025-09-06 17:44:18 - multiple_resume_parser - INFO - Ollama response time: 1.23 seconds
+2025-09-06 17:44:18 - multiple_resume_parser - INFO - Successfully processed resume using groq_cloud

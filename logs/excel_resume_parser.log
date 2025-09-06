@@ -8,3 +8,71 @@
 2025-08-17 13:11:02 - excel_resume_parser - INFO - Excel Resume Parser initialized successfully
 2025-08-17 13:11:02 - excel_resume_parser - INFO - Initializing Excel Resume Parser
 2025-08-17 13:11:03 - excel_resume_parser - INFO - Excel Resume Parser initialized successfully
+2025-09-06 16:38:31 - excel_resume_parser - INFO - Initializing Excel Resume Parser
+2025-09-06 16:38:32 - excel_resume_parser - INFO - Excel Resume Parser initialized successfully
+2025-09-06 16:38:33 - excel_resume_parser - INFO - Processing 1 Excel rows for resume parsing
+2025-09-06 16:38:33 - excel_resume_parser - ERROR - Error parsing Excel row to resume for 12345_1: 'ResumeParser' object has no attribute 'parse_resume'
+2025-09-06 16:38:33 - excel_resume_parser - INFO - Excel processing completed: 0/1 successful
+2025-09-06 16:38:33 - excel_resume_parser - INFO - Saving 0 parsed resumes
+2025-09-06 16:38:33 - excel_resume_parser - INFO - Save completed: 0 saved, 0 duplicates, 0 errors
+2025-09-06 16:51:39 - excel_resume_parser - INFO - Initializing Excel Resume Parser
+2025-09-06 16:51:40 - excel_resume_parser - INFO - Excel Resume Parser initialized successfully
+2025-09-06 16:53:20 - excel_resume_parser - INFO - Initializing Excel Resume Parser
+2025-09-06 16:53:20 - excel_resume_parser - INFO - Auto-detected LLM provider from config: groq_cloud
+2025-09-06 16:53:21 - excel_resume_parser - INFO - Excel Resume Parser initialized successfully
+2025-09-06 16:53:22 - excel_resume_parser - INFO - Successfully parsed resume for john_doe
+2025-09-06 16:53:22 - excel_resume_parser - INFO - Initializing Excel Resume Parser
+2025-09-06 16:53:23 - excel_resume_parser - INFO - Excel Resume Parser initialized successfully
+2025-09-06 16:53:23 - excel_resume_parser - INFO - Processing 2 Excel rows for resume parsing
+2025-09-06 16:53:24 - excel_resume_parser - INFO - Successfully parsed resume for candidate_1
+2025-09-06 16:53:24 - excel_resume_parser - ERROR - Error processing row 1: 'dict' object has no attribute 'dict'
+2025-09-06 16:53:25 - excel_resume_parser - INFO - Successfully parsed resume for candidate_2
+2025-09-06 16:53:25 - excel_resume_parser - ERROR - Error processing row 2: 'dict' object has no attribute 'dict'
+2025-09-06 16:53:25 - excel_resume_parser - INFO - Excel processing completed: 0/2 successful
+2025-09-06 16:53:25 - excel_resume_parser - INFO - Saving 0 parsed resumes
+2025-09-06 16:53:25 - excel_resume_parser - INFO - Save completed: 0 saved, 0 duplicates, 0 errors
+2025-09-06 16:54:16 - excel_resume_parser - INFO - Initializing Excel Resume Parser
+2025-09-06 16:54:16 - excel_resume_parser - INFO - Auto-detected LLM provider from config: groq_cloud
+2025-09-06 16:54:17 - excel_resume_parser - INFO - Excel Resume Parser initialized successfully
+2025-09-06 16:54:18 - excel_resume_parser - INFO - Successfully parsed resume for john_doe
+2025-09-06 16:54:18 - excel_resume_parser - INFO - Initializing Excel Resume Parser
+2025-09-06 16:54:19 - excel_resume_parser - INFO - Excel Resume Parser initialized successfully
+2025-09-06 16:54:19 - excel_resume_parser - INFO - Processing 2 Excel rows for resume parsing
+2025-09-06 16:54:20 - excel_resume_parser - INFO - Successfully parsed resume for candidate_1
+2025-09-06 16:54:21 - excel_resume_parser - INFO - Successfully parsed resume for candidate_2
+2025-09-06 16:54:21 - excel_resume_parser - INFO - Excel processing completed: 2/2 successful
+2025-09-06 16:54:21 - excel_resume_parser - INFO - Saving 2 parsed resumes
+2025-09-06 16:54:21 - excel_resume_parser - ERROR - Error saving resume for user test_batch_1: 'DuplicateDetectionOperations' object has no attribute 'check_duplicate'
+2025-09-06 16:54:21 - excel_resume_parser - ERROR - Error saving resume for user test_batch_2: 'DuplicateDetectionOperations' object has no attribute 'check_duplicate'
+2025-09-06 16:54:21 - excel_resume_parser - INFO - Save completed: 0 saved, 0 duplicates, 2 errors
+2025-09-06 17:36:30 - excel_resume_parser - INFO - Initializing Excel Resume Parser
+2025-09-06 17:36:41 - excel_resume_parser - INFO - Excel Resume Parser initialized successfully
+2025-09-06 17:36:43 - excel_resume_parser - INFO - Processing 1 Excel rows for resume parsing
+2025-09-06 17:36:43 - excel_resume_parser - ERROR - Error parsing Excel row to resume for 12345_1: 'ResumeParser' object has no attribute 'parse_resume'
+2025-09-06 17:36:43 - excel_resume_parser - INFO - Excel processing completed: 0/1 successful
+2025-09-06 17:36:43 - excel_resume_parser - INFO - Saving 0 parsed resumes
+2025-09-06 17:36:43 - excel_resume_parser - INFO - Save completed: 0 saved, 0 duplicates, 0 errors
+2025-09-06 17:38:17 - excel_resume_parser - INFO - Initializing Excel Resume Parser
+2025-09-06 17:38:18 - excel_resume_parser - INFO - Excel Resume Parser initialized successfully
+2025-09-06 17:38:18 - excel_resume_parser - INFO - Processing 1 Excel rows for resume parsing
+2025-09-06 17:38:19 - excel_resume_parser - INFO - Successfully parsed resume for 12345_1
+2025-09-06 17:38:19 - excel_resume_parser - INFO - Excel processing completed: 1/1 successful
+2025-09-06 17:38:19 - excel_resume_parser - INFO - Saving 1 parsed resumes
+2025-09-06 17:38:19 - excel_resume_parser - ERROR - Error saving resume for user veera_1: 'DuplicateDetectionOperations' object has no attribute 'check_duplicate'
+2025-09-06 17:38:19 - excel_resume_parser - INFO - Save completed: 0 saved, 0 duplicates, 1 errors
+2025-09-06 17:42:45 - excel_resume_parser - INFO - Initializing Excel Resume Parser
+2025-09-06 17:42:47 - excel_resume_parser - INFO - Excel Resume Parser initialized successfully
+2025-09-06 17:42:47 - excel_resume_parser - INFO - Processing 1 Excel rows for resume parsing
+2025-09-06 17:42:48 - excel_resume_parser - INFO - Successfully parsed resume for candidate_1
+2025-09-06 17:42:48 - excel_resume_parser - INFO - Excel processing completed: 1/1 successful
+2025-09-06 17:42:48 - excel_resume_parser - INFO - Saving 1 parsed resumes
+2025-09-06 17:42:48 - excel_resume_parser - ERROR - Error saving resume for user test_batch_1: 'DuplicateDetectionOperations' object has no attribute 'check_duplicate'
+2025-09-06 17:42:48 - excel_resume_parser - INFO - Save completed: 0 saved, 0 duplicates, 1 errors
+2025-09-06 17:44:16 - excel_resume_parser - INFO - Initializing Excel Resume Parser
+2025-09-06 17:44:16 - excel_resume_parser - INFO - Excel Resume Parser initialized successfully
+2025-09-06 17:44:17 - excel_resume_parser - INFO - Processing 1 Excel rows for resume parsing
+2025-09-06 17:44:18 - excel_resume_parser - INFO - Successfully parsed resume for 12345_1
+2025-09-06 17:44:18 - excel_resume_parser - INFO - Excel processing completed: 1/1 successful
+2025-09-06 17:44:18 - excel_resume_parser - INFO - Saving 1 parsed resumes
+2025-09-06 17:44:18 - excel_resume_parser - ERROR - Error saving resume for user veera_1: 'DuplicateDetectionOperations' object has no attribute 'check_duplicate'
+2025-09-06 17:44:18 - excel_resume_parser - INFO - Save completed: 0 saved, 0 duplicates, 1 errors

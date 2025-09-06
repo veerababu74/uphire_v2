@@ -701,3 +701,20 @@
 2025-08-17 13:02:14 - main - INFO - Models to ensure: ['BAAI/bge-large-en-v1.5', 'BAAI/bge-large-zh-v1.5', 'thenlper/gte-large']
 2025-08-17 13:02:14 - main - INFO - All critical embedding models are ready!
 2025-08-17 13:02:17 - main - INFO - Application startup completed successfully!
+2025-09-06 16:36:55 - main - INFO - Starting application initialization...
+2025-09-06 16:36:55 - main - INFO - Using 'balanced' deployment configuration
+2025-09-06 16:36:55 - main - INFO - Models to ensure: ['BAAI/bge-large-en-v1.5', 'BAAI/bge-large-zh-v1.5', 'thenlper/gte-large']
+2025-09-06 16:37:31 - main - INFO - All critical embedding models are ready!
+2025-09-06 16:37:37 - main - INFO - Application startup completed successfully!
+2025-09-06 16:38:33 - main - ERROR - Unhandled exception: Out of range float values are not JSON compliant: nan
+2025-09-06 17:36:43 - main - ERROR - Unhandled exception: Out of range float values are not JSON compliant: nan
+2025-09-06 17:37:55 - main - INFO - Starting application initialization...
+2025-09-06 17:37:55 - main - INFO - Using 'balanced' deployment configuration
+2025-09-06 17:37:55 - main - INFO - Models to ensure: ['BAAI/bge-large-en-v1.5', 'BAAI/bge-large-zh-v1.5', 'thenlper/gte-large']
+2025-09-06 17:37:55 - main - INFO - All critical embedding models are ready!
+2025-09-06 17:37:59 - main - INFO - Application startup completed successfully!
+2025-09-06 17:44:06 - main - INFO - Starting application initialization...
+2025-09-06 17:44:06 - main - INFO - Using 'balanced' deployment configuration
+2025-09-06 17:44:06 - main - INFO - Models to ensure: ['BAAI/bge-large-en-v1.5', 'BAAI/bge-large-zh-v1.5', 'thenlper/gte-large']
+2025-09-06 17:44:06 - main - INFO - All critical embedding models are ready!
+2025-09-06 17:44:11 - main - INFO - Application startup completed successfully!

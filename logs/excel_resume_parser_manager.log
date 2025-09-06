@@ -4,3 +4,58 @@
 2025-08-17 13:11:02 - excel_resume_parser_manager - INFO - Initializing Excel Resume Parser Manager
 2025-08-17 13:11:02 - excel_resume_parser_manager - INFO - Auto-detected LLM provider from config: groq_cloud
 2025-08-17 13:11:03 - excel_resume_parser_manager - INFO - Excel Resume Parser Manager initialized successfully
+2025-09-06 16:38:31 - excel_resume_parser_manager - INFO - Initializing Excel Resume Parser Manager
+2025-09-06 16:38:32 - excel_resume_parser_manager - INFO - Excel Resume Parser Manager initialized successfully
+2025-09-06 16:38:32 - excel_resume_parser_manager - INFO - Processing Excel file from bytes: vvvv.xlsx
+2025-09-06 16:38:32 - excel_resume_parser_manager - INFO - Step 1: Processing Excel data from bytes
+2025-09-06 16:38:33 - excel_resume_parser_manager - INFO - Step 2: Parsing resumes from Excel data
+2025-09-06 16:38:33 - excel_resume_parser_manager - INFO - Step 3: Saving resumes with duplicate detection
+2025-09-06 16:38:33 - excel_resume_parser_manager - INFO - Excel bytes processing completed in 0.39 seconds
+2025-09-06 16:51:39 - excel_resume_parser_manager - INFO - Initializing Excel Resume Parser Manager
+2025-09-06 16:51:39 - excel_resume_parser_manager - INFO - Auto-detected LLM provider from config: groq_cloud
+2025-09-06 16:51:40 - excel_resume_parser_manager - INFO - Excel Resume Parser Manager initialized successfully
+2025-09-06 16:53:22 - excel_resume_parser_manager - INFO - Initializing Excel Resume Parser Manager
+2025-09-06 16:53:22 - excel_resume_parser_manager - INFO - Auto-detected LLM provider from config: groq_cloud
+2025-09-06 16:53:23 - excel_resume_parser_manager - INFO - Excel Resume Parser Manager initialized successfully
+2025-09-06 16:53:23 - excel_resume_parser_manager - INFO - Processing Excel file from bytes: test_resumes.xlsx
+2025-09-06 16:53:23 - excel_resume_parser_manager - INFO - Step 1: Processing Excel data from bytes
+2025-09-06 16:53:23 - excel_resume_parser_manager - INFO - Step 2: Parsing resumes from Excel data
+2025-09-06 16:53:25 - excel_resume_parser_manager - INFO - Step 3: Saving resumes with duplicate detection
+2025-09-06 16:53:25 - excel_resume_parser_manager - INFO - Excel bytes processing completed in 1.96 seconds
+2025-09-06 16:54:18 - excel_resume_parser_manager - INFO - Initializing Excel Resume Parser Manager
+2025-09-06 16:54:18 - excel_resume_parser_manager - INFO - Auto-detected LLM provider from config: groq_cloud
+2025-09-06 16:54:19 - excel_resume_parser_manager - INFO - Excel Resume Parser Manager initialized successfully
+2025-09-06 16:54:19 - excel_resume_parser_manager - INFO - Processing Excel file from bytes: test_resumes.xlsx
+2025-09-06 16:54:19 - excel_resume_parser_manager - INFO - Step 1: Processing Excel data from bytes
+2025-09-06 16:54:19 - excel_resume_parser_manager - INFO - Step 2: Parsing resumes from Excel data
+2025-09-06 16:54:21 - excel_resume_parser_manager - INFO - Step 3: Saving resumes with duplicate detection
+2025-09-06 16:54:21 - excel_resume_parser_manager - INFO - Excel bytes processing completed in 2.07 seconds
+2025-09-06 17:36:30 - excel_resume_parser_manager - INFO - Initializing Excel Resume Parser Manager
+2025-09-06 17:36:42 - excel_resume_parser_manager - INFO - Excel Resume Parser Manager initialized successfully
+2025-09-06 17:36:42 - excel_resume_parser_manager - INFO - Processing Excel file from bytes: vvvv.xlsx
+2025-09-06 17:36:42 - excel_resume_parser_manager - INFO - Step 1: Processing Excel data from bytes
+2025-09-06 17:36:43 - excel_resume_parser_manager - INFO - Step 2: Parsing resumes from Excel data
+2025-09-06 17:36:43 - excel_resume_parser_manager - INFO - Step 3: Saving resumes with duplicate detection
+2025-09-06 17:36:43 - excel_resume_parser_manager - INFO - Excel bytes processing completed in 0.58 seconds
+2025-09-06 17:38:17 - excel_resume_parser_manager - INFO - Initializing Excel Resume Parser Manager
+2025-09-06 17:38:18 - excel_resume_parser_manager - INFO - Excel Resume Parser Manager initialized successfully
+2025-09-06 17:38:18 - excel_resume_parser_manager - INFO - Processing Excel file from bytes: vvvv.xlsx
+2025-09-06 17:38:18 - excel_resume_parser_manager - INFO - Step 1: Processing Excel data from bytes
+2025-09-06 17:38:18 - excel_resume_parser_manager - INFO - Step 2: Parsing resumes from Excel data
+2025-09-06 17:38:19 - excel_resume_parser_manager - INFO - Step 3: Saving resumes with duplicate detection
+2025-09-06 17:38:19 - excel_resume_parser_manager - INFO - Excel bytes processing completed in 1.58 seconds
+2025-09-06 17:42:45 - excel_resume_parser_manager - INFO - Initializing Excel Resume Parser Manager
+2025-09-06 17:42:45 - excel_resume_parser_manager - INFO - Auto-detected LLM provider from config: groq_cloud
+2025-09-06 17:42:47 - excel_resume_parser_manager - INFO - Excel Resume Parser Manager initialized successfully
+2025-09-06 17:42:47 - excel_resume_parser_manager - INFO - Processing Excel file from bytes: test_resumes.xlsx
+2025-09-06 17:42:47 - excel_resume_parser_manager - INFO - Step 1: Processing Excel data from bytes
+2025-09-06 17:42:47 - excel_resume_parser_manager - INFO - Step 2: Parsing resumes from Excel data
+2025-09-06 17:42:48 - excel_resume_parser_manager - INFO - Step 3: Saving resumes with duplicate detection
+2025-09-06 17:42:48 - excel_resume_parser_manager - INFO - Excel bytes processing completed in 1.17 seconds
+2025-09-06 17:44:16 - excel_resume_parser_manager - INFO - Initializing Excel Resume Parser Manager
+2025-09-06 17:44:16 - excel_resume_parser_manager - INFO - Excel Resume Parser Manager initialized successfully
+2025-09-06 17:44:16 - excel_resume_parser_manager - INFO - Processing Excel file from bytes: vvvv.xlsx
+2025-09-06 17:44:16 - excel_resume_parser_manager - INFO - Step 1: Processing Excel data from bytes
+2025-09-06 17:44:17 - excel_resume_parser_manager - INFO - Step 2: Parsing resumes from Excel data
+2025-09-06 17:44:18 - excel_resume_parser_manager - INFO - Step 3: Saving resumes with duplicate detection
+2025-09-06 17:44:18 - excel_resume_parser_manager - INFO - Excel bytes processing completed in 1.45 seconds

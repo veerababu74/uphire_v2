@@ -253,9 +253,7 @@ class ExcelResumeParser:
             resume_text = self.format_excel_row_as_resume_text(row_data)
 
             # Use the existing resume parser to parse the formatted text
-            parsed_resume = self.resume_parser.parse_resume(
-                resume_text=resume_text, user_id=user_id, username=username
-            )
+            parsed_resume = self.resume_parser.process_resume(resume_text)
 
             if parsed_resume:
                 logger.info(f"Successfully parsed resume for {username}")
@@ -308,13 +306,14 @@ class ExcelResumeParser:
                     )
 
                     if parsed_resume:
+                        # parsed_resume is already a dictionary from process_resume method
                         results["parsed_resumes"].append(
                             {
                                 "index": index + 1,
                                 "user_id": row_user_id,
                                 "username": row_username,
-                                "resume": parsed_resume.dict(),
-                                "original_data": row_data,
+                                "resume": parsed_resume,  # Already a dict, no need for .dict()
+                                "_internal_original_data": row_data,  # Keep for internal processing only
                             }
                         )
                         results["successful_parses"] += 1
@@ -391,7 +390,7 @@ class ExcelResumeParser:
                     # Check for duplicates
                     is_duplicate, duplicate_info = duplicate_ops.check_duplicate(
                         resume_text=self.format_excel_row_as_resume_text(
-                            resume_data["original_data"]
+                            resume_data["_internal_original_data"]
                         ),
                         user_id=user_id,
                     )

@@ -7,6 +7,9 @@ integrating Excel processing, resume parsing, and database operations.
 
 import os
 import time
+import json
+import numpy as np
+import pandas as pd
 from typing import List, Dict, Any, Optional, Union
 from pathlib import Path
 from datetime import datetime
@@ -72,6 +75,39 @@ class ExcelResumeParserManager:
         self.temp_dir.mkdir(parents=True, exist_ok=True)
 
         logger.info("Excel Resume Parser Manager initialized successfully")
+
+    def clean_for_json_serialization(self, obj: Any) -> Any:
+        """
+        Clean any object to ensure it's JSON serializable.
+
+        Args:
+            obj: Object to clean
+
+        Returns:
+            JSON-serializable object
+        """
+        if isinstance(obj, dict):
+            cleaned = {}
+            for key, value in obj.items():
+                # Skip internal data fields that shouldn't be in the response
+                if key.startswith("_internal_"):
+                    continue
+                cleaned[key] = self.clean_for_json_serialization(value)
+            return cleaned
+        elif isinstance(obj, list):
+            return [self.clean_for_json_serialization(item) for item in obj]
+        elif pd.isna(obj) or (
+            isinstance(obj, float) and (np.isnan(obj) or np.isinf(obj))
+        ):
+            return None
+        elif isinstance(obj, (np.integer, np.floating)):
+            if np.isnan(obj) or np.isinf(obj):
+                return None
+            return obj.item()  # Convert numpy type to native Python type
+        elif isinstance(obj, (np.ndarray,)):
+            return obj.tolist()
+        else:
+            return obj
 
     def process_excel_file_from_path(
         self,
@@ -148,9 +184,6 @@ class ExcelResumeParserManager:
                 "total_processing_time": total_time,
                 "excel_processing": {
                     "rows_found": len(excel_data),
-                    "sample_data": (
-                        excel_data[:3] if excel_data else []
-                    ),  # First 3 rows as sample
                 },
                 "resume_parsing": parsing_results,
                 "database_operations": save_results,
@@ -175,6 +208,9 @@ class ExcelResumeParserManager:
                         f"Failed to cleanup file {file_path}: {cleanup_error}"
                     )
                     final_results["file_cleanup"] = f"failed: {cleanup_error}"
+
+            # Clean final results for JSON serialization
+            final_results = self.clean_for_json_serialization(final_results)
 
             logger.info(f"Excel file processing completed in {total_time:.2f} seconds")
             return final_results
@@ -300,9 +336,6 @@ class ExcelResumeParserManager:
                 "total_processing_time": total_time,
                 "excel_processing": {
                     "rows_found": len(excel_data),
-                    "sample_data": (
-                        excel_data[:3] if excel_data else []
-                    ),  # First 3 rows as sample
                 },
                 "resume_parsing": parsing_results,
                 "database_operations": save_results,
@@ -315,6 +348,9 @@ class ExcelResumeParserManager:
                     "save_errors": save_results["save_errors"],
                 },
             }
+
+            # Clean final results for JSON serialization
+            final_results = self.clean_for_json_serialization(final_results)
 
             logger.info(f"Excel bytes processing completed in {total_time:.2f} seconds")
             return final_results
@@ -352,17 +388,19 @@ class ExcelResumeParserManager:
                 # Get sample data from first sheet
                 sample_data = self.excel_processor.process_excel_file(file_path)
 
-                return {
-                    "status": "success",
-                    "file_path": file_path,
-                    "sheet_names": sheet_names,
-                    "total_sheets": len(sheet_names),
-                    "sample_data": (
-                        sample_data[:5] if sample_data else []
-                    ),  # First 5 rows
-                    "total_rows": len(sample_data) if sample_data else 0,
-                    "columns": list(sample_data[0].keys()) if sample_data else [],
-                }
+                return self.clean_for_json_serialization(
+                    {
+                        "status": "success",
+                        "file_path": file_path,
+                        "sheet_names": sheet_names,
+                        "total_sheets": len(sheet_names),
+                        "sample_data": (
+                            sample_data[:5] if sample_data else []
+                        ),  # First 5 rows
+                        "total_rows": len(sample_data) if sample_data else 0,
+                        "columns": list(sample_data[0].keys()) if sample_data else [],
+                    }
+                )
 
             elif file_bytes and filename:
                 # Process from bytes
@@ -375,17 +413,19 @@ class ExcelResumeParserManager:
                     file_bytes, filename
                 )
 
-                return {
-                    "status": "success",
-                    "filename": filename,
-                    "sheet_names": sheet_names,
-                    "total_sheets": len(sheet_names),
-                    "sample_data": (
-                        sample_data[:5] if sample_data else []
-                    ),  # First 5 rows
-                    "total_rows": len(sample_data) if sample_data else 0,
-                    "columns": list(sample_data[0].keys()) if sample_data else [],
-                }
+                return self.clean_for_json_serialization(
+                    {
+                        "status": "success",
+                        "filename": filename,
+                        "sheet_names": sheet_names,
+                        "total_sheets": len(sheet_names),
+                        "sample_data": (
+                            sample_data[:5] if sample_data else []
+                        ),  # First 5 rows
+                        "total_rows": len(sample_data) if sample_data else 0,
+                        "columns": list(sample_data[0].keys()) if sample_data else [],
+                    }
+                )
             else:
                 return {
                     "status": "error",

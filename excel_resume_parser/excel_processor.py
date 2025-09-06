@@ -7,6 +7,7 @@ It removes duplicate headers and converts data into structured dictionaries.
 
 import pandas as pd
 import numpy as np
+import json
 from typing import List, Dict, Any, Optional, Tuple
 from pathlib import Path
 import io
@@ -27,6 +28,39 @@ class ExcelProcessor:
     def __init__(self):
         """Initialize the Excel processor."""
         self.supported_extensions = [".xlsx", ".xls", ".xlsm"]
+
+    def clean_nan_values(self, obj: Any) -> Any:
+        """
+        Recursively clean NaN and None values from any object to make it JSON serializable.
+
+        Args:
+            obj: Object to clean (dict, list, or any value)
+
+        Returns:
+            Cleaned object with NaN values replaced with None or empty strings
+        """
+        if isinstance(obj, dict):
+            cleaned = {}
+            for key, value in obj.items():
+                cleaned[key] = self.clean_nan_values(value)
+            return cleaned
+        elif isinstance(obj, list):
+            return [self.clean_nan_values(item) for item in obj]
+        elif pd.isna(obj) or (
+            isinstance(obj, float) and (np.isnan(obj) or np.isinf(obj))
+        ):
+            return None  # Convert NaN/inf to None for JSON serialization
+        elif obj is None:
+            return None
+        elif isinstance(obj, (int, float)):
+            # Handle numpy types
+            if isinstance(obj, (np.integer, np.floating)):
+                if np.isnan(obj) or np.isinf(obj):
+                    return None
+                return obj.item()  # Convert numpy type to native Python type
+            return obj
+        else:
+            return obj
 
     def validate_excel_file(self, file_path: str) -> bool:
         """
@@ -154,15 +188,18 @@ class ExcelProcessor:
             # Convert to list of dictionaries
             row_dicts = df_filled.to_dict("records")
 
-            # Clean up empty or all-None rows
+            # Clean up empty or all-None rows and handle NaN values properly
             cleaned_rows = []
             for i, row_dict in enumerate(row_dicts):
+                # Clean NaN values to ensure JSON serialization
+                cleaned_row = self.clean_nan_values(row_dict)
+
                 # Check if row has any non-None values
                 if any(
                     value is not None and str(value).strip() != ""
-                    for value in row_dict.values()
+                    for value in cleaned_row.values()
                 ):
-                    cleaned_rows.append(row_dict)
+                    cleaned_rows.append(cleaned_row)
                 else:
                     logger.debug(f"Skipping empty row at index {i}")
 
