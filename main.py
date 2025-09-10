@@ -71,7 +71,7 @@ from apis.healthcheck import router as health_router
 from apis.llm_provider_management import router as llm_provider_router
 from apis.resumerpaser import router as resume_parser_router
 from apis.user_management import router as user_management_router
-from apis.multiple_resume_parser_api import (
+from apis.multiple_resume_parser_clean import (
     router as enhanced_multiple_resume_parser_router,
 )
 from apis.duplicate_detection_api import router as duplicate_detection_router
@@ -152,9 +152,9 @@ async def lifespan(app: FastAPI):
     yield
 
     # Shutdown
-    logger.info("🔄 Shutting down application...")
+    logger.info("Shutting down application...")
     handle_application_shutdown()
-    logger.info("👋 Application shutdown completed")
+    logger.info("Application shutdown completed")
 
 
 app = FastAPI(
