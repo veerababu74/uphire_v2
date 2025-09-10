@@ -18,6 +18,7 @@ from core.config import config
 from core.custom_logger import CustomLogger
 from core.exceptions import LLMProviderError
 from core.llm_config import LLMConfigManager, LLMProvider
+from core.experience_extractor import ExperienceExtractor
 
 # Load environment variables
 load_dotenv()
@@ -163,6 +164,16 @@ class ResumeParser:
             self._setup_huggingface()
         else:
             raise LLMProviderError(f"Provider {self.provider.value} not implemented")
+
+        # Initialize experience extractor with the configured LLM
+        try:
+            # Get the LLM instance for the experience extractor
+            llm_instance = self._get_llm_instance()
+            self.experience_extractor = ExperienceExtractor(llm_instance)
+            logger.info("Experience extractor initialized successfully")
+        except Exception as e:
+            logger.error(f"Failed to initialize experience extractor: {e}")
+            self.experience_extractor = None
 
         logger.info(f"ResumeParser initialized successfully with {self.provider.value}")
 
@@ -691,6 +702,57 @@ CRITICAL:
                 f"Failed to setup Hugging Face processing chain: {str(e)}"
             )
 
+    def _get_llm_instance(self):
+        """Get the LLM instance from the processing chain for the experience extractor."""
+        try:
+            # The processing chain is typically: prompt | llm | parser
+            # We need to extract the LLM (middle component)
+            if hasattr(self, "processing_chain") and hasattr(
+                self.processing_chain, "steps"
+            ):
+                # For RunnableSequence, get the middle step (LLM)
+                for step in self.processing_chain.steps:
+                    if (
+                        hasattr(step, "model_name")
+                        or hasattr(step, "model")
+                        or "llm" in str(type(step)).lower()
+                    ):
+                        return step
+
+            # Fallback: Create a new instance based on provider
+            if self.provider == LLMProvider.OLLAMA:
+                return OllamaLLM(**self.ollama_config.to_langchain_params())
+            elif self.provider == LLMProvider.GROQ_CLOUD:
+                return ChatGroq(
+                    temperature=self.groq_config.temperature,
+                    model_name=self.groq_config.primary_model,
+                    api_key=self.api_keys[0] if self.api_keys else None,
+                    max_tokens=self.groq_config.max_tokens,
+                )
+            elif self.provider == LLMProvider.OPENAI:
+                return ChatOpenAI(
+                    temperature=self.openai_config.temperature,
+                    model_name=self.openai_config.primary_model,
+                    api_key=self.api_keys[0] if self.api_keys else None,
+                    max_tokens=self.openai_config.max_tokens,
+                )
+            elif self.provider == LLMProvider.GOOGLE_GEMINI:
+                return ChatGoogleGenerativeAI(
+                    temperature=self.google_config.temperature,
+                    model=self.google_config.primary_model,
+                    api_key=self.api_keys[0] if self.api_keys else None,
+                    max_tokens=self.google_config.max_tokens,
+                )
+            else:
+                logger.warning(
+                    f"No LLM instance available for provider {self.provider.value}"
+                )
+                return None
+
+        except Exception as e:
+            logger.error(f"Failed to get LLM instance: {e}")
+            return None
+
     def switch_provider(self, new_provider: str, api_keys: List[str] = None):
         """Switch between LLM providers dynamically.
 
@@ -766,20 +828,22 @@ CRITICAL:
                 return {"error": "Failed to parse JSON", "raw_output": raw_json}
 
     def _parse_resume(self, resume_text: str) -> dict:
-        """Parse resume text and return structured data."""
+        """Parse resume text and return structured data with enhanced experience extraction."""
         try:
             raw_output = self.processing_chain.invoke({"resume_text": resume_text})
 
+            # Parse the output based on provider type
+            result = None
             if self.provider in [LLMProvider.OLLAMA, LLMProvider.HUGGINGFACE]:
                 # These providers return string output, needs JSON parsing
                 if isinstance(raw_output, str):
                     cleaned_json = self._clean_json_response(raw_output)
                     try:
-                        return json.loads(cleaned_json)
+                        result = json.loads(cleaned_json)
                     except json.JSONDecodeError:
                         repaired_json = self._repair_json(cleaned_json)
                         try:
-                            return json.loads(repaired_json)
+                            result = json.loads(repaired_json)
                         except json.JSONDecodeError as e:
                             logger.error(
                                 f"Failed to parse {self.provider.value} JSON response: {str(e)}"
@@ -789,30 +853,128 @@ CRITICAL:
                                 "raw_output": str(raw_output),
                             }
                 elif isinstance(raw_output, dict):
-                    return raw_output
+                    result = raw_output
             else:
                 # API-based providers with JsonOutputParser return dict directly
                 if isinstance(raw_output, dict):
-                    return raw_output
-
-                cleaned_json = self._clean_json_response(raw_output)
-                try:
-                    return json.loads(cleaned_json)
-                except json.JSONDecodeError:
-                    repaired_json = self._repair_json(cleaned_json)
+                    result = raw_output
+                else:
+                    cleaned_json = self._clean_json_response(raw_output)
                     try:
-                        return json.loads(repaired_json)
-                    except json.JSONDecodeError as e:
-                        logger.error(
-                            f"Failed to parse {self.provider.value} JSON response: {str(e)}"
+                        result = json.loads(cleaned_json)
+                    except json.JSONDecodeError:
+                        repaired_json = self._repair_json(cleaned_json)
+                        try:
+                            result = json.loads(repaired_json)
+                        except json.JSONDecodeError as e:
+                            logger.error(
+                                f"Failed to parse {self.provider.value} JSON response: {str(e)}"
+                            )
+                            return {
+                                "error": "Failed to parse response",
+                                "raw_output": str(raw_output),
+                            }
+
+            # Enhanced experience processing if result is valid and experience extractor is available
+            if (
+                result
+                and not result.get("error")
+                and hasattr(self, "experience_extractor")
+                and self.experience_extractor
+            ):
+                try:
+                    logger.info("Running enhanced experience extraction...")
+                    experience_data = self.experience_extractor.extract_experience(
+                        resume_text
+                    )
+
+                    if experience_data and not experience_data.get("error"):
+                        # Update result with enhanced experience data
+                        if experience_data.get("experiences"):
+                            result["experience"] = experience_data["experiences"]
+
+                        # Set total experience using the specialized calculator
+                        result["total_experience"] = experience_data.get(
+                            "total_experience_text", "Not calculated"
                         )
-                        return {
-                            "error": "Failed to parse response",
-                            "raw_output": str(raw_output),
+
+                        # Add metadata about the calculation
+                        result["experience_metadata"] = {
+                            "extraction_confidence": experience_data.get(
+                                "extraction_confidence", "unknown"
+                            ),
+                            "calculation_method": experience_data.get(
+                                "calculation_method", "unknown"
+                            ),
+                            "total_years": experience_data.get("total_years", 0),
+                            "total_months": experience_data.get("total_months", 0),
                         }
+
+                        logger.info(
+                            f"Enhanced experience calculation: {result['total_experience']}"
+                        )
+                    else:
+                        logger.warning(
+                            "Enhanced experience extraction failed, using basic calculation"
+                        )
+                        result = self._basic_experience_calculation(result)
+
+                except Exception as e:
+                    logger.error(f"Enhanced experience extraction error: {e}")
+                    result = self._basic_experience_calculation(result)
+            else:
+                # Fallback to basic experience calculation
+                if result and not result.get("error"):
+                    result = self._basic_experience_calculation(result)
+
+            return result
+
         except Exception as e:
             logger.error(f"Error parsing resume with {self.provider.value}: {str(e)}")
             return {"error": str(e)}
+
+    def _basic_experience_calculation(self, result: dict) -> dict:
+        """Basic experience calculation as fallback"""
+        try:
+            # Import the existing experience calculator
+            from Expericecal.total_exp import calculator, format_experience
+
+            if "experience" in result and isinstance(result["experience"], list):
+                # Convert experience format for the calculator
+                experience_data = {"experience": result["experience"]}
+                total_years, total_months = calculator.calculate_experience(
+                    experience_data
+                )
+                result["total_experience"] = format_experience(
+                    total_years, total_months
+                )
+
+                # Add basic metadata
+                result["experience_metadata"] = {
+                    "extraction_confidence": "medium",
+                    "calculation_method": "basic_calculator",
+                    "total_years": total_years,
+                    "total_months": total_months,
+                }
+
+                logger.info(
+                    f"Basic experience calculation: {result['total_experience']}"
+                )
+            else:
+                result["total_experience"] = "No experience data found"
+                result["experience_metadata"] = {
+                    "extraction_confidence": "low",
+                    "calculation_method": "no_data",
+                    "total_years": 0,
+                    "total_months": 0,
+                }
+
+            return result
+
+        except Exception as e:
+            logger.error(f"Basic experience calculation failed: {e}")
+            result["total_experience"] = "Experience calculation failed"
+            return result
 
     def process_resume(self, resume_text: str) -> Dict:
         """Process a resume and handle provider-specific logic."""

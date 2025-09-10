@@ -1348,3 +1348,9 @@ Invalid credentials in Authorization header
 2025-09-06 17:44:03 - groqcloud_llm - INFO - ResumeParser initialized successfully with groq_cloud
 2025-09-06 17:44:05 - groqcloud_llm - INFO - Initializing ResumeParser with groq_cloud
 2025-09-06 17:44:05 - groqcloud_llm - INFO - ResumeParser initialized successfully with groq_cloud
+2025-09-10 00:09:36 - groqcloud_llm - INFO - Initializing ResumeParser with groq_cloud
+2025-09-10 00:09:37 - groqcloud_llm - INFO - Experience extractor initialized successfully
+2025-09-10 00:09:37 - groqcloud_llm - INFO - ResumeParser initialized successfully with groq_cloud
+2025-09-10 00:09:39 - groqcloud_llm - INFO - Running enhanced experience extraction...
+2025-09-10 00:09:40 - groqcloud_llm - INFO - Enhanced experience calculation: 8 years and 1 month
+2025-09-10 00:09:40 - groqcloud_llm - INFO - Successfully processed resume using groq_cloud

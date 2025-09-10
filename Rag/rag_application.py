@@ -16,6 +16,7 @@ from .database import DatabaseManager
 from .chains import ChainManager
 from .utils import DocumentProcessor
 from .search_engines import VectorSearchEngine, LLMSearchEngine
+from .enhanced_search_engines import EnhancedVectorSearchEngine, EnhancedLLMSearchEngine
 
 logger = CustomLogger().get_logger("rag_application")
 
@@ -89,12 +90,25 @@ class RAGApplication:
 
     def _initialize_search_engines(self):
         """Initialize search engines"""
-        self.vector_search_engine = VectorSearchEngine(
+        # Use enhanced search engines for better accuracy
+        self.vector_search_engine = EnhancedVectorSearchEngine(
             self.database_manager.vector_store, self.database_manager.collection
         )
 
         if self.chain_manager:
-            self.llm_search_engine = LLMSearchEngine(
+            self.llm_search_engine = EnhancedLLMSearchEngine(
+                self.database_manager.vector_store,
+                self.database_manager.collection,
+                self.chain_manager,
+            )
+
+        # Keep original engines for fallback
+        self.original_vector_search_engine = VectorSearchEngine(
+            self.database_manager.vector_store, self.database_manager.collection
+        )
+
+        if self.chain_manager:
+            self.original_llm_search_engine = LLMSearchEngine(
                 self.database_manager.vector_store,
                 self.database_manager.collection,
                 self.chain_manager,
@@ -102,22 +116,40 @@ class RAGApplication:
 
     # Public API methods
     def vector_similarity_search(
-        self, query: str, limit: int = 50, user_id: str = None
+        self,
+        query: str,
+        limit: int = 50,
+        user_id: str = None,
+        use_enhanced: bool = True,
     ) -> Dict:
-        """Perform pure vector similarity search"""
-        if not self.vector_search_engine:
+        """Perform vector similarity search with option for enhanced or original engine"""
+        engine = (
+            self.vector_search_engine
+            if use_enhanced
+            else self.original_vector_search_engine
+        )
+
+        if not engine:
             return {"error": "Vector search engine not initialized"}
 
-        return self.vector_search_engine.search(query, limit, user_id)
+        return engine.search(query, limit, user_id)
 
     def llm_context_search(
-        self, query: str, context_size: int = 5, user_id: str = None
+        self,
+        query: str,
+        context_size: int = 5,
+        user_id: str = None,
+        use_enhanced: bool = True,
     ) -> Dict:
-        """Perform LLM-based search with user-controlled context size"""
-        if not self.llm_search_engine:
+        """Perform LLM-based search with option for enhanced or original engine"""
+        engine = (
+            self.llm_search_engine if use_enhanced else self.original_llm_search_engine
+        )
+
+        if not engine:
             return {"error": "LLM search engine not initialized"}
 
-        return self.llm_search_engine.search(query, context_size, user_id)
+        return engine.search(query, context_size, user_id)
 
     def ask_resume_question_with_limits(
         self,

@@ -94,6 +94,10 @@ class VectorSimilaritySearchRequest(BaseModel):
         le=100.0,
         description="Minimum relevance score threshold (0-100). Only results with match_score >= this value will be returned",
     )
+    use_enhanced_search: Optional[bool] = Field(
+        default=True,
+        description="Use enhanced search engine with better query understanding and relevance scoring (optional, defaults to True)",
+    )
 
 
 class LLMContextSearchRequest(BaseModel):
@@ -110,6 +114,10 @@ class LLMContextSearchRequest(BaseModel):
         ge=0.0,
         le=100.0,
         description="Minimum relevance score threshold (0-100). Only results with match_score >= this value will be returned",
+    )
+    use_enhanced_search: Optional[bool] = Field(
+        default=True,
+        description="Use enhanced search engine with better query understanding and context analysis (optional, defaults to True)",
     )
 
 
@@ -156,6 +164,8 @@ class VectorSearchResult(BaseModel):
     comment: str = ""
     exit_reason: str = ""
     similarity_score: float
+    vector_score: Optional[float] = None  # Original vector similarity score
+    match_reason: Optional[str] = ""  # Enhanced match explanation
 
 
 class LLMSearchResult(BaseModel):
@@ -184,6 +194,7 @@ class LLMSearchResult(BaseModel):
     comment: str = ""
     exit_reason: str = ""
     relevance_score: float
+    llm_score: Optional[float] = None  # Original LLM relevance score
     match_reason: str = ""
 
 
@@ -278,6 +289,13 @@ def get_effective_user_id_for_search(requesting_user_id: str) -> Optional[str]:
     - query: The search query text
     - limit: Maximum number of results to return (default: 50)
     - relevant_score: Minimum relevance score threshold (0-100). Only results with match_score >= this value will be returned (default: 40.0)
+    - use_enhanced_search: Use enhanced search with better query understanding and relevance scoring (optional, default: True)
+    
+    **Enhanced Search Features (enabled by default):**
+    - Intelligent query parsing (extracts role, experience, salary, skills, domain)
+    - Multi-factor relevance scoring with weighted criteria
+    - Better filtering and ranking based on parsed requirements
+    - Detailed match explanations for each candidate
     
     **Returns:**
     Dictionary containing:
@@ -326,7 +344,10 @@ async def vector_similarity_search(request: VectorSimilaritySearchRequest):
 
         # Perform vector similarity search with user_id filter
         result = rag_app.vector_similarity_search(
-            request.query, request.limit, user_id=effective_user_id
+            request.query,
+            request.limit,
+            user_id=effective_user_id,
+            use_enhanced=request.use_enhanced_search,
         )
 
         if "error" in result:
@@ -401,6 +422,12 @@ async def vector_similarity_search(request: VectorSimilaritySearchRequest):
                 "comment": candidate.get("comment", ""),
                 "exit_reason": candidate.get("exit_reason", ""),
                 "similarity_score": safe_float(candidate.get("similarity_score", 0.0)),
+                "vector_score": safe_float(
+                    candidate.get("vector_score")
+                ),  # Enhanced: Include original vector score
+                "match_reason": candidate.get(
+                    "match_reason", ""
+                ),  # Enhanced: Include match explanation
             }
 
             # Normalize similarity_score to 0-100 range if it's in 0-1 range
@@ -455,6 +482,14 @@ async def vector_similarity_search(request: VectorSimilaritySearchRequest):
     - query: The search query text
     - context_size: Number of documents to analyze (default: 5)
     - relevant_score: Minimum relevance score threshold (0-100). Only results with match_score >= this value will be returned (default: 40.0)
+    - use_enhanced_search: Use enhanced search with better query understanding and context analysis (optional, default: True)
+    
+    **Enhanced Search Features (enabled by default):**
+    - Intelligent query parsing and requirement extraction
+    - Context-aware LLM prompts with structured search requirements
+    - Multi-factor scoring combining LLM analysis with domain-specific criteria
+    - Enhanced candidate filtering and ranking
+    - Detailed match explanations and reasoning
     
     **Returns:**
     Dictionary containing:
@@ -511,7 +546,10 @@ async def llm_context_search(request: LLMContextSearchRequest):
 
         # Perform LLM context search with user_id filter
         result = rag_app.llm_context_search(
-            request.query, request.context_size, user_id=effective_user_id
+            request.query,
+            request.context_size,
+            user_id=effective_user_id,
+            use_enhanced=request.use_enhanced_search,
         )
 
         if "error" in result:

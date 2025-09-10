@@ -224,3 +224,6 @@
 2025-09-06 17:42:45 - llm_config - INFO - Groq configuration validated with 2 API key(s)
 2025-09-06 17:44:03 - llm_config - INFO - Groq configuration validated with 2 API key(s)
 2025-09-06 17:44:16 - llm_config - INFO - LLM provider set to: groq_cloud
+2025-09-10 00:09:34 - llm_config - INFO - LLM provider set to: groq_cloud
+2025-09-10 00:09:34 - llm_config - INFO - Groq configuration validated with 2 API key(s)
+2025-09-10 00:09:36 - llm_config - INFO - LLM provider set to: groq_cloud

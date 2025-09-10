@@ -482,3 +482,6 @@
 2025-09-06 17:44:17 - multiple_resume_parser - INFO - Invoking Ollama model...
 2025-09-06 17:44:18 - multiple_resume_parser - INFO - Ollama response time: 1.23 seconds
 2025-09-06 17:44:18 - multiple_resume_parser - INFO - Successfully processed resume using groq_cloud
+2025-09-10 00:09:34 - multiple_resume_parser - INFO - Initializing Multiple Resume Parser with groq_cloud
+2025-09-10 00:09:35 - multiple_resume_parser - INFO - Successfully initialized LLM with groq_cloud
+2025-09-10 00:09:35 - multiple_resume_parser - INFO - Experience extractor initialized successfully

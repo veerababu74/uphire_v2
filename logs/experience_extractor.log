@@ -1,0 +1,6 @@
+2025-09-10 00:09:35 - experience_extractor - INFO - Starting specialized experience extraction
+2025-09-10 00:09:36 - experience_extractor - WARNING - LLM calculation (5y 8m) differs from manual (8y 1m), using manual
+2025-09-10 00:09:36 - experience_extractor - INFO - Experience extraction completed. Total: 8 years and 1 month
+2025-09-10 00:09:39 - experience_extractor - INFO - Starting specialized experience extraction
+2025-09-10 00:09:40 - experience_extractor - WARNING - LLM calculation (5y 8m) differs from manual (8y 1m), using manual
+2025-09-10 00:09:40 - experience_extractor - INFO - Experience extraction completed. Total: 8 years and 1 month

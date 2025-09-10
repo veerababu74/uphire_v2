@@ -19,6 +19,7 @@ from core.custom_logger import CustomLogger
 from core.exceptions import LLMProviderError
 from core.llm_config import LLMConfigManager, LLMProvider
 from core.llm_factory import LLMFactory
+from core.experience_extractor import ExperienceExtractor
 
 # Disable LangSmith tracing to prevent 403 errors
 os.environ["LANGCHAIN_TRACING_V2"] = "false"
@@ -186,22 +187,49 @@ class ResumeParser:
         # Setup processing chain
         self.processing_chain = self._setup_processing_chain()
 
+        # Initialize experience extractor
+        try:
+            self.experience_extractor = ExperienceExtractor(self.llm)
+            logger.info("Experience extractor initialized successfully")
+        except Exception as e:
+            logger.error(f"Failed to initialize experience extractor: {e}")
+            self.experience_extractor = None
+
     def _setup_processing_chain(self):
         """Set up the LangChain processing chain for the current provider."""
         try:
             parser = JsonOutputParser(pydantic_object=Resume)
 
-            prompt_template = """Extract resume information strictly as JSON:
-                {format_instructions}
+            prompt_template = """You are an expert resume parser. Extract resume information and return it as structured JSON.
 
-                If experience is present, always calculate total experience.
-                Ensure the following fields are included: name, email, address, LinkedIn. If any are missing, add random placeholder values.
+IMPORTANT: Focus on extracting ALL available information accurately. For experience calculation, provide basic extraction but don't worry about complex calculations - this will be handled by a specialized system.
 
-                RESUME INPUT:
-                {resume_text}
+EXTRACTION REQUIREMENTS:
+1. CONTACT DETAILS - Extract complete contact information
+2. EXPERIENCE - Extract each job entry with company, title, dates (preserve original format)
+3. EDUCATION - Extract all educational qualifications
+4. SKILLS - Extract technical and professional skills
+5. PERSONAL INFO - Extract relevant personal details
 
-                Return ONLY valid JSON without any additional text or explanations.
-                """
+DATE HANDLING:
+- Preserve original date formats from the resume
+- Don't attempt complex date parsing here
+- Mark ongoing positions as "Present" or "Current"
+
+MISSING INFORMATION:
+- If required fields are missing, use placeholder values:
+  * Name: "Name not provided"
+  * Email: "email_not_found@placeholder.com"
+  * Phone: "+1-000-000-0000"
+  * Current city: "Location not specified"
+
+{format_instructions}
+
+RESUME INPUT:
+{resume_text}
+
+Return ONLY valid JSON without any additional text or explanations.
+"""
 
             prompt = PromptTemplate(
                 template=prompt_template,
@@ -423,7 +451,7 @@ class ResumeParser:
                 return self._create_fallback_resume(resume_text)
 
             # Post-process and validate result
-            return self._post_process_result(result)
+            return self._post_process_result(result, resume_text)
 
         except Exception as e:
             logger.error(f"Error parsing resume: {str(e)}")
@@ -533,8 +561,8 @@ class ResumeParser:
             "parsing_note": "Fallback parsing used due to JSON parsing failure",
         }
 
-    def _post_process_result(self, result: dict) -> dict:
-        """Clean up the parsed result to fix common issues."""
+    def _post_process_result(self, result: dict, resume_text: str = None) -> dict:
+        """Clean up the parsed result and enhance experience calculation."""
         try:
             if not isinstance(result, dict):
                 return result
@@ -577,9 +605,6 @@ class ResumeParser:
             if "name" not in result or not result["name"]:
                 result["name"] = "Name not found"
 
-            if "total_experience" not in result:
-                result["total_experience"] = "Experience calculation needed"
-
             if "skills" not in result:
                 result["skills"] = []
 
@@ -592,10 +617,99 @@ class ResumeParser:
             if "projects" not in result:
                 result["projects"] = []
 
+            # Enhanced experience processing with specialized extractor
+            if resume_text and hasattr(self, "experience_extractor"):
+                try:
+                    logger.info("Running specialized experience extraction...")
+                    experience_data = self.experience_extractor.extract_experience(
+                        resume_text
+                    )
+
+                    if experience_data and not experience_data.get("error"):
+                        # Update result with enhanced experience data
+                        if experience_data.get("experiences"):
+                            result["experience"] = experience_data["experiences"]
+
+                        # Set total experience using the specialized calculator
+                        result["total_experience"] = experience_data.get(
+                            "total_experience_text", "Not calculated"
+                        )
+
+                        # Add metadata about the calculation
+                        result["experience_metadata"] = {
+                            "extraction_confidence": experience_data.get(
+                                "extraction_confidence", "unknown"
+                            ),
+                            "calculation_method": experience_data.get(
+                                "calculation_method", "unknown"
+                            ),
+                            "total_years": experience_data.get("total_years", 0),
+                            "total_months": experience_data.get("total_months", 0),
+                        }
+
+                        logger.info(
+                            f"Enhanced experience calculation: {result['total_experience']}"
+                        )
+                    else:
+                        logger.warning(
+                            "Specialized experience extraction failed, using basic calculation"
+                        )
+                        result = self._basic_experience_calculation(result)
+
+                except Exception as e:
+                    logger.error(f"Specialized experience extraction error: {e}")
+                    result = self._basic_experience_calculation(result)
+            else:
+                # Fallback to basic experience calculation
+                result = self._basic_experience_calculation(result)
+
             return result
 
         except Exception as e:
             logger.error(f"Error in post-processing: {e}")
+            return result
+
+    def _basic_experience_calculation(self, result: dict) -> dict:
+        """Basic experience calculation as fallback"""
+        try:
+            # Import the existing experience calculator
+            from Expericecal.total_exp import calculator, format_experience
+
+            if "experience" in result and isinstance(result["experience"], list):
+                # Convert experience format for the calculator
+                experience_data = {"experience": result["experience"]}
+                total_years, total_months = calculator.calculate_experience(
+                    experience_data
+                )
+                result["total_experience"] = format_experience(
+                    total_years, total_months
+                )
+
+                # Add basic metadata
+                result["experience_metadata"] = {
+                    "extraction_confidence": "medium",
+                    "calculation_method": "basic_calculator",
+                    "total_years": total_years,
+                    "total_months": total_months,
+                }
+
+                logger.info(
+                    f"Basic experience calculation: {result['total_experience']}"
+                )
+            else:
+                result["total_experience"] = "No experience data found"
+                result["experience_metadata"] = {
+                    "extraction_confidence": "low",
+                    "calculation_method": "no_data",
+                    "total_years": 0,
+                    "total_months": 0,
+                }
+
+            return result
+
+        except Exception as e:
+            logger.error(f"Basic experience calculation failed: {e}")
+            result["total_experience"] = "Experience calculation failed"
             return result
 
     def _check_ollama_connection(self) -> bool:

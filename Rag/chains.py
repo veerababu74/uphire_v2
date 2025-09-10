@@ -328,9 +328,9 @@ JSON RESPONSE:"""
 
     def _setup_ranking_chain(self):
         """Setup the ranking chain for all matches"""
-        ranking_prompt_template = """You are an AI recruiter ranking candidates for a job position.
+        ranking_prompt_template = """You are an AI recruiter specializing in matching candidates to specific job requirements with high precision.
 
-TASK: Analyze ALL candidates and rank them by relevance to the job requirements.
+TASK: Analyze ALL candidates and rank them by precise relevance to the job requirements.
 
 CRITICAL: Return ONLY a JSON object with this EXACT structure - no explanations, no extra text:
 
@@ -340,31 +340,65 @@ CRITICAL: Return ONLY a JSON object with this EXACT structure - no explanations,
     {{
       "_id": "<candidate_mongodb_id>",
       "relevance_score": <decimal_between_0_and_1>,
-      "match_reason": "<brief_explanation>"
+      "match_reason": "<specific_explanation>"
     }}
   ]
 }}
 
-SCORING CRITERIA (0.0 to 1.0):
-- 1.0: Perfect match (all requirements met)
-- 0.8-0.9: Excellent match (most requirements met)  
-- 0.6-0.7: Good match (some requirements met)
-- 0.4-0.5: Partial match (related experience)
-- 0.1-0.3: Weak match (minimal relevance)
-- 0.0: No match (no relevant experience)
+ENHANCED SCORING CRITERIA (0.0 to 1.0):
 
-INSTRUCTIONS:
-1. Analyze EVERY candidate provided in the context
-2. Extract only the "_id" field from each candidate
-3. Score each candidate (0.0-1.0) based on job relevance
-4. Keep match_reason under 15 words
-5. Return ALL candidates in the matches array
+**EXPERIENCE MATCHING (Weight: 35%)**
+- 1.0: Exact experience range match
+- 0.8-0.9: Within ±0.5 years of required range
+- 0.6-0.7: Within ±1 year of required range  
+- 0.4-0.5: Experience in related field but different range
+- 0.1-0.3: Some relevant experience but significant gap
+- 0.0: No relevant experience
+
+**SKILLS & DOMAIN MATCHING (Weight: 30%)**
+- 1.0: All required skills + domain expertise
+- 0.8-0.9: Most required skills + good domain match
+- 0.6-0.7: Some required skills + domain experience
+- 0.4-0.5: Related skills or domain experience
+- 0.1-0.3: Transferable skills only
+- 0.0: No relevant skills or domain
+
+**ROLE/POSITION MATCHING (Weight: 20%)**
+- 1.0: Exact same role/position
+- 0.8-0.9: Similar role in same domain
+- 0.6-0.7: Same role different domain or different role same domain
+- 0.4-0.5: Related role/responsibility
+- 0.1-0.3: Some overlapping responsibilities
+- 0.0: No role match
+
+**SALARY ALIGNMENT (Weight: 10%)**
+- 1.0: Expected salary within budget
+- 0.8-0.9: Expected salary slightly above budget (≤10% over)
+- 0.6-0.7: Expected salary moderately above budget (10-20% over)
+- 0.3-0.5: Expected salary significantly above budget (20-50% over)
+- 0.1-0.2: Expected salary very high (>50% over budget)
+- 0.0: No salary information or extremely high
+
+**LOCATION PREFERENCE (Weight: 5%)**
+- 1.0: Perfect location match
+- 0.8: Open to required location
+- 0.5: Partial location flexibility
+- 0.2: Location might be an issue
+- 0.0: Location mismatch
+
+SPECIAL INSTRUCTIONS:
+1. For FMCG Sales roles: Prioritize candidates with FMCG/consumer goods sales experience
+2. For specific experience ranges (e.g., "2-3 years"): Be strict about experience requirements
+3. For salary-sensitive searches: Heavily weight salary alignment
+4. Use _computed_highlights for quick assessment if available
+5. Be extremely precise with scoring - avoid giving high scores unless truly warranted
 
 CRITICAL OUTPUT RULES:
 - Response must be ONLY valid JSON (no markdown, no code blocks)
 - Use "_id" field exactly as provided in candidate data
-- Scores must be decimal numbers (e.g., 0.8, not "0.8")
-- Include ALL candidates in matches array
+- Scores must be decimal numbers (e.g., 0.85, not "0.85")
+- Include ALL candidates in matches array, even with 0.0 scores
+- Match reasons must be specific and data-driven (max 20 words)
 
 {format_instructions}
 
