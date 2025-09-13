@@ -207,7 +207,7 @@ app.include_router(citys_router)
 app.include_router(skills_router)
 app.include_router(autocomplete_router)
 app.include_router(skills_experience_titles_router)
-app.include_router(skills_recommendation_router)  # New skills recommendation API
+# app.include_router(skills_recommendation_router)  # New skills recommendation API
 app.include_router(ai_candidate_ranking_router)  # AI candidate ranking API
 app.include_router(manual_search_router)
 app.include_router(vector_search_v2_router)
@@ -254,5 +254,5 @@ async def general_exception_handler(request, exc):
 if __name__ == "__main__":
     import uvicorn
 
-    # uvicorn.run("main:app", port=8000, reload=True)
-    uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=False)
+    uvicorn.run("main:app", port=8000, reload=True)
+    # uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=False)

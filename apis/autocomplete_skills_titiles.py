@@ -5,6 +5,9 @@ from core.helpers import format_resume
 from typing import List, Dict, Any
 import pymongo
 import re
+import difflib
+import time
+from functools import lru_cache
 
 router = APIRouter(
     prefix="/autocomplete",
@@ -13,6 +16,11 @@ router = APIRouter(
 
 collection = get_collection()
 vectorizer = Vectorizer()
+
+# Simple in-memory cache for frequently accessed results
+_autocomplete_cache = {}
+_cache_expiry = {}
+CACHE_DURATION = 300  # 5 minutes cache
 
 
 def process_results(results, key):
@@ -41,19 +49,221 @@ def extract_skills(raw_data: str) -> List[str]:
     if not raw_data or not isinstance(raw_data, str):
         return []
 
-    cleaned = re.sub(r".*?:", "", raw_data)
-    parenthetical_content = re.findall(r"\((.*?)\)", cleaned)
-    cleaned = re.sub(r"\(.*?\)", ",", cleaned)
-    skills = re.split(r"[,/&]|\band\b", cleaned)
-    for content in parenthetical_content:
-        skills.extend(re.split(r"[,\s]+", content))
+    # Handle different skill formats more carefully
+    skills = []
 
-    processed_skills = []
-    for skill in skills:
-        skill = re.sub(r"[^\w\s-]", "", skill).strip().lower()
-        if skill and skill not in {"others", "and", "in", "of"}:
-            processed_skills.append(skill)
-    return processed_skills
+    # Split by common delimiters while preserving compound skills
+    delimiters = r"[,;|/&]|\sand\s|\sor\s"
+    raw_skills = re.split(delimiters, raw_data, flags=re.IGNORECASE)
+
+    for skill in raw_skills:
+        # Clean the skill but preserve important characters
+        cleaned = re.sub(
+            r"^[:\-\s]+|[:\-\s]+$", "", skill
+        )  # Remove leading/trailing separators
+        cleaned = re.sub(r"\s+", " ", cleaned)  # Normalize whitespace
+        cleaned = cleaned.strip()
+
+        # Filter out non-skills and very short/long entries
+        if (
+            cleaned
+            and len(cleaned) >= 2
+            and len(cleaned) <= 50
+            and not re.match(r"^\d+$", cleaned)  # Not just numbers
+            and cleaned.lower()
+            not in {
+                "others",
+                "and",
+                "in",
+                "of",
+                "the",
+                "with",
+                "using",
+                "etc",
+                "various",
+            }
+        ):
+            skills.append(cleaned)
+
+    return skills
+
+
+def calculate_relevance_score(text: str, prefix: str) -> float:
+    """Calculate relevance score for autocomplete results with fuzzy matching"""
+    if not text or not prefix:
+        return 0.0
+
+    text_lower = text.lower()
+    prefix_lower = prefix.lower()
+
+    # Exact match gets highest score
+    if text_lower == prefix_lower:
+        return 1.0
+
+    # Starts with prefix gets high score
+    if text_lower.startswith(prefix_lower):
+        return 0.9 - (len(text) - len(prefix)) * 0.01
+
+    # Contains prefix gets medium score
+    if prefix_lower in text_lower:
+        # Position matters - earlier is better
+        position = text_lower.find(prefix_lower)
+        position_penalty = position * 0.01
+        return 0.7 - position_penalty
+
+    # Word boundary match
+    if re.search(r"\b" + re.escape(prefix_lower), text_lower):
+        return 0.6
+
+    # Fuzzy matching for typos and partial matches
+    similarity = difflib.SequenceMatcher(None, prefix_lower, text_lower).ratio()
+    if similarity > 0.7:  # 70% similarity threshold
+        return 0.5 * similarity
+
+    # Check if any word in text starts with prefix
+    words = text_lower.split()
+    for word in words:
+        if word.startswith(prefix_lower):
+            return 0.4
+
+    # Check character-level similarity for abbreviations
+    if len(prefix) >= 2:
+        # Check if prefix characters appear in order
+        prefix_chars = list(prefix_lower)
+        text_chars = list(text_lower.replace(" ", ""))
+
+        i = 0
+        for char in text_chars:
+            if i < len(prefix_chars) and char == prefix_chars[i]:
+                i += 1
+
+        if i == len(prefix_chars):  # All prefix characters found in order
+            return 0.3
+
+    return 0.0
+
+
+def fuzzy_search_enhancement(
+    candidates: List[str], prefix: str, limit: int
+) -> List[str]:
+    """Enhance search results with fuzzy matching"""
+    if not candidates:
+        return []
+
+    # Score all candidates
+    scored_candidates = []
+    for candidate in candidates:
+        score = calculate_relevance_score(candidate, prefix)
+        if score > 0:
+            scored_candidates.append((candidate, score))
+
+    # Sort by score and return top results
+    scored_candidates.sort(key=lambda x: (-x[1], len(x[0]), x[0].lower()))
+    return [candidate for candidate, _ in scored_candidates[:limit]]
+
+
+def get_cache_key(prefix: str, limit: int, search_type: str) -> str:
+    """Generate cache key for results"""
+    return f"{search_type}:{prefix.lower()}:{limit}"
+
+
+def is_cache_valid(key: str) -> bool:
+    """Check if cache entry is still valid"""
+    return key in _cache_expiry and time.time() < _cache_expiry[key]
+
+
+def set_cache(key: str, value: Any):
+    """Set cache value with expiry"""
+    _autocomplete_cache[key] = value
+    _cache_expiry[key] = time.time() + CACHE_DURATION
+
+
+def get_enhanced_skills(prefix: str, limit: int) -> List[str]:
+    """Enhanced skill search across multiple fields with caching"""
+    cache_key = get_cache_key(prefix, limit, "skills")
+
+    # Check cache first
+    if is_cache_valid(cache_key):
+        return _autocomplete_cache[cache_key]
+
+    # Optimized search with better indexing strategy
+    multi_field_pipeline = [
+        {
+            "$match": {
+                "$or": [
+                    {"skills": {"$regex": f".*{prefix}.*", "$options": "i"}},
+                    {"technical_skills": {"$regex": f".*{prefix}.*", "$options": "i"}},
+                    {"experience.skills": {"$regex": f".*{prefix}.*", "$options": "i"}},
+                ]
+            }
+        },
+        {"$limit": limit * 8},  # Optimized limit
+        {
+            "$project": {
+                "skills": 1,
+                "technical_skills": 1,
+                "experience.skills": 1,
+                "_id": 0,  # Exclude _id for better performance
+            }
+        },
+    ]
+
+    results = list(collection.aggregate(multi_field_pipeline))
+    skill_candidates = set()
+
+    # More efficient skill extraction
+    for doc in results:
+        # Process all skill fields uniformly
+        for field_name in ["skills", "technical_skills"]:
+            field_data = doc.get(field_name)
+            if field_data:
+                if isinstance(field_data, list):
+                    for item in field_data:
+                        if isinstance(item, str) and prefix.lower() in item.lower():
+                            skill_candidates.update(extract_skills(item))
+                elif (
+                    isinstance(field_data, str) and prefix.lower() in field_data.lower()
+                ):
+                    skill_candidates.update(extract_skills(field_data))
+
+        # Handle experience skills efficiently
+        experience_data = doc.get("experience")
+        if isinstance(experience_data, list):
+            for exp in experience_data[:3]:  # Limit experience entries for performance
+                exp_skills = exp.get("skills") if isinstance(exp, dict) else None
+                if exp_skills:
+                    if isinstance(exp_skills, list):
+                        for skill in exp_skills:
+                            if (
+                                isinstance(skill, str)
+                                and prefix.lower() in skill.lower()
+                            ):
+                                skill_candidates.update(extract_skills(skill))
+                    elif (
+                        isinstance(exp_skills, str)
+                        and prefix.lower() in exp_skills.lower()
+                    ):
+                        skill_candidates.update(extract_skills(exp_skills))
+
+    # Filter candidates more efficiently
+    valid_skills = []
+    for skill in skill_candidates:
+        if len(skill) >= 2 and len(skill) <= 50 and prefix.lower() in skill.lower():
+            valid_skills.append(skill)
+
+    # Score and sort
+    scored_skills = [
+        (skill, calculate_relevance_score(skill, prefix)) for skill in valid_skills
+    ]
+    scored_skills = [(skill, score) for skill, score in scored_skills if score > 0]
+    scored_skills.sort(key=lambda x: (-x[1], len(x[0]), x[0].lower()))
+
+    result = [skill for skill, score in scored_skills[:limit]]
+
+    # Cache the result
+    set_cache(cache_key, result)
+
+    return result
 
 
 @router.get(
@@ -352,6 +562,7 @@ async def autocomplete_jobs_and_skills(
         ...,
         description="Prefix to search in titles and skills",
         min_length=2,
+        max_length=100,
         example="py",
     ),
     limit: int = Query(
@@ -359,80 +570,264 @@ async def autocomplete_jobs_and_skills(
     ),
 ):
     try:
-        # --- Fetch and process job titles ---
+        # Input validation and sanitization
+        prefix = prefix.strip()
+        if not prefix or len(prefix) < 2:
+            raise HTTPException(
+                status_code=400,
+                detail="Search prefix must be at least 2 characters long",
+            )
+
+        # Sanitize input to prevent regex injection
+        prefix = re.sub(r"[^\w\s\-\+\#\.]", "", prefix)
+        if not prefix:
+            raise HTTPException(
+                status_code=400, detail="Invalid search prefix after sanitization"
+            )
+
+        # Check cache for complete response
+        cache_key = get_cache_key(prefix, limit, "combined")
+        if is_cache_valid(cache_key):
+            return _autocomplete_cache[cache_key]
+
+        # --- Enhanced Job Title Search with Performance Optimization ---
+        title_candidates = []
+
+        # Optimized title search pipeline
         title_pipeline = [
             {"$unwind": "$experience"},
             {
                 "$match": {
-                    "experience.title": {"$regex": f".*{prefix}.*", "$options": "i"}
+                    "$and": [
+                        {"experience.title": {"$exists": True, "$ne": "", "$ne": None}},
+                        {
+                            "experience.title": {
+                                "$regex": f".*{prefix}.*",
+                                "$options": "i",
+                            }
+                        },
+                    ]
                 }
             },
-            {"$group": {"_id": "$experience.title"}},
-            {"$limit": limit},
-            {"$project": {"title": "$_id", "_id": 0}},
+            {"$group": {"_id": "$experience.title", "count": {"$sum": 1}}},
+            {"$sort": {"count": -1}},
+            {"$limit": limit * 2},  # Reduced for better performance
+            {"$project": {"title": "$_id", "frequency": "$count", "_id": 0}},
         ]
-        title_results = list(collection.aggregate(title_pipeline))
-        titles = process_results(title_results, "title")
 
-        if len(titles) < limit:
-            query_embedding = vectorizer.generate_embedding(prefix)
-            title_semantic_pipeline = [
+        try:
+            title_results = list(
+                collection.aggregate(title_pipeline, maxTimeMS=5000)
+            )  # 5 second timeout
+
+            # Process titles with enhanced scoring
+            for result in title_results:
+                title = result.get("title", "").strip()
+                if title and len(title) >= 2:
+                    relevance_score = calculate_relevance_score(title, prefix)
+                    frequency_bonus = min(result.get("frequency", 1) / 100, 0.1)
+                    final_score = relevance_score + frequency_bonus
+                    if final_score > 0.1:  # Filter low-relevance results
+                        title_candidates.append((title, final_score))
+
+        except Exception as title_error:
+            print(f"Title search error: {title_error}")
+            # Fallback to simpler search
+            simple_title_pipeline = [
+                {"$unwind": "$experience"},
                 {
-                    "$search": {
-                        "index": "vector_search_index",
-                        "knnBeta": {
-                            "vector": query_embedding,
-                            "path": "experience_text_vector",
-                            "k": limit,
-                        },
+                    "$match": {
+                        "experience.title": {"$regex": f"^{prefix}.*", "$options": "i"}
                     }
                 },
-                {"$unwind": "$experience"},
-                {"$project": {"title": "$experience.title"}},
+                {"$group": {"_id": "$experience.title"}},
                 {"$limit": limit},
+                {"$project": {"title": "$_id", "_id": 0}},
             ]
-            semantic_title_results = list(collection.aggregate(title_semantic_pipeline))
-            semantic_titles = process_results(semantic_title_results, "title")
-            titles.extend(
-                [
-                    title
-                    for title in semantic_titles
-                    if title.lower().strip()
-                    not in map(str.lower, map(str.strip, titles))
+            fallback_results = list(collection.aggregate(simple_title_pipeline))
+            for result in fallback_results:
+                title = result.get("title", "").strip()
+                if title:
+                    title_candidates.append((title, 0.8))
+
+        # Enhanced semantic search for titles (only if needed and vectorizer available)
+        if len(title_candidates) < limit and hasattr(vectorizer, "generate_embedding"):
+            try:
+                query_embedding = vectorizer.generate_embedding(prefix + " job title")
+                semantic_title_pipeline = [
+                    {
+                        "$search": {
+                            "index": "vector_search_index",
+                            "knnBeta": {
+                                "vector": query_embedding,
+                                "path": "experience_text_vector",
+                                "k": limit,
+                            },
+                        }
+                    },
+                    {"$unwind": "$experience"},
+                    {"$match": {"experience.title": {"$exists": True, "$ne": ""}}},
+                    {
+                        "$project": {
+                            "title": "$experience.title",
+                            "score": {"$meta": "searchScore"},
+                        }
+                    },
+                    {"$limit": limit},
                 ]
-            )
 
-        # --- Fetch and process skills ---
-        skill_pipeline = [
-            {"$unwind": "$skills"},
-            {"$match": {"skills": {"$regex": f".*{prefix}.*", "$options": "i"}}},
-            {"$group": {"_id": "$skills"}},
-            {"$limit": limit * 5},
-            {"$project": {"raw_skill": "$_id", "_id": 0}},
-        ]
-        raw_skill_results = list(collection.aggregate(skill_pipeline))
-        raw_skills = [
-            result["raw_skill"]
-            for result in raw_skill_results
-            if result.get("raw_skill")
-        ]
-        extracted_skills = [
-            skill for raw_skill in raw_skills for skill in extract_skills(raw_skill)
-        ]
-        unique_skills = list(set(extracted_skills))
-        sorted_skills = sorted(
-            unique_skills, key=lambda s: (not s.startswith(prefix.lower()), s)
-        )
+                semantic_results = list(
+                    collection.aggregate(semantic_title_pipeline, maxTimeMS=3000)
+                )
+                existing_titles = {title.lower() for title, _ in title_candidates}
 
-        return {
-            "titles": titles[:limit],
-            "skills": sorted_skills[:limit],
+                for result in semantic_results:
+                    title = result.get("title", "").strip()
+                    if (
+                        title
+                        and title.lower() not in existing_titles
+                        and len(title) >= 2
+                    ):
+                        semantic_score = 0.3 + min(result.get("score", 0) / 10, 0.2)
+                        title_candidates.append((title, semantic_score))
+
+            except Exception as semantic_error:
+                print(f"Title semantic search failed: {semantic_error}")
+
+        # Sort and finalize titles
+        title_candidates.sort(key=lambda x: (-x[1], len(x[0]), x[0].lower()))
+        final_titles = [title for title, _ in title_candidates[:limit]]
+
+        # --- Enhanced Skills Search ---
+        enhanced_skills = get_enhanced_skills(prefix, limit)
+
+        # Fallback semantic search for skills if needed
+        if len(enhanced_skills) < limit // 2 and hasattr(
+            vectorizer, "generate_embedding"
+        ):
+            try:
+                query_embedding = vectorizer.generate_embedding(
+                    f"{prefix} programming technology skill"
+                )
+                skill_semantic_pipeline = [
+                    {
+                        "$search": {
+                            "index": "vector_search_index",
+                            "knnBeta": {
+                                "vector": query_embedding,
+                                "path": "experience_text_vector",
+                                "k": limit * 2,
+                            },
+                        }
+                    },
+                    {"$project": {"skills": 1, "technical_skills": 1}},
+                    {"$limit": limit * 2},
+                ]
+
+                semantic_skill_results = list(
+                    collection.aggregate(skill_semantic_pipeline, maxTimeMS=3000)
+                )
+                existing_skills_lower = {skill.lower() for skill in enhanced_skills}
+
+                for doc in semantic_skill_results:
+                    if len(enhanced_skills) >= limit:
+                        break
+
+                    for field in ["skills", "technical_skills"]:
+                        field_data = doc.get(field)
+                        if not field_data:
+                            continue
+
+                        # Process field data efficiently
+                        items_to_process = []
+                        if isinstance(field_data, list):
+                            items_to_process = [
+                                item for item in field_data if isinstance(item, str)
+                            ][:3]
+                        elif isinstance(field_data, str):
+                            items_to_process = [field_data]
+
+                        for item in items_to_process:
+                            if prefix.lower() in item.lower():
+                                extracted = extract_skills(item)
+                                for skill in extracted:
+                                    if (
+                                        skill.lower() not in existing_skills_lower
+                                        and prefix.lower() in skill.lower()
+                                        and len(skill) >= 2
+                                    ):
+                                        enhanced_skills.append(skill)
+                                        existing_skills_lower.add(skill.lower())
+                                        if len(enhanced_skills) >= limit:
+                                            break
+
+            except Exception as skill_semantic_error:
+                print(f"Skills semantic search failed: {skill_semantic_error}")
+
+        # Prepare final response
+        response = {
+            "titles": final_titles,
+            "skills": enhanced_skills[:limit],
         }
 
+        # Cache the response
+        set_cache(cache_key, response)
+
+        return response
+
     except Exception as e:
-        raise HTTPException(
-            status_code=500, detail=f"Combined autocomplete failed: {str(e)}"
+        # Return partial results instead of complete failure
+        print(f"Autocomplete error: {str(e)}")
+        return {
+            "titles": [],
+            "skills": [],
+            "error": f"Search temporarily unavailable: {str(e)[:100]}",
+        }
+
+
+@router.get(
+    "/clear_cache/",
+    summary="Clear Autocomplete Cache",
+    description="Clear the internal cache for autocomplete results. Use this if you need fresh results.",
+)
+async def clear_autocomplete_cache():
+    """Clear the autocomplete cache"""
+    try:
+        global _autocomplete_cache, _cache_expiry
+        cleared_entries = len(_autocomplete_cache)
+        _autocomplete_cache.clear()
+        _cache_expiry.clear()
+        return {
+            "message": f"Cache cleared successfully. Removed {cleared_entries} entries.",
+            "status": "success",
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Cache clear failed: {str(e)}")
+
+
+@router.get(
+    "/cache_stats/",
+    summary="Cache Statistics",
+    description="Get statistics about the autocomplete cache usage.",
+)
+async def get_cache_stats():
+    """Get cache statistics"""
+    try:
+        current_time = time.time()
+        valid_entries = sum(
+            1 for expiry_time in _cache_expiry.values() if current_time < expiry_time
         )
+        expired_entries = len(_cache_expiry) - valid_entries
+
+        return {
+            "total_entries": len(_autocomplete_cache),
+            "valid_entries": valid_entries,
+            "expired_entries": expired_entries,
+            "cache_duration_seconds": CACHE_DURATION,
+            "status": "success",
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Cache stats failed: {str(e)}")
 
 
 # @router.get(

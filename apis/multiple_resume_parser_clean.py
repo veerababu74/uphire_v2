@@ -309,10 +309,7 @@ async def parse_multiple_resumes(files: List[UploadFile] = File(...)):
         if not files:
             raise HTTPException(status_code=400, detail="No files uploaded")
 
-        if len(files) > 20:  # Limit for safety
-            raise HTTPException(
-                status_code=400, detail="Too many files. Maximum 20 files allowed."
-            )
+        # No file limit - users can upload as many resumes as needed
 
         logger.info(f"Processing {len(files)} resumes")
 
@@ -455,7 +452,7 @@ async def get_multiple_resume_parser_info():
             "url": "/parse-multiple-resumes",
             "method": "POST",
             "description": "Upload 1 or more resume files for automatic parsing and database storage",
-            "max_files": 20,
+            "max_files": "unlimited",
         },
         "features": {
             "parser_module": "multipleresumepraser",
