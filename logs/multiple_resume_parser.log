@@ -533,3 +533,9 @@
 2025-09-13 21:55:29 - multiple_resume_parser - INFO - Initializing Multiple Resume Parser with groq_cloud
 2025-09-13 21:55:30 - multiple_resume_parser - INFO - Successfully initialized LLM with groq_cloud
 2025-09-13 21:55:30 - multiple_resume_parser - INFO - Experience extractor initialized successfully
+2025-09-15 21:32:30 - multiple_resume_parser - INFO - Initializing Multiple Resume Parser with groq_cloud
+2025-09-15 21:32:30 - multiple_resume_parser - INFO - Successfully initialized LLM with groq_cloud
+2025-09-15 21:32:30 - multiple_resume_parser - INFO - Experience extractor initialized successfully
+2025-09-15 21:32:43 - multiple_resume_parser - INFO - Initializing Multiple Resume Parser with groq_cloud
+2025-09-15 21:32:43 - multiple_resume_parser - INFO - Successfully initialized LLM with groq_cloud
+2025-09-15 21:32:43 - multiple_resume_parser - INFO - Experience extractor initialized successfully

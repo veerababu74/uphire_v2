@@ -373,3 +373,45 @@ This is the actual JSON format with real values.
   ]
 } 
 
+2025-09-15 21:25:02 - chain_manager - INFO - Raw LLM response type: <class 'str'>
+2025-09-15 21:25:02 - chain_manager - INFO - Raw LLM response (first 500 chars): {
+  "total_candidates": 3,
+  "matches": [
+    {
+      "_id": "68847b18a5b2fbca4c76cb61",
+      "relevance_score": 0.0,
+      "match_reason": "No relevant skills or experience"
+    },
+    {
+      "_id": "68847b19a5b2fbca4c76cb83",
+      "relevance_score": 0.0,
+      "match_reason": "No relevant skills or experience"
+    },
+    {
+      "_id": "6884c73ca5b2fbca4c76cc47",
+      "relevance_score": 0.0,
+      "match_reason": "No relevant skills or experience"
+    }
+  ]
+}
+2025-09-15 21:28:26 - chain_manager - INFO - Raw LLM response type: <class 'str'>
+2025-09-15 21:28:26 - chain_manager - INFO - Raw LLM response (first 500 chars): {
+  "total_candidates": 3,
+  "matches": [
+    {
+      "_id": "68847b18a5b2fbca4c76cb61",
+      "relevance_score": 0.0,
+      "match_reason": "No relevant skills or experience"
+    },
+    {
+      "_id": "68847b19a5b2fbca4c76cb83",
+      "relevance_score": 0.0,
+      "match_reason": "No relevant skills or experience"
+    },
+    {
+      "_id": "6884c73ca5b2fbca4c76cc47",
+      "relevance_score": 0.0,
+      "match_reason": "No relevant skills or experience"
+    }
+  ]
+}

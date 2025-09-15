@@ -37,3 +37,5 @@ __root__
 2025-08-07 22:56:50 - rag_search - INFO - Vector similarity search completed successfully. Found 0 results
 2025-08-07 23:57:24 - rag_search - INFO - User veera123 exists in collection - searching all documents
 2025-08-07 23:57:26 - rag_search - INFO - Vector similarity search completed successfully. Found 25 results
+2025-09-15 21:26:03 - rag_search - INFO - User test_user not in collection - searching only their documents
+2025-09-15 21:28:23 - rag_search - INFO - User veera123 exists in collection - searching all documents

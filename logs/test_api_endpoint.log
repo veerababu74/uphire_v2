@@ -1,0 +1,16 @@
+2025-09-15 21:26:02 - test_api_endpoint - INFO - Testing API endpoint with request: user_id='test_user' query='Find me a Python developer with 3 years experience' context_size=3 relevant_score=0.0 use_enhanced_search=True
+2025-09-15 21:26:06 - test_api_endpoint - INFO - API result type: <class 'dict'>
+2025-09-15 21:26:06 - test_api_endpoint - INFO - API result keys: dict_keys(['results', 'total_analyzed', 'statistics'])
+2025-09-15 21:26:06 - test_api_endpoint - INFO - Number of results: 0
+2025-09-15 21:28:22 - test_api_endpoint - INFO - Testing API endpoint with request: user_id='veera123' query='Find me a Python developer with 3 years experience' context_size=3 relevant_score=0.0 use_enhanced_search=True
+2025-09-15 21:28:27 - test_api_endpoint - INFO - API result type: <class 'dict'>
+2025-09-15 21:28:27 - test_api_endpoint - INFO - API result keys: dict_keys(['results', 'total_analyzed', 'statistics'])
+2025-09-15 21:28:27 - test_api_endpoint - INFO - Number of results: 3
+2025-09-15 21:28:27 - test_api_endpoint - INFO - Result 1:
+2025-09-15 21:28:27 - test_api_endpoint - INFO -   _id: '68847b18a5b2fbca4c76cb61' (type: <class 'str'>)
+2025-09-15 21:28:27 - test_api_endpoint - INFO -   user_id: 'user_id_placeholder'
+2025-09-15 21:28:27 - test_api_endpoint - INFO -   relevance_score: 0.0
+2025-09-15 21:28:27 - test_api_endpoint - INFO - Result 2:
+2025-09-15 21:28:27 - test_api_endpoint - INFO -   _id: '68847b19a5b2fbca4c76cb83' (type: <class 'str'>)
+2025-09-15 21:28:27 - test_api_endpoint - INFO -   user_id: 'unique_id'
+2025-09-15 21:28:27 - test_api_endpoint - INFO -   relevance_score: 0.0

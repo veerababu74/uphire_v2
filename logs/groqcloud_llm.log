@@ -1506,3 +1506,21 @@ Invalid credentials in Authorization header
 2025-09-13 22:33:47 - groqcloud_llm - INFO - Running enhanced experience extraction...
 2025-09-13 22:33:47 - groqcloud_llm - INFO - Enhanced experience calculation: 5 years and 8 months
 2025-09-13 22:33:47 - groqcloud_llm - INFO - Successfully processed resume using groq_cloud
+2025-09-15 21:32:27 - groqcloud_llm - INFO - Initializing ResumeParser with groq_cloud
+2025-09-15 21:32:28 - groqcloud_llm - INFO - Experience extractor initialized successfully
+2025-09-15 21:32:28 - groqcloud_llm - INFO - ResumeParser initialized successfully with groq_cloud
+2025-09-15 21:32:29 - groqcloud_llm - INFO - Initializing ResumeParser with groq_cloud
+2025-09-15 21:32:29 - groqcloud_llm - INFO - Experience extractor initialized successfully
+2025-09-15 21:32:29 - groqcloud_llm - INFO - ResumeParser initialized successfully with groq_cloud
+2025-09-15 21:32:30 - groqcloud_llm - INFO - Initializing ResumeParser with groq_cloud
+2025-09-15 21:32:31 - groqcloud_llm - INFO - Experience extractor initialized successfully
+2025-09-15 21:32:31 - groqcloud_llm - INFO - ResumeParser initialized successfully with groq_cloud
+2025-09-15 21:32:40 - groqcloud_llm - INFO - Initializing ResumeParser with groq_cloud
+2025-09-15 21:32:41 - groqcloud_llm - INFO - Experience extractor initialized successfully
+2025-09-15 21:32:41 - groqcloud_llm - INFO - ResumeParser initialized successfully with groq_cloud
+2025-09-15 21:32:42 - groqcloud_llm - INFO - Initializing ResumeParser with groq_cloud
+2025-09-15 21:32:43 - groqcloud_llm - INFO - Experience extractor initialized successfully
+2025-09-15 21:32:43 - groqcloud_llm - INFO - ResumeParser initialized successfully with groq_cloud
+2025-09-15 21:32:43 - groqcloud_llm - INFO - Initializing ResumeParser with groq_cloud
+2025-09-15 21:32:44 - groqcloud_llm - INFO - Experience extractor initialized successfully
+2025-09-15 21:32:44 - groqcloud_llm - INFO - ResumeParser initialized successfully with groq_cloud

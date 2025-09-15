@@ -1453,3 +1453,26 @@ __root__
 2025-09-13 21:52:36 - rag_application - INFO - Initializing RAG components...
 2025-09-13 21:53:09 - rag_application - INFO - Initializing RAG components...
 2025-09-13 21:55:31 - rag_application - INFO - Initializing RAG components...
+2025-09-15 21:23:57 - rag_application - INFO - Initializing RAG components...
+2025-09-15 21:23:57 - rag_application - INFO - Initializing RAG application...
+2025-09-15 21:23:57 - rag_application - INFO - Internal vectorizer (SentenceTransformer all-MiniLM-L6-v2) initialized successfully
+2025-09-15 21:23:58 - rag_application - INFO - Connected to MongoDB database 'resume_db' and collection 'resumes'
+2025-09-15 21:23:58 - rag_application - INFO - MongoDB Atlas Vector Search initialized with index 'vector_search_index' on field 'combined_resume_vector'
+2025-09-15 21:23:59 - rag_application - INFO - RAGApp LLM initialized using groq_cloud provider
+2025-09-15 21:23:59 - rag_application - INFO - Retrieval chain and ranking chain setup completed
+2025-09-15 21:23:59 - rag_application - INFO - RAG Application initialized successfully
+2025-09-15 21:23:59 - rag_application - INFO - RAG application initialized successfully
+2025-09-15 21:24:56 - rag_application - INFO - Internal vectorizer (SentenceTransformer all-MiniLM-L6-v2) initialized successfully
+2025-09-15 21:24:57 - rag_application - INFO - RAG LLM initialized using groq_cloud provider
+2025-09-15 21:24:57 - rag_application - INFO - Chain manager initialized successfully
+2025-09-15 21:24:57 - rag_application - INFO - RAG Application initialized successfully
+2025-09-15 21:26:02 - rag_application - INFO - Internal vectorizer (SentenceTransformer all-MiniLM-L6-v2) initialized successfully
+2025-09-15 21:26:03 - rag_application - INFO - RAG LLM initialized using groq_cloud provider
+2025-09-15 21:26:03 - rag_application - INFO - Chain manager initialized successfully
+2025-09-15 21:26:03 - rag_application - INFO - RAG Application initialized successfully
+2025-09-15 21:28:22 - rag_application - INFO - Internal vectorizer (SentenceTransformer all-MiniLM-L6-v2) initialized successfully
+2025-09-15 21:28:23 - rag_application - INFO - RAG LLM initialized using groq_cloud provider
+2025-09-15 21:28:23 - rag_application - INFO - Chain manager initialized successfully
+2025-09-15 21:28:23 - rag_application - INFO - RAG Application initialized successfully
+2025-09-15 21:32:31 - rag_application - INFO - Initializing RAG components...
+2025-09-15 21:32:44 - rag_application - INFO - Initializing RAG components...

@@ -1,0 +1,24 @@
+2025-09-15 21:23:57 - debug_llm_search - INFO - Initializing RAG application...
+2025-09-15 21:23:59 - debug_llm_search - INFO - Testing LLM search with query: Find me a Python developer with 3 years experience
+2025-09-15 21:23:59 - debug_llm_search - ERROR - Error during LLM search test: RAGApplication.llm_context_search() got an unexpected keyword argument 'user_id'
+2025-09-15 21:23:59 - debug_llm_search - ERROR - Traceback: Traceback (most recent call last):
+  File "C:\Users\pveer\OneDrive\Desktop\UPH\1final_ra_babu\uphire_v2\debug_llm_search.py", line 27, in test_llm_search
+    result = rag_app.llm_context_search(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: RAGApplication.llm_context_search() got an unexpected keyword argument 'user_id'
+
+2025-09-15 21:24:56 - debug_llm_search - INFO - Initializing RAG application...
+2025-09-15 21:24:57 - debug_llm_search - INFO - Testing LLM search with query: Find me a Python developer with 3 years experience
+2025-09-15 21:25:02 - debug_llm_search - INFO - LLM search result type: <class 'dict'>
+2025-09-15 21:25:02 - debug_llm_search - INFO - LLM search result keys: dict_keys(['results', 'total_analyzed', 'statistics'])
+2025-09-15 21:25:02 - debug_llm_search - INFO - Number of results: 3
+2025-09-15 21:25:02 - debug_llm_search - INFO - Result 1:
+2025-09-15 21:25:02 - debug_llm_search - INFO -   _id: '68847b18a5b2fbca4c76cb61' (type: <class 'str'>)
+2025-09-15 21:25:02 - debug_llm_search - INFO -   user_id: 'user_id_placeholder'
+2025-09-15 21:25:02 - debug_llm_search - INFO -   relevance_score: 0.0
+2025-09-15 21:25:02 - debug_llm_search - INFO -   All keys: ['_id', 'user_id', 'username', 'contact_details', 'total_experience', 'notice_period', 'currency', 'pay_duration', 'current_salary', 'hike', 'expected_salary', 'skills', 'may_also_known_skills', 'labels', 'experience', 'academic_details', 'source', 'last_working_day', 'is_tier1_mba', 'is_tier1_engineering', 'comment', 'exit_reason', 'relevance_score', 'llm_score', 'match_reason']
+2025-09-15 21:25:02 - debug_llm_search - INFO - Result 2:
+2025-09-15 21:25:02 - debug_llm_search - INFO -   _id: '68847b19a5b2fbca4c76cb83' (type: <class 'str'>)
+2025-09-15 21:25:02 - debug_llm_search - INFO -   user_id: 'unique_id'
+2025-09-15 21:25:02 - debug_llm_search - INFO -   relevance_score: 0.0
+2025-09-15 21:25:02 - debug_llm_search - INFO -   All keys: ['_id', 'user_id', 'username', 'contact_details', 'total_experience', 'notice_period', 'currency', 'pay_duration', 'current_salary', 'hike', 'expected_salary', 'skills', 'may_also_known_skills', 'labels', 'experience', 'academic_details', 'source', 'last_working_day', 'is_tier1_mba', 'is_tier1_engineering', 'comment', 'exit_reason', 'relevance_score', 'llm_score', 'match_reason']
