@@ -986,3 +986,10 @@
 2025-09-19 00:16:41 - main - INFO - Models to ensure: ['BAAI/bge-large-en-v1.5', 'BAAI/bge-large-zh-v1.5', 'thenlper/gte-large']
 2025-09-19 00:16:41 - main - INFO - All critical embedding models are ready!
 2025-09-19 00:16:45 - main - INFO - Application startup completed successfully!
+2025-09-19 00:22:53 - main - INFO - Starting application initialization...
+2025-09-19 00:22:53 - main - INFO - Using 'balanced' deployment configuration
+2025-09-19 00:22:53 - main - INFO - Models to ensure: ['BAAI/bge-large-en-v1.5', 'BAAI/bge-large-zh-v1.5', 'thenlper/gte-large']
+2025-09-19 00:22:53 - main - INFO - All critical embedding models are ready!
+2025-09-19 00:22:56 - main - INFO - Application startup completed successfully!
+2025-09-19 00:22:58 - main - INFO - Shutting down application...
+2025-09-19 00:22:58 - main - INFO - Application shutdown completed

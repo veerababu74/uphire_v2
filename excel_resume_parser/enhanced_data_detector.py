@@ -8,7 +8,7 @@ for various field types commonly found in resume data.
 import re
 import json
 import math
-from typing import Any, Dict, List, Optional, Tuple, Union
+from typing import Any, Dict, List, Optional, Set, Tuple, Union
 from datetime import datetime, date
 from dateutil import parser as date_parser
 from email_validator import validate_email, EmailNotValidError
