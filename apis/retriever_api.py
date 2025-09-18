@@ -1,7 +1,8 @@
 from fastapi import APIRouter, HTTPException, File, UploadFile, status
-from typing import Dict, List, Optional, Any
+from typing import Dict, List, Optional, Any, Tuple
 from pydantic import BaseModel, Field
 import os
+import re
 from Retrivers.retriver import MangoRetriever, LangChainRetriever
 
 from GroqcloudLLM.text_extraction import extract_and_clean_text
@@ -48,6 +49,241 @@ logging = logger_manager.get_logger("vector_search_api")
 def cleanup_temp_directory(age_limit_minutes: int = 60):
     """Cleanup temporary directory by deleting files older than the specified age limit."""
     now = datetime.now()
+
+
+def calculate_priority_score(
+    candidate: Dict[str, Any], query: str
+) -> Tuple[float, str]:
+    """
+    Calculate priority-based relevance score for retriever search results:
+    1st Priority: Designation/Role (40% weight)
+    2nd Priority: Location (30% weight)
+    3rd Priority: Skills, Experience, and Salary (30% combined weight)
+    """
+    query_lower = query.lower()
+    score_components = []
+    reasons = []
+
+    # 1st Priority: Designation/Role matching (weight: 0.4)
+    designation_score = calculate_designation_score(candidate, query_lower)
+    if designation_score > 0:
+        score_components.append(designation_score * 0.4)
+        reasons.append("Designation match")
+
+    # 2nd Priority: Location matching (weight: 0.3)
+    location_score = calculate_location_score(candidate, query_lower)
+    if location_score > 0:
+        score_components.append(location_score * 0.3)
+        reasons.append("Location match")
+
+    # 3rd Priority: Skills matching (weight: 0.15)
+    skills_score = calculate_skills_score(candidate, query_lower)
+    if skills_score > 0:
+        score_components.append(skills_score * 0.15)
+        reasons.append("Skills match")
+
+    # 3rd Priority: Experience matching (weight: 0.1)
+    experience_score = calculate_experience_score(candidate, query_lower)
+    if experience_score > 0:
+        score_components.append(experience_score * 0.1)
+        reasons.append("Experience match")
+
+    # 3rd Priority: Salary matching (weight: 0.05)
+    salary_score = calculate_salary_score(candidate, query_lower)
+    if salary_score > 0:
+        score_components.append(salary_score * 0.05)
+        reasons.append("Salary match")
+
+    final_score = sum(score_components) if score_components else 0.0
+    reason = "; ".join(reasons) if reasons else "Basic retriever similarity"
+
+    return final_score, reason
+
+
+def calculate_designation_score(candidate: Dict[str, Any], query_lower: str) -> float:
+    """Calculate designation/role matching score"""
+    score = 0.0
+
+    # Check experience roles
+    experience = candidate.get("experience", [])
+    for exp in experience[:3]:  # Check top 3 recent roles
+        role = exp.get("role", "").lower()
+        if any(word in role for word in query_lower.split() if len(word) > 2):
+            score = max(score, 1.0 if exp == experience[0] else 0.8)
+
+    # Check labels
+    labels = candidate.get("labels", [])
+    for label in labels:
+        if any(word in label.lower() for word in query_lower.split() if len(word) > 2):
+            score = max(score, 0.7)
+
+    return score
+
+
+def calculate_location_score(candidate: Dict[str, Any], query_lower: str) -> float:
+    """Calculate location matching score"""
+    score = 0.0
+
+    # Common Indian cities
+    cities = [
+        "mumbai",
+        "delhi",
+        "bangalore",
+        "chennai",
+        "kolkata",
+        "pune",
+        "hyderabad",
+        "ahmedabad",
+        "surat",
+        "jaipur",
+        "noida",
+        "gurgaon",
+    ]
+
+    query_cities = [city for city in cities if city in query_lower]
+
+    if query_cities:
+        current_city = (
+            candidate.get("contact_details", {}).get("current_city", "").lower()
+        )
+        looking_for_jobs_in = candidate.get("contact_details", {}).get(
+            "looking_for_jobs_in", []
+        )
+
+        for query_city in query_cities:
+            if query_city in current_city:
+                score = max(score, 1.0)
+            for job_city in looking_for_jobs_in:
+                if query_city in job_city.lower():
+                    score = max(score, 0.8)
+
+    return score
+
+
+def calculate_skills_score(candidate: Dict[str, Any], query_lower: str) -> float:
+    """Calculate skills matching score"""
+    score = 0.0
+
+    skills = candidate.get("skills", []) + candidate.get("may_also_known_skills", [])
+    query_words = [word for word in query_lower.split() if len(word) > 2]
+
+    for skill in skills:
+        skill_lower = skill.lower()
+        for word in query_words:
+            if word in skill_lower:
+                score = max(score, 1.0)
+                break
+
+    return min(score, 1.0)
+
+
+def calculate_experience_score(candidate: Dict[str, Any], query_lower: str) -> float:
+    """Calculate experience matching score"""
+    score = 0.0
+
+    # Extract experience numbers from query
+    exp_match = re.search(r"(\d+)\s*(?:year|yr|yrs|years|exp|experience)", query_lower)
+    if exp_match:
+        target_exp = float(exp_match.group(1))
+        total_exp_str = candidate.get("total_experience", "0")
+
+        try:
+            candidate_exp = float(
+                re.search(r"(\d+(?:\.\d+)?)", str(total_exp_str)).group(1)
+            )
+
+            if abs(candidate_exp - target_exp) <= 1:  # Within 1 year
+                score = 1.0
+            elif abs(candidate_exp - target_exp) <= 2:  # Within 2 years
+                score = 0.8
+            elif candidate_exp >= target_exp * 0.8:  # At least 80% of required
+                score = 0.6
+        except (ValueError, AttributeError):
+            pass
+
+    return score
+
+
+def calculate_salary_score(candidate: Dict[str, Any], query_lower: str) -> float:
+    """Calculate salary matching score"""
+    score = 0.0
+
+    # Extract salary from query (in lakhs)
+    salary_match = re.search(r"(\d+(?:\.\d+)?)\s*(?:lakh|lac|l)", query_lower)
+    if salary_match:
+        target_salary = float(salary_match.group(1))
+        expected_salary = candidate.get("expected_salary", 0)
+
+        try:
+            if expected_salary > 1000000:  # Convert from rupees to lakhs
+                expected_salary = expected_salary / 100000
+
+            if expected_salary <= target_salary:
+                score = 1.0
+            elif expected_salary <= target_salary * 1.2:  # Within 20% over budget
+                score = 0.8
+        except (ValueError, TypeError):
+            pass
+
+    return score
+
+
+def apply_priority_scoring_to_results(
+    results: Dict, query: str, relevant_score_threshold: Optional[float] = None
+) -> Dict:
+    """Apply priority-based scoring to search results and filter based on threshold"""
+    if "results" not in results:
+        return results
+
+    enhanced_results = []
+    for result in results["results"]:
+        # Calculate priority score
+        priority_score, match_reason = calculate_priority_score(result, query)
+
+        # Get base retriever score
+        base_score = result.get(
+            "relevance_score",
+            result.get("match_score", result.get("score", 0)),
+        )
+
+        # Normalize base score to 0-1 range if it's 0-100
+        if base_score > 1.0:
+            base_score = base_score / 100
+
+        # Combine priority score with retriever score
+        if priority_score > 0:
+            # Priority score takes precedence (70%) with retriever score as secondary (30%)
+            final_score = (priority_score * 0.7) + (base_score * 0.3)
+        else:
+            # Fall back to retriever score only
+            final_score = base_score
+
+        # Update result with enhanced scores
+        result["relevance_score"] = final_score * 100  # Convert back to 0-100 range
+        result["match_reason"] = match_reason
+        result["priority_score"] = priority_score * 100
+        result["retriever_score"] = base_score * 100
+
+        enhanced_results.append(result)
+
+    # Sort by priority-based relevance score
+    enhanced_results.sort(key=lambda x: x["relevance_score"], reverse=True)
+    results["results"] = enhanced_results
+
+    # Filter based on relevant_score threshold
+    if relevant_score_threshold is not None and relevant_score_threshold > 0:
+        filtered_results = [
+            result
+            for result in enhanced_results
+            if result.get("relevance_score", 0) >= relevant_score_threshold
+        ]
+        results["results"] = filtered_results
+        results["total_count"] = len(filtered_results)
+    else:
+        results["total_count"] = len(enhanced_results)
+
+    return results
+
     for file_path in TEMP_DIR.iterdir():
         if file_path.is_file():
             file_age = now - datetime.fromtimestamp(file_path.stat().st_mtime)
@@ -135,29 +371,10 @@ async def search_mango(request: SearchRequest):
         if "error" in results:
             raise HTTPException(status_code=500, detail=results["error"])
 
-        # Filter results based on relevant_score threshold
-        if request.relevant_score is not None and request.relevant_score > 0:
-            if "results" in results:
-                filtered_results = []
-                for result in results["results"]:
-                    # Check various possible score fields
-                    score = result.get(
-                        "relevance_score",
-                        result.get("match_score", result.get("score", 0)),
-                    )
-                    # Normalize score to 0-100 range if it's between 0-1
-                    if score <= 1.0:
-                        normalized_score = score * 100
-                    else:
-                        normalized_score = score
-
-                    # Update the result with normalized score
-                    result["relevance_score"] = normalized_score
-
-                    if normalized_score >= request.relevant_score:
-                        filtered_results.append(result)
-                results["results"] = filtered_results
-                results["total_count"] = len(filtered_results)
+        # Apply priority-based scoring and filtering
+        results = apply_priority_scoring_to_results(
+            results, request.query, request.relevant_score
+        )
 
         # Save the search to recent searches
         if request.user_id:
@@ -185,29 +402,10 @@ async def search_langchain(request: SearchRequest):
         if "error" in results:
             raise HTTPException(status_code=500, detail=results["error"])
 
-        # Filter results based on relevant_score threshold
-        if request.relevant_score is not None and request.relevant_score > 0:
-            if "results" in results:
-                filtered_results = []
-                for result in results["results"]:
-                    # Check various possible score fields
-                    score = result.get(
-                        "relevance_score",
-                        result.get("match_score", result.get("score", 0)),
-                    )
-                    # Normalize score to 0-100 range if it's between 0-1
-                    if score <= 1.0:
-                        normalized_score = score * 100
-                    else:
-                        normalized_score = score
-
-                    # Update the result with normalized score
-                    result["relevance_score"] = normalized_score
-
-                    if normalized_score >= request.relevant_score:
-                        filtered_results.append(result)
-                results["results"] = filtered_results
-                results["total_count"] = len(filtered_results)
+        # Apply priority-based scoring and filtering
+        results = apply_priority_scoring_to_results(
+            results, request.query, request.relevant_score
+        )
 
         # Save the search to recent searches
         if request.user_id:

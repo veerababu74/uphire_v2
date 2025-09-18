@@ -363,7 +363,7 @@ async def vector_similarity_search(request: VectorSimilaritySearchRequest):
             candidate_id = str(candidate_id) if candidate_id is not None else ""
 
             formatted_candidate = {
-                "id": candidate_id,
+                "_id": candidate_id,
                 "user_id": candidate.get("user_id", ""),
                 "username": candidate.get("username", ""),
                 "contact_details": {
@@ -555,9 +555,15 @@ async def llm_context_search(request: LLMContextSearchRequest):
         if "error" in result:
             raise HTTPException(status_code=500, detail=result["error"])
 
-        # Normalize scores to 0-100 range if they're in 0-1 range
+        # Normalize scores to 0-100 range if they're in 0-1 range and fix _id field
         if "results" in result:
             for res in result["results"]:
+                # Handle _id field properly - ensure it's always a string
+                candidate_id = res.get("_id")
+                if candidate_id is None:
+                    candidate_id = res.get("id", "")  # Try alternative key
+                res["_id"] = str(candidate_id) if candidate_id is not None else ""
+
                 # Normalize relevance_score
                 if "relevance_score" in res:
                     relevance_score = res["relevance_score"]
@@ -700,7 +706,7 @@ async def llm_search_by_jd(
             formatted_results = []
             for candidate in result.get("results", []):
                 formatted_candidate = {
-                    "id": safe_object_id(candidate.get("_id", "")),
+                    "_id": safe_object_id(candidate.get("_id", "")),
                     "user_id": candidate.get("user_id", ""),
                     "username": candidate.get("username", ""),
                     "contact_details": {
@@ -874,7 +880,7 @@ async def vector_search_by_jd(
         formatted_results = []
         for candidate in result.get("results", []):
             formatted_candidate = {
-                "id": safe_object_id(candidate.get("_id", "")),
+                "_id": safe_object_id(candidate.get("_id", "")),
                 "user_id": candidate.get("user_id", ""),
                 "username": candidate.get("username", ""),
                 "contact_details": {

@@ -2,7 +2,7 @@ import re
 import os
 import numpy as np
 from fastapi import APIRouter, Body, HTTPException, status, UploadFile, File
-from typing import List, Dict, Any, Optional
+from typing import List, Dict, Any, Optional, Tuple
 from pydantic import BaseModel
 from mangodatabase.client import get_collection, get_users_collection
 from mangodatabase.user_operations import (
@@ -81,6 +81,183 @@ class SearchError(Exception):
     """Custom exception for search-related errors"""
 
     pass
+
+
+def calculate_priority_score(
+    candidate: Dict[str, Any], query: str
+) -> Tuple[float, str]:
+    """
+    Calculate priority-based relevance score for vector search results:
+    1st Priority: Designation/Role (40% weight)
+    2nd Priority: Location (30% weight)
+    3rd Priority: Skills, Experience, and Salary (30% combined weight)
+    """
+    query_lower = query.lower()
+    score_components = []
+    reasons = []
+
+    # 1st Priority: Designation/Role matching (weight: 0.4)
+    designation_score = calculate_designation_score(candidate, query_lower)
+    if designation_score > 0:
+        score_components.append(designation_score * 0.4)
+        reasons.append("Designation match")
+
+    # 2nd Priority: Location matching (weight: 0.3)
+    location_score = calculate_location_score(candidate, query_lower)
+    if location_score > 0:
+        score_components.append(location_score * 0.3)
+        reasons.append("Location match")
+
+    # 3rd Priority: Skills matching (weight: 0.15)
+    skills_score = calculate_skills_score(candidate, query_lower)
+    if skills_score > 0:
+        score_components.append(skills_score * 0.15)
+        reasons.append("Skills match")
+
+    # 3rd Priority: Experience matching (weight: 0.1)
+    experience_score = calculate_experience_score(candidate, query_lower)
+    if experience_score > 0:
+        score_components.append(experience_score * 0.1)
+        reasons.append("Experience match")
+
+    # 3rd Priority: Salary matching (weight: 0.05)
+    salary_score = calculate_salary_score(candidate, query_lower)
+    if salary_score > 0:
+        score_components.append(salary_score * 0.05)
+        reasons.append("Salary match")
+
+    final_score = sum(score_components) if score_components else 0.0
+    reason = "; ".join(reasons) if reasons else "Basic vector similarity"
+
+    return final_score, reason
+
+
+def calculate_designation_score(candidate: Dict[str, Any], query_lower: str) -> float:
+    """Calculate designation/role matching score"""
+    score = 0.0
+
+    # Check experience roles
+    experience = candidate.get("experience", [])
+    for exp in experience[:3]:  # Check top 3 recent roles
+        role = exp.get("role", "").lower()
+        if any(word in role for word in query_lower.split() if len(word) > 2):
+            score = max(score, 1.0 if exp == experience[0] else 0.8)
+
+    # Check labels
+    labels = candidate.get("labels", [])
+    for label in labels:
+        if any(word in label.lower() for word in query_lower.split() if len(word) > 2):
+            score = max(score, 0.7)
+
+    return score
+
+
+def calculate_location_score(candidate: Dict[str, Any], query_lower: str) -> float:
+    """Calculate location matching score"""
+    score = 0.0
+
+    # Common Indian cities
+    cities = [
+        "mumbai",
+        "delhi",
+        "bangalore",
+        "chennai",
+        "kolkata",
+        "pune",
+        "hyderabad",
+        "ahmedabad",
+        "surat",
+        "jaipur",
+        "noida",
+        "gurgaon",
+    ]
+
+    query_cities = [city for city in cities if city in query_lower]
+
+    if query_cities:
+        current_city = (
+            candidate.get("contact_details", {}).get("current_city", "").lower()
+        )
+        looking_for_jobs_in = candidate.get("contact_details", {}).get(
+            "looking_for_jobs_in", []
+        )
+
+        for query_city in query_cities:
+            if query_city in current_city:
+                score = max(score, 1.0)
+            for job_city in looking_for_jobs_in:
+                if query_city in job_city.lower():
+                    score = max(score, 0.8)
+
+    return score
+
+
+def calculate_skills_score(candidate: Dict[str, Any], query_lower: str) -> float:
+    """Calculate skills matching score"""
+    score = 0.0
+
+    skills = candidate.get("skills", []) + candidate.get("may_also_known_skills", [])
+    query_words = [word for word in query_lower.split() if len(word) > 2]
+
+    for skill in skills:
+        skill_lower = skill.lower()
+        for word in query_words:
+            if word in skill_lower:
+                score = max(score, 1.0)
+                break
+
+    return min(score, 1.0)
+
+
+def calculate_experience_score(candidate: Dict[str, Any], query_lower: str) -> float:
+    """Calculate experience matching score"""
+    score = 0.0
+
+    # Extract experience numbers from query
+    exp_match = re.search(r"(\d+)\s*(?:year|yr|yrs|years|exp|experience)", query_lower)
+    if exp_match:
+        target_exp = float(exp_match.group(1))
+        total_exp_str = candidate.get("total_experience", "0")
+
+        try:
+            candidate_exp = float(
+                re.search(r"(\d+(?:\.\d+)?)", str(total_exp_str)).group(1)
+            )
+
+            if abs(candidate_exp - target_exp) <= 1:  # Within 1 year
+                score = 1.0
+            elif abs(candidate_exp - target_exp) <= 2:  # Within 2 years
+                score = 0.8
+            elif candidate_exp >= target_exp * 0.8:  # At least 80% of required
+                score = 0.6
+        except (ValueError, AttributeError):
+            pass
+
+    return score
+
+
+def calculate_salary_score(candidate: Dict[str, Any], query_lower: str) -> float:
+    """Calculate salary matching score"""
+    score = 0.0
+
+    # Extract salary from query (in lakhs)
+    salary_match = re.search(r"(\d+(?:\.\d+)?)\s*(?:lakh|lac|l)", query_lower)
+    if salary_match:
+        target_salary = float(salary_match.group(1))
+        expected_salary = candidate.get("expected_salary", 0)
+
+        try:
+            if expected_salary > 1000000:  # Convert from rupees to lakhs
+                expected_salary = expected_salary / 100000
+
+            if expected_salary <= target_salary:
+                score = 1.0
+            elif expected_salary <= target_salary * 1.2:  # Within 20% over budget
+                score = 0.8
+        except (ValueError, TypeError):
+            pass
+
+    return score
 
 
 @enhanced_search_router.post(
@@ -287,9 +464,32 @@ async def vector_search(search_query: VectorSearchQuery):
 
         formatted_results = [format_resume(result) for result in limited_results]
 
-        # Add relevance score to results
+        # Apply priority-based scoring and add relevance score to results
         for result in formatted_results:
-            result["relevance_score"] = round(result.get("score", 0) * 100, 2)
+            # Calculate priority score based on search query
+            priority_score, match_reason = calculate_priority_score(
+                result, search_query.query
+            )
+
+            # Get base vector score
+            base_score = result.get("score", 0)
+
+            # Combine priority score with vector similarity score
+            if priority_score > 0:
+                # Priority score takes precedence (70%) with vector score as secondary (30%)
+                final_score = (priority_score * 0.7) + (base_score * 0.3)
+            else:
+                # Fall back to vector score only
+                final_score = base_score
+
+            # Set relevance score and additional metrics
+            result["relevance_score"] = round(final_score * 100, 2)
+            result["match_reason"] = match_reason
+            result["priority_score"] = round(priority_score * 100, 2)
+            result["vector_score"] = round(base_score * 100, 2)
+
+        # Sort results by priority-based relevance score (highest first)
+        formatted_results.sort(key=lambda x: x["relevance_score"], reverse=True)
 
         # Filter results based on relevant_score threshold (using the schema's relevant_score parameter)
         if search_query.relevant_score > 0:
@@ -446,9 +646,30 @@ async def search_by_jd(
 
         formatted_results = [format_resume(result) for result in limited_results]
 
-        # Add relevance score to results
+        # Apply priority-based scoring and add relevance score to results
         for result in formatted_results:
-            result["relevance_score"] = round(result.get("score", 0) * 100, 2)
+            # Calculate priority score based on JD content
+            priority_score, match_reason = calculate_priority_score(result, jd_text)
+
+            # Get base vector score
+            base_score = result.get("score", 0)
+
+            # Combine priority score with vector similarity score
+            if priority_score > 0:
+                # Priority score takes precedence (70%) with vector score as secondary (30%)
+                final_score = (priority_score * 0.7) + (base_score * 0.3)
+            else:
+                # Fall back to vector score only
+                final_score = base_score
+
+            # Set relevance score and additional metrics
+            result["relevance_score"] = round(final_score * 100, 2)
+            result["match_reason"] = match_reason
+            result["priority_score"] = round(priority_score * 100, 2)
+            result["vector_score"] = round(base_score * 100, 2)
+
+        # Sort results by priority-based relevance score (highest first)
+        formatted_results.sort(key=lambda x: x["relevance_score"], reverse=True)
 
         # Filter results based on relevant_score threshold
         if relevant_score > 0:

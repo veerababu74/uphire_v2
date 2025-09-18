@@ -392,45 +392,52 @@ class EnhancedSearchProcessor:
     def calculate_relevance_score(
         self, candidate: Dict[str, Any], context: SearchContext, base_score: float = 0.0
     ) -> Tuple[float, str]:
-        """Calculate enhanced relevance score based on parsed context"""
+        """
+        Calculate enhanced relevance score based on prioritized search criteria:
+        1st Priority: Designation/Role (40% weight)
+        2nd Priority: Location (30% weight)
+        3rd Priority: Skills, Experience, and Salary (30% combined weight)
+        """
         score_components = []
         reasons = []
         total_weight = 0
 
-        # Experience matching (weight: 0.3)
-        exp_score, exp_reason = self._score_experience(candidate, context)
-        if exp_score > 0:
-            score_components.append(exp_score * 0.3)
-            reasons.append(exp_reason)
-        total_weight += 0.3
+        # 1st Priority: Designation/Role matching (weight: 0.4)
+        # This includes both role keywords and domain matching
+        role_score, role_reason = self._score_designation(candidate, context)
+        if role_score > 0:
+            score_components.append(role_score * 0.4)
+            reasons.append(f"Designation Match: {role_reason}")
+        total_weight += 0.4
 
-        # Skills matching (weight: 0.25)
-        skills_score, skills_reason = self._score_skills(candidate, context)
-        if skills_score > 0:
-            score_components.append(skills_score * 0.25)
-            reasons.append(skills_reason)
-        total_weight += 0.25
-
-        # Domain/Industry matching (weight: 0.2)
-        domain_score, domain_reason = self._score_domain(candidate, context)
-        if domain_score > 0:
-            score_components.append(domain_score * 0.2)
-            reasons.append(domain_reason)
-        total_weight += 0.2
-
-        # Salary matching (weight: 0.15)
-        salary_score, salary_reason = self._score_salary(candidate, context)
-        if salary_score > 0:
-            score_components.append(salary_score * 0.15)
-            reasons.append(salary_reason)
-        total_weight += 0.15
-
-        # Location matching (weight: 0.1)
+        # 2nd Priority: Location matching (weight: 0.3)
         location_score, location_reason = self._score_location(candidate, context)
         if location_score > 0:
-            score_components.append(location_score * 0.1)
-            reasons.append(location_reason)
+            score_components.append(location_score * 0.3)
+            reasons.append(f"Location Match: {location_reason}")
+        total_weight += 0.3
+
+        # 3rd Priority: Skills, Experience, and Salary (30% combined weight)
+        # Skills matching (weight: 0.15)
+        skills_score, skills_reason = self._score_skills(candidate, context)
+        if skills_score > 0:
+            score_components.append(skills_score * 0.15)
+            reasons.append(f"Skills Match: {skills_reason}")
+        total_weight += 0.15
+
+        # Experience matching (weight: 0.1)
+        exp_score, exp_reason = self._score_experience(candidate, context)
+        if exp_score > 0:
+            score_components.append(exp_score * 0.1)
+            reasons.append(f"Experience Match: {exp_reason}")
         total_weight += 0.1
+
+        # Salary matching (weight: 0.05)
+        salary_score, salary_reason = self._score_salary(candidate, context)
+        if salary_score > 0:
+            score_components.append(salary_score * 0.05)
+            reasons.append(f"Salary Match: {salary_reason}")
+        total_weight += 0.05
 
         # Calculate final score
         if score_components:
@@ -451,6 +458,106 @@ class EnhancedSearchProcessor:
         )
 
         return final_score, match_reason
+
+    def _score_designation(
+        self, candidate: Dict[str, Any], context: SearchContext
+    ) -> Tuple[float, str]:
+        """
+        Score designation/role matching combining both role keywords and domain matching
+        This is the highest priority scoring component
+        """
+        if not (context.role or context.domain):
+            return 0.0, ""
+
+        role_score = 0.0
+        domain_score = 0.0
+        reasons = []
+
+        # Score role matching
+        if context.role:
+            role_score, role_reason = self._score_role_match(candidate, context.role)
+            if role_score > 0:
+                reasons.append(role_reason)
+
+        # Score domain matching
+        if context.domain:
+            domain_score, domain_reason = self._score_domain(candidate, context)
+            if domain_score > 0:
+                reasons.append(domain_reason)
+
+        # Combine role and domain scores (weighted average)
+        final_score = 0.0
+        if context.role and context.domain:
+            # Both role and domain specified - give equal weight
+            final_score = (role_score * 0.6) + (domain_score * 0.4)
+        elif context.role:
+            # Only role specified
+            final_score = role_score
+        elif context.domain:
+            # Only domain specified
+            final_score = domain_score
+
+        reason = "; ".join(reasons) if reasons else ""
+        return final_score, reason
+
+    def _score_role_match(
+        self, candidate: Dict[str, Any], target_role: str
+    ) -> Tuple[float, str]:
+        """Score role/designation matching from experience and labels"""
+        if not target_role:
+            return 0.0, ""
+
+        target_role_lower = target_role.lower()
+        score = 0.0
+        reasons = []
+
+        # Check current/latest role from experience
+        experience = candidate.get("experience", [])
+        if experience:
+            # Check most recent role (first in list)
+            recent_role = experience[0].get("role", "").lower()
+            if target_role_lower in recent_role or any(
+                keyword in recent_role for keyword in target_role_lower.split()
+            ):
+                score = max(score, 1.0)
+                reasons.append(f"Current role matches ({recent_role})")
+
+            # Check all roles for partial matches
+            for exp in experience[:3]:  # Check top 3 recent roles
+                role = exp.get("role", "").lower()
+                if target_role_lower in role:
+                    score = max(score, 0.8)
+                    reasons.append(f"Previous role matches ({role})")
+                elif any(keyword in role for keyword in target_role_lower.split()):
+                    score = max(score, 0.6)
+                    reasons.append(f"Role partially matches ({role})")
+
+        # Check labels/tags for role keywords
+        labels = candidate.get("labels", [])
+        for label in labels:
+            label_lower = label.lower()
+            if target_role_lower in label_lower:
+                score = max(score, 0.7)
+                reasons.append(f"Label matches role ({label})")
+
+        # Check skills for role-related keywords
+        skills = candidate.get("skills", []) + candidate.get(
+            "may_also_known_skills", []
+        )
+        role_related_skills = []
+        for skill in skills:
+            skill_lower = skill.lower()
+            if any(keyword in skill_lower for keyword in target_role_lower.split()):
+                role_related_skills.append(skill)
+                score = max(score, 0.4)
+
+        if role_related_skills:
+            reasons.append(
+                f"Role-related skills ({', '.join(role_related_skills[:3])})"
+            )
+
+        reason = "; ".join(reasons[:2]) if reasons else ""
+        return score, reason
 
     def _score_experience(
         self, candidate: Dict[str, Any], context: SearchContext

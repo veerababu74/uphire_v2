@@ -14,3 +14,20 @@
 2025-09-15 21:28:27 - test_api_endpoint - INFO -   _id: '68847b19a5b2fbca4c76cb83' (type: <class 'str'>)
 2025-09-15 21:28:27 - test_api_endpoint - INFO -   user_id: 'unique_id'
 2025-09-15 21:28:27 - test_api_endpoint - INFO -   relevance_score: 0.0
+2025-09-18 23:51:06 - test_api_endpoint - INFO - Testing API endpoint with request: user_id='veera123' query='Find me a Python developer with 3 years experience' context_size=3 relevant_score=0.0 use_enhanced_search=True
+2025-09-18 23:51:09 - test_api_endpoint - ERROR - Error during API endpoint test: 
+2025-09-18 23:51:09 - test_api_endpoint - ERROR - Traceback: Traceback (most recent call last):
+  File "C:\Users\pveer\OneDrive\Desktop\UPH\1final_ra_babu\uphire_v2\apis\rag_search.py", line 556, in llm_context_search
+    raise HTTPException(status_code=500, detail=result["error"])
+fastapi.exceptions.HTTPException
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\pveer\OneDrive\Desktop\UPH\1final_ra_babu\uphire_v2\test_api_endpoint.py", line 31, in test_api_endpoint
+    result = await llm_context_search(request)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pveer\OneDrive\Desktop\UPH\1final_ra_babu\uphire_v2\apis\rag_search.py", line 601, in llm_context_search
+    raise HTTPException(status_code=500, detail=f"Search failed: {str(e)}")
+fastapi.exceptions.HTTPException
+

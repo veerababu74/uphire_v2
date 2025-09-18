@@ -33,3 +33,9 @@
 2025-09-15 21:28:25 - enhanced_search_engines - INFO - Rank 5: ID: 68be7ff7ad97ff40ff5b8500, Enhanced Score: 0.6940, Vector Score: 0.7887, Reason: Experience (5.0y) slightly above range but still r...
 2025-09-15 21:28:25 - enhanced_search_engines - INFO - === END OF RESULTS ===
 2025-09-15 21:28:25 - enhanced_search_engines - INFO - Invoking LLM for enhanced document analysis...
+2025-09-18 23:51:07 - enhanced_search_engines - INFO - Performing enhanced LLM search for: Find me a Python developer with 3 years experience
+2025-09-18 23:51:07 - enhanced_search_engines - INFO - Parsed search context: SearchContext(role='find me  python', domain='it', min_experience=2.5, max_experience=3.5, skills=['python'], location=None, min_salary=None, max_salary=None, education_requirements=[], notice_period=None)
+2025-09-18 23:51:07 - enhanced_search_engines - INFO - Performing enhanced vector search for: Find me a Python developer with 3 years experience
+2025-09-18 23:51:07 - enhanced_search_engines - INFO - Enhanced query: Find me a Python developer with 3 years experience job role: find me  python industry: it it information technology software experience between 2.5 and 3.5 years skills: python
+2025-09-18 23:51:07 - enhanced_search_engines - INFO - Search context: SearchContext(role='find me  python', domain='it', min_experience=2.5, max_experience=3.5, skills=['python'], location=None, min_salary=None, max_salary=None, education_requirements=[], notice_period=None)
+2025-09-18 23:51:09 - enhanced_search_engines - ERROR - Error during enhanced vector search: 'NoneType' object is not iterable
