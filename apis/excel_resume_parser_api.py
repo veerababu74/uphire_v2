@@ -65,7 +65,7 @@ def update_excel_processing_queue(action: str, session_id: str = None, count: in
             ] = "completed"
 
 
-@router.post("/excel-resume-parser/upload")
+@router.post("/excel-resume-parser/upload", operation_id="upload_excel_file_legacy")
 async def upload_excel_file(
     file: UploadFile = File(...),
     user_id: str = Form(...),
@@ -174,7 +174,7 @@ async def upload_excel_file(
         )
 
 
-@router.post("/excel-resume-parser/analyze")
+@router.post("/excel-resume-parser/analyze", operation_id="analyze_excel_file_legacy")
 async def analyze_excel_file(
     file: UploadFile = File(...),
 ):
@@ -230,7 +230,7 @@ async def analyze_excel_file(
         )
 
 
-@router.get("/excel-resume-parser/queue-status")
+@router.get("/excel-resume-parser/queue-status", operation_id="get_queue_status_legacy")
 async def get_queue_status():
     """
     Get current processing queue status for Excel resume parser.
@@ -251,7 +251,9 @@ async def get_queue_status():
         )
 
 
-@router.get("/excel-resume-parser/statistics")
+@router.get(
+    "/excel-resume-parser/statistics", operation_id="get_processing_statistics_legacy"
+)
 async def get_processing_statistics():
     """
     Get Excel resume parser statistics and configuration.
@@ -277,7 +279,9 @@ async def get_processing_statistics():
         )
 
 
-@router.post("/excel-resume-parser/cleanup-temp")
+@router.post(
+    "/excel-resume-parser/cleanup-temp", operation_id="cleanup_temp_files_legacy"
+)
 async def cleanup_temp_files(
     age_limit_minutes: int = Query(
         60, description="Age limit in minutes for file cleanup"
@@ -316,7 +320,10 @@ async def cleanup_temp_files(
         )
 
 
-@router.get("/excel-resume-parser/supported-formats")
+@router.get(
+    "/excel-resume-parser/supported-formats",
+    operation_id="get_supported_formats_legacy",
+)
 async def get_supported_formats():
     """
     Get information about supported Excel formats and requirements.
