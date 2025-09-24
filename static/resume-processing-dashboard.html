@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Real-time Resume Processing Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .upload-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+
+        .upload-tabs {
+            display: flex;
+            margin-bottom: 2rem;
+            border-bottom: 2px solid #e0e0e0;
+        }
+
+        .tab-button {
+            background: none;
+            border: none;
+            padding: 1rem 2rem;
+            cursor: pointer;
+            font-size: 1rem;
+            color: #666;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .tab-button.active {
+            color: #667eea;
+            border-bottom-color: #667eea;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .file-input-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .file-input-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .file-input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px dashed #ccc;
+            border-radius: 8px;
+            background: #fafafa;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .file-input:hover {
+            border-color: #667eea;
+            background: #f0f2ff;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group {
+            flex: 1;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 1rem;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .upload-button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 6px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+
+        .upload-button:hover {
+            transform: translateY(-2px);
+        }
+
+        .upload-button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .progress-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+            display: none;
+        }
+
+        .progress-section.active {
+            display: block;
+        }
+
+        .job-card {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .job-header {
+            display: flex;
+            justify-content: between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .job-id {
+            font-family: monospace;
+            background: #e9ecef;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.9rem;
+        }
+
+        .job-status {
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .status-queued { background: #fff3cd; color: #856404; }
+        .status-processing { background: #d4edda; color: #155724; }
+        .status-completed { background: #d1ecf1; color: #0c5460; }
+        .status-failed { background: #f8d7da; color: #721c24; }
+        .status-cancelled { background: #e2e3e5; color: #383d41; }
+        .status-paused { background: #ffeaa7; color: #2d3436; }
+
+        .progress-bar-container {
+            background: #e9ecef;
+            border-radius: 10px;
+            height: 20px;
+            margin: 1rem 0;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            height: 100%;
+            transition: width 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .progress-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .progress-item {
+            text-align: center;
+        }
+
+        .progress-item .value {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #667eea;
+        }
+
+        .progress-item .label {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .control-buttons {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .control-button {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: background-color 0.2s ease;
+        }
+
+        .control-button.pause { background: #ffc107; color: #212529; }
+        .control-button.resume { background: #28a745; color: white; }
+        .control-button.cancel { background: #dc3545; color: white; }
+
+        .control-button:hover {
+            opacity: 0.8;
+        }
+
+        .current-item {
+            font-style: italic;
+            color: #666;
+            margin: 0.5rem 0;
+        }
+
+        .error-messages {
+            background: #f8d7da;
+            border: 1px solid #f5c6cb;
+            border-radius: 4px;
+            padding: 1rem;
+            margin-top: 1rem;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .error-message {
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .error-time {
+            color: #721c24;
+            font-weight: 600;
+        }
+
+        .results-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+            display: none;
+        }
+
+        .results-section.active {
+            display: block;
+        }
+
+        .results-summary {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .summary-card {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .summary-card .number {
+            font-size: 2rem;
+            font-weight: 600;
+            color: #667eea;
+        }
+
+        .summary-card .label {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .form-row {
+                flex-direction: column;
+            }
+            
+            .progress-details {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .results-summary {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>🚀 Resume Processing Dashboard</h1>
+            <p>Real-time bulk resume processing with live progress tracking</p>
+        </header>
+
+        <!-- Upload Section -->
+        <section class="upload-section">
+            <div class="upload-tabs">
+                <button class="tab-button active" onclick="switchTab('excel')">📊 Excel Upload</button>
+                <button class="tab-button" onclick="switchTab('bulk')">📁 Bulk Resumes</button>
+            </div>
+
+            <!-- Excel Upload Tab -->
+            <div id="excel-tab" class="tab-content active">
+                <h3>Upload Excel File</h3>
+                <p>Upload an Excel file containing resume data for batch processing.</p>
+                
+                <div class="file-input-group">
+                    <label for="excel-file">Select Excel File (.xlsx, .xls, .xlsm)</label>
+                    <input type="file" id="excel-file" class="file-input" accept=".xlsx,.xls,.xlsm">
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="excel-user-id">Base User ID</label>
+                        <input type="text" id="excel-user-id" placeholder="e.g., company_2024" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="excel-username">Base Username</label>
+                        <input type="text" id="excel-username" placeholder="e.g., batch_import" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="excel-sheet">Sheet Name (Optional)</label>
+                        <input type="text" id="excel-sheet" placeholder="Leave empty for first sheet">
+                    </div>
+                </div>
+
+                <button class="upload-button" onclick="uploadExcelFile()" id="excel-upload-btn">
+                    📊 Start Excel Processing
+                </button>
+            </div>
+
+            <!-- Bulk Resume Upload Tab -->
+            <div id="bulk-tab" class="tab-content">
+                <h3>Upload Multiple Resume Files</h3>
+                <p>Upload multiple resume files for bulk processing. Supports PDF, DOC, DOCX, and TXT formats.</p>
+                
+                <div class="file-input-group">
+                    <label for="bulk-files">Select Resume Files (Multiple)</label>
+                    <input type="file" id="bulk-files" class="file-input" multiple 
+                           accept=".pdf,.doc,.docx,.txt">
+                </div>
+
+                <div class="checkbox-group">
+                    <input type="checkbox" id="duplicate-check" checked>
+                    <label for="duplicate-check">Enable duplicate detection</label>
+                </div>
+
+                <button class="upload-button" onclick="uploadBulkFiles()" id="bulk-upload-btn">
+                    📁 Start Bulk Processing
+                </button>
+            </div>
+        </section>
+
+        <!-- Progress Section -->
+        <section class="progress-section" id="progress-section">
+            <h3>📈 Processing Progress</h3>
+            <div id="progress-container"></div>
+        </section>
+
+        <!-- Results Section -->
+        <section class="results-section" id="results-section">
+            <h3>✅ Processing Results</h3>
+            <div id="results-container"></div>
+        </section>
+    </div>
+
+    <script src="js/resume-processing-client.js"></script>
+    <script>
+        // Initialize the client
+        const client = new ResumeProcessingClient('http://localhost:8000');
+        
+        // Track active jobs
+        const activeJobs = new Map();
+
+        // Tab switching
+        function switchTab(tabName) {
+            // Update tab buttons
+            document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            // Update tab content
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+            document.getElementById(`${tabName}-tab`).classList.add('active');
+        }
+
+        // Upload Excel file
+        async function uploadExcelFile() {
+            const fileInput = document.getElementById('excel-file');
+            const userId = document.getElementById('excel-user-id').value;
+            const username = document.getElementById('excel-username').value;
+            const sheetName = document.getElementById('excel-sheet').value || null;
+            
+            if (!fileInput.files[0] || !userId || !username) {
+                alert('Please fill in all required fields and select a file.');
+                return;
+            }
+
+            const uploadBtn = document.getElementById('excel-upload-btn');
+            uploadBtn.disabled = true;
+            uploadBtn.textContent = 'Uploading...';
+
+            try {
+                const result = await client.uploadExcelFile(fileInput.files[0], userId, username, sheetName);
+                
+                // Track the job
+                activeJobs.set(result.jobId, {
+                    type: 'excel',
+                    startTime: new Date(),
+                    fileInfo: result.fileInfo
+                });
+
+                // Show progress section
+                document.getElementById('progress-section').classList.add('active');
+                
+                showNotification('Upload started successfully! Job ID: ' + result.jobId, 'success');
+                
+            } catch (error) {
+                showNotification('Upload failed: ' + error.message, 'error');
+            } finally {
+                uploadBtn.disabled = false;
+                uploadBtn.textContent = '📊 Start Excel Processing';
+            }
+        }
+
+        // Upload bulk files
+        async function uploadBulkFiles() {
+            const fileInput = document.getElementById('bulk-files');
+            const duplicateCheck = document.getElementById('duplicate-check').checked;
+            
+            if (!fileInput.files.length) {
+                alert('Please select at least one resume file.');
+                return;
+            }
+
+            const uploadBtn = document.getElementById('bulk-upload-btn');
+            uploadBtn.disabled = true;
+            uploadBtn.textContent = 'Uploading...';
+
+            try {
+                const result = await client.uploadMultipleResumes(Array.from(fileInput.files), duplicateCheck);
+                
+                // Track the job
+                activeJobs.set(result.jobId, {
+                    type: 'bulk',
+                    startTime: new Date(),
+                    processingInfo: result.processingInfo
+                });
+
+                // Show progress section
+                document.getElementById('progress-section').classList.add('active');
+                
+                showNotification('Bulk upload started successfully! Job ID: ' + result.jobId, 'success');
+                
+            } catch (error) {
+                showNotification('Bulk upload failed: ' + error.message, 'error');
+            } finally {
+                uploadBtn.disabled = false;
+                uploadBtn.textContent = '📁 Start Bulk Processing';
+            }
+        }
+
+        // Control job
+        async function controlJob(jobId, action) {
+            try {
+                const jobData = activeJobs.get(jobId);
+                if (!jobData) return;
+
+                await client.controlJob(jobId, jobData.type, action);
+                showNotification(`Job ${action}d successfully`, 'success');
+            } catch (error) {
+                showNotification(`Failed to ${action} job: ${error.message}`, 'error');
+            }
+        }
+
+        // Event listeners
+        client.on('progress', (data) => {
+            updateProgressDisplay(data.jobId, data.status);
+        });
+
+        client.on('complete', (data) => {
+            activeJobs.delete(data.jobId);
+            showResults(data.jobId, data.results);
+            showNotification('Processing completed successfully!', 'success');
+        });
+
+        client.on('error', (data) => {
+            activeJobs.delete(data.jobId);
+            showNotification(`Processing failed: ${data.error}`, 'error');
+        });
+
+        // Update progress display
+        function updateProgressDisplay(jobId, status) {
+            const container = document.getElementById('progress-container');
+            let jobCard = document.getElementById(`job-${jobId}`);
+            
+            if (!jobCard) {
+                jobCard = createJobCard(jobId, status);
+                container.appendChild(jobCard);
+            }
+            
+            updateJobCard(jobCard, status);
+        }
+
+        // Create job card
+        function createJobCard(jobId, status) {
+            const jobData = activeJobs.get(jobId);
+            const div = document.createElement('div');
+            div.className = 'job-card';
+            div.id = `job-${jobId}`;
+            
+            div.innerHTML = `
+                <div class="job-header">
+                    <div>
+                        <strong>${jobData?.type === 'excel' ? '📊 Excel Processing' : '📁 Bulk Resume Processing'}</strong>
+                        <div class="job-id">Job ID: ${jobId}</div>
+                    </div>
+                    <span class="job-status status-${status.status}">${status.status}</span>
+                </div>
+                
+                <div class="progress-bar-container">
+                    <div class="progress-bar" style="width: 0%">0%</div>
+                </div>
+                
+                <div class="progress-details">
+                    <div class="progress-item">
+                        <div class="value" id="processed-${jobId}">0</div>
+                        <div class="label">Processed</div>
+                    </div>
+                    <div class="progress-item">
+                        <div class="value" id="successful-${jobId}">0</div>
+                        <div class="label">Successful</div>
+                    </div>
+                    <div class="progress-item">
+                        <div class="value" id="failed-${jobId}">0</div>
+                        <div class="label">Failed</div>
+                    </div>
+                    <div class="progress-item">
+                        <div class="value" id="remaining-${jobId}">-</div>
+                        <div class="label">Est. Time</div>
+                    </div>
+                </div>
+                
+                <div class="current-item" id="current-${jobId}"></div>
+                
+                <div class="control-buttons">
+                    <button class="control-button pause" onclick="controlJob('${jobId}', 'pause')">⏸️ Pause</button>
+                    <button class="control-button resume" onclick="controlJob('${jobId}', 'resume')">▶️ Resume</button>
+                    <button class="control-button cancel" onclick="controlJob('${jobId}', 'cancel')">❌ Cancel</button>
+                </div>
+                
+                <div class="error-messages" id="errors-${jobId}" style="display: none;"></div>
+            `;
+            
+            return div;
+        }
+
+        // Update job card
+        function updateJobCard(jobCard, status) {
+            const jobId = status.job_id;
+            const progress = client.formatProgress(status);
+            
+            // Update progress bar
+            const progressBar = jobCard.querySelector('.progress-bar');
+            progressBar.style.width = progress.percentage + '%';
+            progressBar.textContent = progress.percentage.toFixed(1) + '%';
+            
+            // Update status
+            const statusElement = jobCard.querySelector('.job-status');
+            statusElement.className = `job-status status-${status.status}`;
+            statusElement.textContent = status.status;
+            
+            // Update counters
+            document.getElementById(`processed-${jobId}`).textContent = status.processed_items || 0;
+            document.getElementById(`successful-${jobId}`).textContent = status.successful_items || 0;
+            document.getElementById(`failed-${jobId}`).textContent = status.failed_items || 0;
+            document.getElementById(`remaining-${jobId}`).textContent = progress.estimatedTime;
+            
+            // Update current item
+            const currentElement = document.getElementById(`current-${jobId}`);
+            currentElement.textContent = progress.currentItem || '';
+            
+            // Update errors
+            if (status.error_messages && status.error_messages.length > 0) {
+                const errorsContainer = document.getElementById(`errors-${jobId}`);
+                errorsContainer.style.display = 'block';
+                errorsContainer.innerHTML = status.error_messages
+                    .slice(-5) // Show last 5 errors
+                    .map(error => `
+                        <div class="error-message">
+                            <span class="error-time">${new Date(error.timestamp).toLocaleTimeString()}</span>: 
+                            ${error.message}
+                        </div>
+                    `).join('');
+            }
+        }
+
+        // Show results
+        function showResults(jobId, results) {
+            const container = document.getElementById('results-container');
+            const summary = results.summary;
+            
+            container.innerHTML = `
+                <div class="results-summary">
+                    <div class="summary-card">
+                        <div class="number">${summary.total_files || summary.total_rows || 0}</div>
+                        <div class="label">Total Items</div>
+                    </div>
+                    <div class="summary-card">
+                        <div class="number">${summary.successful_files || summary.successful_rows || 0}</div>
+                        <div class="label">Successful</div>
+                    </div>
+                    <div class="summary-card">
+                        <div class="number">${summary.failed_files || summary.failed_rows || 0}</div>
+                        <div class="label">Failed</div>
+                    </div>
+                    <div class="summary-card">
+                        <div class="number">${summary.success_rate || '0%'}</div>
+                        <div class="label">Success Rate</div>
+                    </div>
+                    <div class="summary-card">
+                        <div class="number">${summary.processing_time || '0s'}</div>
+                        <div class="label">Processing Time</div>
+                    </div>
+                </div>
+                
+                <h4>Job ID: ${jobId}</h4>
+                <p>Processing completed at ${new Date().toLocaleString()}</p>
+            `;
+            
+            document.getElementById('results-section').classList.add('active');
+        }
+
+        // Show notification
+        function showNotification(message, type) {
+            // Simple alert for now - you can implement a more sophisticated notification system
+            const emoji = type === 'success' ? '✅' : '❌';
+            alert(`${emoji} ${message}`);
+        }
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('Resume Processing Dashboard initialized');
+        });
+    </script>
+</body>
+</html>

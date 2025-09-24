@@ -83,6 +83,12 @@ from apis.excel_resume_parser_api import router as excel_resume_parser_router
 from apis.enhanced_excel_resume_parser_api import (
     router as enhanced_excel_resume_parser_router,
 )
+from apis.enhanced_excel_parser_with_tracking import (
+    router as enhanced_excel_parser_with_tracking_router,
+)
+from apis.enhanced_multiple_resume_parser_with_tracking import (
+    router as enhanced_multiple_resume_parser_with_tracking_router,
+)
 
 # from apis.resumerpaser import router as resume_parser_router  # TODO: Fix router definition
 
@@ -208,6 +214,14 @@ app.include_router(excel_resume_parser_router, tags=["Excel Resume Parser"])
 app.include_router(
     enhanced_excel_resume_parser_router, tags=["Enhanced Excel Resume Parser"]
 )
+app.include_router(
+    enhanced_excel_parser_with_tracking_router,
+    tags=["Enhanced Excel Parser with Real-time Tracking"],
+)
+app.include_router(
+    enhanced_multiple_resume_parser_with_tracking_router,
+    tags=["Enhanced Bulk Resume Parser with Real-time Tracking"],
+)
 app.include_router(duplicate_detection_router, tags=["Duplicate Detection"])
 app.include_router(citys_router)
 app.include_router(skills_router)
@@ -225,9 +239,7 @@ app.include_router(ai_search_save_recent_router)
 app.include_router(manual_search_save_recent_router)
 app.include_router(user_management_router)  # User management API
 app.include_router(resume_router)
-app.include_router(
-    excel_resume_parser_router, tags=["Excel Resume Parser"]
-)  # Excel Resume Parser API
+# Excel Resume Parser API already included above (line 213)
 
 
 @app.get("/")

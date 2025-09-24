@@ -415,3 +415,43 @@ This is the actual JSON format with real values.
     }
   ]
 }
+2025-09-24 21:13:14 - chain_manager - INFO - Raw LLM response type: <class 'str'>
+2025-09-24 21:13:14 - chain_manager - INFO - Raw LLM response (first 500 chars): {
+  "total_candidates": 3,
+  "matches": [
+    {
+      "_id": "6883abfaf5785c34e07a5e6b",
+      "relevance_score": 0.85,
+      "match_reason": "5+ years experience, Java skills, matches role"
+    },
+    {
+      "_id": "6883c2c0f5785c34e07a5ebb",
+      "relevance_score": 0.3,
+      "match_reason": "Some Java experience, less than 4 years"
+    },
+    {
+      "_id": "68be7ff7ad97ff40ff5b8500",
+      "relevance_score": 0.85,
+      "match_reason": "5+ years experience, Java skills, matches role"
+    }
+2025-09-24 21:14:40 - chain_manager - INFO - Raw LLM response type: <class 'str'>
+2025-09-24 21:14:40 - chain_manager - INFO - Raw LLM response (first 500 chars): {
+  "total_candidates": 3,
+  "matches": [
+    {
+      "_id": "68847b18a5b2fbca4c76cb54",
+      "relevance_score": 0.0,
+      "match_reason": "No relevant experience or skills"
+    },
+    {
+      "_id": "68847b18a5b2fbca4c76cb61",
+      "relevance_score": 0.0,
+      "match_reason": "No relevant experience or skills"
+    },
+    {
+      "_id": "6884c73ca5b2fbca4c76cc47",
+      "relevance_score": 0.0,
+      "match_reason": "No relevant experience or skills"
+    }
+  ]
+}

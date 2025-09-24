@@ -218,9 +218,23 @@ class LLMSearchEngine:
                     complete_doc = self.collection.find_one({"_id": ObjectId(match_id)})
 
                     if complete_doc:
+                        # Debug logging for _id
+                        doc_id = complete_doc.get("_id")
+                        if not doc_id:
+                            logger.error(
+                                f"Document fetched from MongoDB is missing _id field!"
+                            )
+
                         formatted_doc = DocumentProcessor.format_complete_document(
                             complete_doc
                         )
+
+                        # Ensure _id is not empty after formatting
+                        if not formatted_doc.get("_id"):
+                            logger.error(
+                                f"Formatted document has empty _id! Original _id: {doc_id}"
+                            )
+
                         formatted_doc.update(
                             {
                                 "relevance_score": float(relevance_score),
@@ -228,6 +242,12 @@ class LLMSearchEngine:
                             }
                         )
                         formatted_results.append(formatted_doc)
+                    else:
+                        logger.warning(
+                            f"Document with _id {match_id} not found in collection"
+                        )
+                else:
+                    logger.warning(f"Match has no valid _id: {match}")
 
             # Sort by relevance score
             formatted_results.sort(key=lambda x: x["relevance_score"], reverse=True)

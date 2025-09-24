@@ -477,9 +477,9 @@ async def manual_resume_search(search_params: ManualSearchRequest):
                 # If only experience/salary filters, filter by user_id only
                 final_query = base_query
 
-            results = list(
-                resumes_collection.find(final_query)
-            )  # Parse min and max experience strings to months
+            results = list(resumes_collection.find(final_query))
+
+        # Parse min and max experience strings to months
         min_experience_months = 0
         max_experience_months = float("inf")
 
@@ -796,6 +796,9 @@ async def manual_resume_search(search_params: ManualSearchRequest):
 
         # If no results found, return informative message instead of empty array
         if not final_results:
+            # Get total candidates available for this user to provide better context
+            total_user_candidates = resumes_collection.count_documents(base_query)
+
             no_results_info = {
                 "message": "No matching resumes found",
                 "search_summary": {
@@ -803,6 +806,7 @@ async def manual_resume_search(search_params: ManualSearchRequest):
                     "total_candidates_searched": (
                         len(results) if "results" in locals() else 0
                     ),
+                    "total_candidates_available": total_user_candidates,
                     "search_criteria_used": {},
                     "suggestions": [],
                 },
@@ -847,33 +851,46 @@ async def manual_resume_search(search_params: ManualSearchRequest):
                     "relevant_score"
                 ] = search_params.relevant_score
 
-            # Add helpful suggestions
+            # Add helpful suggestions based on the search criteria and results
             suggestions = []
-            if search_params.experience_titles:
-                suggestions.append("Try using broader or alternative job titles")
-            if search_params.skills:
+
+            # Check if we have candidates available but none matched criteria
+            if total_user_candidates > 0:
                 suggestions.append(
-                    "Consider removing some specific skills or using more general skill terms"
-                )
-            if search_params.min_experience or search_params.max_experience:
-                suggestions.append("Adjust the experience range requirements")
-            if search_params.locations:
-                suggestions.append(
-                    "Expand the location search to include nearby cities"
-                )
-            if search_params.min_salary or search_params.max_salary:
-                suggestions.append("Adjust the salary range to be more flexible")
-            if search_params.min_education:
-                suggestions.append("Consider accepting lower education qualifications")
-            if search_params.relevant_score and search_params.relevant_score > 0:
-                suggestions.append(
-                    "Try lowering the relevance score threshold to see more candidates"
+                    f"You have {total_user_candidates} total candidates available, but none matched your search criteria"
                 )
 
-            if not suggestions:
+                if search_params.experience_titles:
+                    suggestions.append(
+                        "Try using broader or alternative job titles (e.g., 'developer', 'engineer', 'analyst')"
+                    )
+                if search_params.skills:
+                    suggestions.append(
+                        "Consider removing some specific skills or using more general skill terms"
+                    )
+                if search_params.min_experience or search_params.max_experience:
+                    suggestions.append("Adjust the experience range requirements")
+                if search_params.locations:
+                    suggestions.append(
+                        "Expand the location search to include nearby cities or remove location filter"
+                    )
+                if search_params.min_salary or search_params.max_salary:
+                    suggestions.append("Adjust the salary range to be more flexible")
+                if search_params.min_education:
+                    suggestions.append(
+                        "Consider accepting lower education qualifications"
+                    )
+                if search_params.relevant_score and search_params.relevant_score > 0:
+                    suggestions.append(
+                        f"Try lowering the relevance score threshold from {search_params.relevant_score}% to see more candidates"
+                    )
+
                 suggestions.append(
-                    "Try adding some search criteria to find matching candidates"
+                    "Try searching with just one or two criteria first, then gradually add more filters"
                 )
+            else:
+                suggestions.append("No candidates found for this user ID")
+                suggestions.append("Please verify the user ID is correct")
 
             no_results_info["search_summary"]["suggestions"] = suggestions
 

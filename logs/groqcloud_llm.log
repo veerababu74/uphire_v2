@@ -1919,3 +1919,136 @@ Invalid credentials in Authorization header
 2025-09-23 21:18:31 - groqcloud_llm - INFO - Initializing ResumeParser with groq_cloud
 2025-09-23 21:18:31 - groqcloud_llm - INFO - Experience extractor initialized successfully
 2025-09-23 21:18:31 - groqcloud_llm - INFO - ResumeParser initialized successfully with groq_cloud
+2025-09-24 21:42:38 - groqcloud_llm - INFO - Initializing ResumeParser with groq_cloud
+2025-09-24 21:42:39 - groqcloud_llm - INFO - Experience extractor initialized successfully
+2025-09-24 21:42:39 - groqcloud_llm - INFO - ResumeParser initialized successfully with groq_cloud
+2025-09-24 21:42:41 - groqcloud_llm - INFO - Initializing ResumeParser with groq_cloud
+2025-09-24 21:42:41 - groqcloud_llm - INFO - Experience extractor initialized successfully
+2025-09-24 21:42:41 - groqcloud_llm - INFO - ResumeParser initialized successfully with groq_cloud
+2025-09-24 21:42:42 - groqcloud_llm - INFO - Initializing ResumeParser with groq_cloud
+2025-09-24 21:42:42 - groqcloud_llm - INFO - Experience extractor initialized successfully
+2025-09-24 21:42:42 - groqcloud_llm - INFO - ResumeParser initialized successfully with groq_cloud
+2025-09-24 21:50:27 - groqcloud_llm - INFO - Initializing ResumeParser with groq_cloud
+2025-09-24 21:50:27 - groqcloud_llm - INFO - Experience extractor initialized successfully
+2025-09-24 21:50:27 - groqcloud_llm - INFO - ResumeParser initialized successfully with groq_cloud
+2025-09-24 21:50:29 - groqcloud_llm - INFO - Initializing ResumeParser with groq_cloud
+2025-09-24 21:50:29 - groqcloud_llm - INFO - Experience extractor initialized successfully
+2025-09-24 21:50:29 - groqcloud_llm - INFO - ResumeParser initialized successfully with groq_cloud
+2025-09-24 21:50:30 - groqcloud_llm - INFO - Initializing ResumeParser with groq_cloud
+2025-09-24 21:50:30 - groqcloud_llm - INFO - Experience extractor initialized successfully
+2025-09-24 21:50:30 - groqcloud_llm - INFO - ResumeParser initialized successfully with groq_cloud
+2025-09-24 21:50:41 - groqcloud_llm - INFO - Initializing ResumeParser with groq_cloud
+2025-09-24 21:50:42 - groqcloud_llm - INFO - Experience extractor initialized successfully
+2025-09-24 21:50:42 - groqcloud_llm - INFO - ResumeParser initialized successfully with groq_cloud
+2025-09-24 21:50:44 - groqcloud_llm - INFO - Initializing ResumeParser with groq_cloud
+2025-09-24 21:50:45 - groqcloud_llm - INFO - Experience extractor initialized successfully
+2025-09-24 21:50:45 - groqcloud_llm - INFO - ResumeParser initialized successfully with groq_cloud
+2025-09-24 21:50:46 - groqcloud_llm - INFO - Initializing ResumeParser with groq_cloud
+2025-09-24 21:51:14 - groqcloud_llm - INFO - Initializing ResumeParser with groq_cloud
+2025-09-24 21:51:15 - groqcloud_llm - INFO - Experience extractor initialized successfully
+2025-09-24 21:51:15 - groqcloud_llm - INFO - ResumeParser initialized successfully with groq_cloud
+2025-09-24 21:51:17 - groqcloud_llm - INFO - Initializing ResumeParser with groq_cloud
+2025-09-24 21:51:18 - groqcloud_llm - INFO - Experience extractor initialized successfully
+2025-09-24 21:51:18 - groqcloud_llm - INFO - ResumeParser initialized successfully with groq_cloud
+2025-09-24 21:51:19 - groqcloud_llm - INFO - Initializing ResumeParser with groq_cloud
+2025-09-24 21:51:20 - groqcloud_llm - INFO - Experience extractor initialized successfully
+2025-09-24 21:51:20 - groqcloud_llm - INFO - ResumeParser initialized successfully with groq_cloud
+2025-09-24 21:53:11 - groqcloud_llm - INFO - Initializing ResumeParser with groq_cloud
+2025-09-24 21:53:11 - groqcloud_llm - INFO - Experience extractor initialized successfully
+2025-09-24 21:53:11 - groqcloud_llm - INFO - ResumeParser initialized successfully with groq_cloud
+2025-09-24 21:53:12 - groqcloud_llm - INFO - Initializing ResumeParser with groq_cloud
+2025-09-24 21:53:13 - groqcloud_llm - INFO - Experience extractor initialized successfully
+2025-09-24 21:53:13 - groqcloud_llm - INFO - ResumeParser initialized successfully with groq_cloud
+2025-09-24 21:53:14 - groqcloud_llm - INFO - Initializing ResumeParser with groq_cloud
+2025-09-24 21:53:14 - groqcloud_llm - INFO - Experience extractor initialized successfully
+2025-09-24 21:53:14 - groqcloud_llm - INFO - ResumeParser initialized successfully with groq_cloud
+2025-09-24 22:04:11 - groqcloud_llm - INFO - Initializing ResumeParser with groq_cloud
+2025-09-24 22:04:11 - groqcloud_llm - INFO - Experience extractor initialized successfully
+2025-09-24 22:04:11 - groqcloud_llm - INFO - ResumeParser initialized successfully with groq_cloud
+2025-09-24 22:04:13 - groqcloud_llm - INFO - Initializing ResumeParser with groq_cloud
+2025-09-24 22:04:13 - groqcloud_llm - INFO - Experience extractor initialized successfully
+2025-09-24 22:04:13 - groqcloud_llm - INFO - ResumeParser initialized successfully with groq_cloud
+2025-09-24 22:04:14 - groqcloud_llm - INFO - Initializing ResumeParser with groq_cloud
+2025-09-24 22:04:14 - groqcloud_llm - INFO - Experience extractor initialized successfully
+2025-09-24 22:04:14 - groqcloud_llm - INFO - ResumeParser initialized successfully with groq_cloud
+2025-09-24 22:05:56 - groqcloud_llm - INFO - Initializing ResumeParser with groq_cloud
+2025-09-24 22:05:57 - groqcloud_llm - INFO - Experience extractor initialized successfully
+2025-09-24 22:05:57 - groqcloud_llm - INFO - ResumeParser initialized successfully with groq_cloud
+2025-09-24 22:05:59 - groqcloud_llm - INFO - Initializing ResumeParser with groq_cloud
+2025-09-24 22:06:00 - groqcloud_llm - INFO - Experience extractor initialized successfully
+2025-09-24 22:06:00 - groqcloud_llm - INFO - ResumeParser initialized successfully with groq_cloud
+2025-09-24 22:06:01 - groqcloud_llm - INFO - Initializing ResumeParser with groq_cloud
+2025-09-24 22:06:02 - groqcloud_llm - INFO - Experience extractor initialized successfully
+2025-09-24 22:06:02 - groqcloud_llm - INFO - ResumeParser initialized successfully with groq_cloud
+2025-09-24 22:07:11 - groqcloud_llm - INFO - Initializing ResumeParser with groq_cloud
+2025-09-24 22:07:12 - groqcloud_llm - INFO - Experience extractor initialized successfully
+2025-09-24 22:07:12 - groqcloud_llm - INFO - ResumeParser initialized successfully with groq_cloud
+2025-09-24 22:07:13 - groqcloud_llm - INFO - Initializing ResumeParser with groq_cloud
+2025-09-24 22:07:14 - groqcloud_llm - INFO - Experience extractor initialized successfully
+2025-09-24 22:07:14 - groqcloud_llm - INFO - ResumeParser initialized successfully with groq_cloud
+2025-09-24 22:07:14 - groqcloud_llm - INFO - Initializing ResumeParser with groq_cloud
+2025-09-24 22:07:15 - groqcloud_llm - INFO - Experience extractor initialized successfully
+2025-09-24 22:07:15 - groqcloud_llm - INFO - ResumeParser initialized successfully with groq_cloud
+2025-09-24 22:07:44 - groqcloud_llm - INFO - Initializing ResumeParser with groq_cloud
+2025-09-24 22:07:44 - groqcloud_llm - INFO - Experience extractor initialized successfully
+2025-09-24 22:07:44 - groqcloud_llm - INFO - ResumeParser initialized successfully with groq_cloud
+2025-09-24 22:07:45 - groqcloud_llm - INFO - Initializing ResumeParser with groq_cloud
+2025-09-24 22:07:46 - groqcloud_llm - INFO - Experience extractor initialized successfully
+2025-09-24 22:07:46 - groqcloud_llm - INFO - ResumeParser initialized successfully with groq_cloud
+2025-09-24 22:07:47 - groqcloud_llm - INFO - Initializing ResumeParser with groq_cloud
+2025-09-24 22:07:47 - groqcloud_llm - INFO - Experience extractor initialized successfully
+2025-09-24 22:07:47 - groqcloud_llm - INFO - ResumeParser initialized successfully with groq_cloud
+2025-09-24 22:07:48 - groqcloud_llm - INFO - Initializing ResumeParser with groq_cloud
+2025-09-24 22:07:49 - groqcloud_llm - INFO - Experience extractor initialized successfully
+2025-09-24 22:07:49 - groqcloud_llm - INFO - ResumeParser initialized successfully with groq_cloud
+2025-09-24 22:07:50 - groqcloud_llm - INFO - Initializing ResumeParser with groq_cloud
+2025-09-24 22:07:50 - groqcloud_llm - INFO - Experience extractor initialized successfully
+2025-09-24 22:07:50 - groqcloud_llm - INFO - ResumeParser initialized successfully with groq_cloud
+2025-09-24 22:07:51 - groqcloud_llm - INFO - Initializing ResumeParser with groq_cloud
+2025-09-24 22:07:52 - groqcloud_llm - INFO - Experience extractor initialized successfully
+2025-09-24 22:07:52 - groqcloud_llm - INFO - ResumeParser initialized successfully with groq_cloud
+2025-09-24 22:08:05 - groqcloud_llm - INFO - Initializing ResumeParser with groq_cloud
+2025-09-24 22:08:05 - groqcloud_llm - INFO - Experience extractor initialized successfully
+2025-09-24 22:08:05 - groqcloud_llm - INFO - ResumeParser initialized successfully with groq_cloud
+2025-09-24 22:08:07 - groqcloud_llm - INFO - Initializing ResumeParser with groq_cloud
+2025-09-24 22:08:07 - groqcloud_llm - INFO - Experience extractor initialized successfully
+2025-09-24 22:08:07 - groqcloud_llm - INFO - ResumeParser initialized successfully with groq_cloud
+2025-09-24 22:08:08 - groqcloud_llm - INFO - Initializing ResumeParser with groq_cloud
+2025-09-24 22:08:09 - groqcloud_llm - INFO - Experience extractor initialized successfully
+2025-09-24 22:08:09 - groqcloud_llm - INFO - ResumeParser initialized successfully with groq_cloud
+2025-09-24 22:09:05 - groqcloud_llm - INFO - Initializing ResumeParser with groq_cloud
+2025-09-24 22:09:06 - groqcloud_llm - INFO - Experience extractor initialized successfully
+2025-09-24 22:09:06 - groqcloud_llm - INFO - ResumeParser initialized successfully with groq_cloud
+2025-09-24 22:09:07 - groqcloud_llm - INFO - Initializing ResumeParser with groq_cloud
+2025-09-24 22:09:08 - groqcloud_llm - INFO - Experience extractor initialized successfully
+2025-09-24 22:09:08 - groqcloud_llm - INFO - ResumeParser initialized successfully with groq_cloud
+2025-09-24 22:09:08 - groqcloud_llm - INFO - Initializing ResumeParser with groq_cloud
+2025-09-24 22:09:09 - groqcloud_llm - INFO - Experience extractor initialized successfully
+2025-09-24 22:09:09 - groqcloud_llm - INFO - ResumeParser initialized successfully with groq_cloud
+2025-09-24 22:09:27 - groqcloud_llm - INFO - Initializing ResumeParser with groq_cloud
+2025-09-24 22:09:28 - groqcloud_llm - INFO - Experience extractor initialized successfully
+2025-09-24 22:09:28 - groqcloud_llm - INFO - ResumeParser initialized successfully with groq_cloud
+2025-09-24 22:09:29 - groqcloud_llm - INFO - Initializing ResumeParser with groq_cloud
+2025-09-24 22:09:30 - groqcloud_llm - INFO - Experience extractor initialized successfully
+2025-09-24 22:09:30 - groqcloud_llm - INFO - ResumeParser initialized successfully with groq_cloud
+2025-09-24 22:09:31 - groqcloud_llm - INFO - Initializing ResumeParser with groq_cloud
+2025-09-24 22:09:32 - groqcloud_llm - INFO - Experience extractor initialized successfully
+2025-09-24 22:09:32 - groqcloud_llm - INFO - ResumeParser initialized successfully with groq_cloud
+2025-09-24 22:09:48 - groqcloud_llm - INFO - Initializing ResumeParser with groq_cloud
+2025-09-24 22:09:48 - groqcloud_llm - INFO - Experience extractor initialized successfully
+2025-09-24 22:09:48 - groqcloud_llm - INFO - ResumeParser initialized successfully with groq_cloud
+2025-09-24 22:09:49 - groqcloud_llm - INFO - Initializing ResumeParser with groq_cloud
+2025-09-24 22:09:50 - groqcloud_llm - INFO - Experience extractor initialized successfully
+2025-09-24 22:09:50 - groqcloud_llm - INFO - ResumeParser initialized successfully with groq_cloud
+2025-09-24 22:09:51 - groqcloud_llm - INFO - Initializing ResumeParser with groq_cloud
+2025-09-24 22:09:51 - groqcloud_llm - INFO - Experience extractor initialized successfully
+2025-09-24 22:09:51 - groqcloud_llm - INFO - ResumeParser initialized successfully with groq_cloud
+2025-09-24 22:10:38 - groqcloud_llm - INFO - Initializing ResumeParser with groq_cloud
+2025-09-24 22:10:39 - groqcloud_llm - INFO - Experience extractor initialized successfully
+2025-09-24 22:10:39 - groqcloud_llm - INFO - ResumeParser initialized successfully with groq_cloud
+2025-09-24 22:10:40 - groqcloud_llm - INFO - Initializing ResumeParser with groq_cloud
+2025-09-24 22:10:41 - groqcloud_llm - INFO - Experience extractor initialized successfully
+2025-09-24 22:10:41 - groqcloud_llm - INFO - ResumeParser initialized successfully with groq_cloud
+2025-09-24 22:10:41 - groqcloud_llm - INFO - Initializing ResumeParser with groq_cloud
+2025-09-24 22:10:42 - groqcloud_llm - INFO - Experience extractor initialized successfully
+2025-09-24 22:10:42 - groqcloud_llm - INFO - ResumeParser initialized successfully with groq_cloud

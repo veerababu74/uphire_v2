@@ -18,6 +18,7 @@ from langchain_core.documents import Document
 from core.custom_logger import CustomLogger
 from core.config import AppConfig
 from core.helpers import JSONEncoder
+from .utils import DocumentProcessor
 from core.llm_factory import LLMFactory  # Use centralized LLM factory
 from core.llm_config import LLMConfigManager, LLMProvider
 from core.exceptions import LLMProviderError
@@ -1238,112 +1239,26 @@ Now analyze and rank EVERY SINGLE candidate above:"""
                     complete_doc = self.collection.find_one({"_id": ObjectId(doc_id)})
 
                     if complete_doc:
-                        # Format the document according to the specified structure
-                        formatted_doc = {
-                            "_id": str(complete_doc.get("_id", "")),
-                            "user_id": str(complete_doc.get("user_id", "")),
-                            "username": str(complete_doc.get("username", "")),
-                            "contact_details": {
-                                "name": str(
-                                    complete_doc.get("contact_details", {}).get(
-                                        "name", ""
-                                    )
-                                ),
-                                "email": str(
-                                    complete_doc.get("contact_details", {}).get(
-                                        "email", ""
-                                    )
-                                ),
-                                "phone": str(
-                                    complete_doc.get("contact_details", {}).get(
-                                        "phone", ""
-                                    )
-                                ),
-                                "alternative_phone": str(
-                                    complete_doc.get("contact_details", {}).get(
-                                        "alternative_phone", ""
-                                    )
-                                ),
-                                "current_city": str(
-                                    complete_doc.get("contact_details", {}).get(
-                                        "current_city", ""
-                                    )
-                                ),
-                                "looking_for_jobs_in": complete_doc.get(
-                                    "contact_details", {}
-                                ).get("looking_for_jobs_in", []),
-                                "gender": str(
-                                    complete_doc.get("contact_details", {}).get(
-                                        "gender", ""
-                                    )
-                                ),
-                                "age": int(
-                                    complete_doc.get("contact_details", {}).get(
-                                        "age", 0
-                                    )
-                                ),
-                                "naukri_profile": str(
-                                    complete_doc.get("contact_details", {}).get(
-                                        "naukri_profile", ""
-                                    )
-                                ),
-                                "linkedin_profile": str(
-                                    complete_doc.get("contact_details", {}).get(
-                                        "linkedin_profile", ""
-                                    )
-                                ),
-                                "portfolio_link": str(
-                                    complete_doc.get("contact_details", {}).get(
-                                        "portfolio_link", ""
-                                    )
-                                ),
-                                "pan_card": str(
-                                    complete_doc.get("contact_details", {}).get(
-                                        "pan_card", ""
-                                    )
-                                ),
-                                "aadhar_card": str(
-                                    complete_doc.get("contact_details", {}).get(
-                                        "aadhar_card", ""
-                                    )
-                                ),
-                            },
-                            "total_experience": str(
-                                complete_doc.get("total_experience", "")
-                            ),
-                            "notice_period": str(complete_doc.get("notice_period", "")),
-                            "currency": str(complete_doc.get("currency", "")),
-                            "pay_duration": str(complete_doc.get("pay_duration", "")),
-                            "current_salary": float(
-                                complete_doc.get("current_salary", 0)
-                            ),
-                            "hike": float(complete_doc.get("hike", 0)),
-                            "expected_salary": float(
-                                complete_doc.get("expected_salary", 0)
-                            ),
-                            "skills": complete_doc.get("skills", []),
-                            "may_also_known_skills": complete_doc.get(
-                                "may_also_known_skills", []
-                            ),
-                            "labels": complete_doc.get("labels", []),
-                            "experience": complete_doc.get("experience", []),
-                            "academic_details": complete_doc.get(
-                                "academic_details", []
-                            ),
-                            "source": str(complete_doc.get("source", "")),
-                            "last_working_day": str(
-                                complete_doc.get("last_working_day", "")
-                            ),
-                            "is_tier1_mba": bool(
-                                complete_doc.get("is_tier1_mba", False)
-                            ),
-                            "is_tier1_engineering": bool(
-                                complete_doc.get("is_tier1_engineering", False)
-                            ),
-                            "comment": str(complete_doc.get("comment", "")),
-                            "exit_reason": str(complete_doc.get("exit_reason", "")),
-                            "similarity_score": float(score),
-                        }
+                        # Debug logging for _id
+                        doc_id = complete_doc.get("_id")
+                        if not doc_id:
+                            logger.error(
+                                f"Document fetched from MongoDB is missing _id field!"
+                            )
+
+                        # Use standardized document formatting
+                        formatted_doc = DocumentProcessor.format_complete_document(
+                            complete_doc
+                        )
+
+                        # Ensure _id is not empty after formatting
+                        if not formatted_doc.get("_id"):
+                            logger.error(
+                                f"Formatted document has empty _id! Original _id: {doc_id}"
+                            )
+
+                        # Add similarity score
+                        formatted_doc["similarity_score"] = float(score)
                         processed_results.append(formatted_doc)
 
             # Sort by score in descending order
@@ -1451,120 +1366,37 @@ Now analyze and rank EVERY SINGLE candidate above:"""
                         )
 
                         if complete_doc:
-                            formatted_doc = {
-                                "_id": str(complete_doc.get("_id", "")),
-                                "user_id": str(complete_doc.get("user_id", "")),
-                                "username": str(complete_doc.get("username", "")),
-                                "contact_details": {
-                                    "name": str(
-                                        complete_doc.get("contact_details", {}).get(
-                                            "name", ""
+                            # Debug logging for _id
+                            doc_id = complete_doc.get("_id")
+                            if not doc_id:
+                                logger.error(
+                                    f"Document fetched from MongoDB is missing _id field!"
+                                )
+
+                            # Use standardized document formatting
+                            formatted_doc = DocumentProcessor.format_complete_document(
+                                complete_doc
+                            )
+
+                            # Ensure _id is not empty after formatting
+                            if not formatted_doc.get("_id"):
+                                logger.error(
+                                    f"Formatted document has empty _id! Original _id: {doc_id}"
+                                )
+
+                            # Add LLM-specific fields
+                            formatted_doc.update(
+                                {
+                                    "relevance_score": float(
+                                        match.get("relevance_score", 0.0)
+                                    ),
+                                    "match_reason": str(
+                                        match.get(
+                                            "match_reason", "No explanation provided"
                                         )
                                     ),
-                                    "email": str(
-                                        complete_doc.get("contact_details", {}).get(
-                                            "email", ""
-                                        )
-                                    ),
-                                    "phone": str(
-                                        complete_doc.get("contact_details", {}).get(
-                                            "phone", ""
-                                        )
-                                    ),
-                                    "alternative_phone": str(
-                                        complete_doc.get("contact_details", {}).get(
-                                            "alternative_phone", ""
-                                        )
-                                    ),
-                                    "current_city": str(
-                                        complete_doc.get("contact_details", {}).get(
-                                            "current_city", ""
-                                        )
-                                    ),
-                                    "looking_for_jobs_in": complete_doc.get(
-                                        "contact_details", {}
-                                    ).get("looking_for_jobs_in", []),
-                                    "gender": str(
-                                        complete_doc.get("contact_details", {}).get(
-                                            "gender", ""
-                                        )
-                                    ),
-                                    "age": int(
-                                        complete_doc.get("contact_details", {}).get(
-                                            "age", 0
-                                        )
-                                    ),
-                                    "naukri_profile": str(
-                                        complete_doc.get("contact_details", {}).get(
-                                            "naukri_profile", ""
-                                        )
-                                    ),
-                                    "linkedin_profile": str(
-                                        complete_doc.get("contact_details", {}).get(
-                                            "linkedin_profile", ""
-                                        )
-                                    ),
-                                    "portfolio_link": str(
-                                        complete_doc.get("contact_details", {}).get(
-                                            "portfolio_link", ""
-                                        )
-                                    ),
-                                    "pan_card": str(
-                                        complete_doc.get("contact_details", {}).get(
-                                            "pan_card", ""
-                                        )
-                                    ),
-                                    "aadhar_card": str(
-                                        complete_doc.get("contact_details", {}).get(
-                                            "aadhar_card", ""
-                                        )
-                                    ),
-                                },
-                                "total_experience": str(
-                                    complete_doc.get("total_experience", "")
-                                ),
-                                "notice_period": str(
-                                    complete_doc.get("notice_period", "")
-                                ),
-                                "currency": str(complete_doc.get("currency", "")),
-                                "pay_duration": str(
-                                    complete_doc.get("pay_duration", "")
-                                ),
-                                "current_salary": float(
-                                    complete_doc.get("current_salary", 0)
-                                ),
-                                "hike": float(complete_doc.get("hike", 0)),
-                                "expected_salary": float(
-                                    complete_doc.get("expected_salary", 0)
-                                ),
-                                "skills": complete_doc.get("skills", []),
-                                "may_also_known_skills": complete_doc.get(
-                                    "may_also_known_skills", []
-                                ),
-                                "labels": complete_doc.get("labels", []),
-                                "experience": complete_doc.get("experience", []),
-                                "academic_details": complete_doc.get(
-                                    "academic_details", []
-                                ),
-                                "source": str(complete_doc.get("source", "")),
-                                "last_working_day": str(
-                                    complete_doc.get("last_working_day", "")
-                                ),
-                                "is_tier1_mba": bool(
-                                    complete_doc.get("is_tier1_mba", False)
-                                ),
-                                "is_tier1_engineering": bool(
-                                    complete_doc.get("is_tier1_engineering", False)
-                                ),
-                                "comment": str(complete_doc.get("comment", "")),
-                                "exit_reason": str(complete_doc.get("exit_reason", "")),
-                                "relevance_score": float(
-                                    match.get("relevance_score", 0.0)
-                                ),
-                                "match_reason": str(
-                                    match.get("match_reason", "No explanation provided")
-                                ),
-                            }
+                                }
+                            )
                             formatted_results.append(formatted_doc)
 
                 # Sort by relevance score

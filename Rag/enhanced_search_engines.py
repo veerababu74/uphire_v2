@@ -84,11 +84,21 @@ class EnhancedVectorSearchEngine:
                         )
 
                         # Calculate enhanced relevance score
-                        enhanced_score, match_reason = (
-                            self.search_processor.calculate_relevance_score(
-                                formatted_doc, search_context, float(vector_score)
+                        try:
+                            enhanced_score, match_reason = (
+                                self.search_processor.calculate_relevance_score(
+                                    formatted_doc, search_context, float(vector_score)
+                                )
                             )
-                        )
+                        except Exception as score_error:
+                            logger.error(
+                                f"Error calculating relevance score: {score_error}"
+                            )
+                            # Fall back to vector score if calculation fails
+                            enhanced_score = float(vector_score)
+                            match_reason = (
+                                "Score calculation failed, using vector score"
+                            )
 
                         formatted_doc["similarity_score"] = enhanced_score
                         formatted_doc["vector_score"] = float(
@@ -102,9 +112,14 @@ class EnhancedVectorSearchEngine:
             processed_results.sort(key=lambda x: x["similarity_score"], reverse=True)
 
             # Apply additional filtering based on context
-            filtered_results = self._apply_context_filters(
-                processed_results, search_context
-            )
+            try:
+                filtered_results = self._apply_context_filters(
+                    processed_results, search_context
+                )
+            except Exception as filter_error:
+                logger.error(f"Error in context filtering: {filter_error}")
+                # Fall back to unfiltered results if filtering fails
+                filtered_results = processed_results
 
             # Limit to requested number of results
             final_results = filtered_results[:limit]
@@ -505,9 +520,22 @@ class EnhancedLLMSearchEngine:
                     complete_doc = self.collection.find_one({"_id": ObjectId(match_id)})
 
                     if complete_doc:
+                        # Debug logging for _id
+                        doc_id = complete_doc.get("_id")
+                        if not doc_id:
+                            logger.error(
+                                f"Document fetched from MongoDB is missing _id field!"
+                            )
+
                         formatted_doc = DocumentProcessor.format_complete_document(
                             complete_doc
                         )
+
+                        # Ensure _id is not empty after formatting
+                        if not formatted_doc.get("_id"):
+                            logger.error(
+                                f"Formatted document has empty _id! Original _id: {doc_id}"
+                            )
 
                         # Enhance the relevance score using our context-aware scoring
                         enhanced_score, enhanced_reason = (
@@ -526,6 +554,12 @@ class EnhancedLLMSearchEngine:
                             }
                         )
                         formatted_results.append(formatted_doc)
+                    else:
+                        logger.warning(
+                            f"Document with _id {match_id} not found in collection"
+                        )
+                else:
+                    logger.warning(f"Match has no valid _id: {match}")
 
             # Sort by enhanced relevance score
             formatted_results.sort(key=lambda x: x["relevance_score"], reverse=True)

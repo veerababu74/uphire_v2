@@ -1,0 +1,42 @@
+2025-09-24 21:12:32 - test_id_fix - INFO - Initializing RAG application...
+2025-09-24 21:12:34 - test_id_fix - INFO - Testing LLM search with query: java developer with minimum 4 years experience
+2025-09-24 21:12:38 - test_id_fix - INFO - LLM search result type: <class 'dict'>
+2025-09-24 21:12:38 - test_id_fix - ERROR - Error in search: 'NoneType' object is not iterable
+2025-09-24 21:13:11 - test_id_fix - INFO - Initializing RAG application...
+2025-09-24 21:13:12 - test_id_fix - INFO - Testing LLM search with query: java developer with minimum 4 years experience
+2025-09-24 21:13:15 - test_id_fix - INFO - LLM search result type: <class 'dict'>
+2025-09-24 21:13:15 - test_id_fix - INFO - Number of results: 3
+2025-09-24 21:13:15 - test_id_fix - INFO - Result 1:
+2025-09-24 21:13:15 - test_id_fix - INFO -   _id: '6883abfaf5785c34e07a5e6b' (type: <class 'str'>)
+2025-09-24 21:13:15 - test_id_fix - INFO -   user_id: 'user_id_placeholder'
+2025-09-24 21:13:15 - test_id_fix - INFO -   username: 'username_placeholder'
+2025-09-24 21:13:15 - test_id_fix - INFO -   relevance_score: 0.85
+2025-09-24 21:13:15 - test_id_fix - INFO - Result 2:
+2025-09-24 21:13:15 - test_id_fix - INFO -   _id: '68be7ff7ad97ff40ff5b8500' (type: <class 'str'>)
+2025-09-24 21:13:15 - test_id_fix - INFO -   user_id: '66c8771a20bd68c725758679'
+2025-09-24 21:13:15 - test_id_fix - INFO -   username: 'Harsh Gajera'
+2025-09-24 21:13:15 - test_id_fix - INFO -   relevance_score: 0.85
+2025-09-24 21:13:15 - test_id_fix - INFO - Result 3:
+2025-09-24 21:13:15 - test_id_fix - INFO -   _id: '6883c2c0f5785c34e07a5ebb' (type: <class 'str'>)
+2025-09-24 21:13:15 - test_id_fix - INFO -   user_id: 'NAVEEN KUMAR KILLI'
+2025-09-24 21:13:15 - test_id_fix - INFO -   username: 'killinaveenkumar2@gmail.com'
+2025-09-24 21:13:15 - test_id_fix - INFO -   relevance_score: 0.3
+2025-09-24 21:14:33 - test_id_fix - INFO - Initializing RAG application...
+2025-09-24 21:14:35 - test_id_fix - INFO - Testing LLM search with query: java developer with minimum 4 years experience
+2025-09-24 21:14:40 - test_id_fix - INFO - LLM search result type: <class 'dict'>
+2025-09-24 21:14:40 - test_id_fix - INFO - Number of results: 3
+2025-09-24 21:14:40 - test_id_fix - INFO - Result 1:
+2025-09-24 21:14:40 - test_id_fix - INFO -   _id: '68847b18a5b2fbca4c76cb54' (type: <class 'str'>)
+2025-09-24 21:14:40 - test_id_fix - INFO -   user_id: 'null'
+2025-09-24 21:14:40 - test_id_fix - INFO -   username: 'null'
+2025-09-24 21:14:40 - test_id_fix - INFO -   relevance_score: 0.0
+2025-09-24 21:14:40 - test_id_fix - INFO - Result 2:
+2025-09-24 21:14:40 - test_id_fix - INFO -   _id: '68847b18a5b2fbca4c76cb61' (type: <class 'str'>)
+2025-09-24 21:14:40 - test_id_fix - INFO -   user_id: 'user_id_placeholder'
+2025-09-24 21:14:40 - test_id_fix - INFO -   username: 'username_placeholder'
+2025-09-24 21:14:40 - test_id_fix - INFO -   relevance_score: 0.0
+2025-09-24 21:14:40 - test_id_fix - INFO - Result 3:
+2025-09-24 21:14:40 - test_id_fix - INFO -   _id: '6884c73ca5b2fbca4c76cc47' (type: <class 'str'>)
+2025-09-24 21:14:40 - test_id_fix - INFO -   user_id: 'null'
+2025-09-24 21:14:40 - test_id_fix - INFO -   username: 'null'
+2025-09-24 21:14:40 - test_id_fix - INFO -   relevance_score: 0.0

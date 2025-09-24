@@ -27,6 +27,9 @@ def safe_str(value, default=""):
     """Safely convert value to string, handling None values"""
     if value is None:
         return default
+    # Handle ObjectId conversion to ensure we get the string representation
+    if hasattr(value, "__str__") and "ObjectId" in str(type(value)):
+        return str(value)
     return str(value)
 
 
@@ -58,8 +61,17 @@ class DocumentProcessor:
     @staticmethod
     def format_complete_document(doc: Dict) -> Dict:
         """Format a complete document according to the specified structure"""
+        # Handle _id field specially to ensure it's never empty
+        doc_id = doc.get("_id")
+        if doc_id is None:
+            formatted_id = ""
+        elif hasattr(doc_id, "__str__") and "ObjectId" in str(type(doc_id)):
+            formatted_id = str(doc_id)
+        else:
+            formatted_id = str(doc_id) if doc_id else ""
+
         return {
-            "_id": safe_str(doc.get("_id"), ""),
+            "_id": formatted_id,
             "user_id": safe_str(doc.get("user_id"), ""),
             "username": safe_str(doc.get("username"), ""),
             "contact_details": DocumentProcessor._format_contact_details(doc),
