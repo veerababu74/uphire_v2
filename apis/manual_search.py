@@ -1,7 +1,7 @@
 import re
 from fastapi import APIRouter, Body, HTTPException
-from typing import List, Dict, Any, Optional
-from pydantic import BaseModel, Field
+from typing import List, Dict, Any, Optional, Union
+from pydantic import BaseModel, Field, validator
 from mangodatabase.client import (
     get_collection,
     get_manual_recent_search_collection,
@@ -108,6 +108,18 @@ class ManualSearchRequest(BaseModel):
         description="Minimum relevance score threshold (0-100). Only results with match_score >= this value will be returned",
         example=40.0,
     )
+
+    @validator("min_salary", "max_salary", pre=True)
+    def parse_salary(cls, v):
+        """Convert empty strings to None for salary fields"""
+        if v == "" or v is None:
+            return None
+        if isinstance(v, str):
+            try:
+                return float(v)
+            except ValueError:
+                raise ValueError(f"Invalid salary value: {v}")
+        return v
 
 
 router = APIRouter(

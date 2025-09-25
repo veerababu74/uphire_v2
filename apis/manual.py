@@ -1,7 +1,7 @@
 import re
 from fastapi import APIRouter, Body, HTTPException
 from typing import List, Dict, Any, Optional
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, validator
 from mangodatabase.client import get_collection
 from core.helpers import format_resume
 
@@ -58,6 +58,18 @@ class ManualSearchRequest(BaseModel):
     limit: int = Field(
         default=10, ge=1, le=50, description="Maximum number of results", example=10
     )
+
+    @validator("min_salary", "max_salary", pre=True)
+    def parse_salary(cls, v):
+        """Convert empty strings to None for salary fields"""
+        if v == "" or v is None:
+            return None
+        if isinstance(v, str):
+            try:
+                return float(v)
+            except ValueError:
+                raise ValueError(f"Invalid salary value: {v}")
+        return v
 
 
 router = APIRouter(

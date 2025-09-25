@@ -4,7 +4,7 @@ from mangodatabase.client import (
 )
 
 from fastapi import APIRouter, HTTPException, Depends
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, validator
 from typing import List, Optional, Dict, Any
 from datetime import datetime, timezone
 import uuid
@@ -53,6 +53,18 @@ class ManualSearchPayload(BaseModel):
     max_salary: Optional[float] = Field(
         default=None, description="Maximum salary filter", example=1500000
     )
+
+    @validator("min_salary", "max_salary", pre=True)
+    def parse_salary(cls, v):
+        """Convert empty strings to None for salary fields"""
+        if v == "" or v is None:
+            return None
+        if isinstance(v, str):
+            try:
+                return float(v)
+            except ValueError:
+                raise ValueError(f"Invalid salary value: {v}")
+        return v
 
 
 class SavedSearchResponse(BaseModel):

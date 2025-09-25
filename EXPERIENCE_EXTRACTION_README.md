@@ -39,7 +39,7 @@ Every parsed resume now includes `experience_metadata`:
 {
   "experience_metadata": {
     "extraction_confidence": "high|medium|low",
-    "calculation_method": "enhanced_llm|basic_calculator|regex_fallback",
+    "calculation_method": "enhanced_llm|basic_calculator|w",
     "total_years": 5,
     "total_months": 3
   }

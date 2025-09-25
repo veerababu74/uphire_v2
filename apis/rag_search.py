@@ -364,6 +364,7 @@ async def vector_similarity_search(request: VectorSimilaritySearchRequest):
 
             formatted_candidate = {
                 "_id": candidate_id,
+                "id": candidate_id,  # Map _id to id for Pydantic model
                 "user_id": candidate.get("user_id", ""),
                 "username": candidate.get("username", ""),
                 "contact_details": {
@@ -558,11 +559,15 @@ async def llm_context_search(request: LLMContextSearchRequest):
         # Normalize scores to 0-100 range if they're in 0-1 range and fix _id field
         if "results" in result:
             for res in result["results"]:
-                # Handle _id field properly - ensure it's always a string
+                # Handle _id field properly - map _id to id for Pydantic model
                 candidate_id = res.get("_id")
                 if candidate_id is None:
                     candidate_id = res.get("id", "")  # Try alternative key
-                res["_id"] = str(candidate_id) if candidate_id is not None else ""
+
+                # Set both _id and id fields to ensure compatibility
+                id_str = str(candidate_id) if candidate_id is not None else ""
+                res["_id"] = id_str
+                res["id"] = id_str  # Map _id to id for Pydantic model
 
                 # Normalize relevance_score
                 if "relevance_score" in res:
@@ -705,8 +710,10 @@ async def llm_search_by_jd(
             # Format results to match the expected structure
             formatted_results = []
             for candidate in result.get("results", []):
+                candidate_id = safe_object_id(candidate.get("_id", ""))
                 formatted_candidate = {
-                    "_id": safe_object_id(candidate.get("_id", "")),
+                    "_id": candidate_id,
+                    "id": candidate_id,  # Map _id to id for Pydantic model
                     "user_id": candidate.get("user_id", ""),
                     "username": candidate.get("username", ""),
                     "contact_details": {
