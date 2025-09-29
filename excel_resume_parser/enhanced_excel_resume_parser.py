@@ -87,20 +87,26 @@ class EnhancedExcelResumeParser:
     def process_excel_file(
         self,
         file_path: str,
+        sheet_name: Optional[str] = None,
         validation_level: str = "standard",
         cleaning_aggressive: bool = False,
         include_quality_scores: bool = True,
         batch_size: int = 10,
+        user_id: Optional[str] = None,
+        user_name: Optional[str] = None,
     ) -> Dict[str, Any]:
         """
         Process an Excel file with enhanced capabilities.
 
         Args:
             file_path: Path to the Excel file
+            sheet_name: Name of the sheet to process
             validation_level: Level of validation ("basic", "standard", "strict")
             cleaning_aggressive: Whether to apply aggressive data cleaning
             include_quality_scores: Whether to calculate quality scores
             batch_size: Number of rows to process in each batch
+            user_id: User ID for the person uploading the Excel
+            user_name: User name for the person uploading the Excel
 
         Returns:
             Dictionary containing processing results and statistics
@@ -123,25 +129,42 @@ class EnhancedExcelResumeParser:
         try:
             # Step 1: Read and analyze Excel file
             logger.info("Step 1: Reading and analyzing Excel file structure")
-            excel_data = self.excel_processor.process_excel_file(file_path)
+            excel_data = self.excel_processor.process_excel_file(file_path, sheet_name)
 
-            if not excel_data or "data" not in excel_data:
+            # excel_data is a list of dictionaries, not a dict with "data" key
+            if not excel_data or not isinstance(excel_data, list):
                 raise ValueError("Could not read Excel file or no data found")
 
-            df_data = excel_data["data"]
+            # Convert list of dicts to DataFrame for processing
+            import pandas as pd
+
+            df_data = pd.DataFrame(excel_data)
             processing_result["total_rows"] = len(df_data)
             logger.info(f"Found {len(df_data)} rows to process")
 
             # Step 2: Intelligent column mapping
             logger.info("Step 2: Performing intelligent column mapping")
-            column_mapping_result = self.column_mapper.analyze_and_map_columns(
+            column_mapping_result = self.column_mapper.map_columns(
                 df_data.columns.tolist()
             )
+
+            # Extract mapped fields and confidence scores from the result
+            mapped_fields = {}
+            confidence_scores = {}
+            unmapped_columns = []
+
+            for col_name, mapping_info in column_mapping_result.items():
+                if mapping_info["mapped_field"]:
+                    mapped_fields[col_name] = mapping_info["mapped_field"]
+                    confidence_scores[col_name] = mapping_info["confidence"]
+                else:
+                    unmapped_columns.append(col_name)
+
             processing_result["column_analysis"] = {
                 "original_columns": df_data.columns.tolist(),
-                "mapped_fields": column_mapping_result["field_mappings"],
-                "mapping_confidence": column_mapping_result["confidence_scores"],
-                "unmapped_columns": column_mapping_result["unmapped_columns"],
+                "mapped_fields": mapped_fields,
+                "mapping_confidence": confidence_scores,
+                "unmapped_columns": unmapped_columns,
             }
 
             # Step 3: Process rows in batches
@@ -160,7 +183,7 @@ class EnhancedExcelResumeParser:
 
                 batch_results = self._process_batch(
                     batch_df,
-                    column_mapping_result["field_mappings"],
+                    mapped_fields,  # Use the mapped_fields we created
                     validation_level,
                     cleaning_aggressive,
                     include_quality_scores,

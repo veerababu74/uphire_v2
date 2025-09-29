@@ -312,3 +312,86 @@
 2025-09-24 22:09:30 - llm_config - INFO - Groq configuration validated with 2 API key(s)
 2025-09-24 22:09:50 - llm_config - INFO - Groq configuration validated with 2 API key(s)
 2025-09-24 22:10:41 - llm_config - INFO - Groq configuration validated with 2 API key(s)
+2025-09-27 19:28:59 - llm_config - INFO - Groq configuration validated with 2 API key(s)
+2025-09-27 19:29:24 - llm_config - INFO - Groq configuration validated with 2 API key(s)
+2025-09-27 19:29:41 - llm_config - INFO - Groq configuration validated with 2 API key(s)
+2025-09-27 19:31:16 - llm_config - INFO - Groq configuration validated with 2 API key(s)
+2025-09-27 19:31:45 - llm_config - INFO - Groq configuration validated with 2 API key(s)
+2025-09-27 19:32:52 - llm_config - INFO - Groq configuration validated with 2 API key(s)
+2025-09-27 19:33:31 - llm_config - INFO - Groq configuration validated with 2 API key(s)
+2025-09-27 19:34:57 - llm_config - INFO - Groq configuration validated with 2 API key(s)
+2025-09-27 19:35:10 - llm_config - INFO - Groq configuration validated with 2 API key(s)
+2025-09-27 19:37:08 - llm_config - INFO - Groq configuration validated with 2 API key(s)
+2025-09-27 19:38:10 - llm_config - INFO - Groq configuration validated with 2 API key(s)
+2025-09-27 19:38:31 - llm_config - INFO - Groq configuration validated with 2 API key(s)
+2025-09-27 19:38:49 - llm_config - INFO - Groq configuration validated with 2 API key(s)
+2025-09-27 19:40:18 - llm_config - INFO - Groq configuration validated with 2 API key(s)
+2025-09-27 19:45:46 - llm_config - INFO - Groq configuration validated with 2 API key(s)
+2025-09-27 19:47:07 - llm_config - INFO - Groq configuration validated with 2 API key(s)
+2025-09-27 19:48:44 - llm_config - INFO - Groq configuration validated with 2 API key(s)
+2025-09-27 19:49:30 - llm_config - INFO - Groq configuration validated with 2 API key(s)
+2025-09-27 19:51:08 - llm_config - INFO - Groq configuration validated with 2 API key(s)
+2025-09-27 19:52:08 - llm_config - INFO - Groq configuration validated with 2 API key(s)
+2025-09-27 19:52:30 - llm_config - INFO - Groq configuration validated with 2 API key(s)
+2025-09-27 19:56:46 - llm_config - INFO - Groq configuration validated with 2 API key(s)
+2025-09-27 19:58:23 - llm_config - INFO - Groq configuration validated with 2 API key(s)
+2025-09-27 19:59:03 - llm_config - INFO - Groq configuration validated with 2 API key(s)
+2025-09-27 19:59:41 - llm_config - INFO - Groq configuration validated with 2 API key(s)
+2025-09-27 20:00:05 - llm_config - INFO - Groq configuration validated with 2 API key(s)
+2025-09-27 20:02:13 - llm_config - INFO - Groq configuration validated with 2 API key(s)
+2025-09-27 20:03:52 - llm_config - INFO - Groq configuration validated with 2 API key(s)
+2025-09-27 20:06:06 - llm_config - INFO - Groq configuration validated with 2 API key(s)
+2025-09-27 20:09:48 - llm_config - INFO - Groq configuration validated with 2 API key(s)
+2025-09-27 20:10:28 - llm_config - INFO - Groq configuration validated with 2 API key(s)
+2025-09-27 20:11:45 - llm_config - INFO - Groq configuration validated with 2 API key(s)
+2025-09-27 20:12:27 - llm_config - INFO - Groq configuration validated with 2 API key(s)
+2025-09-27 20:13:26 - llm_config - INFO - Groq configuration validated with 2 API key(s)
+2025-09-27 20:16:55 - llm_config - INFO - Groq configuration validated with 2 API key(s)
+2025-09-27 20:18:06 - llm_config - INFO - Groq configuration validated with 2 API key(s)
+2025-09-27 20:19:09 - llm_config - INFO - Groq configuration validated with 2 API key(s)
+2025-09-27 20:21:33 - llm_config - INFO - Groq configuration validated with 2 API key(s)
+2025-09-27 20:22:01 - llm_config - INFO - Groq configuration validated with 2 API key(s)
+2025-09-27 20:46:24 - llm_config - INFO - LLM provider set to: groq_cloud
+2025-09-27 20:52:56 - llm_config - INFO - LLM provider set to: groq_cloud
+2025-09-27 20:52:56 - llm_config - INFO - Groq configuration validated with 2 API key(s)
+2025-09-27 20:54:30 - llm_config - INFO - LLM provider set to: groq_cloud
+2025-09-27 20:55:16 - llm_config - INFO - Groq configuration validated with 2 API key(s)
+2025-09-27 20:55:38 - llm_config - INFO - Groq configuration validated with 2 API key(s)
+2025-09-27 20:55:55 - llm_config - INFO - LLM provider set to: groq_cloud
+2025-09-27 20:58:50 - llm_config - INFO - Groq configuration validated with 2 API key(s)
+2025-09-27 20:59:43 - llm_config - INFO - Groq configuration validated with 2 API key(s)
+2025-09-27 21:08:52 - llm_config - INFO - LLM provider set to: groq_cloud
+2025-09-27 21:08:52 - llm_config - INFO - Groq configuration validated with 2 API key(s)
+2025-09-27 21:08:52 - llm_config - INFO - LLM provider set to: groq_cloud
+2025-09-27 21:10:53 - llm_config - INFO - LLM provider set to: groq_cloud
+2025-09-27 21:10:53 - llm_config - INFO - Groq configuration validated with 2 API key(s)
+2025-09-27 21:10:54 - llm_config - INFO - LLM provider set to: groq_cloud
+2025-09-27 21:23:32 - llm_config - INFO - LLM provider set to: groq_cloud
+2025-09-27 21:23:32 - llm_config - INFO - Groq configuration validated with 2 API key(s)
+2025-09-27 21:25:15 - llm_config - INFO - LLM provider set to: groq_cloud
+2025-09-27 21:25:15 - llm_config - INFO - Groq configuration validated with 2 API key(s)
+2025-09-27 21:34:01 - llm_config - INFO - LLM provider set to: groq_cloud
+2025-09-27 21:34:01 - llm_config - INFO - Groq configuration validated with 2 API key(s)
+2025-09-27 21:38:42 - llm_config - INFO - LLM provider set to: groq_cloud
+2025-09-27 21:38:42 - llm_config - INFO - Groq configuration validated with 2 API key(s)
+2025-09-29 20:42:13 - llm_config - INFO - Groq configuration validated with 2 API key(s)
+2025-09-29 20:42:41 - llm_config - INFO - Groq configuration validated with 2 API key(s)
+2025-09-29 20:49:34 - llm_config - INFO - LLM provider set to: groq_cloud
+2025-09-29 20:57:40 - llm_config - INFO - Groq configuration validated with 2 API key(s)
+2025-09-29 20:58:15 - llm_config - INFO - Groq configuration validated with 2 API key(s)
+2025-09-29 20:59:43 - llm_config - INFO - Groq configuration validated with 2 API key(s)
+2025-09-29 21:00:24 - llm_config - INFO - Groq configuration validated with 2 API key(s)
+2025-09-29 21:01:29 - llm_config - INFO - Groq configuration validated with 2 API key(s)
+2025-09-29 21:01:59 - llm_config - INFO - Groq configuration validated with 2 API key(s)
+2025-09-29 21:02:14 - llm_config - INFO - LLM provider set to: groq_cloud
+2025-09-29 21:02:14 - llm_config - INFO - Groq configuration validated with 2 API key(s)
+2025-09-29 21:02:49 - llm_config - INFO - Groq configuration validated with 2 API key(s)
+2025-09-29 21:02:57 - llm_config - INFO - LLM provider set to: groq_cloud
+2025-09-29 21:02:57 - llm_config - INFO - Groq configuration validated with 2 API key(s)
+2025-09-29 21:05:53 - llm_config - INFO - Groq configuration validated with 2 API key(s)
+2025-09-29 21:06:56 - llm_config - INFO - Groq configuration validated with 2 API key(s)
+2025-09-29 21:07:25 - llm_config - INFO - Groq configuration validated with 2 API key(s)
+2025-09-29 21:07:55 - llm_config - INFO - Groq configuration validated with 2 API key(s)
+2025-09-29 21:08:07 - llm_config - INFO - LLM provider set to: groq_cloud
+2025-09-29 21:08:07 - llm_config - INFO - Groq configuration validated with 2 API key(s)
+2025-09-29 21:08:14 - llm_config - INFO - LLM provider set to: groq_cloud

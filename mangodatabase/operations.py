@@ -346,6 +346,119 @@ class ResumeOperations:
                 f"Failed to update embeddings for user {user_id}: {str(e)}"
             )
 
+    def check_duplicate_resume(
+        self, email: str = None, phone: str = None, name: str = None
+    ) -> Dict:
+        """
+        Check if a resume with similar contact details already exists.
+
+        Args:
+            email: Email address to check
+            phone: Phone number to check
+            name: Name to check
+
+        Returns:
+            Dict containing existing resume data if duplicate found, None otherwise
+        """
+        try:
+            # Define placeholder/generic values that should not be considered for duplicate detection
+            generic_emails = [
+                "noemail@notprovided.com",
+                "email@notprovided.com",
+                "noemail@noemail.com",
+                "not_provided@email.com",
+                "email_not_found@domain.com",
+            ]
+
+            generic_names = [
+                "name not found",
+                "not found",
+                "unknown",
+                "n/a",
+                "not provided",
+                "candidate name",
+                "resume holder",
+            ]
+
+            generic_phones = [
+                "+91",
+                "91",
+                "phone_not_provided",
+                "not_provided",
+                "0000000000",
+                "1111111111",
+            ]
+
+            # Build query to find duplicates based on contact details
+            query_conditions = []
+
+            # Only check email if it's not a generic placeholder
+            if email and email.strip() and email.strip().lower() not in generic_emails:
+                query_conditions.append(
+                    {
+                        "contact_details.email": {
+                            "$regex": f"^{email.strip()}$",
+                            "$options": "i",
+                        }
+                    }
+                )
+
+            # Only check phone if it's not a generic placeholder
+            if phone and phone.strip():
+                clean_phone = "".join(filter(str.isdigit, phone))
+                if (
+                    clean_phone
+                    and clean_phone not in generic_phones
+                    and len(clean_phone) >= 10
+                ):
+                    query_conditions.append(
+                        {
+                            "$or": [
+                                {"contact_details.phone": {"$regex": clean_phone}},
+                                {"contact_details.phone": phone.strip()},
+                            ]
+                        }
+                    )
+
+            # Only check name if it's not a generic placeholder
+            if name and name.strip() and name.strip().lower() not in generic_names:
+                query_conditions.append(
+                    {
+                        "contact_details.name": {
+                            "$regex": f"^{name.strip()}$",
+                            "$options": "i",
+                        }
+                    }
+                )
+
+            # If no valid criteria provided, return None (don't consider it a duplicate)
+            if not query_conditions:
+                return None
+
+            # Find existing resume with any matching criteria
+            query = {"$or": query_conditions}
+            existing_resume = self.collection.find_one(query)
+
+            return existing_resume
+
+        except Exception as e:
+            # Log error but don't fail the entire process
+            print(f"Error checking duplicate resume: {str(e)}")
+            return None
+            if not query_conditions:
+                return None
+
+            # Find existing resume with any matching criteria
+            query = {"$or": query_conditions}
+            existing_resume = self.collection.find_one(query)
+
+            return existing_resume
+
+        except Exception as e:
+            # Log error but don't fail the entire process
+            print(f"Error checking duplicate resume: {str(e)}")
+            return None
+
 
 # ...existing code...
 

@@ -76,3 +76,11 @@
 2025-09-06 17:44:18 - excel_resume_parser - INFO - Saving 1 parsed resumes
 2025-09-06 17:44:18 - excel_resume_parser - ERROR - Error saving resume for user veera_1: 'DuplicateDetectionOperations' object has no attribute 'check_duplicate'
 2025-09-06 17:44:18 - excel_resume_parser - INFO - Save completed: 0 saved, 0 duplicates, 1 errors
+2025-09-27 21:23:32 - excel_resume_parser - INFO - Initializing Excel Resume Parser
+2025-09-27 21:23:32 - excel_resume_parser - INFO - Auto-detected LLM provider from config: groq_cloud
+2025-09-27 21:23:33 - excel_resume_parser - INFO - Excel Resume Parser initialized successfully
+2025-09-27 21:23:35 - excel_resume_parser - INFO - Successfully parsed resume for jane_smith
+2025-09-27 21:25:15 - excel_resume_parser - INFO - Initializing Excel Resume Parser
+2025-09-27 21:25:15 - excel_resume_parser - INFO - Auto-detected LLM provider from config: groq_cloud
+2025-09-27 21:25:17 - excel_resume_parser - INFO - Excel Resume Parser initialized successfully
+2025-09-27 21:25:19 - excel_resume_parser - INFO - Successfully parsed resume for jane_smith

@@ -2,3 +2,7 @@
 2025-07-19 22:42:57 - single_resume_parser - INFO - Successfully parsed resume: sudheera1.pdf
 2025-07-20 10:33:50 - single_resume_parser - INFO - Extracted text from SUDHEERBABU-KOMANAPALLI-FlowCV-Resume-20250704.pdf, length: 2934
 2025-07-20 10:33:51 - single_resume_parser - INFO - Successfully parsed resume: SUDHEERBABU-KOMANAPALLI-FlowCV-Resume-20250704.pdf
+2025-09-27 19:57:33 - single_resume_parser - INFO - Extracted text from acc banking advisory.pdf, length: 1664
+2025-09-27 19:57:35 - single_resume_parser - INFO - Successfully parsed resume: acc banking advisory.pdf
+2025-09-29 21:01:37 - single_resume_parser - INFO - Extracted text from cognizant.pdf, length: 1321
+2025-09-29 21:01:40 - single_resume_parser - INFO - Successfully parsed resume: cognizant.pdf

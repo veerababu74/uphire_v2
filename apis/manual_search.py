@@ -564,7 +564,7 @@ async def manual_resume_search(search_params: ManualSearchRequest):
                     )
                     match_details["fields_matched"] += 1
 
-            # Calculate skills match score - Enhanced to find ALL matching skills
+            # Calculate skills match score - Enhanced to find ALL matching skills with partial matching
             if search_params.skills:
                 field_has_match = False
                 skills_score = 0
@@ -575,11 +575,28 @@ async def manual_resume_search(search_params: ManualSearchRequest):
                 all_resume_skills = resume_skills + may_also_known_skills
 
                 for skill in search_params.skills:
+                    skill_matched = False
+                    # First try exact match
                     if skill.lower() in all_resume_skills:
                         match_details["skills_matches"] += 1
                         match_details["matched_skills"].append(skill)
                         skills_score += 1
                         field_has_match = True
+                        skill_matched = True
+                    # If no exact match, try partial match
+                    elif not skill_matched:
+                        for resume_skill in all_resume_skills:
+                            if (
+                                skill.lower() in resume_skill
+                                or resume_skill in skill.lower()
+                            ):
+                                match_details["skills_matches"] += 1
+                                match_details["matched_skills"].append(
+                                    f"{skill} (partial: {resume_skill})"
+                                )
+                                skills_score += 0.5  # Partial match gets half points
+                                field_has_match = True
+                                break
 
                 if field_has_match:
                     # Normalize to max 25 points, with diminishing returns for multiple matches
@@ -640,7 +657,7 @@ async def manual_resume_search(search_params: ManualSearchRequest):
                     category_scores["education"] = min(15, education_score * 2.5)
                     match_details["fields_matched"] += 1
 
-            # Experience duration filtering and scoring
+            # Experience duration filtering and scoring - More lenient with 25% variance
             if min_experience_months > 0 or max_experience_months < float("inf"):
                 total_exp = resume.get("total_experience", "")
                 resume_exp_months = 0
@@ -654,18 +671,22 @@ async def manual_resume_search(search_params: ManualSearchRequest):
                         )
                         resume_exp_months += exp_months
 
+                # More lenient experience matching - allow 25% variance
+                min_threshold = min_experience_months * 0.75  # 75% of minimum
+                max_threshold = max_experience_months * 1.25  # 125% of maximum
+
                 if (
-                    resume_exp_months >= min_experience_months
-                    and resume_exp_months <= max_experience_months
+                    resume_exp_months >= min_threshold
+                    and resume_exp_months <= max_threshold
                 ):
                     match_details["experience_range_match"] = True
                     category_scores["experience_range"] = (
-                        10  # Full points for perfect match
+                        10  # Full points for match within variance
                     )
                     match_details["fields_matched"] += 1
                 elif (
-                    resume_exp_months >= min_experience_months * 0.8
-                ):  # 80% of min experience
+                    resume_exp_months >= min_experience_months * 0.5
+                ):  # 50% of min experience
                     category_scores["experience_range"] = (
                         5  # Partial points for close match
                     )
@@ -707,7 +728,7 @@ async def manual_resume_search(search_params: ManualSearchRequest):
                     category_scores["location"] = min(15, location_score * 2)
                     match_details["fields_matched"] += 1
 
-            # Salary filtering and scoring - Enhanced with better tracking
+            # Salary filtering and scoring - Enhanced with better tracking and 10% variance
             if (
                 search_params.min_salary is not None
                 or search_params.max_salary is not None
@@ -721,19 +742,25 @@ async def manual_resume_search(search_params: ManualSearchRequest):
                 )
 
                 if candidate_salary and candidate_salary > 0:
-                    salary_in_range = True
+                    # More lenient salary matching - allow 10% variance
+                    min_sal = (
+                        search_params.min_salary
+                        if search_params.min_salary is not None
+                        else 0
+                    )
+                    max_sal = (
+                        search_params.max_salary
+                        if search_params.max_salary is not None
+                        else float("inf")
+                    )
 
-                    if (
-                        search_params.min_salary is not None
-                        and candidate_salary < search_params.min_salary
-                    ):
-                        salary_in_range = False
+                    min_sal_threshold = min_sal * 0.9  # 90% of minimum
+                    max_sal_threshold = max_sal * 1.1  # 110% of maximum
 
-                    if (
-                        search_params.max_salary is not None
-                        and candidate_salary > search_params.max_salary
-                    ):
-                        salary_in_range = False
+                    salary_in_range = (
+                        candidate_salary >= min_sal_threshold
+                        and candidate_salary <= max_sal_threshold
+                    )
 
                     if salary_in_range:
                         match_details["salary_range_match"] = True
@@ -774,16 +801,39 @@ async def manual_resume_search(search_params: ManualSearchRequest):
 
             scored_results.append(formatted_resume)
 
-        # Filter results based on relevant_score threshold
+        # Filter results based on relevant_score threshold - More intelligent filtering
         if (
             search_params.relevant_score is not None
             and search_params.relevant_score > 0
         ):
-            scored_results = [
+            # If requested threshold would return no results, gradually lower it
+            original_threshold = search_params.relevant_score
+            effective_threshold = original_threshold
+
+            high_threshold_results = [
                 result
                 for result in scored_results
-                if result.get("match_score", 0) >= search_params.relevant_score
+                if result.get("match_score", 0) >= effective_threshold
             ]
+
+            # If no results with original threshold, try lower thresholds
+            if not high_threshold_results and scored_results:
+                for threshold_factor in [0.75, 0.5, 0.25, 0.1]:
+                    effective_threshold = original_threshold * threshold_factor
+                    high_threshold_results = [
+                        result
+                        for result in scored_results
+                        if result.get("match_score", 0) >= effective_threshold
+                    ]
+                    if high_threshold_results:
+                        # Add note about threshold adjustment in the results
+                        for result in high_threshold_results:
+                            result["threshold_adjusted"] = True
+                            result["original_threshold"] = original_threshold
+                            result["effective_threshold"] = effective_threshold
+                        break
+
+            scored_results = high_threshold_results
 
         # Enhanced sorting: prioritize by fields matched, then by total score, then by individual matches
         sorted_results = sorted(

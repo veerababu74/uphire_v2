@@ -1,0 +1,39 @@
+2025-09-27 19:35:27 - unified_resume_parser_api - INFO - Starting single resume parsing for user: John Doe (ID: test_user_123)
+2025-09-27 19:35:27 - unified_resume_parser_api - ERROR - Error in single resume parsing: create_enhanced_parser() got an unexpected keyword argument 'llm_provider'
+2025-09-27 19:35:29 - unified_resume_parser_api - INFO - Starting async bulk resume upload with 3 files for user: John Doe (ID: test_user_123)
+2025-09-27 19:35:29 - unified_resume_parser_api - INFO - Starting background bulk resume processing for job 53c216c8-48b2-4d31-8881-594f12cc2dec
+2025-09-27 19:35:30 - unified_resume_parser_api - ERROR - Error in background bulk processing job 53c216c8-48b2-4d31-8881-594f12cc2dec: create_enhanced_parser() got an unexpected keyword argument 'llm_provider'
+2025-09-27 19:37:20 - unified_resume_parser_api - INFO - Starting single resume parsing for user: John Doe (ID: test_user_123)
+2025-09-27 19:37:20 - unified_resume_parser_api - ERROR - Error in single resume parsing: EnhancedResumeParser.parse_resume() got an unexpected keyword argument 'user_id'
+2025-09-27 19:37:22 - unified_resume_parser_api - INFO - Starting async bulk resume upload with 3 files for user: John Doe (ID: test_user_123)
+2025-09-27 19:37:22 - unified_resume_parser_api - INFO - Starting background bulk resume processing for job 0e1dd846-85ec-4e24-a586-52e3cbb672d9
+2025-09-27 19:37:22 - unified_resume_parser_api - INFO - Processing 3 resume files for user: John Doe (ID: test_user_123)
+2025-09-27 19:37:22 - unified_resume_parser_api - ERROR - Error processing file test_resume_1.txt: EnhancedResumeParser.parse_resume() got an unexpected keyword argument 'user_id'
+2025-09-27 19:37:22 - unified_resume_parser_api - ERROR - Error processing file test_resume_2.txt: EnhancedResumeParser.parse_resume() got an unexpected keyword argument 'user_id'
+2025-09-27 19:37:22 - unified_resume_parser_api - ERROR - Error processing file test_resume_3.txt: EnhancedResumeParser.parse_resume() got an unexpected keyword argument 'user_id'
+2025-09-27 19:37:23 - unified_resume_parser_api - INFO - Completed bulk processing job 0e1dd846-85ec-4e24-a586-52e3cbb672d9: 0/3 successful
+2025-09-27 19:38:59 - unified_resume_parser_api - INFO - Starting single resume parsing for user: John Doe (ID: test_user_123)
+2025-09-27 19:39:01 - unified_resume_parser_api - INFO - Starting async bulk resume upload with 3 files for user: John Doe (ID: test_user_123)
+2025-09-27 19:39:01 - unified_resume_parser_api - INFO - Starting background bulk resume processing for job 6ca2580c-1533-4121-94c0-6483384b773f
+2025-09-27 19:39:02 - unified_resume_parser_api - INFO - Processing 3 resume files for user: John Doe (ID: test_user_123)
+2025-09-27 19:39:02 - unified_resume_parser_api - INFO - Completed bulk processing job 6ca2580c-1533-4121-94c0-6483384b773f: 3/3 successful
+2025-09-27 20:07:11 - unified_resume_parser_api - INFO - Starting async bulk resume upload with 3 files for user: veera (ID: 12345)
+2025-09-27 20:07:11 - unified_resume_parser_api - INFO - Starting background bulk resume processing for job 20e5af12-61a3-42d6-95b1-425683da6b14
+2025-09-27 20:07:12 - unified_resume_parser_api - INFO - Processing 3 resume files for user: veera (ID: 12345)
+2025-09-27 20:07:12 - unified_resume_parser_api - ERROR - Error processing file Business Analyst.pdf: 'ResumeOperations' object has no attribute 'check_duplicate_resume'
+2025-09-27 20:07:12 - unified_resume_parser_api - ERROR - Error processing file acc banking advisory.pdf: 'ResumeOperations' object has no attribute 'check_duplicate_resume'
+2025-09-27 20:07:12 - unified_resume_parser_api - ERROR - Error processing file durga deloitte.pdf: 'ResumeOperations' object has no attribute 'check_duplicate_resume'
+2025-09-27 20:07:13 - unified_resume_parser_api - INFO - Completed bulk processing job 20e5af12-61a3-42d6-95b1-425683da6b14: 0/3 successful
+2025-09-27 20:15:01 - unified_resume_parser_api - INFO - Starting async bulk resume upload with 3 files for user: veera (ID: 12345)
+2025-09-27 20:15:01 - unified_resume_parser_api - INFO - Starting background bulk resume processing for job 0a615e70-6edd-4d41-a3fb-d168047deacf
+2025-09-27 20:15:02 - unified_resume_parser_api - INFO - Processing 3 resume files for user: veera (ID: 12345)
+2025-09-27 20:15:03 - unified_resume_parser_api - INFO - Completed bulk processing job 0a615e70-6edd-4d41-a3fb-d168047deacf: 0/3 successful
+2025-09-27 20:46:24 - unified_resume_parser_api - INFO - Starting enhanced Excel processing session: c247624e-6b87-4c65-b28f-9bd2255cc2c9 for user: veera (ID: 123)
+2025-09-27 20:46:24 - unified_resume_parser_api - INFO - Processing Excel file for session c247624e-6b87-4c65-b28f-9bd2255cc2c9, user: veera (ID: 123)
+2025-09-27 20:54:30 - unified_resume_parser_api - INFO - Starting enhanced Excel processing session: 728a06b5-b892-44e5-9610-14d07ab52692 for user: veera (ID: 123)
+2025-09-27 20:54:30 - unified_resume_parser_api - INFO - Processing Excel file for session 728a06b5-b892-44e5-9610-14d07ab52692, user: veera (ID: 123)
+2025-09-27 20:55:55 - unified_resume_parser_api - INFO - Starting enhanced Excel processing session: 2e2dcc09-7966-41ac-8b9d-6a0589185b9b for user: veera (ID: 123)
+2025-09-27 20:55:55 - unified_resume_parser_api - INFO - Processing Excel file for session 2e2dcc09-7966-41ac-8b9d-6a0589185b9b, user: veera (ID: 123)
+2025-09-29 20:49:34 - unified_resume_parser_api - INFO - Starting enhanced Excel processing session: 01ebbe90-0cbd-46b5-8557-5d5f7eea32af for user: harshgajera (ID: 66c8771a20bd68c725758679)
+2025-09-29 20:49:34 - unified_resume_parser_api - INFO - Processing Excel file for session 01ebbe90-0cbd-46b5-8557-5d5f7eea32af, user: harshgajera (ID: 66c8771a20bd68c725758679)
+2025-09-29 20:49:41 - unified_resume_parser_api - ERROR - Error processing Excel file for session 01ebbe90-0cbd-46b5-8557-5d5f7eea32af: 'FixedExcelParserAdapter' object has no attribute 'save_parsed_resumes_to_database'

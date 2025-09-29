@@ -4,7 +4,8 @@ from fastapi import File, UploadFile, HTTPException
 from pathlib import Path
 from datetime import datetime, timedelta, date, timezone
 from GroqcloudLLM.text_extraction import extract_and_clean_text, clean_text
-from GroqcloudLLM.main import ResumeParser
+
+# Note: ResumeParser import removed - not used in this file
 from Expericecal.total_exp import format_experience, calculator
 from mangodatabase.operations import ResumeOperations, SkillsTitlesOperations
 from mangodatabase.client import get_collection, get_skills_titles_collection
@@ -14,11 +15,12 @@ from core.custom_logger import CustomLogger
 from pydantic import BaseModel, EmailStr, HttpUrl
 from typing import List, Optional
 
-# Initialize the GroqcloudLLM parser for add user data functionality
-parser = ResumeParser()  # Uses GroqcloudLLM for single resume processing
+# Note: ResumeParser removed - not used in this file
+# If needed, use the new unified resume parser API instead
+
+# Initialize database operations
 collection = get_collection()
 skills_titles_collection = get_skills_titles_collection()
-# Initialize database operations
 skills_ops = SkillsTitlesOperations(skills_titles_collection)
 add_user_vectorizer = AddUserDataVectorizer()
 resume_ops = ResumeOperations(collection, add_user_vectorizer)

@@ -140,3 +140,102 @@
 2025-09-06 17:44:17 - excel_processor - INFO - Column names cleaned: {'Candidate Name': 'candidate_name', 'Mobile No': 'mobile_no', 'Email': 'email', 'Current City': 'current_city', 'Prefered Locations': 'prefered_locations', 'Total Experience': 'total_experience', 'Notice Period (In Days)': 'notice_period_in_days', 'Currency': 'currency', 'Pay Duration': 'pay_duration', 'Current Salary': 'current_salary', 'Expected Salary': 'expected_salary', 'Key Skills': 'key_skills', 'May Also Know': 'may_also_know', 'Labels': 'labels', 'Panno': 'panno', 'Adharno': 'adharno', 'Company Name': 'company_name', 'Position Title': 'position_title', 'Company Start Date': 'company_start_date', 'Company End Date': 'company_end_date', 'Education Name': 'education_name', 'College Name': 'college_name', 'College Passing Year': 'college_passing_year', 'Naukari Profile Link': 'naukari_profile_link', 'Linkedin Profile': 'linkedin_profile', 'Portfolio Link': 'portfolio_link', 'Source': 'source', 'Alternate Phone Number': 'alternate_phone_number', 'Last Working Date': 'last_working_date', 'Gender': 'gender', 'Unnamed: 30': 'unnamed_30', 'Age': 'age', 'Is Tier 1 MBA College': 'is_tier_1_mba_college', 'Comment': 'comment', 'Exit Reason': 'exit_reason'}
 2025-09-06 17:44:17 - excel_processor - INFO - Converted 1 valid rows to dictionaries
 2025-09-06 17:44:17 - excel_processor - INFO - Successfully processed 1 records from Excel bytes
+2025-09-27 20:46:25 - excel_processor - INFO - Processing Excel file: C:\Users\pveer\AppData\Local\Temp\tmpsk2cbfm9\example_resumes.xlsx
+2025-09-27 20:46:25 - excel_processor - INFO - Reading first sheet
+2025-09-27 20:46:25 - excel_processor - INFO - Original DataFrame shape: (3, 11)
+2025-09-27 20:46:25 - excel_processor - INFO - Original columns: ['Name', 'Email', 'Phone', 'Experience', 'Skills', 'Location', 'Current Salary', 'Expected Salary', 'Notice Period', 'Education', 'College']
+2025-09-27 20:46:25 - excel_processor - INFO - No duplicate columns found
+2025-09-27 20:46:25 - excel_processor - INFO - Column names cleaned: {'Name': 'name', 'Email': 'email', 'Phone': 'phone', 'Experience': 'experience', 'Skills': 'skills', 'Location': 'location', 'Current Salary': 'current_salary', 'Expected Salary': 'expected_salary', 'Notice Period': 'notice_period', 'Education': 'education', 'College': 'college'}
+2025-09-27 20:46:25 - excel_processor - INFO - Converted 3 valid rows to dictionaries
+2025-09-27 20:46:25 - excel_processor - INFO - Successfully processed 3 records from Excel file
+2025-09-27 20:52:43 - excel_processor - INFO - Processing Excel file: C:\Users\pveer\AppData\Local\Temp\tmp_5g73uk8.xlsx
+2025-09-27 20:52:43 - excel_processor - INFO - Reading first sheet
+2025-09-27 20:52:43 - excel_processor - INFO - Original DataFrame shape: (3, 11)
+2025-09-27 20:52:43 - excel_processor - INFO - Original columns: ['Name', 'Email', 'Phone', 'Experience', 'Skills', 'Location', 'Current Salary', 'Expected Salary', 'Notice Period', 'Education', 'College']
+2025-09-27 20:52:43 - excel_processor - INFO - No duplicate columns found
+2025-09-27 20:52:43 - excel_processor - INFO - Column names cleaned: {'Name': 'name', 'Email': 'email', 'Phone': 'phone', 'Experience': 'experience', 'Skills': 'skills', 'Location': 'location', 'Current Salary': 'current_salary', 'Expected Salary': 'expected_salary', 'Notice Period': 'notice_period', 'Education': 'education', 'College': 'college'}
+2025-09-27 20:52:43 - excel_processor - INFO - Converted 3 valid rows to dictionaries
+2025-09-27 20:52:43 - excel_processor - INFO - Successfully processed 3 records from Excel file
+2025-09-27 20:52:57 - excel_processor - INFO - Processing Excel file: C:\Users\pveer\AppData\Local\Temp\tmp_5g73uk8.xlsx
+2025-09-27 20:52:57 - excel_processor - INFO - Reading first sheet
+2025-09-27 20:52:57 - excel_processor - INFO - Original DataFrame shape: (3, 11)
+2025-09-27 20:52:57 - excel_processor - INFO - Original columns: ['Name', 'Email', 'Phone', 'Experience', 'Skills', 'Location', 'Current Salary', 'Expected Salary', 'Notice Period', 'Education', 'College']
+2025-09-27 20:52:57 - excel_processor - INFO - No duplicate columns found
+2025-09-27 20:52:57 - excel_processor - INFO - Column names cleaned: {'Name': 'name', 'Email': 'email', 'Phone': 'phone', 'Experience': 'experience', 'Skills': 'skills', 'Location': 'location', 'Current Salary': 'current_salary', 'Expected Salary': 'expected_salary', 'Notice Period': 'notice_period', 'Education': 'education', 'College': 'college'}
+2025-09-27 20:52:57 - excel_processor - INFO - Converted 3 valid rows to dictionaries
+2025-09-27 20:52:57 - excel_processor - INFO - Successfully processed 3 records from Excel file
+2025-09-27 20:54:31 - excel_processor - INFO - Processing Excel file: C:\Users\pveer\AppData\Local\Temp\tmpnupvo2bq\example_resumes.xlsx
+2025-09-27 20:54:31 - excel_processor - INFO - Reading first sheet
+2025-09-27 20:54:31 - excel_processor - INFO - Original DataFrame shape: (3, 11)
+2025-09-27 20:54:31 - excel_processor - INFO - Original columns: ['Name', 'Email', 'Phone', 'Experience', 'Skills', 'Location', 'Current Salary', 'Expected Salary', 'Notice Period', 'Education', 'College']
+2025-09-27 20:54:31 - excel_processor - INFO - No duplicate columns found
+2025-09-27 20:54:31 - excel_processor - INFO - Column names cleaned: {'Name': 'name', 'Email': 'email', 'Phone': 'phone', 'Experience': 'experience', 'Skills': 'skills', 'Location': 'location', 'Current Salary': 'current_salary', 'Expected Salary': 'expected_salary', 'Notice Period': 'notice_period', 'Education': 'education', 'College': 'college'}
+2025-09-27 20:54:31 - excel_processor - INFO - Converted 3 valid rows to dictionaries
+2025-09-27 20:54:31 - excel_processor - INFO - Successfully processed 3 records from Excel file
+2025-09-27 20:55:56 - excel_processor - INFO - Processing Excel file: C:\Users\pveer\AppData\Local\Temp\tmpz911o1x0\example_resumes.xlsx
+2025-09-27 20:55:56 - excel_processor - INFO - Reading first sheet
+2025-09-27 20:55:56 - excel_processor - INFO - Original DataFrame shape: (3, 11)
+2025-09-27 20:55:56 - excel_processor - INFO - Original columns: ['Name', 'Email', 'Phone', 'Experience', 'Skills', 'Location', 'Current Salary', 'Expected Salary', 'Notice Period', 'Education', 'College']
+2025-09-27 20:55:56 - excel_processor - INFO - No duplicate columns found
+2025-09-27 20:55:56 - excel_processor - INFO - Column names cleaned: {'Name': 'name', 'Email': 'email', 'Phone': 'phone', 'Experience': 'experience', 'Skills': 'skills', 'Location': 'location', 'Current Salary': 'current_salary', 'Expected Salary': 'expected_salary', 'Notice Period': 'notice_period', 'Education': 'education', 'College': 'college'}
+2025-09-27 20:55:56 - excel_processor - INFO - Converted 3 valid rows to dictionaries
+2025-09-27 20:55:56 - excel_processor - INFO - Successfully processed 3 records from Excel file
+2025-09-27 21:08:51 - excel_processor - INFO - Processing Excel file: C:\Users\pveer\AppData\Local\Temp\tmpoa3hz35c.xlsx
+2025-09-27 21:08:52 - excel_processor - INFO - Reading first sheet
+2025-09-27 21:08:52 - excel_processor - INFO - Original DataFrame shape: (3, 11)
+2025-09-27 21:08:52 - excel_processor - INFO - Original columns: ['Name', 'Email', 'Phone', 'Experience', 'Skills', 'Location', 'Current Salary', 'Expected Salary', 'Notice Period', 'Education', 'College']
+2025-09-27 21:08:52 - excel_processor - INFO - No duplicate columns found
+2025-09-27 21:08:52 - excel_processor - INFO - Column names cleaned: {'Name': 'name', 'Email': 'email', 'Phone': 'phone', 'Experience': 'experience', 'Skills': 'skills', 'Location': 'location', 'Current Salary': 'current_salary', 'Expected Salary': 'expected_salary', 'Notice Period': 'notice_period', 'Education': 'education', 'College': 'college'}
+2025-09-27 21:08:52 - excel_processor - INFO - Converted 3 valid rows to dictionaries
+2025-09-27 21:08:52 - excel_processor - INFO - Successfully processed 3 records from Excel file
+2025-09-27 21:08:53 - excel_processor - INFO - Processing Excel file: C:\Users\pveer\AppData\Local\Temp\tmpoa3hz35c.xlsx
+2025-09-27 21:08:53 - excel_processor - INFO - Reading first sheet
+2025-09-27 21:08:53 - excel_processor - INFO - Original DataFrame shape: (3, 11)
+2025-09-27 21:08:53 - excel_processor - INFO - Original columns: ['Name', 'Email', 'Phone', 'Experience', 'Skills', 'Location', 'Current Salary', 'Expected Salary', 'Notice Period', 'Education', 'College']
+2025-09-27 21:08:53 - excel_processor - INFO - No duplicate columns found
+2025-09-27 21:08:53 - excel_processor - INFO - Column names cleaned: {'Name': 'name', 'Email': 'email', 'Phone': 'phone', 'Experience': 'experience', 'Skills': 'skills', 'Location': 'location', 'Current Salary': 'current_salary', 'Expected Salary': 'expected_salary', 'Notice Period': 'notice_period', 'Education': 'education', 'College': 'college'}
+2025-09-27 21:08:53 - excel_processor - INFO - Converted 3 valid rows to dictionaries
+2025-09-27 21:08:53 - excel_processor - INFO - Successfully processed 3 records from Excel file
+2025-09-27 21:10:53 - excel_processor - INFO - Processing Excel file: C:\Users\pveer\AppData\Local\Temp\tmpd5in8uuv.xlsx
+2025-09-27 21:10:53 - excel_processor - INFO - Reading first sheet
+2025-09-27 21:10:53 - excel_processor - INFO - Original DataFrame shape: (3, 11)
+2025-09-27 21:10:53 - excel_processor - INFO - Original columns: ['Name', 'Email', 'Phone', 'Experience', 'Skills', 'Location', 'Current Salary', 'Expected Salary', 'Notice Period', 'Education', 'College']
+2025-09-27 21:10:53 - excel_processor - INFO - No duplicate columns found
+2025-09-27 21:10:53 - excel_processor - INFO - Column names cleaned: {'Name': 'name', 'Email': 'email', 'Phone': 'phone', 'Experience': 'experience', 'Skills': 'skills', 'Location': 'location', 'Current Salary': 'current_salary', 'Expected Salary': 'expected_salary', 'Notice Period': 'notice_period', 'Education': 'education', 'College': 'college'}
+2025-09-27 21:10:53 - excel_processor - INFO - Converted 3 valid rows to dictionaries
+2025-09-27 21:10:53 - excel_processor - INFO - Successfully processed 3 records from Excel file
+2025-09-27 21:10:55 - excel_processor - INFO - Processing Excel file: C:\Users\pveer\AppData\Local\Temp\tmpd5in8uuv.xlsx
+2025-09-27 21:10:55 - excel_processor - INFO - Reading first sheet
+2025-09-27 21:10:55 - excel_processor - INFO - Original DataFrame shape: (3, 11)
+2025-09-27 21:10:55 - excel_processor - INFO - Original columns: ['Name', 'Email', 'Phone', 'Experience', 'Skills', 'Location', 'Current Salary', 'Expected Salary', 'Notice Period', 'Education', 'College']
+2025-09-27 21:10:55 - excel_processor - INFO - No duplicate columns found
+2025-09-27 21:10:55 - excel_processor - INFO - Column names cleaned: {'Name': 'name', 'Email': 'email', 'Phone': 'phone', 'Experience': 'experience', 'Skills': 'skills', 'Location': 'location', 'Current Salary': 'current_salary', 'Expected Salary': 'expected_salary', 'Notice Period': 'notice_period', 'Education': 'education', 'College': 'college'}
+2025-09-27 21:10:55 - excel_processor - INFO - Converted 3 valid rows to dictionaries
+2025-09-27 21:10:55 - excel_processor - INFO - Successfully processed 3 records from Excel file
+2025-09-27 21:38:43 - excel_processor - INFO - Processing Excel file: C:\Users\pveer\AppData\Local\Temp\tmprcos2tin.xlsx
+2025-09-27 21:38:43 - excel_processor - INFO - Reading first sheet
+2025-09-27 21:38:43 - excel_processor - INFO - Original DataFrame shape: (5, 67)
+2025-09-27 21:38:43 - excel_processor - INFO - Original columns: ['Candidate Name', 'Email Address', 'Mobile Number', 'Current City', 'Total Experience', 'Current Company', 'Current Designation', 'Key Skills', 'Highest Qualification', 'College Name', 'Passing Year', 'Current CTC', 'Expected CTC', 'Notice Period', 'Preferred Location', 'LinkedIn Profile', 'Email', 'Phone', 'Location', 'Experience', 'Company', 'Role', 'Technical Skills', 'Education', 'University', 'Year of Graduation', 'Current Salary', 'Salary Expectation', 'Notice', 'Work Preference', 'Full Name', 'Email ID', 'Contact Number', 'Current Location', 'Years of Experience', 'Current Employer', 'Job Title', 'Core Skills', 'Degree', 'Institution', 'Graduation Year', 'Present CTC', 'Expected Package', 'Notice Period Days', 'Preferred Cities', 'candidate_name', 'email', 'mobile_no', 'city', 'total_experience', 'current_company', 'designation', 'skills', 'qualification', 'college', 'pass_year', 'current_ctc', 'expected_ctc', 'notice_period', 'Name', 'City', 'Position', 'Technologies', 'College', 'Year', 'Salary', 'Expected']
+2025-09-27 21:38:43 - excel_processor - WARNING - Duplicate column found: 'email' at index 46
+2025-09-27 21:38:43 - excel_processor - WARNING - Duplicate column found: 'City' at index 60
+2025-09-27 21:38:43 - excel_processor - WARNING - Duplicate column found: 'College' at index 63
+2025-09-27 21:38:43 - excel_processor - INFO - Removed 3 duplicate columns: ['email', 'City', 'College']
+2025-09-27 21:38:44 - excel_processor - INFO - Column names cleaned: {'Candidate Name': 'candidate_name', 'Email Address': 'email_address', 'Mobile Number': 'mobile_number', 'Current City': 'current_city', 'Total Experience': 'total_experience', 'Current Company': 'current_company', 'Current Designation': 'current_designation', 'Key Skills': 'key_skills', 'Highest Qualification': 'highest_qualification', 'College Name': 'college_name', 'Passing Year': 'passing_year', 'Current CTC': 'current_ctc', 'Expected CTC': 'expected_ctc', 'Notice Period': 'notice_period', 'Preferred Location': 'preferred_location', 'LinkedIn Profile': 'linkedin_profile', 'Email': 'email', 'Phone': 'phone', 'Location': 'location', 'Experience': 'experience', 'Company': 'company', 'Role': 'role', 'Technical Skills': 'technical_skills', 'Education': 'education', 'University': 'university', 'Year of Graduation': 'year_of_graduation', 'Current Salary': 'current_salary', 'Salary Expectation': 'salary_expectation', 'Notice': 'notice', 'Work Preference': 'work_preference', 'Full Name': 'full_name', 'Email ID': 'email_id', 'Contact Number': 'contact_number', 'Current Location': 'current_location', 'Years of Experience': 'years_of_experience', 'Current Employer': 'current_employer', 'Job Title': 'job_title', 'Core Skills': 'core_skills', 'Degree': 'degree', 'Institution': 'institution', 'Graduation Year': 'graduation_year', 'Present CTC': 'present_ctc', 'Expected Package': 'expected_package', 'Notice Period Days': 'notice_period_days', 'Preferred Cities': 'preferred_cities', 'candidate_name': 'candidate_name', 'mobile_no': 'mobile_no', 'city': 'city', 'total_experience': 'total_experience', 'current_company': 'current_company', 'designation': 'designation', 'skills': 'skills', 'qualification': 'qualification', 'college': 'college', 'pass_year': 'pass_year', 'current_ctc': 'current_ctc', 'expected_ctc': 'expected_ctc', 'notice_period': 'notice_period', 'Name': 'name', 'Position': 'position', 'Technologies': 'technologies', 'Year': 'year', 'Salary': 'salary', 'Expected': 'expected'}
+2025-09-27 21:38:44 - excel_processor - INFO - Converted 5 valid rows to dictionaries
+2025-09-27 21:38:44 - excel_processor - INFO - Successfully processed 5 records from Excel file
+2025-09-29 20:49:35 - excel_processor - INFO - Processing Excel file: C:\Users\pveer\AppData\Local\Temp\tmpbplbuvg3\example_resumes.xlsx
+2025-09-29 20:49:35 - excel_processor - INFO - Reading first sheet
+2025-09-29 20:49:35 - excel_processor - INFO - Original DataFrame shape: (3, 11)
+2025-09-29 20:49:35 - excel_processor - INFO - Original columns: ['Name', 'Email', 'Phone', 'Experience', 'Skills', 'Location', 'Current Salary', 'Expected Salary', 'Notice Period', 'Education', 'College']
+2025-09-29 20:49:35 - excel_processor - INFO - No duplicate columns found
+2025-09-29 20:49:35 - excel_processor - INFO - Column names cleaned: {'Name': 'name', 'Email': 'email', 'Phone': 'phone', 'Experience': 'experience', 'Skills': 'skills', 'Location': 'location', 'Current Salary': 'current_salary', 'Expected Salary': 'expected_salary', 'Notice Period': 'notice_period', 'Education': 'education', 'College': 'college'}
+2025-09-29 20:49:35 - excel_processor - INFO - Converted 3 valid rows to dictionaries
+2025-09-29 20:49:35 - excel_processor - INFO - Successfully processed 3 records from Excel file
+2025-09-29 21:08:09 - excel_processor - INFO - Processing Excel file: example_resumes.xlsx
+2025-09-29 21:08:09 - excel_processor - INFO - Reading first sheet
+2025-09-29 21:08:09 - excel_processor - INFO - Original DataFrame shape: (3, 11)
+2025-09-29 21:08:09 - excel_processor - INFO - Original columns: ['Name', 'Email', 'Phone', 'Experience', 'Skills', 'Location', 'Current Salary', 'Expected Salary', 'Notice Period', 'Education', 'College']
+2025-09-29 21:08:09 - excel_processor - INFO - No duplicate columns found
+2025-09-29 21:08:09 - excel_processor - INFO - Column names cleaned: {'Name': 'name', 'Email': 'email', 'Phone': 'phone', 'Experience': 'experience', 'Skills': 'skills', 'Location': 'location', 'Current Salary': 'current_salary', 'Expected Salary': 'expected_salary', 'Notice Period': 'notice_period', 'Education': 'education', 'College': 'college'}
+2025-09-29 21:08:09 - excel_processor - INFO - Converted 3 valid rows to dictionaries
+2025-09-29 21:08:09 - excel_processor - INFO - Successfully processed 3 records from Excel file

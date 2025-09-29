@@ -1,0 +1,53 @@
+2025-09-27 21:07:49 - enhanced_column_mapper - INFO - Mapping 11 columns to standard fields
+2025-09-27 21:07:49 - enhanced_column_mapper - INFO - Mapped 'Name' -> 'name' (confidence: 1.000)
+2025-09-27 21:07:49 - enhanced_column_mapper - INFO - Mapped 'Email' -> 'email' (confidence: 1.000)
+2025-09-27 21:07:49 - enhanced_column_mapper - INFO - Mapped 'Phone' -> 'phone' (confidence: 1.000)
+2025-09-27 21:07:49 - enhanced_column_mapper - INFO - Mapped 'Experience' -> 'experience' (confidence: 1.000)
+2025-09-27 21:07:49 - enhanced_column_mapper - INFO - Mapped 'Skills' -> 'skills' (confidence: 1.000)
+2025-09-27 21:07:49 - enhanced_column_mapper - INFO - Mapped 'Location' -> 'address' (confidence: 1.000)
+2025-09-27 21:07:49 - enhanced_column_mapper - INFO - Mapped 'Current Salary' -> 'current_salary' (confidence: 1.000)
+2025-09-27 21:07:49 - enhanced_column_mapper - INFO - Mapped 'Expected Salary' -> 'expected_salary' (confidence: 1.000)
+2025-09-27 21:07:49 - enhanced_column_mapper - INFO - Mapped 'Notice Period' -> 'notice_period' (confidence: 1.000)
+2025-09-27 21:07:49 - enhanced_column_mapper - INFO - Mapped 'Education' -> 'education' (confidence: 1.000)
+2025-09-27 21:07:49 - enhanced_column_mapper - INFO - Mapped 'College' -> 'college' (confidence: 1.000)
+2025-09-27 21:07:49 - enhanced_column_mapper - INFO - Successfully mapped 11/11 columns
+2025-09-27 21:08:52 - enhanced_column_mapper - INFO - Mapping 5 columns to standard fields
+2025-09-27 21:08:52 - enhanced_column_mapper - INFO - Mapped 'Name' -> 'name' (confidence: 1.000)
+2025-09-27 21:08:52 - enhanced_column_mapper - INFO - Mapped 'Email' -> 'email' (confidence: 1.000)
+2025-09-27 21:08:52 - enhanced_column_mapper - INFO - Mapped 'Phone' -> 'phone' (confidence: 1.000)
+2025-09-27 21:08:52 - enhanced_column_mapper - INFO - Mapped 'Skills' -> 'skills' (confidence: 1.000)
+2025-09-27 21:08:52 - enhanced_column_mapper - INFO - Mapped 'Experience' -> 'experience' (confidence: 1.000)
+2025-09-27 21:08:52 - enhanced_column_mapper - INFO - Successfully mapped 5/5 columns
+2025-09-27 21:08:53 - enhanced_column_mapper - INFO - Mapping 11 columns to standard fields
+2025-09-27 21:08:53 - enhanced_column_mapper - INFO - Mapped 'name' -> 'name' (confidence: 1.000)
+2025-09-27 21:08:53 - enhanced_column_mapper - INFO - Mapped 'email' -> 'email' (confidence: 1.000)
+2025-09-27 21:08:53 - enhanced_column_mapper - INFO - Mapped 'phone' -> 'phone' (confidence: 1.000)
+2025-09-27 21:08:53 - enhanced_column_mapper - INFO - Mapped 'experience' -> 'experience' (confidence: 1.000)
+2025-09-27 21:08:53 - enhanced_column_mapper - INFO - Mapped 'skills' -> 'skills' (confidence: 1.000)
+2025-09-27 21:08:53 - enhanced_column_mapper - INFO - Mapped 'location' -> 'address' (confidence: 1.000)
+2025-09-27 21:08:53 - enhanced_column_mapper - INFO - Mapped 'current_salary' -> 'current_salary' (confidence: 1.000)
+2025-09-27 21:08:53 - enhanced_column_mapper - INFO - Mapped 'expected_salary' -> 'expected_salary' (confidence: 1.000)
+2025-09-27 21:08:53 - enhanced_column_mapper - INFO - Mapped 'notice_period' -> 'notice_period' (confidence: 1.000)
+2025-09-27 21:08:53 - enhanced_column_mapper - INFO - Mapped 'education' -> 'education' (confidence: 1.000)
+2025-09-27 21:08:53 - enhanced_column_mapper - INFO - Mapped 'college' -> 'college' (confidence: 1.000)
+2025-09-27 21:08:53 - enhanced_column_mapper - INFO - Successfully mapped 11/11 columns
+2025-09-27 21:10:54 - enhanced_column_mapper - INFO - Mapping 5 columns to standard fields
+2025-09-27 21:10:54 - enhanced_column_mapper - INFO - Mapped 'Name' -> 'name' (confidence: 1.000)
+2025-09-27 21:10:54 - enhanced_column_mapper - INFO - Mapped 'Email' -> 'email' (confidence: 1.000)
+2025-09-27 21:10:54 - enhanced_column_mapper - INFO - Mapped 'Phone' -> 'phone' (confidence: 1.000)
+2025-09-27 21:10:54 - enhanced_column_mapper - INFO - Mapped 'Skills' -> 'skills' (confidence: 1.000)
+2025-09-27 21:10:54 - enhanced_column_mapper - INFO - Mapped 'Experience' -> 'experience' (confidence: 1.000)
+2025-09-27 21:10:54 - enhanced_column_mapper - INFO - Successfully mapped 5/5 columns
+2025-09-27 21:10:55 - enhanced_column_mapper - INFO - Mapping 11 columns to standard fields
+2025-09-27 21:10:55 - enhanced_column_mapper - INFO - Mapped 'name' -> 'name' (confidence: 1.000)
+2025-09-27 21:10:55 - enhanced_column_mapper - INFO - Mapped 'email' -> 'email' (confidence: 1.000)
+2025-09-27 21:10:55 - enhanced_column_mapper - INFO - Mapped 'phone' -> 'phone' (confidence: 1.000)
+2025-09-27 21:10:55 - enhanced_column_mapper - INFO - Mapped 'experience' -> 'experience' (confidence: 1.000)
+2025-09-27 21:10:55 - enhanced_column_mapper - INFO - Mapped 'skills' -> 'skills' (confidence: 1.000)
+2025-09-27 21:10:55 - enhanced_column_mapper - INFO - Mapped 'location' -> 'address' (confidence: 1.000)
+2025-09-27 21:10:55 - enhanced_column_mapper - INFO - Mapped 'current_salary' -> 'current_salary' (confidence: 1.000)
+2025-09-27 21:10:55 - enhanced_column_mapper - INFO - Mapped 'expected_salary' -> 'expected_salary' (confidence: 1.000)
+2025-09-27 21:10:55 - enhanced_column_mapper - INFO - Mapped 'notice_period' -> 'notice_period' (confidence: 1.000)
+2025-09-27 21:10:55 - enhanced_column_mapper - INFO - Mapped 'education' -> 'education' (confidence: 1.000)
+2025-09-27 21:10:55 - enhanced_column_mapper - INFO - Mapped 'college' -> 'college' (confidence: 1.000)
+2025-09-27 21:10:55 - enhanced_column_mapper - INFO - Successfully mapped 11/11 columns

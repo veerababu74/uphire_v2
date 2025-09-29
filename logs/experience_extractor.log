@@ -7,3 +7,46 @@
 2025-09-13 22:33:47 - experience_extractor - INFO - Starting specialized experience extraction
 2025-09-13 22:33:47 - experience_extractor - WARNING - LLM calculation (3y 0m) differs from manual (5y 8m), using manual
 2025-09-13 22:33:47 - experience_extractor - INFO - Experience extraction completed. Total: 5 years and 8 months
+2025-09-27 19:57:34 - experience_extractor - INFO - Starting specialized experience extraction
+2025-09-27 19:57:35 - experience_extractor - INFO - Experience extraction completed. Total: 0 years 0 months
+2025-09-27 21:23:34 - experience_extractor - INFO - Starting specialized experience extraction
+2025-09-27 21:23:35 - experience_extractor - WARNING - LLM calculation (5y 0m) differs from manual (2y 8m), using manual
+2025-09-27 21:23:35 - experience_extractor - INFO - Experience extraction completed. Total: 2 years and 8 months
+2025-09-27 21:23:37 - experience_extractor - INFO - Starting specialized experience extraction
+2025-09-27 21:23:38 - experience_extractor - WARNING - LLM calculation (3y 0m) differs from manual (6y 7m), using manual
+2025-09-27 21:23:38 - experience_extractor - INFO - Experience extraction completed. Total: 6 years and 7 months
+2025-09-27 21:25:19 - experience_extractor - INFO - Starting specialized experience extraction
+2025-09-27 21:25:19 - experience_extractor - WARNING - LLM calculation (3y 5m) differs from manual (6y 1m), using manual
+2025-09-27 21:25:19 - experience_extractor - INFO - Experience extraction completed. Total: 6 years and 1 month
+2025-09-27 21:38:45 - experience_extractor - INFO - Starting specialized experience extraction
+2025-09-27 21:38:46 - experience_extractor - WARNING - LLM calculation (5y 0m) differs from manual (2y 8m), using manual
+2025-09-27 21:38:46 - experience_extractor - INFO - Experience extraction completed. Total: 2 years and 8 months
+2025-09-27 21:38:47 - experience_extractor - INFO - Starting specialized experience extraction
+2025-09-27 21:38:48 - experience_extractor - WARNING - LLM calculation (3y 8m) differs from manual (5y 8m), using manual
+2025-09-27 21:38:48 - experience_extractor - INFO - Experience extraction completed. Total: 5 years and 8 months
+2025-09-27 21:38:49 - experience_extractor - INFO - Starting specialized experience extraction
+2025-09-27 21:38:50 - experience_extractor - WARNING - LLM calculation (7y 0m) differs from manual (2y 8m), using manual
+2025-09-27 21:38:50 - experience_extractor - INFO - Experience extraction completed. Total: 2 years and 8 months
+2025-09-27 21:38:51 - experience_extractor - INFO - Starting specialized experience extraction
+2025-09-27 21:38:52 - experience_extractor - WARNING - LLM calculation (4y 6m) differs from manual (2y 8m), using manual
+2025-09-27 21:38:52 - experience_extractor - INFO - Experience extraction completed. Total: 2 years and 8 months
+2025-09-27 21:38:55 - experience_extractor - INFO - Starting specialized experience extraction
+2025-09-27 21:39:04 - experience_extractor - WARNING - LLM calculation (2y 10m) differs from manual (4y 8m), using manual
+2025-09-27 21:39:04 - experience_extractor - INFO - Experience extraction completed. Total: 4 years and 8 months
+2025-09-29 20:49:37 - experience_extractor - INFO - Starting specialized experience extraction
+2025-09-29 20:49:37 - experience_extractor - INFO - Experience extraction completed. Total: 0 years 0 months
+2025-09-29 20:49:38 - experience_extractor - INFO - Starting specialized experience extraction
+2025-09-29 20:49:39 - experience_extractor - INFO - Experience extraction completed. Total: 0 years 0 months
+2025-09-29 20:49:40 - experience_extractor - INFO - Starting specialized experience extraction
+2025-09-29 20:49:41 - experience_extractor - INFO - Experience extraction completed. Total: 0 years 0 months
+2025-09-29 21:01:39 - experience_extractor - INFO - Starting specialized experience extraction
+2025-09-29 21:01:40 - experience_extractor - INFO - Experience extraction completed. Total: 0 years 0 months
+2025-09-29 21:08:10 - experience_extractor - INFO - Starting specialized experience extraction
+2025-09-29 21:08:11 - experience_extractor - INFO - Experience extraction completed. Total: 0 years 0 months
+2025-09-29 21:08:12 - experience_extractor - INFO - Starting specialized experience extraction
+2025-09-29 21:08:13 - experience_extractor - INFO - Experience extraction completed. Total: 0 years 0 months
+2025-09-29 21:08:14 - experience_extractor - INFO - Starting specialized experience extraction
+2025-09-29 21:08:14 - experience_extractor - INFO - Experience extraction completed. Total: 0 years 0 months
+2025-09-29 21:08:16 - experience_extractor - INFO - Starting specialized experience extraction
+2025-09-29 21:08:17 - experience_extractor - WARNING - LLM calculation (3y 0m) differs from manual (5y 8m), using manual
+2025-09-29 21:08:17 - experience_extractor - INFO - Experience extraction completed. Total: 5 years and 8 months

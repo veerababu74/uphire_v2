@@ -1,0 +1,57 @@
+2025-09-27 20:46:24 - enhanced_excel_resume_parser - INFO - Initializing Enhanced Excel Resume Parser
+2025-09-27 20:46:24 - enhanced_excel_resume_parser - INFO - Auto-detected LLM provider from config: groq_cloud
+2025-09-27 20:46:25 - enhanced_excel_resume_parser - INFO - Enhanced Excel Resume Parser initialized successfully
+2025-09-27 20:46:25 - enhanced_excel_resume_parser - INFO - Starting enhanced processing of Excel file: C:\Users\pveer\AppData\Local\Temp\tmpsk2cbfm9\example_resumes.xlsx
+2025-09-27 20:46:25 - enhanced_excel_resume_parser - INFO - Step 1: Reading and analyzing Excel file structure
+2025-09-27 20:46:25 - enhanced_excel_resume_parser - ERROR - Error in enhanced Excel processing: Could not read Excel file or no data found
+2025-09-27 20:52:56 - enhanced_excel_resume_parser - INFO - Initializing Enhanced Excel Resume Parser
+2025-09-27 20:52:56 - enhanced_excel_resume_parser - INFO - Auto-detected LLM provider from config: groq_cloud
+2025-09-27 20:52:57 - enhanced_excel_resume_parser - INFO - Enhanced Excel Resume Parser initialized successfully
+2025-09-27 20:52:57 - enhanced_excel_resume_parser - INFO - Starting enhanced processing of Excel file: C:\Users\pveer\AppData\Local\Temp\tmp_5g73uk8.xlsx
+2025-09-27 20:52:57 - enhanced_excel_resume_parser - INFO - Step 1: Reading and analyzing Excel file structure
+2025-09-27 20:52:57 - enhanced_excel_resume_parser - INFO - Found 3 rows to process
+2025-09-27 20:52:57 - enhanced_excel_resume_parser - INFO - Step 2: Performing intelligent column mapping
+2025-09-27 20:52:57 - enhanced_excel_resume_parser - ERROR - Error in enhanced Excel processing: 'EnhancedColumnMapper' object has no attribute 'analyze_and_map_columns'
+2025-09-27 20:54:30 - enhanced_excel_resume_parser - INFO - Initializing Enhanced Excel Resume Parser
+2025-09-27 20:54:30 - enhanced_excel_resume_parser - INFO - Auto-detected LLM provider from config: groq_cloud
+2025-09-27 20:54:31 - enhanced_excel_resume_parser - INFO - Enhanced Excel Resume Parser initialized successfully
+2025-09-27 20:54:31 - enhanced_excel_resume_parser - INFO - Starting enhanced processing of Excel file: C:\Users\pveer\AppData\Local\Temp\tmpnupvo2bq\example_resumes.xlsx
+2025-09-27 20:54:31 - enhanced_excel_resume_parser - INFO - Step 1: Reading and analyzing Excel file structure
+2025-09-27 20:54:31 - enhanced_excel_resume_parser - ERROR - Error in enhanced Excel processing: Could not read Excel file or no data found
+2025-09-27 20:55:55 - enhanced_excel_resume_parser - INFO - Initializing Enhanced Excel Resume Parser
+2025-09-27 20:55:55 - enhanced_excel_resume_parser - INFO - Auto-detected LLM provider from config: groq_cloud
+2025-09-27 20:55:56 - enhanced_excel_resume_parser - INFO - Enhanced Excel Resume Parser initialized successfully
+2025-09-27 20:55:56 - enhanced_excel_resume_parser - INFO - Starting enhanced processing of Excel file: C:\Users\pveer\AppData\Local\Temp\tmpz911o1x0\example_resumes.xlsx
+2025-09-27 20:55:56 - enhanced_excel_resume_parser - INFO - Step 1: Reading and analyzing Excel file structure
+2025-09-27 20:55:56 - enhanced_excel_resume_parser - INFO - Found 3 rows to process
+2025-09-27 20:55:56 - enhanced_excel_resume_parser - INFO - Step 2: Performing intelligent column mapping
+2025-09-27 20:55:56 - enhanced_excel_resume_parser - ERROR - Error in enhanced Excel processing: 'EnhancedColumnMapper' object has no attribute 'analyze_and_map_columns'
+2025-09-27 21:08:52 - enhanced_excel_resume_parser - INFO - Initializing Enhanced Excel Resume Parser
+2025-09-27 21:08:52 - enhanced_excel_resume_parser - INFO - Auto-detected LLM provider from config: groq_cloud
+2025-09-27 21:08:52 - enhanced_excel_resume_parser - INFO - Enhanced Excel Resume Parser initialized successfully
+2025-09-27 21:08:52 - enhanced_excel_resume_parser - INFO - Initializing Enhanced Excel Resume Parser
+2025-09-27 21:08:53 - enhanced_excel_resume_parser - INFO - Enhanced Excel Resume Parser initialized successfully
+2025-09-27 21:08:53 - enhanced_excel_resume_parser - INFO - Starting enhanced processing of Excel file: C:\Users\pveer\AppData\Local\Temp\tmpoa3hz35c.xlsx
+2025-09-27 21:08:53 - enhanced_excel_resume_parser - INFO - Step 1: Reading and analyzing Excel file structure
+2025-09-27 21:08:53 - enhanced_excel_resume_parser - INFO - Found 3 rows to process
+2025-09-27 21:08:53 - enhanced_excel_resume_parser - INFO - Step 2: Performing intelligent column mapping
+2025-09-27 21:08:53 - enhanced_excel_resume_parser - INFO - Step 3: Processing rows in batches of 10
+2025-09-27 21:08:53 - enhanced_excel_resume_parser - INFO - Processing batch 1: rows 1 to 3
+2025-09-27 21:08:53 - enhanced_excel_resume_parser - ERROR - Error in enhanced Excel processing: 'field_mappings'
+2025-09-27 21:10:53 - enhanced_excel_resume_parser - INFO - Initializing Enhanced Excel Resume Parser
+2025-09-27 21:10:53 - enhanced_excel_resume_parser - INFO - Auto-detected LLM provider from config: groq_cloud
+2025-09-27 21:10:54 - enhanced_excel_resume_parser - INFO - Enhanced Excel Resume Parser initialized successfully
+2025-09-27 21:10:54 - enhanced_excel_resume_parser - INFO - Initializing Enhanced Excel Resume Parser
+2025-09-27 21:10:55 - enhanced_excel_resume_parser - INFO - Enhanced Excel Resume Parser initialized successfully
+2025-09-27 21:10:55 - enhanced_excel_resume_parser - INFO - Starting enhanced processing of Excel file: C:\Users\pveer\AppData\Local\Temp\tmpd5in8uuv.xlsx
+2025-09-27 21:10:55 - enhanced_excel_resume_parser - INFO - Step 1: Reading and analyzing Excel file structure
+2025-09-27 21:10:55 - enhanced_excel_resume_parser - INFO - Found 3 rows to process
+2025-09-27 21:10:55 - enhanced_excel_resume_parser - INFO - Step 2: Performing intelligent column mapping
+2025-09-27 21:10:55 - enhanced_excel_resume_parser - INFO - Step 3: Processing rows in batches of 10
+2025-09-27 21:10:55 - enhanced_excel_resume_parser - INFO - Processing batch 1: rows 1 to 3
+2025-09-27 21:10:55 - enhanced_excel_resume_parser - ERROR - Error processing row 0: 'str' object has no attribute 'get'
+2025-09-27 21:10:55 - enhanced_excel_resume_parser - ERROR - Error processing row 1: 'str' object has no attribute 'get'
+2025-09-27 21:10:55 - enhanced_excel_resume_parser - ERROR - Error processing row 2: 'str' object has no attribute 'get'
+2025-09-27 21:10:55 - enhanced_excel_resume_parser - INFO - Enhanced Excel processing completed successfully
+2025-09-27 21:10:55 - enhanced_excel_resume_parser - INFO - Processed 0/3 rows successfully
+2025-09-27 21:10:55 - enhanced_excel_resume_parser - INFO - Average data quality score: 0
