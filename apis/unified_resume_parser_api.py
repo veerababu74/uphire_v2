@@ -1084,6 +1084,218 @@ async def parse_excel_resume(
 
 
 # =============================================================================
+# 3.5. EXCEL TO JSON CONVERSION (NO RESUME PARSING)
+# =============================================================================
+
+
+@router.post(
+    "/excel-to-json",
+    summary="Convert Excel to Clean JSON",
+    description="""
+    Upload Excel file and convert to properly cleaned JSON format without resume parsing.
+    
+    **Features:**
+    - Clean data extraction from Excel
+    - Remove NaN, empty, and invalid values
+    - Proper data type conversion
+    - Column header normalization
+    - Duplicate header handling
+    - Returns list of clean JSON objects
+    
+    **Supported Formats:** XLSX, XLS, XLSM
+    
+    **Usage:**
+    1. Upload Excel file
+    2. Get properly cleaned JSON data immediately
+    3. Use the clean data for further processing
+    
+    **Response includes:**
+    - Processing statistics
+    - Settings used
+    - Complete cleaned data array (no sample_data)
+    """,
+)
+async def convert_excel_to_json(
+    file: UploadFile = File(..., description="Excel file to convert"),
+    sheet_name: Optional[str] = Form(
+        None, description="Name or index of the Excel sheet to process (optional)"
+    ),
+    skip_empty_rows: bool = Form(
+        True, description="Whether to skip completely empty rows"
+    ),
+    normalize_headers: bool = Form(
+        True, description="Whether to normalize column headers (lowercase, no spaces)"
+    ),
+    max_rows: Optional[int] = Form(
+        None, description="Maximum number of rows to process (optional)"
+    ),
+):
+    """Convert Excel file to clean JSON format without resume parsing."""
+    try:
+        logger.info(f"Starting Excel to JSON conversion for file: {file.filename}")
+        start_time = time.time()
+
+        # Validate file type
+        if not file.filename or not file.filename.lower().endswith(
+            (".xlsx", ".xls", ".xlsm")
+        ):
+            raise HTTPException(
+                status_code=400,
+                detail="Invalid file type. Only Excel files (.xlsx, .xls, .xlsm) are allowed.",
+            )
+
+        # Read file content
+        file_content = await file.read()
+        if not file_content:
+            raise HTTPException(status_code=400, detail="Empty file uploaded")
+
+        # Initialize Excel processor for data cleaning
+        from excel_resume_parser.excel_processor import ExcelProcessor
+
+        excel_processor = ExcelProcessor()
+
+        # Process Excel data directly from bytes
+        logger.info("Processing Excel data from bytes")
+        excel_data = excel_processor.process_excel_bytes(
+            file_bytes=file_content, filename=file.filename, sheet_name=sheet_name
+        )
+
+        if not excel_data:
+            return JSONResponse(
+                status_code=200,
+                content={
+                    "status": "warning",
+                    "message": "No data found in Excel file",
+                    "filename": file.filename,
+                    "sheet_name": sheet_name,
+                    "data": [],
+                    "processing_time": time.time() - start_time,
+                },
+            )
+
+        # Clean and process the data
+        logger.info(f"Cleaning {len(excel_data)} rows of data")
+
+        # Apply additional cleaning operations
+        cleaned_data = []
+
+        for row_index, row_data in enumerate(excel_data):
+            # Skip processing if max_rows limit reached
+            if max_rows and row_index >= max_rows:
+                break
+
+            # Skip empty rows if requested
+            if skip_empty_rows:
+                # Check if row has any non-empty values
+                has_data = any(
+                    value is not None
+                    and str(value).strip() != ""
+                    and str(value).lower()
+                    not in ["nan", "null", "none", "n/a", "na", "#n/a"]
+                    for value in row_data.values()
+                )
+                if not has_data:
+                    continue
+
+            # Clean individual row
+            cleaned_row = {}
+            for key, value in row_data.items():
+                # Normalize headers if requested
+                if normalize_headers:
+                    # Convert to lowercase and replace spaces/special chars with underscores
+                    normalized_key = key.lower().strip()
+                    normalized_key = "".join(
+                        c if c.isalnum() else "_" for c in normalized_key
+                    )
+                    # Remove multiple consecutive underscores
+                    normalized_key = "_".join(filter(None, normalized_key.split("_")))
+                    # Remove leading/trailing underscores
+                    normalized_key = normalized_key.strip("_")
+                    if not normalized_key:
+                        normalized_key = f"column_{len(cleaned_row)}"
+                else:
+                    normalized_key = str(key).strip()
+
+                # Clean the value
+                cleaned_value = excel_processor.clean_nan_values(value)
+
+                # Additional cleaning for common null representations (already handled in clean_nan_values)
+                # The clean_nan_values method now handles string null values automatically
+
+                # Convert numeric strings to proper numbers if they're not already cleaned
+                if isinstance(cleaned_value, str) and cleaned_value:
+                    # Try to convert to number if it looks like a number
+                    try:
+                        # Check for integer pattern
+                        if cleaned_value.isdigit() or (
+                            cleaned_value.startswith("-")
+                            and cleaned_value[1:].isdigit()
+                        ):
+                            cleaned_value = int(cleaned_value)
+                        # Check for float pattern
+                        elif (
+                            "." in cleaned_value
+                            and cleaned_value.replace(".", "")
+                            .replace("-", "")
+                            .isdigit()
+                        ):
+                            float_val = float(cleaned_value)
+                            # Check if it's actually an integer (e.g., "25.0" -> 25)
+                            if float_val.is_integer():
+                                cleaned_value = int(float_val)
+                            else:
+                                cleaned_value = float_val
+                    except (ValueError, TypeError):
+                        # Keep as string if conversion fails
+                        pass
+
+                cleaned_row[normalized_key] = cleaned_value
+
+            # Only add row if it has at least one non-None value
+            if any(value is not None for value in cleaned_row.values()):
+                cleaned_data.append(cleaned_row)
+
+        # Calculate processing statistics
+        processing_time = time.time() - start_time
+        original_rows = len(excel_data)
+        cleaned_rows = len(cleaned_data)
+
+        logger.info(
+            f"Excel to JSON conversion completed: {original_rows} -> {cleaned_rows} rows in {processing_time:.2f}s"
+        )
+
+        return JSONResponse(
+            status_code=200,
+            content={
+                "status": "success",
+                "message": "Excel file successfully converted to clean JSON",
+                "filename": file.filename,
+                "sheet_name": sheet_name,
+                "statistics": {
+                    "original_rows": original_rows,
+                    "cleaned_rows": cleaned_rows,
+                    "rows_removed": original_rows - cleaned_rows,
+                    "processing_time_seconds": round(processing_time, 2),
+                },
+                "settings": {
+                    "skip_empty_rows": skip_empty_rows,
+                    "normalize_headers": normalize_headers,
+                    "max_rows": max_rows,
+                },
+                "data": cleaned_data,  # Full cleaned data
+            },
+        )
+
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Error in Excel to JSON conversion: {e}")
+        raise HTTPException(
+            status_code=500, detail=f"Excel to JSON conversion failed: {str(e)}"
+        )
+
+
+# =============================================================================
 # 4. PROGRESS AND STATUS ENDPOINTS
 # =============================================================================
 

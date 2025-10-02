@@ -239,3 +239,83 @@
 2025-09-29 21:08:09 - excel_processor - INFO - Column names cleaned: {'Name': 'name', 'Email': 'email', 'Phone': 'phone', 'Experience': 'experience', 'Skills': 'skills', 'Location': 'location', 'Current Salary': 'current_salary', 'Expected Salary': 'expected_salary', 'Notice Period': 'notice_period', 'Education': 'education', 'College': 'college'}
 2025-09-29 21:08:09 - excel_processor - INFO - Converted 3 valid rows to dictionaries
 2025-09-29 21:08:09 - excel_processor - INFO - Successfully processed 3 records from Excel file
+2025-10-02 21:26:12 - excel_processor - INFO - Processing Excel file: C:\Users\pveer\AppData\Local\Temp\tmp_xxtrup4.xlsx
+2025-10-02 21:26:12 - excel_processor - INFO - Reading first sheet
+2025-10-02 21:26:12 - excel_processor - INFO - Original DataFrame shape: (6, 8)
+2025-10-02 21:26:12 - excel_processor - INFO - Original columns: ['Name', 'Email', 'Phone', 'Age', 'Salary', 'Department', 'Active', 'Score']
+2025-10-02 21:26:12 - excel_processor - INFO - No duplicate columns found
+2025-10-02 21:26:12 - excel_processor - INFO - Column names cleaned: {'Name': 'name', 'Email': 'email', 'Phone': 'phone', 'Age': 'age', 'Salary': 'salary', 'Department': 'department', 'Active': 'active', 'Score': 'score'}
+2025-10-02 21:26:12 - excel_processor - INFO - Converted 5 valid rows to dictionaries
+2025-10-02 21:26:12 - excel_processor - INFO - Successfully processed 5 records from Excel file
+2025-10-02 21:26:12 - excel_processor - INFO - Processing Excel bytes for file: test.xlsx
+2025-10-02 21:26:12 - excel_processor - INFO - Reading first sheet
+2025-10-02 21:26:12 - excel_processor - INFO - Original DataFrame shape: (6, 8)
+2025-10-02 21:26:12 - excel_processor - INFO - Original columns: ['Name', 'Email', 'Phone', 'Age', 'Salary', 'Department', 'Active', 'Score']
+2025-10-02 21:26:12 - excel_processor - INFO - No duplicate columns found
+2025-10-02 21:26:12 - excel_processor - INFO - Column names cleaned: {'Name': 'name', 'Email': 'email', 'Phone': 'phone', 'Age': 'age', 'Salary': 'salary', 'Department': 'department', 'Active': 'active', 'Score': 'score'}
+2025-10-02 21:26:12 - excel_processor - INFO - Converted 5 valid rows to dictionaries
+2025-10-02 21:26:12 - excel_processor - INFO - Successfully processed 5 records from Excel bytes
+2025-10-02 21:27:04 - excel_processor - INFO - Processing Excel file: C:\Users\pveer\AppData\Local\Temp\tmpkh8hcvra.xlsx
+2025-10-02 21:27:04 - excel_processor - INFO - Reading first sheet
+2025-10-02 21:27:04 - excel_processor - INFO - Original DataFrame shape: (6, 8)
+2025-10-02 21:27:04 - excel_processor - INFO - Original columns: ['Name', 'Email', 'Phone', 'Age', 'Salary', 'Department', 'Active', 'Score']
+2025-10-02 21:27:04 - excel_processor - INFO - No duplicate columns found
+2025-10-02 21:27:04 - excel_processor - INFO - Column names cleaned: {'Name': 'name', 'Email': 'email', 'Phone': 'phone', 'Age': 'age', 'Salary': 'salary', 'Department': 'department', 'Active': 'active', 'Score': 'score'}
+2025-10-02 21:27:04 - excel_processor - INFO - Converted 5 valid rows to dictionaries
+2025-10-02 21:27:04 - excel_processor - INFO - Successfully processed 5 records from Excel file
+2025-10-02 21:27:04 - excel_processor - INFO - Processing Excel bytes for file: test.xlsx
+2025-10-02 21:27:04 - excel_processor - INFO - Reading first sheet
+2025-10-02 21:27:04 - excel_processor - INFO - Original DataFrame shape: (6, 8)
+2025-10-02 21:27:04 - excel_processor - INFO - Original columns: ['Name', 'Email', 'Phone', 'Age', 'Salary', 'Department', 'Active', 'Score']
+2025-10-02 21:27:04 - excel_processor - INFO - No duplicate columns found
+2025-10-02 21:27:04 - excel_processor - INFO - Column names cleaned: {'Name': 'name', 'Email': 'email', 'Phone': 'phone', 'Age': 'age', 'Salary': 'salary', 'Department': 'department', 'Active': 'active', 'Score': 'score'}
+2025-10-02 21:27:04 - excel_processor - INFO - Converted 5 valid rows to dictionaries
+2025-10-02 21:27:04 - excel_processor - INFO - Successfully processed 5 records from Excel bytes
+2025-10-02 21:29:07 - excel_processor - INFO - Processing Excel bytes for file: example_resumes.xlsx
+2025-10-02 21:29:07 - excel_processor - INFO - Reading first sheet
+2025-10-02 21:29:07 - excel_processor - INFO - Original DataFrame shape: (3, 11)
+2025-10-02 21:29:07 - excel_processor - INFO - Original columns: ['Name', 'Email', 'Phone', 'Experience', 'Skills', 'Location', 'Current Salary', 'Expected Salary', 'Notice Period', 'Education', 'College']
+2025-10-02 21:29:07 - excel_processor - INFO - No duplicate columns found
+2025-10-02 21:29:07 - excel_processor - INFO - Column names cleaned: {'Name': 'name', 'Email': 'email', 'Phone': 'phone', 'Experience': 'experience', 'Skills': 'skills', 'Location': 'location', 'Current Salary': 'current_salary', 'Expected Salary': 'expected_salary', 'Notice Period': 'notice_period', 'Education': 'education', 'College': 'college'}
+2025-10-02 21:29:07 - excel_processor - INFO - Converted 3 valid rows to dictionaries
+2025-10-02 21:29:07 - excel_processor - INFO - Successfully processed 3 records from Excel bytes
+2025-10-02 21:31:57 - excel_processor - INFO - Processing Excel file: C:\Users\pveer\AppData\Local\Temp\tmpsvp5eh_5.xlsx
+2025-10-02 21:31:57 - excel_processor - INFO - Reading first sheet
+2025-10-02 21:31:57 - excel_processor - INFO - Original DataFrame shape: (6, 8)
+2025-10-02 21:31:57 - excel_processor - INFO - Original columns: ['Name', 'Email', 'Phone', 'Age', 'Salary', 'Department', 'Active', 'Score']
+2025-10-02 21:31:57 - excel_processor - INFO - No duplicate columns found
+2025-10-02 21:31:57 - excel_processor - INFO - Column names cleaned: {'Name': 'name', 'Email': 'email', 'Phone': 'phone', 'Age': 'age', 'Salary': 'salary', 'Department': 'department', 'Active': 'active', 'Score': 'score'}
+2025-10-02 21:31:57 - excel_processor - INFO - Converted 5 valid rows to dictionaries
+2025-10-02 21:31:57 - excel_processor - INFO - Successfully processed 5 records from Excel file
+2025-10-02 21:31:57 - excel_processor - INFO - Processing Excel bytes for file: test.xlsx
+2025-10-02 21:31:57 - excel_processor - INFO - Reading first sheet
+2025-10-02 21:31:57 - excel_processor - INFO - Original DataFrame shape: (6, 8)
+2025-10-02 21:31:57 - excel_processor - INFO - Original columns: ['Name', 'Email', 'Phone', 'Age', 'Salary', 'Department', 'Active', 'Score']
+2025-10-02 21:31:57 - excel_processor - INFO - No duplicate columns found
+2025-10-02 21:31:57 - excel_processor - INFO - Column names cleaned: {'Name': 'name', 'Email': 'email', 'Phone': 'phone', 'Age': 'age', 'Salary': 'salary', 'Department': 'department', 'Active': 'active', 'Score': 'score'}
+2025-10-02 21:31:57 - excel_processor - INFO - Converted 5 valid rows to dictionaries
+2025-10-02 21:31:57 - excel_processor - INFO - Successfully processed 5 records from Excel bytes
+2025-10-02 21:32:13 - excel_processor - INFO - Processing Excel bytes for file: example_resumes.xlsx
+2025-10-02 21:32:14 - excel_processor - INFO - Reading first sheet
+2025-10-02 21:32:14 - excel_processor - INFO - Original DataFrame shape: (3, 11)
+2025-10-02 21:32:14 - excel_processor - INFO - Original columns: ['Name', 'Email', 'Phone', 'Experience', 'Skills', 'Location', 'Current Salary', 'Expected Salary', 'Notice Period', 'Education', 'College']
+2025-10-02 21:32:14 - excel_processor - INFO - No duplicate columns found
+2025-10-02 21:32:14 - excel_processor - INFO - Column names cleaned: {'Name': 'name', 'Email': 'email', 'Phone': 'phone', 'Experience': 'experience', 'Skills': 'skills', 'Location': 'location', 'Current Salary': 'current_salary', 'Expected Salary': 'expected_salary', 'Notice Period': 'notice_period', 'Education': 'education', 'College': 'college'}
+2025-10-02 21:32:14 - excel_processor - INFO - Converted 3 valid rows to dictionaries
+2025-10-02 21:32:14 - excel_processor - INFO - Successfully processed 3 records from Excel bytes
+2025-10-02 21:34:04 - excel_processor - INFO - Processing Excel file: C:\Users\pveer\AppData\Local\Temp\tmp1nz7x7im.xlsx
+2025-10-02 21:34:04 - excel_processor - INFO - Reading first sheet
+2025-10-02 21:34:04 - excel_processor - INFO - Original DataFrame shape: (6, 8)
+2025-10-02 21:34:04 - excel_processor - INFO - Original columns: ['Name', 'Email', 'Phone', 'Age', 'Salary', 'Department', 'Active', 'Score']
+2025-10-02 21:34:04 - excel_processor - INFO - No duplicate columns found
+2025-10-02 21:34:04 - excel_processor - INFO - Column names cleaned: {'Name': 'name', 'Email': 'email', 'Phone': 'phone', 'Age': 'age', 'Salary': 'salary', 'Department': 'department', 'Active': 'active', 'Score': 'score'}
+2025-10-02 21:34:04 - excel_processor - INFO - Converted 5 valid rows to dictionaries
+2025-10-02 21:34:04 - excel_processor - INFO - Successfully processed 5 records from Excel file
+2025-10-02 21:34:04 - excel_processor - INFO - Processing Excel bytes for file: test.xlsx
+2025-10-02 21:34:04 - excel_processor - INFO - Reading first sheet
+2025-10-02 21:34:04 - excel_processor - INFO - Original DataFrame shape: (6, 8)
+2025-10-02 21:34:04 - excel_processor - INFO - Original columns: ['Name', 'Email', 'Phone', 'Age', 'Salary', 'Department', 'Active', 'Score']
+2025-10-02 21:34:04 - excel_processor - INFO - No duplicate columns found
+2025-10-02 21:34:04 - excel_processor - INFO - Column names cleaned: {'Name': 'name', 'Email': 'email', 'Phone': 'phone', 'Age': 'age', 'Salary': 'salary', 'Department': 'department', 'Active': 'active', 'Score': 'score'}
+2025-10-02 21:34:04 - excel_processor - INFO - Converted 5 valid rows to dictionaries
+2025-10-02 21:34:04 - excel_processor - INFO - Successfully processed 5 records from Excel bytes

@@ -46,21 +46,59 @@ class ExcelProcessor:
             return cleaned
         elif isinstance(obj, list):
             return [self.clean_nan_values(item) for item in obj]
-        elif pd.isna(obj) or (
-            isinstance(obj, float) and (np.isnan(obj) or np.isinf(obj))
+        elif pd.isna(obj):
+            return None  # Convert pandas NaN to None for JSON serialization
+        elif isinstance(
+            obj,
+            (
+                np.integer,
+                np.int8,
+                np.int16,
+                np.int32,
+                np.int64,
+                np.uint8,
+                np.uint16,
+                np.uint32,
+                np.uint64,
+            ),
         ):
-            return None  # Convert NaN/inf to None for JSON serialization
+            # Convert numpy integers to Python int
+            return int(obj)
+        elif isinstance(obj, (np.floating, np.float16, np.float32, np.float64)):
+            # Handle numpy floats
+            if np.isnan(obj) or np.isinf(obj):
+                return None
+            return float(obj)
+        elif isinstance(obj, (np.bool_, np.bool8)):
+            # Convert numpy boolean to Python bool
+            return bool(obj)
+        elif isinstance(obj, np.ndarray):
+            # Convert numpy arrays to lists
+            return [self.clean_nan_values(item) for item in obj.tolist()]
+        elif isinstance(obj, (int, float)):
+            # Handle regular Python numbers that might be NaN/inf
+            if isinstance(obj, float) and (np.isnan(obj) or np.isinf(obj)):
+                return None
+            return obj
         elif obj is None:
             return None
-        elif isinstance(obj, (int, float)):
-            # Handle numpy types
-            if isinstance(obj, (np.integer, np.floating)):
-                if np.isnan(obj) or np.isinf(obj):
-                    return None
-                return obj.item()  # Convert numpy type to native Python type
-            return obj
+        elif isinstance(obj, str):
+            # Handle string representations of null values
+            cleaned_str = obj.strip()
+            if cleaned_str.lower() in ["nan", "null", "none", "n/a", "na", "#n/a", ""]:
+                return None
+            return cleaned_str
         else:
-            return obj
+            # For all other types, try to convert or return as-is
+            try:
+                # Try to JSON serialize to test if it's already JSON compatible
+                import json
+
+                json.dumps(obj)
+                return obj
+            except (TypeError, ValueError):
+                # If not JSON serializable, convert to string
+                return str(obj)
 
     def validate_excel_file(self, file_path: str) -> bool:
         """

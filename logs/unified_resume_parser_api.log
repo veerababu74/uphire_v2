@@ -37,3 +37,11 @@
 2025-09-29 20:49:34 - unified_resume_parser_api - INFO - Starting enhanced Excel processing session: 01ebbe90-0cbd-46b5-8557-5d5f7eea32af for user: harshgajera (ID: 66c8771a20bd68c725758679)
 2025-09-29 20:49:34 - unified_resume_parser_api - INFO - Processing Excel file for session 01ebbe90-0cbd-46b5-8557-5d5f7eea32af, user: harshgajera (ID: 66c8771a20bd68c725758679)
 2025-09-29 20:49:41 - unified_resume_parser_api - ERROR - Error processing Excel file for session 01ebbe90-0cbd-46b5-8557-5d5f7eea32af: 'FixedExcelParserAdapter' object has no attribute 'save_parsed_resumes_to_database'
+2025-10-02 21:29:07 - unified_resume_parser_api - INFO - Starting Excel to JSON conversion for file: example_resumes.xlsx
+2025-10-02 21:29:07 - unified_resume_parser_api - INFO - Processing Excel data from bytes
+2025-10-02 21:29:07 - unified_resume_parser_api - INFO - Cleaning 3 rows of data
+2025-10-02 21:29:07 - unified_resume_parser_api - INFO - Excel to JSON conversion completed: 3 -> 3 rows in 0.25s
+2025-10-02 21:32:13 - unified_resume_parser_api - INFO - Starting Excel to JSON conversion for file: example_resumes.xlsx
+2025-10-02 21:32:13 - unified_resume_parser_api - INFO - Processing Excel data from bytes
+2025-10-02 21:32:14 - unified_resume_parser_api - INFO - Cleaning 3 rows of data
+2025-10-02 21:32:14 - unified_resume_parser_api - INFO - Excel to JSON conversion completed: 3 -> 3 rows in 0.18s
